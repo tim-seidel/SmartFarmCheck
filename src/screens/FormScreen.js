@@ -13,7 +13,8 @@ class FormScreen extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            questions: []
+            questions: [],
+            formId: 0
         }
     }
 
@@ -34,7 +35,8 @@ class FormScreen extends React.Component {
                     this.setState({
                         isLoaded: true,
                         questions: json,
-                        error: null
+                        error: null,
+                        formId: 0
                     })
                 })
                 .catch(error => {
@@ -60,7 +62,7 @@ class FormScreen extends React.Component {
     }
 
     render() {
-        const { error, isLoaded, questions } = this.state;
+        const { error, isLoaded, questions, formId } = this.state;
         console.log("FormScreen.render()")
 
         if (error) {
@@ -74,14 +76,14 @@ class FormScreen extends React.Component {
                 <View style={styles.container}>
                     <VirtualizedList
                         data={questions}
-                        renderItem={({ item, index }) => <QuestionView onInputChanged={(input, validity) => this.inputChangeHandler(item, input, validity)} index={index + 1} question={item} key={item.uuid} />}
+                        renderItem={({ item, index }) => <QuestionView formId={formId} onInputChanged={(input, validity) => this.inputChangeHandler(item, input, validity)} index={index + 1} question={item} key={item.uuid} />}
                         keyExtractor={item => item.uuid}
                         getItemCount={() => questions.length}
                         getItem={(data, index) => { return questions[index] }}
                     />
                     <View style={styles.buttonRow}>
                         <View style={styles.wrapperLeft}>
-                            <IconButton outlined icon="close" text="Zurücksetzen" onPress={() =>{this.onResetHandler()}} align="center"></IconButton>
+                            <IconButton outlined icon="close" text="Zurücksetzen" onPress={() => { this.onResetHandler() }} align="center"></IconButton>
                         </View>
                         <View style={styles.wrapperRight}>
                             <IconButton icon="chart-areaspline" text="Jetzt berechnen" onPress={() => this.onCalculateHandler()} align="center" ></IconButton>
@@ -92,7 +94,7 @@ class FormScreen extends React.Component {
         }
     }
 
-    onResetHandler(){
+    onResetHandler() {
         Alert.alert('Wirklich zurücksetzten?', 'Wenn Sie das Formular zurücksetzten werden Ihre bisherigen Eingaben gelöscht. Möchten Sie dies?', [
             { text: "Zurücksetzen", onPress: () => this.resetForm(), style: "destructive" },
             { text: "Abbrechen", style: "default" },
@@ -101,10 +103,11 @@ class FormScreen extends React.Component {
         return;
     }
 
-    resetForm(){
-        this.state.questions.forEach(q => {
-            q.input = ''
-        });
+    resetForm() {
+        console.log("FormID", this.state.formId)
+        this.setState(
+            { formId: (this.state.formId+1) }
+        )
     }
 
     onCalculateHandler() {

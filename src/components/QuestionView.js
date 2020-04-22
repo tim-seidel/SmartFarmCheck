@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
-import { StyleSheet, Picker, Text, View, Alert, AsyncStorage, Platform, ActionSheetIOS } from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Colors from '../constants/Colors';
@@ -8,6 +8,7 @@ import { StringValidator, NumberValidatior, SelectValidator } from "../model/Val
 import SelectInput from "./SelectInput"
 
 const INPUT_CHANGE = "INPUT_CHANGE"
+const FORM_ID_CHANGE = "FORM_ID_CHANGE"
 const inputReducer = (state, action) => {
     switch (action.type) {
         case INPUT_CHANGE:
@@ -17,19 +18,33 @@ const inputReducer = (state, action) => {
                 validity: action.validity,
                 errorMessage: action.errorMessage
             }
+        case FORM_ID_CHANGE:
+            return {
+                ...state,
+                formId: action.formId
+            }
         default:
             return state;
     }
 }
 
 const QuestionView = props => {
-    const question = props.question
+    const { question, formId } = props;
 
     const [inputState, dispatch] = useReducer(inputReducer, {
         input: props.initalValue ?? '',
         validity: 'unedited',
-        errorMessage: 'Bitte einen Wert eingeben'
+        errorMessage: 'Bitte einen Wert eingeben',
+        formId: 0
     })
+
+    if (formId !== inputState.formId) {
+        dispatch({
+            type: FORM_ID_CHANGE,
+            formId: props.formId
+        })
+        setInput('');
+    }
 
     useEffect(() => {
         getPrefillValue()
@@ -38,38 +53,46 @@ const QuestionView = props => {
     async function getPrefillValue() {
         try {
             let value = await AsyncStorage.getItem(question.uuid)
-
             if (value) {
-                switch (question.validator.inputType.toLowerCase()) {
-                    case "number":
-                        NumberInputHandler(question.validator, value ?? undefined, false)
-                        break;
-                    case "text":
-                        TextInputHandler(question.validator, value ?? '', false)
-                        break;
-                    case "select":
-                        SelectInputHandler(question.validator, value ?? '', false)
-                        break;
-                }
+                setInput(value, false)
             } else {
-                const message = ""
-                switch (question.validator.inputType.toLowerCase()) {
-                    case "number":
-                        message = NumberValidatior(question.validator, undefined).message
-                        break;
-                    case "text":
-                        message = StringValidator(question.validator, '').message
-                        break;
-                    case "select":
-                        message = SelectValidator(question.validator, '').message
-                        break;
-                }
-
-                dispatch({
-                    errorMessage: message
-                })
+                setDefaultMessage()
             }
         } catch (e) { }
+    }
+
+    function setInput(value, store = true) {
+        switch (question.validator.inputType.toLowerCase()) {
+            case "number":
+                NumberInputHandler(question.validator, value ?? undefined, store)
+                break;
+            case "text":
+                TextInputHandler(question.validator, value ?? '', store)
+                break;
+            case "select":
+                SelectInputHandler(question.validator, value ?? '', store)
+                break;
+        }
+    }
+
+    function setDefaultMessage() {
+        var message = ""
+        switch (question.validator.inputType.toLowerCase()) {
+            case "number":
+                message = NumberValidatior(question.validator, '').message
+                break;
+            case "text":
+                message = StringValidator(question.validator, '').message
+                break;
+            case "select":
+                message = SelectValidator(question.validator, '').message
+                break;
+        }
+
+        dispatch({
+            type: INPUT_CHANGE,
+            errorMessage: message
+        })
     }
 
     function NumberInputHandler(validaton, s_input, store = true) {
@@ -84,10 +107,11 @@ const QuestionView = props => {
         InputHandler(SelectValidator, validation, s_input, store)
     }
 
-    function InputHandler(validator, validation, s_input, store = true) {
+    function InputHandler(validator, validation, s_input, store) {
         s_input = s_input.trim();
-        const { validity, message } = validator(validation, s_input)
+        if (s_input === inputState.input) return;
 
+        const { validity, message } = validator(validation, s_input)
         dispatch({
             type: INPUT_CHANGE,
             input: s_input,
