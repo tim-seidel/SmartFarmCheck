@@ -1,38 +1,32 @@
-import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { enableScreens } from 'react-native-screens'
 import { SplashScreen } from 'expo';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import useLinking from './navigation/useLinking';
+import Colors from './src/constants/Colors';
 
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import MeasureDetailScreen from "./src/screens/MeasureDetailScreen";
+import ContactScreen from "./src/screens/ContactScreen";
+import FormScreen from "./src/screens/FormScreen";
+import EvaluationScreen from './src/screens/EvaluationScreen';
+import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
+
+enableScreens();
 const Stack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [initialNavigationState, setInitialNavigationState] = React.useState();
-  const containerRef = React.useRef();
-  const { getInitialState } = useLinking(containerRef);
 
-  // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHide();
-
-        // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
-
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        });
+        /* Additional loading should be put here.*/
       } catch (e) {
-        // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
         setLoadingComplete(true);
@@ -44,17 +38,76 @@ export default function App(props) {
   }, []);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return null;
+    return null; /* Handled by splash screen. */
   } else {
     return (
       <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
+        {<StatusBar backgroundColor={Colors.secondary} barStyle="default" />}
+        <NavigationContainer>
+          <Stack.Navigator >
+            <Stack.Screen
+              options={{
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="Root"
+              component={BottomTabNavigator}
+            />
+            <Stack.Screen
+              options={{
+                title: "Maßnahmeninformation",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="MeasureDetail"
+              component={MeasureDetailScreen} />
+            <Stack.Screen
+              options={{
+                title: "Angaben zum Betrieb",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="Form"
+              component={FormScreen} />
+            <Stack.Screen
+              options={{
+                title: "Maßnahmeninformation",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="EvaluationDetail"
+              component={EvaluationDetailScreen} />
+            <Stack.Screen
+              options={{
+                title: "Maßnahmenbewertung",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="Evaluation"
+              component={EvaluationScreen} />
+            <Stack.Screen
+              options={{
+                title: "Kontakt",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="Contact"
+              component={ContactScreen} />
           </Stack.Navigator>
         </NavigationContainer>
-      </View>
+      </View >
     );
   }
 }
