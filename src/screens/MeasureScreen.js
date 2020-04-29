@@ -25,7 +25,6 @@ class MeasureScreen extends React.Component {
   }
 
   loadMeasures() {
-    console.log(this.state.isLoaded)
     if (!this.state.isLoaded) {
       fetch('https://pas.coala.digital/v1/measures', {
         headers: {
@@ -89,8 +88,6 @@ class MeasureScreen extends React.Component {
         </View>
       );
     }
-
-
   }
 }
 
