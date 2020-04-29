@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer } from 'react';
 import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,6 +9,7 @@ import SelectInput from "./SelectInput"
 
 const INPUT_CHANGE = "INPUT_CHANGE"
 const FORM_ID_CHANGE = "FORM_ID_CHANGE"
+const QUESTION_CHANGE = "QUESTION_CHANGE"
 const inputReducer = (state, action) => {
     switch (action.type) {
         case INPUT_CHANGE:
@@ -23,6 +24,11 @@ const inputReducer = (state, action) => {
                 ...state,
                 formId: action.formId
             }
+        case QUESTION_CHANGE:
+            return {
+                ...state,
+                questionId: action.questionId
+            }
         default:
             return state;
     }
@@ -35,7 +41,8 @@ const QuestionView = props => {
         input: props.initalValue ?? '',
         validity: 'unedited',
         errorMessage: 'Bitte einen Wert eingeben',
-        formId: 0
+        formId: 0,
+        questionId: ''
     })
 
     if (formId !== inputState.formId) {
@@ -46,11 +53,15 @@ const QuestionView = props => {
         setInput('');
     }
 
-    useEffect(() => {
-        getPrefillValue()
-    }, []);
+    if (inputState.questionId !== question.uuid) {
+        dispatch({
+            type: QUESTION_CHANGE,
+            questionId: question.uuid
+        })
+        setupWithPrefillValueOrDefault();
+    }
 
-    async function getPrefillValue() {
+    async function setupWithPrefillValueOrDefault() {
         try {
             let value = await AsyncStorage.getItem(question.uuid)
             if (value) {
@@ -76,22 +87,24 @@ const QuestionView = props => {
     }
 
     function setDefaultMessage() {
-        var message = ""
+        var message = ''
+        const _input = ''
         switch (question.validator.inputType.toLowerCase()) {
             case "number":
-                message = NumberValidatior(question.validator, '').message
+                message = NumberValidatior(question.validator, _input).message
                 break;
             case "text":
-                message = StringValidator(question.validator, '').message
+                message = StringValidator(question.validator, _input).message
                 break;
             case "select":
-                message = SelectValidator(question.validator, '').message
+                message = SelectValidator(question.validator, _input).message
                 break;
         }
 
         dispatch({
             type: INPUT_CHANGE,
-            errorMessage: message
+            errorMessage: message,
+            input: _input
         })
     }
 
@@ -130,6 +143,14 @@ const QuestionView = props => {
         props.onInputChanged(s_input, validity)
     }
 
+    const QuestionInfoHandler = (question) => {
+        Alert.alert(
+            question.text,
+            question.description,
+            [{ text: "Okay!", style: "default" }]
+        )
+    }
+
     let inputView;
     switch (question.validator.inputType.toLowerCase()) {
         case "number":
@@ -143,14 +164,6 @@ const QuestionView = props => {
             break;
     }
 
-    const questionInfoHandler = (question) => {
-        Alert.alert(
-            question.text,
-            question.description,
-            [{ text: "Okay!", style: "default" }]
-        )
-    }
-
     return (
         <View style={styles.question}>
             <View style={styles.numberWrapper}>
@@ -159,7 +172,7 @@ const QuestionView = props => {
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
                     <Text style={styles.questionTitle}>{question.text}</Text>
-                    {question.description && (<Icon style={styles.infoIcon} onPress={questionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
+                    {question.description && (<Icon style={styles.infoIcon} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
                 </View>
                 <View style={styles.errorRow}>
                     <Icon style={styles.errorIcon} name={validityToIcon(inputState.validity)} size={24}></Icon>
@@ -198,12 +211,12 @@ const StringInput = (props) => {
 
 const styles = StyleSheet.create({
     question: {
-        flex: 1,
         flexDirection: "row",
         backgroundColor: '#fff',
         paddingHorizontal: 8,
-        paddingVertical: 16,
-        borderColor: "black",
+        paddingTop: 16,
+        paddingBottom: 32,
+        borderColor: "black"
     },
     questionNumber: {
         fontSize: 22,
