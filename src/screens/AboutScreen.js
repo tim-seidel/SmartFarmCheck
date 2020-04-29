@@ -23,7 +23,9 @@ export default function AboutScreen({ navigation }) {
         <Sponsor name="Mittelstand Digital" onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logo_mittelstand_digital.png")} />
         <Sponsor name="BM für Wirtschaft und Energie" onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logo_bmwi.png")} />
       </ScrollView>
-      <IconButton style={styles.navigateButton} icon="contact-mail" text="Kontaktieren Sie uns" onPress={() => { navigation.navigate("Contact") }} />
+      <View style={styles.navigateButton}>
+      <IconButton  icon="contact-mail" text="Kontaktieren Sie uns" onPress={() => { navigation.navigate("Contact") }} />
+      </View>
     </View>
   );
 }
@@ -55,6 +57,6 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   navigateButton: {
-    flex: 1
+    margin: 4
   }
 });
