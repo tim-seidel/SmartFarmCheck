@@ -58,7 +58,7 @@ class MeasureScreen extends React.Component {
   }
 
   render() {
-    const navigation = this.props.navigation;
+    const { navigation } = this.props;
     const { error, isLoaded, measures } = this.state;
 
     if (error) {
@@ -105,9 +105,8 @@ const styles = StyleSheet.create({
   }
 });
 
-// Wrap for navigation
+// Wrapper for navigation
 export default function (props) {
   const navigation = useNavigation();
-
   return <MeasureScreen {...props} navigation={navigation} />;
 }
