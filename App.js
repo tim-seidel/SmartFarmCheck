@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
-import { enableScreens } from 'react-native-screens'
 import { SplashScreen } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,7 +14,6 @@ import FormScreen from "./src/screens/FormScreen";
 import EvaluationScreen from './src/screens/EvaluationScreen';
 import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
 
-enableScreens();
 const Stack = createStackNavigator();
 
 export default function App(props) {
