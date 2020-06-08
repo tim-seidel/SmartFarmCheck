@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function MeasureListItemView(props) {
     return (
-        <TouchableHighlight style={styles.container} underlayColor="gray" onPress={props.measureSelected}>
+        <TouchableHighlight underlayColor="gray" onPress={props.measureSelected}>
             <View style={styles.measure}>
                 <View style={styles.measureContent}>
                     <Text style={styles.measureTitle}>{props.title}</Text>
@@ -18,10 +18,6 @@ function MeasureListItemView(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
     measure: {
         paddingHorizontal: 8,
         paddingVertical: 12,
