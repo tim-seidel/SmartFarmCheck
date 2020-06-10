@@ -10,6 +10,8 @@ import Colors from './src/constants/Colors';
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import MeasureDetailScreen from "./src/screens/MeasureDetailScreen";
 import ContactScreen from "./src/screens/ContactScreen";
+import ImprintScreen from "./src/screens/ImprintScreen";
+import PrivacyScreen from "./src/screens/PrivacyScreen";
 import FormScreen from "./src/screens/FormScreen";
 import EvaluationScreen from './src/screens/EvaluationScreen';
 import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
@@ -103,6 +105,26 @@ export default function App(props) {
               }}
               name="Contact"
               component={ContactScreen} />
+            <Stack.Screen
+              options={{
+                title: "Impressum",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="Imprint"
+              component={ImprintScreen} />
+            <Stack.Screen
+              options={{
+                title: "Datenschutz",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="Privacy"
+              component={PrivacyScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View >
