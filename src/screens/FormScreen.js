@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, VirtualizedList, Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { HeaderButtons, HeaderButton, Item } from 'react-navigation-header-buttons';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
 import NoContentView from "../components/NoContentView";
 import QuestionView from "../components/QuestionView";
@@ -68,6 +68,7 @@ const FormScreen = props => {
         }
         setPagingIndex(qNext)
     }
+
     props.navigation.setOptions({
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
@@ -169,6 +170,7 @@ const FormScreen = props => {
     }
 
     function resetForm() {
+        //An updated form id triggers the rerender/update in each QuestionView
         setFormId(formId + 1)
     }
 
@@ -222,7 +224,6 @@ const FormScreen = props => {
         })
         const data = JSON.stringify(send);
         props.navigation.navigate("Evaluation", data)
-
     }
 }
 
