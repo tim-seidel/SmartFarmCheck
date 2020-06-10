@@ -180,7 +180,19 @@ const FormScreen = props => {
             if (q.validity === 'invalid') {
                 indiciesError.push(index + 1)
             }
+            if (!q.input) {
+                indiciesEmpty.push(index + 1)
+            }
         });
+
+        //Check first if no input was given. 
+        if (indiciesEmpty.length == questions.length) {
+            Alert.alert('Leere Eingaben', 'Bei einem gänzlich unausgefülltem Formular können wir Ihnen leider keine Empfehlungen berechnen. Füllen Sie dazu zunächst einige Fragen aus.\n\nFalls Sie sich nur allgemein informieren möchten, können Sie sich auf dem vorherigen Reiter über die Maßnahmen informieren.', [
+                { text: "Okay", onPress: () => console.log("Canceled sending"), style: "cancel" },
+            ],
+                { cancelable: false });
+            return;
+        }
 
         if (indiciesError.length > 0) {
             Alert.alert('Fehlerhafte Eingaben', 'Bitte berichtigen Sie zuerst die ungültigen Eingaben, bevor Sie das Formualar absenden. Fehlerhaft: (' + indiciesError.join(', ') + ')', [
@@ -188,22 +200,16 @@ const FormScreen = props => {
             ],
                 { cancelable: false });
             return;
-        } else {
+        }
 
-            questions.forEach((q, index) => {
-                if (!q.input) {
-                    indiciesEmpty.push(index + 1)
-                }
-            });
-            if (indiciesEmpty.length > 0) {
-                Alert.alert('Formular absenden?', 'Sie haben noch nicht alle Fragen beantwortet (' + indiciesEmpty.join(', ') + '). Möchten Sie das Formular dennoch absenden?', [
-                    { text: "Abbrechen", onPress: () => console.log("Canceled sending"), style: "cancel" },
-                    { text: "Absenden", onPress: () => gotoEvaluation(questions), style: "default" }
-                ],
-                    { cancelable: false });
-            } else {
-                gotoEvaluation(questions);
-            }
+        if (indiciesEmpty.length > 0) {
+            Alert.alert('Formular absenden?', 'Sie haben noch nicht alle Fragen beantwortet (' + indiciesEmpty.join(', ') + '). Möchten Sie das Formular dennoch absenden?', [
+                { text: "Abbrechen", onPress: () => console.log("Canceled sending"), style: "cancel" },
+                { text: "Absenden", onPress: () => gotoEvaluation(questions), style: "default" }
+            ],
+                { cancelable: false });
+        } else {
+            gotoEvaluation(questions);
         }
     }
 
@@ -219,6 +225,7 @@ const FormScreen = props => {
 
     }
 }
+
 
 styles = StyleSheet.create({
     container: {
