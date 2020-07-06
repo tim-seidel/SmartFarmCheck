@@ -1,30 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import NoContentView from '../components/NoContentView';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
-import InformationCard, { InformationHighlight, InformationText } from "../components/InformationCard"
 
-class EvaluationDetailScreen extends React.Component {
+const EvaluationDetailScreen = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            measure: null
+    const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measure: null })
+
+    useEffect(() => {
+        if (!measureState.isLoaded) {
+            loadMeasure();
         }
-    }
+    }, [measureState.isLoaded])
 
-    componentDidMount() {
-        this.loadMeasure();
-    }
+    function loadMeasure() {
+        const measureId = props.route.params;
 
-    loadMeasure() {
-        const measureId = this.props.route.params;
-
-        if (!this.state.isLoaded) {
+        if (!measureState.isLoaded) {
             fetch('https://pas.coala.digital/v1/measures/' + measureId, {
                 method: 'GET',
                 headers: {
@@ -34,63 +27,58 @@ class EvaluationDetailScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(json => {
-                    this.setState({
-                        isLoaded: true,
-                        measure: json,
-                        error: null
-                    })
+                    //Check for request errors
+                    if (json.status && json.status != 200) {
+                        setMeasureState({ isLoaded: true, error: json, errorCode: json.status ?? -1, measure: null })
+                    } else {
+                        //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+                        setMeasureState({ isLoaded: true, error: null, errorCode: 0, measure: json })
+                    }
                 })
                 .catch(error => {
                     console.log("Error", error)
-                    this.setState({
-                        isLoaded: false,
-                        error: error
-                    })
+                    setMeasureState({ isLoaded: true, error: error, errorCode: -1, measure: null })
                 })
         }
     }
 
-    onRetryHandler() {
-        this.setState({
-            isLoaded: false,
-            error: null
-        }, this.loadMeasure.bind(this));
+    function retryHandler() {
+        setMeasureState({ isLoaded: false, error: false, errorCode: 0, measure: null })
     }
 
-    render() {
-        const { error, isLoaded, measure } = this.state;
+    const { isLoaded, error, errorCode, measure } = measureState;
 
-        if (error) {
-            return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title="Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
-        } else if (!isLoaded) {
-            return <NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView>
-        } else {
-            const head = '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>'
-            var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
-          
-            if(measure?.resources){
-                measure.resources.forEach(r => {
-                    switch (r.mime) {
-                      case "image/jpeg":
-                      case "image/png":
+    if (error) {
+        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"
+     }></NoContentView>
+    } else if (!isLoaded) {
+        return <NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView>
+    } else {
+        const head = '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>'
+        var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
+
+        if (measure?.resources) {
+            measure.resources.forEach(r => {
+                switch (r.mime) {
+                    case "image/jpeg":
+                    case "image/png":
                         const uri = "https://pas.coala.digital/v1/measures/" + measure.uuid + "/resource/" + r.name
                         content += "<img style=\"max-width: 100%\" src=\"" + uri + "\"/>" + "<p>Bild: " + r.description + "</>"
-                    }
-                });
-            }
-
-            const wrapped = head + '<body>' + content + '</body></html>'
-
-            this.props.navigation.setOptions({
-                title: measure?.name ?? "Maßnahmeninformation"
-            })
-
-            return (
-                <View style={styles.container}>
-                    <URLInterceptingWebview source={{ html: wrapped }} />
-                </View>
-            );
+                }
+            });
         }
+
+        const wrapped = head + '<body>' + content + '</body></html>'
+
+        props.navigation.setOptions({
+            title: measure?.name ?? "Maßnahmeninformation"
+        })
+
+        return (
+            <View style={styles.container}>
+                <URLInterceptingWebview source={{ html: wrapped }} />
+            </View>
+        );
     }
 }
 
@@ -101,10 +89,4 @@ const styles = StyleSheet.create({
     }
 });
 
-// Wrap for navigation
-export default function (props) {
-    const navigation = useNavigation();
-
-    return <EvaluationDetailScreen {...props} navigation={navigation} />;
-}
-
+export default EvaluationDetailScreen
