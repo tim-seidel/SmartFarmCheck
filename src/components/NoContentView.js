@@ -3,6 +3,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animatable from 'react-native-animatable'
 import IconButton from './IconButton';
+import Strings from '../constants/Strings';
+
+/*
+ * A basic view that can be used if no content is available.
+ * Consists of: 
+ *  - Icon (can be set as spinning to display a progress or loading state.)
+ *  - Text 
+ *  - Button (can be turned off or on and e.g. be used as a retry button.)
+ */
 
 const NoContentView = props => {
   const icon = !props.loading ?
@@ -15,7 +24,7 @@ const NoContentView = props => {
     <View style={styles.containerStyle}>
       {icon}
       <Text style={styles.textStyle}>{props.title}</Text>
-      {props.onRetry && (<IconButton icon="reload" onPress={props.onRetry} text="Erneut versuchen"></IconButton>)}
+      {props.onRetry && (<IconButton icon="reload" onPress={props.onRetry} text={Strings.try_again}></IconButton>)}
     </View>
   );
 }
