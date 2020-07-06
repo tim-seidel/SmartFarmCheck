@@ -66,7 +66,19 @@ class EvaluationDetailScreen extends React.Component {
             return <NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView>
         } else {
             const head = '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>'
-            const content = measure.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
+            var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
+          
+            if(measure?.resources){
+                measure.resources.forEach(r => {
+                    switch (r.mime) {
+                      case "image/jpeg":
+                      case "image/png":
+                        const uri = "https://pas.coala.digital/v1/measures/" + measure.uuid + "/resource/" + r.name
+                        content += "<img style=\"max-width: 100%\" src=\"" + uri + "\"/>" + "<p>Bild: " + r.description + "</>"
+                    }
+                });
+            }
+
             const wrapped = head + '<body>' + content + '</body></html>'
 
             this.props.navigation.setOptions({
