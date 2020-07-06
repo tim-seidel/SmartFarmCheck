@@ -20,7 +20,7 @@ const MeasureScreen = props => {
 
   function loadMeasures() {
     if (!measureState.isLoaded) {
-      fetch('https://pas.coala.digital/v1/measures/', {
+      fetch('https://pas.coala.digital/v1/measures', {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json'
@@ -30,7 +30,7 @@ const MeasureScreen = props => {
         .then(json => {
           //Check for request errors
           if(json.status && json.status != 200){
-            setMeasureState({isLoaded: false, error: json, errorCode: json.status ?? -1, measures: []})
+            setMeasureState({isLoaded: true, error: json, errorCode: json.status ?? -1, measures: []})
           }else{
             //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
             setMeasureState({ isLoaded: true, error: null, errorCode: 0, measures: json })
@@ -39,7 +39,7 @@ const MeasureScreen = props => {
         })
         .catch(error => {
           console.log("Error", error)
-          setMeasureState({ isLoaded: false, error: error, errorCode: -1, measures: []})
+          setMeasureState({ isLoaded: true, error: error, errorCode: -1, measures: []})
         })
     }
   }
