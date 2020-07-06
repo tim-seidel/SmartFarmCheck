@@ -44,7 +44,7 @@ const FormScreen = props => {
     }
 
     function retryHandler() {
-        setLoadingState({ isLoaded: false, error: null })
+        setQuestionState({ isLoaded: false, error: null, questions: [] })
     }
 
     function inputChangeHandler(question, input, validity) {
@@ -227,7 +227,6 @@ const FormScreen = props => {
     }
 }
 
-
 styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -299,5 +298,4 @@ styles = StyleSheet.create({
     }
 });
 
-// Wrap for navigation
 export default FormScreen
