@@ -1,32 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
 
 import NoContentView from '../components/NoContentView';
 import MeasureListItemView from '../components/MeasureListItemView';
 import IconButton from '../components/IconButton';
 
 import Colors from '../constants/Colors';
+import Strings from '../constants/Strings';
 
-class MeasureScreen extends React.Component {
+const MeasureScreen = props => {
+  const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measures: [] })
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      measures: []
+  useEffect(() => {
+    if (!measureState.isLoaded) {
+      loadMeasures();
     }
-  }
+  }, [measureState.isLoaded])
 
-  componentDidMount() {
-    this.loadMeasures();
-  }
-
-  loadMeasures() {
-    if (!this.state.isLoaded) {
-      fetch('https://pas.coala.digital/v1/measures', {
+  function loadMeasures() {
+    if (!measureState.isLoaded) {
+      fetch('https://pas.coala.digital/v1/measures/', {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json'
@@ -34,60 +28,53 @@ class MeasureScreen extends React.Component {
       })
         .then(response => response.json())
         .then(json => {
-          this.setState({
-            isLoaded: true,
-            measures: json,
-            error: null
-          })
+          //Check for request errors
+          if(json.status && json.status != 200){
+            setMeasureState({isLoaded: false, error: json, errorCode: json.status ?? -1, measures: []})
+          }else{
+            //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+            setMeasureState({ isLoaded: true, error: null, errorCode: 0, measures: json })
+          }
+          
         })
         .catch(error => {
           console.log("Error", error)
-          this.setState({
-            isLoaded: false,
-            error: error
-          })
+          setMeasureState({ isLoaded: false, error: error, errorCode: -1, measures: []})
         })
     }
   }
 
-  onRetryHandler() {
-    this.setState({
-      isLoaded: false,
-      error: null
-    }, this.loadMeasures.bind(this))
+  function retryHandler() {
+    setMeasureState({ isLoaded: false, error: false, errorCode: 0, measures: [] })
   }
 
-  render() {
-    const { navigation } = this.props;
-    const { error, isLoaded, measures } = this.state;
-
-    if (error) {
-      return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title="Aktuell können die Maßnahmen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
-    } else if (!isLoaded) {
-      return <NoContentView icon="cloud-download" loading title="Laden der aktuellsten Maßnahmen..."></NoContentView>
-    } else if (measures.length === 0) {
-      return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title="Aktuell konnten keine Maßnahmen gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
-    } else {
-      return (
-        <View style={styles.container} >
-          <FlatList
-            data={measures}
-            renderItem={({ item }) => (
-              <MeasureListItemView
-                key={item.uuid}
-                title={item.name}
-                short={item.excerpt}
-                measureSelected={() => { navigation.navigate("MeasureDetail", item) }}
-              />
-            )}
-            keyExtractor={item => item.uuid}
-          />
-          <View style={styles.calculateButtonWrapper}>
-            <IconButton icon="clipboard-text-outline" text=" Jetzt Empfehlungen berechnen" align="center" onPress={() => { navigation.navigate("Form") }} />
-          </View>
+  const { error, errorCode, isLoaded, measures } = measureState;
+  if (error) {
+    return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+  } else if (!isLoaded) {
+    return <NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView>
+  } else if (measures.length === 0) {
+    return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView>
+  } else {
+    return (
+      <View style={styles.container} >
+        <FlatList
+          data={measures}
+          renderItem={({ item }) => (
+            <MeasureListItemView
+              key={item.uuid}
+              title={item.name}
+              short={item.excerpt}
+              measureSelected={() => { props.navigation.navigate("MeasureDetail", item) }}
+            />
+          )}
+          keyExtractor={item => item.uuid}
+        />
+        <View style={styles.calculateButtonWrapper}>
+          <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate("Form") }} />
         </View>
-      );
-    }
+      </View>
+    );
   }
 }
 
@@ -105,8 +92,4 @@ const styles = StyleSheet.create({
   }
 });
 
-// Wrapper for navigation
-export default function (props) {
-  const navigation = useNavigation();
-  return <MeasureScreen {...props} navigation={navigation} />;
-}
+export default MeasureScreen
