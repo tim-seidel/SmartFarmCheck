@@ -14,7 +14,7 @@ const SFCHeaderButton = props => (
 
 const FormScreen = props => {
     const [mode, setMode] = useState('list')
-    const [questionState, setQuestionState] = useState({ isLoaded: false, error: null, questions: [] })
+    const [questionState, setQuestionState] = useState({ isLoaded: false, error: null, errorCode: 0, questions: [] })
     const [pagingIndex, setPagingIndex] = useState(0)
     const [formId, setFormId] = useState(0)
 
@@ -34,17 +34,23 @@ const FormScreen = props => {
             })
                 .then(response => response.json())
                 .then(json => {
-                    setQuestionState({ isLoaded: true, error: null, questions: json })
+                    //Check for http errors
+                    if(json.status && json.status != 200){
+                        setQuestionState({isLoaded: true, error: json, errorCode: json.status ?? -1, questions: []})
+                    }else{
+                        //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+                        setQuestionState({ isLoaded: true, error: null, errorCode: 0, questions: json })
+                    }
                 })
                 .catch(error => {
-                    console.log("error", error)
-                    setQuestionState(qs => ({ isLoaded: false, error: error, questions: qs.questions }))
+                    console.log("Error", error)
+                    setQuestionState(qs => ({ isLoaded: true, error: error, errorCode: -1, questions: qs.questions }))
                 })
         }
     }
 
     function retryHandler() {
-        setQuestionState({ isLoaded: false, error: null, questions: [] })
+        setQuestionState({ isLoaded: false, error: null, errorCode: 0, questions: [] })
     }
 
     function inputChangeHandler(question, input, validity) {
@@ -69,23 +75,23 @@ const FormScreen = props => {
         setPagingIndex(qNext)
     }
 
-    props.navigation.setOptions({
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
-                <Item iconName="format-list-checkbox" title="Layout" onPress={layoutChangeHandler} />
-            </HeaderButtons>
-        )
-    })
-
-    const { isLoaded, error, questions } = questionState;
-    console.log("FormScreen.render()", isLoaded, error, questions.length)
+    const { isLoaded, error, errorCode, questions } = questionState;
+    console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
     if (error) {
-        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title="Aktuell kann das Formular nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
+        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann das Formular nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"}></NoContentView>
     } else if (!isLoaded) {
         return <NoContentView icon="cloud-download" loading title="Laden des akutellsten Fragebogens..."></NoContentView>
     } else if (questions.length === 0) {
         return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title="Aktuell können die Fragen des Fragebogens nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
     } else {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+                    <Item iconName="format-list-checkbox" title="Layout" onPress={layoutChangeHandler} />
+                </HeaderButtons>
+            )
+        })
+
         var questionContent = null;
         if (mode === 'list') {
             questionContent = (
