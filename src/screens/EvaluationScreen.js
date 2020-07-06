@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import NoContentView from '../components/NoContentView';
 import EvaluationListItemView from '../components/EvaluationListItemView';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
+import Strings from '../constants/Strings';
 
 class EvaluationScreen extends React.Component {
 
@@ -37,7 +38,7 @@ class EvaluationScreen extends React.Component {
             })
                 .then(response => response.json())
                 .then(json => {
-                    console.log("received evaluation", json)
+                    console.log("Received evaluation", json)
                     this.setState({
                         isLoaded: true,
                         evaluation: json,
@@ -69,11 +70,11 @@ class EvaluationScreen extends React.Component {
         const { error, isLoaded, evaluation } = this.state;
 
         if (error) {
-            return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title="Aktuell kann die Evaluierung nicht durchgeführt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
+            return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title={Strings.evaluation_loading_error}></NoContentView>
         } else if (!isLoaded) {
-            return <NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView>
+            return <NoContentView icon="cloud-download" loading title={Strings.evaluation_loading}></NoContentView>
         } else if (!evaluation || evaluation.length === 0) {
-            return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title="Aktuell können die Fragen des Fragebogens nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
+            return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title={Strings.evaluation_loading_empty}></NoContentView>
         } else {
             let max = 0;
             evaluation.forEach(e => {
@@ -85,10 +86,12 @@ class EvaluationScreen extends React.Component {
                 <View style={styles.container} >
                     <InformationCard style={styles.explanationCard}>
                         <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
-                        <InformationHighlight style={styles.explanationHighlight}>gewichteten</InformationHighlight>
-                        <InformationText> Maßnahmen. Möchten Sie sich über eine dieser Maßnahme informieren, so tippen Sie diese einfach an.</InformationText>
+                        <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
+                        <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
+                        <InformationHighlight>tippen</InformationHighlight>
+                        <InformationText> Sie diese einfach an.</InformationText>
                     </InformationCard>
-                    <Text style={styles.listHeading}>Die Bewertung:</Text>
+                    <Text style={styles.listHeading}>{Strings.evaluation_list_heading}</Text>
                     <FlatList
                         data={evaluation}
                         renderItem={({ item }) => (
