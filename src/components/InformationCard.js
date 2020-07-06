@@ -2,6 +2,16 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Colors from '../constants/Colors'
 
+/*
+ * A basic UI element that displays text in a card like style.
+ * Usage:
+ * <InformationCard>
+ *  <InfomationText>Some text with some</InformationText>
+ *  <InfromationHighlight>highlight</InformationHighlight>
+ *  <InformationText> inbetween.</InformationText>
+ * </InfomationCard>
+ */
+
 export function InformationHighlight(props) {
     return <Text style={styles.highlight}>{props.children}</Text>
 }

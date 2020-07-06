@@ -19,6 +19,7 @@ const inputReducer = (state, action) => {
                 validity: action.validity,
                 errorMessage: action.errorMessage
             }
+        //The formId prop is used to clear the input from outside
         case FORM_ID_CHANGE:
             return {
                 ...state,
@@ -72,6 +73,8 @@ const QuestionView = props => {
         } catch (e) { }
     }
 
+    //Sets the given input and updates the message
+    //If store is set, the value will be stored for prefill usage.
     function setInput(value, store = true) {
         switch (question.validator.inputType.toLowerCase()) {
             case "number":
@@ -86,6 +89,7 @@ const QuestionView = props => {
         }
     }
 
+    //Sets the input to an empty state and triggers the default emmpty/error message
     function setDefaultMessage() {
         var message = ''
         const _input = ''
@@ -120,6 +124,9 @@ const QuestionView = props => {
         InputHandler(SelectValidator, validation, s_input, store)
     }
 
+    //The base function for input handlingm that calculates the validation
+    //and updates the state (input, message, validity).
+    //It also stores or removes the input for prefill usage if needed
     function InputHandler(validator, validation, s_input, store) {
         s_input = s_input.trim();
         if (s_input === inputState.input) return;
@@ -133,7 +140,7 @@ const QuestionView = props => {
         })
 
         if (store) {
-            if (s_input) {
+            if (s_input) { //TODO better check or length. (E.g if s_input is 'false' (string) It might be treated as not store-worthy)
                 AsyncStorage.setItem(question.uuid, s_input)
             } else {
                 AsyncStorage.removeItem(question.uuid)
@@ -185,6 +192,7 @@ const QuestionView = props => {
     )
 }
 
+//Converts the validity state (string) to the corresponding icon code.
 function validityToIcon(validity) {
     switch (validity) {
         case 'valid':
