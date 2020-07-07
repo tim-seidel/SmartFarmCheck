@@ -24,7 +24,7 @@ const NoContentView = props => {
     <View style={styles.containerStyle}>
       {icon}
       <Text style={styles.textStyle}>{props.title}</Text>
-      {props.onRetry && (<IconButton icon="reload" onPress={props.onRetry} text={Strings.try_again}></IconButton>)}
+      {props.onRetry && (<IconButton icon="reload" onPress={props.onRetry} text={props.retryTitle ?? Strings.try_again}></IconButton>)}
     </View>
   );
 }
