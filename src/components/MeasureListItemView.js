@@ -24,8 +24,6 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         flexDirection: "row",
         justifyContent: "space-between",
-        borderColor: "black",
-        borderBottomWidth: 0.5
     },
     measureContent: {
         flexDirection: "column",
