@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 
 import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItem';
@@ -27,100 +27,85 @@ const eventMock = [
   }
 ]
 
-class EventScreen extends React.Component {
+const EventScreen = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      events: []
+  const [eventState, setEventState] = useState({ isLoaded: false, error: null, errorCode: 0, events: [] })
+
+  useEffect(() => {
+    if (!eventState.isLoaded) {
+      loadEvents();
     }
-  }
+  }, [eventState.isLoaded])
 
-  componentDidMount() {
-    this.loadEvents();
-  }
-
-  loadEvents() {
-    if (!this.state.isLoaded) {
+  function loadEvents() {
+    if (!eventState.isLoaded) {
       /*
-        fetch('https://pas.coala.digital/v1/events', {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            },
-        })
-            .then(response => response.json())
-            .then(json => {
-                this.setState({
-                    isLoaded: true,
-                    events: json,
-                    error: null
-                })
-            })
-            .catch(error => {
-                console.log("Error", error)
-                this.setState({
-                    isLoaded: false,
-                    error: error
-                })
-            })
-            */
-      this.setState({
-        isLoaded: true,
-        events: [],
-        error: null
+      fetch('https://pas.coala.digital/v1/events', {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
       })
+        .then(response => response.json())
+        .then(json => {
+          //Check for request errors
+          if (json.status && json.status != 200) {
+            setEventState({ isLoaded: true, error: json, errorCode: json.status ?? -1, events: [] })
+          } else {
+            //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+            setEventState({ isLoaded: true, error: null, errorCode: 0, events: json })
+          }
+        })
+        .catch(error => {
+          console.log("Error", error)
+          setEventState({ isLoaded: true, error: error, errorCode: -1, events: [] })
+        })
+        */
+       setEventState({isLoaded: true, error: null, errorCode: 0, events: []})
     }
   }
 
-  onRetryHandler() {
-    this.setState({
-      isLoaded: false,
-      error: null
-    }, this.loadEvents.bind(this));
+  function retryHandler() {
+    setEventState({ isLoaded: false, error: null, errorCode: 0, events: [] })
   }
 
-  render() {
-    const { error, isLoaded, events } = this.state;
+  const { isLoaded, error, errorCode, events } = eventState;
 
-    let eventContent = null;
+  let eventContent = null;
 
-    if (error) {
-      eventContent =  <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title="Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
-    } else if (!isLoaded) {
-      eventContent =  <NoContentView icon="cloud-download" loading title="Laden der kommenden Veranstaltungen..."></NoContentView>
-    } else if (!events || events.length === 0) {
-      eventContent = <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title="Aktuell konnten keine Veranstaltungen gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
-    } else {
-      eventContent = (
-        <>
-          <Text style={styles.listHeading}>Demnächst:</Text>
-          <FlatList
-            data={events}
-            renderItem={({ item }) => (
-              <EventListItemView
-                id={item.id}
-                title={item.title}
-                short={item.short}
-              />
-            )}
-            keyExtractor={item => item.id}
-          />
-        </>)
-    }
-
-    return (
-      <View style={styles.container} >
-        <InformationCard style ={styles.welcomeCard}>
-            <InformationHighlight style={styles.welcomeHeading}>Willkommen</InformationHighlight>
-            <InformationText style={styles.welcomeText}> in der Smartfarmcheck-App! In dieser App finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb. </InformationText>
-        </InformationCard>
-        {eventContent}
-      </View>
-    );
+  if (error) {
+    eventContent = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+  } else if (!isLoaded) {
+    eventContent = <NoContentView icon="cloud-download" loading title="Laden der kommenden Veranstaltungen..."></NoContentView>
+  } else if (!events || events.length === 0) {
+    eventContent = <NoContentView icon="calendar-remove" retryTitle="Aktualisieren" onRetry={retryHandler} title="Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Akutell stehen keine Veranstaltungen an."></NoContentView>
+  } else {
+    eventContent = (
+      <>
+        <Text style={styles.listHeading}>Demnächst:</Text>
+        <FlatList
+          data={events}
+          renderItem={({ item }) => (
+            <EventListItemView
+              id={item.id}
+              title={item.title}
+              short={item.short}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
+      </>)
   }
+
+  return (
+    <View style={styles.container} >
+      <InformationCard style={styles.welcomeCard}>
+        <InformationHighlight style={styles.welcomeHeading}>Willkommen</InformationHighlight>
+        <InformationText style={styles.welcomeText}> in der Smartfarmcheck-App! In dieser App finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb. </InformationText>
+      </InformationCard>
+      {eventContent}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
