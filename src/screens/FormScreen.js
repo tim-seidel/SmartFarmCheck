@@ -7,6 +7,7 @@ import NoContentView from "../components/NoContentView";
 import QuestionView from "../components/QuestionView";
 import IconButton from '../components/IconButton';
 import Colors from '../constants/Colors';
+import Strings from '../constants/Strings';
 
 const SFCHeaderButton = props => (
     <HeaderButton {...props} IconComponent={Icon} iconSize={24} color={Colors.white} />
@@ -78,16 +79,16 @@ const FormScreen = props => {
     const { isLoaded, error, errorCode, questions } = questionState;
     console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
     if (error) {
-        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann das Formular nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"}></NoContentView>
+        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error+ " (Fehlercode: " + errorCode + ")"}></NoContentView>
     } else if (!isLoaded) {
-        return <NoContentView icon="cloud-download" loading title="Laden des akutellsten Fragebogens..."></NoContentView>
+        return <NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView>
     } else if (questions.length === 0) {
-        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title="Aktuell können die Fragen des Fragebogens nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."></NoContentView>
+        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView>
     } else {
         props.navigation.setOptions({
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
-                    <Item iconName="format-list-checkbox" title="Layout" onPress={layoutChangeHandler} />
+                    <Item iconName="format-list-checkbox" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
                 </HeaderButtons>
             )
         })
@@ -156,10 +157,10 @@ const FormScreen = props => {
                 {questionContent}
                 <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>
                     <View style={styles.wrapperLeft}>
-                        <IconButton outlined icon="close" text="Zurücksetzen" onPress={resetHandler} ></IconButton>
+                        <IconButton outlined icon="close" text={Strings.form_reset} onPress={resetHandler} ></IconButton>
                     </View>
                     <View style={styles.wrapperRight}>
-                        <IconButton icon="chart-areaspline" text="Jetzt berechnen" onPress={calculateHandler}  ></IconButton>
+                        <IconButton icon="chart-areaspline" text={Strings.form_calculate}onPress={calculateHandler}  ></IconButton>
                     </View>
                 </View>
             </View>
@@ -167,9 +168,9 @@ const FormScreen = props => {
     }
 
     function resetHandler() {
-        Alert.alert('Wirklich zurücksetzten?', 'Wenn Sie das Formular zurücksetzten werden Ihre bisherigen Eingaben gelöscht. Möchten Sie dies?', [
-            { text: "Zurücksetzen", onPress: () => resetForm(), style: "destructive" },
-            { text: "Abbrechen", style: "default" },
+        Alert.alert(Strings.form_dialog_confirm_reset_title, Strings.form_dialog_confirm_reset_content, [
+            { text: Strings.form_reset, onPress: () => resetForm(), style: "destructive" },
+            { text: Strings.cancel, style: "default" },
         ],
             { cancelable: false });
         return;
@@ -195,25 +196,25 @@ const FormScreen = props => {
 
         //Check first if no input was given. 
         if (indiciesEmpty.length == questions.length) {
-            Alert.alert('Leere Eingaben', 'Bei einem gänzlich unausgefülltem Formular können wir Ihnen leider keine Empfehlungen berechnen. Füllen Sie dazu zunächst einige Fragen aus.\n\nFalls Sie sich nur allgemein informieren möchten, können Sie sich auf dem vorherigen Reiter über die Maßnahmen informieren.', [
-                { text: "Okay", onPress: () => console.log("Canceled sending"), style: "cancel" },
+            Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content, [
+                { text: Strings.okay, onPress: () => console.log("Canceled sending"), style: "cancel" },
             ],
                 { cancelable: false });
             return;
         }
 
         if (indiciesError.length > 0) {
-            Alert.alert('Fehlerhafte Eingaben', 'Bitte berichtigen Sie zuerst die ungültigen Eingaben, bevor Sie das Formualar absenden. Fehlerhaft: (' + indiciesError.join(', ') + ')', [
-                { text: "Okay", onPress: () => console.log("Canceled sending"), style: "cancel" },
+            Alert.alert(Strings.form_dialog_errors_title, Strings,form_dialog_errors_content + ' Fehlerhaft: (' + indiciesError.join(', ') + ')', [
+                { text: Strings.okay, onPress: () => console.log("Canceled sending"), style: "cancel" },
             ],
                 { cancelable: false });
             return;
         }
 
         if (indiciesEmpty.length > 0) {
-            Alert.alert('Formular absenden?', 'Sie haben noch nicht alle Fragen beantwortet (' + indiciesEmpty.join(', ') + '). Möchten Sie das Formular dennoch absenden?', [
-                { text: "Abbrechen", onPress: () => console.log("Canceled sending"), style: "cancel" },
-                { text: "Absenden", onPress: () => gotoEvaluation(questions), style: "default" }
+            Alert.alert(Strings.form_dialog_send_unfinished_title,   Strings.form_dialog_send_unfinished_content + ' Unbeantwortet: (' + indiciesEmpty.join(', ') + ')', [
+                { text: Strings.cancel, onPress: () => console.log("Canceled sending"), style: "cancel" },
+                { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
             ],
                 { cancelable: false });
         } else {
