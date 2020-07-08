@@ -203,7 +203,7 @@ const FormScreen = props => {
         }
 
         if (indiciesError.length > 0) {
-            Alert.alert(Strings.form_dialog_errors_title, Strings,form_dialog_errors_content + ' Fehlerhaft: (' + indiciesError.join(', ') + ')', [
+            Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhaft: (' + indiciesError.join(', ') + ')', [
                 { text: Strings.okay, onPress: () => console.log("Canceled sending"), style: "cancel" },
             ],
                 { cancelable: false });
