@@ -13,6 +13,7 @@ const SFCHeaderButton = props => (
     <HeaderButton {...props} IconComponent={Icon} iconSize={24} color={Colors.white} />
 )
 
+//TODO: Evaluate functional vs. class component
 const FormScreen = props => {
     const [mode, setMode] = useState('list')
     const [questionState, setQuestionState] = useState({ isLoaded: false, error: null, errorCode: 0, questions: [] })
@@ -74,7 +75,7 @@ const FormScreen = props => {
             qNext = max
         }
         setPagingIndex(qNext)
-    }
+    } 
 
     const { isLoaded, error, errorCode, questions } = questionState;
     console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
@@ -88,7 +89,8 @@ const FormScreen = props => {
         props.navigation.setOptions({
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
-                    <Item iconName="format-list-checkbox" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
+                    <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
+                    <Item key="option-reset" iconName="delete" title={Strings.form_reset} onPress={resetHandler} />
                 </HeaderButtons>
             )
         })
@@ -155,11 +157,8 @@ const FormScreen = props => {
         return (
             <View style={styles.container}>
                 {questionContent}
-                <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>
-                    <View style={styles.wrapperLeft}>
-                        <IconButton outlined icon="close" text={Strings.form_reset} onPress={resetHandler} ></IconButton>
-                    </View>
-                    <View style={styles.wrapperRight}>
+                <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>                  
+                    <View style={styles.submitWrapper}>
                         <IconButton icon="chart-areaspline" text={Strings.form_calculate}onPress={calculateHandler}  ></IconButton>
                     </View>
                 </View>
@@ -295,14 +294,9 @@ styles = StyleSheet.create({
         borderBottomLeftRadius: 6,
         borderBottomRightRadius: 6
     },
-    wrapperLeft: {
-        marginEnd: 2,
+    submitWrapper: {
         flex: 1
     },
-    wrapperRight: {
-        marginStart: 2,
-        flex: 1
-    }
 });
 
 export default FormScreen
