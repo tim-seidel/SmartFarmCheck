@@ -1,12 +1,9 @@
 import { Dimensions } from 'react-native';
+import Colors from './Colors';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 
 export default {
-  window: {
-    width,
-    height,
-  },
-  isSmallDevice: width < 375,
+  borderRadius: 6,
+  borderWidth: 1.5,
+  borderColor: '#666'
 };
