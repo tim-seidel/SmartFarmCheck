@@ -8,7 +8,6 @@ import IconButton from '../components/IconButton';
 
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
-import Separator from '../components/Separator';
 
 const MeasureScreen = props => {
   const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measures: [] })
@@ -34,6 +33,11 @@ const MeasureScreen = props => {
             setMeasureState({isLoaded: true, error: json, errorCode: json.status ?? -1, measures: []})
           }else{
             //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+            json.sort(function(l, r){
+              if(l.name < r.name) return -1
+              else if(l.name > r.name) return 1
+              else return 0
+            })
             setMeasureState({ isLoaded: true, error: null, errorCode: 0, measures: json })
           }
           
@@ -61,7 +65,6 @@ const MeasureScreen = props => {
       <View style={styles.container} >
         <FlatList
           data={measures}
-          ItemSeparatorComponent={Separator}
           renderItem={({ item }) => (
             <MeasureListItemView
               key={item.uuid}
@@ -83,9 +86,10 @@ const MeasureScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginHorizontal: 8,
   },
   calculateButtonWrapper: {
-    margin: 4,
+    marginVertical: 4
   },
   calculateButton: {
     justifyContent: "center",
