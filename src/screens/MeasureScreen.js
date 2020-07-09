@@ -8,6 +8,7 @@ import IconButton from '../components/IconButton';
 
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
+import Separator from '../components/Separator';
 
 const MeasureScreen = props => {
   const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measures: [] })
@@ -60,6 +61,7 @@ const MeasureScreen = props => {
       <View style={styles.container} >
         <FlatList
           data={measures}
+          ItemSeparatorComponent={Separator}
           renderItem={({ item }) => (
             <MeasureListItemView
               key={item.uuid}
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    marginHorizontal: 8
   },
   calculateButtonWrapper: {
     margin: 4,

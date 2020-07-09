@@ -8,6 +8,7 @@ import EvaluationListItemView from '../components/EvaluationListItemView';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
+import Separator from '../components/Separator';
 
 class EvaluationScreen extends React.Component {
 
@@ -94,6 +95,7 @@ class EvaluationScreen extends React.Component {
                     </InformationCard>
                     <HeadingText large weight="bold" style={styles.listHeading}>{Strings.evaluation_list_heading}</HeadingText>
                     <FlatList
+                        ItemSeparatorComponent={Separator}
                         data={evaluation}
                         renderItem={({ item }) => (
                             <EvaluationListItemView
@@ -116,14 +118,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        marginHorizontal: 8
     },
     explanationCard: {
         marginTop: 8,
-        marginHorizontal: 8
     },
     listHeading: {
         marginTop: 8,
-        marginHorizontal: 8
     }
 });
 

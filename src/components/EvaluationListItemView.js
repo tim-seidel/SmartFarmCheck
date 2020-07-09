@@ -23,8 +23,7 @@ function EvaluationListItemView(props) {
 
 const styles = StyleSheet.create({
         evaluationItem: {
-        paddingHorizontal: 8,
-        paddingVertical: 12,
+        marginVertical: 16,
         backgroundColor: "white",
         flexDirection: "row",
         justifyContent: "space-between",

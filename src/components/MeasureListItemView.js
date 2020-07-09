@@ -20,8 +20,7 @@ function MeasureListItemView(props) {
 
 const styles = StyleSheet.create({
     measure: {
-        paddingHorizontal: 8,
-        paddingVertical: 12,
+        marginVertical: 16,
         backgroundColor: "white",
         flexDirection: "row",
         justifyContent: "space-between",
