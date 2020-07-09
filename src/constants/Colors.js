@@ -9,6 +9,8 @@ export default {
 
   black: "#000000",
   white: "#ffffff",
+  grey: "#666666",
+  error: "#ff0000",
 
   errorBackground: 'red',
   errorText: '#fff',
