@@ -8,6 +8,7 @@ import QuestionView from "../components/QuestionView";
 import IconButton from '../components/IconButton';
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
+import { ContentText } from '../components/Text';
 
 const SFCHeaderButton = props => (
     <HeaderButton {...props} IconComponent={Icon} iconSize={24} color={Colors.white} />
@@ -124,25 +125,25 @@ const FormScreen = props => {
                                     size={24}
                                     color={Colors.white}>
                                 </Icon>
-                                <Text
+                                <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ fontSize: 16, color: Colors.white }}>
-                                    Zurück
-                                    </Text>
+                                    style={{ color: Colors.white }}>
+                                    {Strings.form_paging_backwards}
+                                    </ContentText>
                             </View>
                         </TouchableOpacity>
-                        <Text style={styles.pageInfo}>{pagingIndex + 1}/{questions.length}</Text>
+                        <View style={styles.pageInfo}><ContentText  style={{ color: Colors.white }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
                         <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={canNavigateNext ? styles.pagingButton : styles.pagingButtonDisabled}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
-                                <Text
+                                <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ fontSize: 16, color: Colors.white }}>
-                                    Weiter
-                                    </Text>
+                                    style={{ color: Colors.white }}>
+                                    {Strings.form_paging_forwards}
+                                    </ContentText>
                                 <Icon
                                     name="chevron-right"
                                     size={24}
@@ -273,12 +274,11 @@ styles = StyleSheet.create({
     },
     pageInfo: {
         backgroundColor: Colors.primary,
-        color: Colors.white,
-        fontSize: 16,
         borderRadius: 6,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        marginHorizontal: 4
+        marginHorizontal: 4,
+        justifyContent: "center"
     },
     optionsRow: {
         flexDirection: "row",

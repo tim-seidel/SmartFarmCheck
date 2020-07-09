@@ -1,14 +1,15 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import { ContentText } from '../components/Text'
 
 const PrivacyScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.subHeading}>Letzte Änderung: 08. November 2019</Text>
-            <Text style={styles.text}>Im Folgenden erläutern wir, welche Informatione während der Nutztun der Applikation erfasst und verarbeitet werden.</Text>
-            <Text style={styles.subHeading}>Personenenbezogenen Daten</Text>
-            <Text style={styles.text}>Diese Applikation sammelt keine personenbezogenen Daten. Eingaben des Nutzers werden nur lokal auf dem Gerät zur benutzerfreundlichen Bedienung gespeochernt, damit die Werte beim erneuten Appstart in die Felder eingesetzt werden können. Zur Berechnung der Empfehlungen werden die eingebebenen Daten einmalig anonym an den Server gesendet. Diese werden über die Berechnung hinaus nicht auf dem Server gespeichert.</Text>
+            <ContentText style={styles.subHeading}>Letzte Änderung: 08. November 2019</ContentText>
+            <ContentText>Im Folgenden erläutern wir, welche Informatione während der Nutztun der Applikation erfasst und verarbeitet werden.</ContentText>
+            <ContentText style={styles.subHeading}>Personenenbezogenen Daten</ContentText>
+            <ContentText>Diese Applikation sammelt keine personenbezogenen Daten. Eingaben des Nutzers werden nur lokal auf dem Gerät zur benutzerfreundlichen Bedienung gespeochernt, damit die Werte beim erneuten Appstart in die Felder eingesetzt werden können. Zur Berechnung der Empfehlungen werden die eingebebenen Daten einmalig anonym an den Server gesendet. Diese werden über die Berechnung hinaus nicht auf dem Server gespeichert.</ContentText>
         </View>
     )
 }
@@ -18,12 +19,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    text:{
-        fontSize: 16
-    },
     subHeading:{
-        fontSize: 16,
-        marginVertical: 8,
+        marginVertical: 16,
         fontWeight: 'bold'
     }
 })

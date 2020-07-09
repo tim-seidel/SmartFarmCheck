@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animatable from 'react-native-animatable'
 import IconButton from './IconButton';
 import Strings from '../constants/Strings';
+import { ContentText } from './Text';
 
 /*
  * A basic view that can be used if no content is available.
@@ -23,7 +24,7 @@ const NoContentView = props => {
   return (
     <View style={styles.containerStyle}>
       {icon}
-      <Text style={styles.textStyle}>{props.title}</Text>
+      <ContentText large style={styles.textStyle}>{props.title}</ContentText>
       {props.onRetry && (<IconButton icon="reload" onPress={props.onRetry} text={props.retryTitle ?? Strings.try_again}></IconButton>)}
     </View>
   );
@@ -40,8 +41,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     marginVertical: 8,
-    textAlign: 'center',
-    fontSize: 18
+    textAlign: 'center'
   }
 });
 

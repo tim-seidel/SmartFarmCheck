@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Colors from '../constants/Colors'
+import { HeadingText, ContentText } from './Text';
 
 /*
  * A basic UI element that displays text in a card like style.
@@ -13,11 +14,11 @@ import Colors from '../constants/Colors'
  */
 
 export function InformationHighlight(props) {
-    return <Text style={styles.highlight}>{props.children}</Text>
+    return <HeadingText style={styles.highlight}>{props.children}</HeadingText>
 }
 
 export function InformationText(props) {
-    return <Text style={styles.text}>{props.children}</Text>
+    return <ContentText light>{props.children}</ContentText>
 }
 
 const InformationCard = (props) => {
@@ -40,16 +41,7 @@ const styles = StyleSheet.create({
     },
     textWrapper: {
         textAlign: "center"
-    },
-    highlight: {
-        fontSize: 20,
-        fontWeight: "800",
-        color: "black"
-    },
-    text: {
-        fontSize: 17,
-        color: 'rgba(96,100,109, 1)'
-    },
+    }
 })
 
 export default InformationCard;

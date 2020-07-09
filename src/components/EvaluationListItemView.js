@@ -2,17 +2,18 @@ import React from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { HeadingText, ContentText } from './Text';
 
 const zeroPad = (value, places) => String(value).padStart(places, ' ')
 
 function EvaluationListItemView(props) {
     return (
-        <TouchableHighlight style={styles.container} underlayColor="gray" onPress={props.measureSelected}>
+        <TouchableHighlight underlayColor="gray" onPress={props.measureSelected}>
             <View style={styles.evaluationItem}>
                 <Text style={styles.rating}>{zeroPad(props.rating, 2)}%</Text>
-                <View style={styles.content}>
-                    <Text style={styles.title}>{props.title}</Text>
-                    <Text numberOfLines={2} style={styles.short}>{props.short}</Text>
+                <View style={styles.measureContent}>
+                    <HeadingText large>{props.title}</HeadingText>
+                    <ContentText light numberOfLines={2}>{props.short}</ContentText>
                 </View>
                 <Icon style={styles.detailIcon} name="chevron-right" size={32}></Icon>
             </View>
@@ -21,37 +22,24 @@ function EvaluationListItemView(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    evaluationItem: {
+        evaluationItem: {
         paddingHorizontal: 8,
         paddingVertical: 12,
         backgroundColor: "white",
         flexDirection: "row",
         justifyContent: "space-between",
-        borderColor: "black",
-        borderBottomWidth: 0.5
     },
     rating: {
         fontSize: 28,
         fontWeight: "700",
         color: "green",
-        textAlign: "right",
+        textAlign: "center",
         textAlignVertical: "center",
         marginEnd: 8,
         width: 80
-    }, content: {
+    }, measureContent: {
         flexDirection: "column",
         flex: 1
-    },
-    title: {
-        fontSize: 22,
-    },
-    short: {
-        fontSize: 16,
-        color: 'rgba(96,100,109, 1)',
     },
     detailIcon: {
         alignSelf: "center"

@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../constants/Colors';
 import { StringValidator, NumberValidatior, SelectValidator } from "../model/Validation"
 import SelectInput from "./SelectInput"
+import { HeadingText, ContentText } from './Text';
 
 const INPUT_CHANGE = "INPUT_CHANGE"
 const FORM_ID_CHANGE = "FORM_ID_CHANGE"
@@ -178,12 +179,12 @@ const QuestionView = props => {
             </View>
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
-                    <Text style={styles.questionTitle}>{question.text}</Text>
+                    <HeadingText weight="normal" style={{flex: 1}}>{question.text}</HeadingText>
                     {question.description && (<Icon style={styles.infoIcon} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
                 </View>
                 <View style={styles.errorRow}>
                     <Icon style={styles.errorIcon} name={validityToIcon(inputState.validity)} size={24}></Icon>
-                    <Text style={(inputState.validity === 'invalid') ? styles.errorMessage : styles.hintMessage}>{inputState.errorMessage}</Text>
+                    <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'} style={{flex: 1}} >{inputState.errorMessage}</ContentText>
                 </View>
                 {inputView}
 
@@ -221,9 +222,9 @@ const styles = StyleSheet.create({
     question: {
         flexDirection: "row",
         backgroundColor: '#fff',
-        paddingHorizontal: 8,
-        paddingTop: 16,
-        paddingBottom: 32,
+        marginHorizontal: 8,
+        marginTop: 16,
+        marginBottom: 32,
         borderColor: "black"
     },
     questionNumber: {
@@ -247,27 +248,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between"
     },
-    questionTitle: {
-        fontSize: 20,
-        flex: 1
-    },
     infoIcon: {
         marginTop: 4,
     },
     errorRow: {
-        marginTop: 4,
+        marginVertical: 4,
         flexDirection: "row"
     },
     errorIcon: {
         alignSelf: "center",
         marginEnd: 4
-    },
-    hintMessage: {
-        fontSize: 16,
-    },
-    errorMessage: {
-        fontSize: 16,
-        color: "red",
     },
     input: {
         marginTop: 4,

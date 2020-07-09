@@ -7,6 +7,7 @@ import NoContentView from '../components/NoContentView';
 import EvaluationListItemView from '../components/EvaluationListItemView';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 import Strings from '../constants/Strings';
+import { HeadingText } from '../components/Text';
 
 class EvaluationScreen extends React.Component {
 
@@ -91,7 +92,7 @@ class EvaluationScreen extends React.Component {
                         <InformationHighlight>tippen</InformationHighlight>
                         <InformationText> Sie diese einfach an.</InformationText>
                     </InformationCard>
-                    <Text style={styles.listHeading}>{Strings.evaluation_list_heading}</Text>
+                    <HeadingText large weight="bold" style={styles.listHeading}>{Strings.evaluation_list_heading}</HeadingText>
                     <FlatList
                         data={evaluation}
                         renderItem={({ item }) => (
@@ -121,8 +122,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 8
     },
     listHeading: {
-        fontSize: 26,
-        fontWeight: "bold",
         marginTop: 8,
         marginHorizontal: 8
     }

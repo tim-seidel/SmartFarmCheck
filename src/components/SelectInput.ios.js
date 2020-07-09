@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, ActionSheetIOS, TouchableOpacity, Text } from 'react-native'
 
 import Colors from "../constants/Colors"
+import { ContentText } from './Text'
 
 const picker_placeholder = "[Keine Auswahl]"
 
@@ -22,7 +23,7 @@ const SelectInput = (props) => {
 
     return (
         <TouchableOpacity style={styles.pickerPlaceholder} onPress={() => showIosPicker(props.options)}>
-            <Text style={props.input ? styles.pickerPlaceholderText : styles.pickerPlaceholderHint}>{props.input ? props.input : picker_placeholder}</Text>
+            <ContentText style={props.input ? {} : styles.inactive}>{props.input ? props.input : picker_placeholder}</ContentText>
         </TouchableOpacity>
     )
 }
@@ -36,13 +37,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderColor: Colors.greyInactive
     },
-    pickerPlaceholderText: {
-        fontSize: 17,
-    },
-    pickerPlaceholderHint: {
-        fontSize: 17,
+    inactive: {
         color: Colors.greyInactive
-    },
+    }
 });
 
 export default SelectInput;

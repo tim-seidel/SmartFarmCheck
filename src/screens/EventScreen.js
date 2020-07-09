@@ -5,6 +5,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItem';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
+import { HeadingText } from '../components/Text';
 
 const eventMock = [
   {
@@ -82,7 +83,7 @@ const EventScreen = (props) => {
   } else {
     eventContent = (
       <>
-        <Text style={styles.listHeading}>Demnächst:</Text>
+        <HeadingText large weight="bold" style={{marginTop: 16,  marginBottom: 8, marginHorizontal: 8}}>Kommende Veranstaltungen:</HeadingText>
         <FlatList
           data={events}
           renderItem={({ item }) => (
@@ -117,11 +118,6 @@ const styles = StyleSheet.create({
   welcomeCard: {
     marginTop: 16,
     marginHorizontal: 8
-  },
-  listHeading: {
-    fontSize: 26,
-    fontWeight: "bold",
-    paddingTop: 8
   }
 });
 

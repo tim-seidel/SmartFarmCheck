@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import IconButton from '../components/IconButton';
+import { HeadingText, ContentText } from './Text';
 
 function EventListItemView(props) {
     return (
         <View style={styles.event}>
-            <Text style={styles.eventTitle}>{props.title}</Text>
-            <Text style={styles.eventShort}>{props.short}</Text>
+            <HeadingText style={styles.eventTitle}>{props.title}</HeadingText>
+            <ContentText light style={styles.eventShort}>{props.short}</ContentText>
             <View style={styles.eventButtonRow}>
                 <View style={styles.eventButtonWrapper}>
                     <IconButton icon="information-outline" text="Details" fontSize={15}></IconButton>

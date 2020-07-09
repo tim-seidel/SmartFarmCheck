@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, View, Linking, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import IconButton from '../components/IconButton';
+import { HeadingText } from '../components/Text';
 
 const Sponsor = props => {
   return (<View style={styles.sponsor}>
@@ -18,7 +19,7 @@ export default function AboutScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} >
-        <Text style={styles.title}>Gefördert durch:</Text>
+        <HeadingText large style={styles.title}>Gefördert durch:</HeadingText>
         <Sponsor name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logo_mittelstand4.png")} />
         <Sponsor name="Mittelstand Digital" onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logo_mittelstand_digital.png")} />
         <Sponsor name="BM für Wirtschaft und Energie" onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logo_bmwi.png")} />
@@ -41,8 +42,6 @@ export default function AboutScreen({ navigation }) {
 const styles = StyleSheet.create({
   title: {
     marginTop: 8,
-    fontSize: 32,
-    fontWeight: "500",
     textAlign: "center"
   },
   container: {

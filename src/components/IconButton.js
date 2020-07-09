@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
+import { ContentText } from './Text';
 
 export default class IconButton extends Component {
 
@@ -18,13 +19,13 @@ export default class IconButton extends Component {
                 backgroundColor={type === 'solid' ? Colors.primary : Colors.white}
                 onPress={this.props.onPress}
             >
-                <Text
+                <ContentText
                     numberOfLines={1}
                     lineBreakMode="tail"
                     ellipsizeMode="tail"
-                    style={{ fontSize: 16, color: type === 'solid' ? Colors.white : Colors.primary }}>
+                    style={{ color: type === 'solid' ? Colors.white : Colors.primary }}>
                     {text}
-                </Text>
+                </ContentText>
             </Icon.Button>
         )
     }

@@ -1,15 +1,16 @@
-import * as React from 'react';
+import  React from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { HeadingText, ContentText } from './Text';
 
 function MeasureListItemView(props) {
     return (
         <TouchableHighlight underlayColor="gray" onPress={props.measureSelected}>
             <View style={styles.measure}>
                 <View style={styles.measureContent}>
-                    <Text style={styles.measureTitle}>{props.title}</Text>
-                    <Text numberOfLines={2} style={styles.measureShort}>{props.short}</Text>
+                    <HeadingText large>{props.title}</HeadingText>
+                    <ContentText light numberOfLines={2}>{props.short}</ContentText>
                 </View>
                 <Icon style={styles.detailIcon} name="chevron-right" size={32}></Icon>
             </View>
@@ -28,13 +29,6 @@ const styles = StyleSheet.create({
     measureContent: {
         flexDirection: "column",
         flex: 1
-    },
-    measureTitle: {
-        fontSize: 22,
-    },
-    measureShort: {
-        fontSize: 16,
-        color: 'rgba(96,100,109, 1)',
     },
     detailIcon: {
         alignSelf: "center"
