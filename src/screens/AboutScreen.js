@@ -1,8 +1,8 @@
-import React from 'react';
-import { Image, StyleSheet, Text, View, Linking, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Dimensions, View, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import IconButton from '../components/IconButton';
-import { HeadingText } from '../components/Text';
+import Colors from '../constants/Colors';
 
 const Sponsor = props => {
   return (<View style={styles.sponsor}>
@@ -15,62 +15,102 @@ const onSponsorPressedHandler = (url) => {
   Linking.openURL(url)
 }
 
+const isPortrait = () => {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
+
 export default function AboutScreen({ navigation }) {
+  const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
+
+  useEffect(() => {
+    const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape');
+
+    Dimensions.addEventListener('change', callback);
+
+    return () => {
+      Dimensions.removeEventListener('change', callback);
+    };
+  }, []);
+
+
+  var buttonLayout = null
+  if (orientation === 'landscape') {
+    buttonLayout = (
+      <View style={{flexDirection: 'row', margin: 4}}>
+        <View style={{flex: 1, marginEnd: 2}}>
+          <IconButton icon="information-variant" text="Impressum" onPress={() => { navigation.navigate("Imprint") }} />
+        </View>
+        <View style={{ flex: 1, marginHorizontal: 2}}>
+      <IconButton icon="contact-mail" text="Kontaktieren Sie uns" onPress={() => { navigation.navigate("Contact") }} />
+    </View>
+        <View style={{flex: 1, marginStart: 2}}>
+          <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate("Privacy") }} />
+        </View>
+      </View>)
+  } else {
+   buttonLayout =  (<><View style={{ marginHorizontal: 4, marginTop: 4, marginBottom: 2}}>
+      <IconButton icon="contact-mail" text="Kontaktieren Sie uns" onPress={() => { navigation.navigate("Contact") }} />
+    </View>
+      <View style={styles.buttonRow}>
+        <View style={{flex: 1, marginLeft: 4, marginTop: 2, marginRight: 2, marginBottom: 4}}>
+          <IconButton icon="information-variant" text="Impressum" onPress={() => { navigation.navigate("Imprint") }} />
+        </View>
+        <View style={{flex: 1, marginLeft: 2, marginTop: 2, marginRight: 4, marginBottom: 4}}>
+          <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate("Privacy") }} />
+        </View>
+      </View></>)
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} >
-        <HeadingText large style={styles.title}>Gefördert durch:</HeadingText>
         <Sponsor name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logo_mittelstand4.png")} />
         <Sponsor name="Mittelstand Digital" onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logo_mittelstand_digital.png")} />
         <Sponsor name="BM für Wirtschaft und Energie" onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logo_bmwi.png")} />
       </ScrollView>
-      <View style={styles.button}>
-        <IconButton icon="contact-mail" text="Kontaktieren Sie uns" onPress={() => { navigation.navigate("Contact") }} />
-      </View>
-      <View style={styles.buttonRow}>
-        <View style={styles.buttonInRow}>
-          <IconButton icon="information-variant" text="Impressum" onPress={() => { navigation.navigate("Imprint") }} />
-        </View>
-        <View style={styles.buttonInRow}>
-          <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate("Privacy") }} />
-        </View>
-      </View>
+     {buttonLayout}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  title: {
-    marginTop: 8,
-    textAlign: "center"
-  },
   container: {
-    flex: 1,
-    backgroundColor: '#fff'
+    flex: 1
   },
   contentContainer: {
     alignItems: "center",
   },
+  title: {
+    marginTop: 8,
+    textAlign: "center"
+  },
   sponsor: {
-    width: "70%",
+    width: "90%",
     maxWidth: 400,
-    marginVertical: 16
+    overflow: "hidden",
+    marginVertical: 8,
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    borderColor: Colors.grey,
+    borderWidth: 2,
+    padding: 6
   },
   image: {
     width: "100%",
     height: 100,
     resizeMode: "contain",
-    alignSelf: "center"
+    alignSelf: "center",
+    marginBottom: 4
   },
-  buttonRow:{
+  buttonRow: {
     flexDirection: 'row',
   },
-  buttonInRow:{
-    margin: 4, 
+  buttonInRow: {
+    margin: 4,
     flex: 1
   },
   button: {
-    margin: 4, 
-    marginTop: 8
+    margin: 4
   }
 });
