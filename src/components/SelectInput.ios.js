@@ -35,10 +35,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: 8,
         paddingVertical: 10,
-        borderColor: Colors.greyInactive
+        borderColor: Colors.grey
     },
     inactive: {
-        color: Colors.greyInactive
+        color: Colors.grey
     }
 });
 

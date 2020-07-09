@@ -5,17 +5,16 @@ export default {
   primary: defaultPrimary,
   secondary: defaultSecondary,
   accent: "#ef4c2d",
-  greyInactive: "#aaa",
 
   black: "#000000",
   white: "#ffffff",
-  grey: "#666666",
+  transparent: 'transparent',
+
+  grey: "#aaa",
+  lightgrey: "#ccc",
+
   error: "#ff0000",
 
-  errorBackground: 'red',
-  errorText: '#fff',
-  warningBackground: '#EAEB5E',
-  warningText: '#666804',
-  noticeBackground: '#2f95dc',
-  noticeText: '#fff'
+  textPrimary: '#000',
+  textSecondary: '#666',
 };

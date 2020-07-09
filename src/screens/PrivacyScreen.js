@@ -17,7 +17,6 @@ const PrivacyScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
     },
     subHeading:{
         marginVertical: 16,

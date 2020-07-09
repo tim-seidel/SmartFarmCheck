@@ -16,7 +16,8 @@ export default class IconButton extends Component {
                 name={icon}
                 size={24}
                 color={type === 'solid' ? Colors.white : Colors.primary}
-                backgroundColor={type === 'solid' ? Colors.primary : Colors.white}
+                backgroundColor={type === 'solid' ? Colors.primary : Colors.transparent}
+                underlayColor={Colors.lightgrey}
                 onPress={this.props.onPress}
             >
                 <ContentText

@@ -83,8 +83,6 @@ const MeasureScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    marginHorizontal: 8
   },
   calculateButtonWrapper: {
     margin: 4,

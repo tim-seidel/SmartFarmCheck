@@ -236,8 +236,7 @@ const FormScreen = props => {
 
 styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
+        flex: 1
     },
     listContainer: {
         flex: 1,
@@ -262,19 +261,19 @@ styles = StyleSheet.create({
     },
     pagingButton: {
         backgroundColor: Colors.primary,
-        borderRadius: 6,
+        borderRadius: 8,
         padding: 8,
         flex: 1
     },
     pagingButtonDisabled: {
-        backgroundColor: Colors.greyInactive,
-        borderRadius: 6,
+        backgroundColor: Colors.grey,
+        borderRadius: 8,
         padding: 8,
         flex: 1
     },
     pageInfo: {
         backgroundColor: Colors.primary,
-        borderRadius: 6,
+        borderRadius: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         marginHorizontal: 4,
@@ -284,7 +283,7 @@ styles = StyleSheet.create({
         flexDirection: "row",
         padding: 4,
         margin: 8,
-        borderRadius: 6
+        borderRadius: 8
     },
     optionsRowHalf: {
         flexDirection: "row",

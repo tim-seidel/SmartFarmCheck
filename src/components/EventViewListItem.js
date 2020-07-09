@@ -2,12 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import IconButton from '../components/IconButton';
 import { HeadingText, ContentText } from './Text';
+import Colors from '../constants/Colors';
 
 function EventListItemView(props) {
     return (
         <View style={styles.event}>
-            <HeadingText style={styles.eventTitle}>{props.title}</HeadingText>
-            <ContentText light style={styles.eventShort}>{props.short}</ContentText>
+            <HeadingText>{props.title}</HeadingText>
+            <ContentText light>{props.short}</ContentText>
             <View style={styles.eventButtonRow}>
                 <View style={styles.eventButtonWrapper}>
                     <IconButton icon="information-outline" text="Details" fontSize={15}></IconButton>
@@ -30,16 +31,7 @@ const styles = StyleSheet.create({
         padding: 8,
         borderWidth: 1,
         borderRadius: 8,
-        borderColor: "black",
-        backgroundColor: "white"
-      },
-      eventTitle: {
-        fontSize: 20,
-        fontWeight: "700"
-      },
-      eventShort: {
-        fontSize: 16,
-        color: 'rgba(96,100,109, 1)',
+        borderColor: Colors.grey,
       },
       eventButtonRow: {
         flexDirection: "row",

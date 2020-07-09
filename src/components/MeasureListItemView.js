@@ -3,10 +3,11 @@ import { StyleSheet, Text, View, } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { HeadingText, ContentText } from './Text';
+import Colors from '../constants/Colors';
 
 function MeasureListItemView(props) {
     return (
-        <TouchableHighlight underlayColor="gray" onPress={props.measureSelected}>
+        <TouchableHighlight underlayColor={Colors.lightgrey} onPress={props.measureSelected}>
             <View style={styles.measure}>
                 <View style={styles.measureContent}>
                     <HeadingText large>{props.title}</HeadingText>
@@ -21,7 +22,7 @@ function MeasureListItemView(props) {
 const styles = StyleSheet.create({
     measure: {
         marginVertical: 16,
-        backgroundColor: "white",
+        marginHorizontal: 8,
         flexDirection: "row",
         justifyContent: "space-between",
     },

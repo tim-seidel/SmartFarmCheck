@@ -116,9 +116,7 @@ class EvaluationScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        marginHorizontal: 8
+        flex: 1
     },
     explanationCard: {
         marginTop: 8,

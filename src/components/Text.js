@@ -17,8 +17,8 @@ const text_size_content_large = 17
 
 const text_weight_heading =  Platform.OS === 'ios' ? '500' : '900'
 
-const text_color = Colors.black
-const text_color_light = Colors.grey
+const text_color = Colors.textPrimary
+const text_color_light = Colors.textSecondary
 const text_color_error = Colors.error
 
 //Components

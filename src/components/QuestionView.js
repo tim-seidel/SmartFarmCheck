@@ -221,7 +221,6 @@ const StringInput = (props) => {
 const styles = StyleSheet.create({
     question: {
         flexDirection: "row",
-        backgroundColor: '#fff',
         marginHorizontal: 8,
         marginTop: 16,
         marginBottom: 32,
@@ -266,7 +265,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         fontSize: 17,
-        borderColor: Colors.greyInactive
+        borderColor: Colors.grey
     },
     buttonRow: {
         flexDirection: "row",

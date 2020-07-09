@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 16,
         borderRadius: 8,
-        borderColor: Colors.greyInactive,
+        borderColor: Colors.grey,
         borderWidth: 1.5
     },
     textWrapper: {

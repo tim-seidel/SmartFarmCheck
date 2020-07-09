@@ -18,7 +18,6 @@ const ContactScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
     },
     welcomeCard: {
         margin: 8
