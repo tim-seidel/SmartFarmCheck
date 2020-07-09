@@ -22,7 +22,9 @@ class EvaluationScreen extends React.Component {
     }
 
     componentDidMount() {
-        this.evaluate();
+        if(!this.state.isLoaded){
+            this.evaluate();
+        }
     }
 
     evaluate() {
@@ -93,9 +95,8 @@ class EvaluationScreen extends React.Component {
                         <InformationHighlight>tippen</InformationHighlight>
                         <InformationText> Sie diese einfach an.</InformationText>
                     </InformationCard>
-                    <HeadingText large weight="bold" style={styles.listHeading}>{Strings.evaluation_list_heading}</HeadingText>
+                    <HeadingText large  style={{marginTop: 12}}>Ergebnisse:</HeadingText>
                     <FlatList
-                        ItemSeparatorComponent={Separator}
                         data={evaluation}
                         renderItem={({ item }) => (
                             <EvaluationListItemView
@@ -116,13 +117,11 @@ class EvaluationScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        marginHorizontal: 8
     },
     explanationCard: {
-        marginTop: 8,
-    },
-    listHeading: {
-        marginTop: 8,
+        marginVertical: 8
     }
 });
 
