@@ -7,6 +7,7 @@ import Colors from '../constants/Colors';
 import { StringValidator, NumberValidatior, SelectValidator } from "../model/Validation"
 import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text';
+import Layout from '../constants/Layout';
 
 const INPUT_CHANGE = "INPUT_CHANGE"
 const FORM_ID_CHANGE = "FORM_ID_CHANGE"
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
         marginTop: 4,
         paddingHorizontal: 8,
         paddingVertical: 10,
-        borderRadius: 8,
+        borderRadius: Layout.borderRadius,
         borderWidth: 1,
         fontSize: 17,
         borderColor: Colors.grey

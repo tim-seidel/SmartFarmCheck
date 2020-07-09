@@ -3,6 +3,7 @@ import { StyleSheet, ActionSheetIOS, TouchableOpacity, Text } from 'react-native
 
 import Colors from "../constants/Colors"
 import { ContentText } from './Text'
+import Layout from '../constants/Layout'
 
 const picker_placeholder = "[Keine Auswahl]"
 
@@ -31,7 +32,7 @@ const SelectInput = (props) => {
 const styles = StyleSheet.create({
     pickerPlaceholder: {
         marginTop: 4,
-        borderRadius: 8,
+        borderRadius: Layout.borderRadius,
         borderWidth: 1,
         paddingHorizontal: 8,
         paddingVertical: 10,

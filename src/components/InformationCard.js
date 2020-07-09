@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Colors from '../constants/Colors'
 import { HeadingText, ContentText } from './Text';
+import Layout from '../constants/Layout';
 
 /*
  * A basic UI element that displays text in a card like style.
@@ -33,11 +34,12 @@ const InformationCard = (props) => {
 
 const styles = StyleSheet.create({
     card: {
+        backgroundColor: Colors.white,
         paddingHorizontal: 8,
         paddingVertical: 16,
-        borderRadius: 8,
-        borderColor: Colors.grey,
-        borderWidth: 1.5
+        borderRadius: Layout.borderRadius,
+        borderColor: Layout.borderColor,
+        borderWidth: Layout.borderWidth,
     },
     textWrapper: {
         textAlign: "center"

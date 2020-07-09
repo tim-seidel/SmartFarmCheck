@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, } from 'react-native';
 import IconButton from '../components/IconButton';
 import { HeadingText, ContentText } from './Text';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 
 function EventListItemView(props) {
     return (
@@ -29,9 +30,9 @@ const styles = StyleSheet.create({
         flex: 1,
         marginVertical: 4,
         padding: 8,
-        borderWidth: 1,
-        borderRadius: 8,
-        borderColor: Colors.grey,
+        borderColor: Layout.borderColor,
+        borderWidth: Layout.borderWidth,
+        borderRadius: Layout.borderRadius
       },
       eventButtonRow: {
         flexDirection: "row",

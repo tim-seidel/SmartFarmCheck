@@ -3,6 +3,7 @@ import { Image, StyleSheet, Dimensions, View, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import IconButton from '../components/IconButton';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 
 const Sponsor = props => {
   return (<View style={styles.sponsor}>
@@ -91,9 +92,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginVertical: 8,
     backgroundColor: Colors.white,
-    borderRadius: 8,
-    borderColor: Colors.grey,
-    borderWidth: 2,
+    borderRadius: Layout.borderRadius,
+    borderColor: Layout.borderColor,
+    borderWidth: Layout.borderWidth,
     padding: 6
   },
   image: {

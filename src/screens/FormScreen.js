@@ -9,6 +9,7 @@ import IconButton from '../components/IconButton';
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
 import { ContentText } from '../components/Text';
+import Layout from '../constants/Layout';
 
 const SFCHeaderButton = props => (
     <HeaderButton {...props} IconComponent={Icon} iconSize={24} color={Colors.white} />
@@ -261,19 +262,19 @@ styles = StyleSheet.create({
     },
     pagingButton: {
         backgroundColor: Colors.primary,
-        borderRadius: 8,
+        borderRadius: Layout.borderRadius,
         padding: 8,
         flex: 1
     },
     pagingButtonDisabled: {
         backgroundColor: Colors.grey,
-        borderRadius: 8,
+        borderRadius: Layout.borderRadius,
         padding: 8,
         flex: 1
     },
     pageInfo: {
         backgroundColor: Colors.primary,
-        borderRadius: 8,
+        borderRadius: Layout.borderRadius,
         paddingVertical: 8,
         paddingHorizontal: 16,
         marginHorizontal: 4,
@@ -283,7 +284,7 @@ styles = StyleSheet.create({
         flexDirection: "row",
         padding: 4,
         margin: 8,
-        borderRadius: 8
+        borderRadius: Layout.borderRadius
     },
     optionsRowHalf: {
         flexDirection: "row",
