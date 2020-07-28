@@ -163,7 +163,7 @@ const QuestionView = props => {
     let inputView;
     switch (question.validator.inputType.toLowerCase()) {
         case "number":
-            inputView = <NumberInput input={inputState.input} numberChanged={(number) => { NumberInputHandler(question.validator, number) }} />
+            inputView = <NumberInput input={inputState.input} unit={question.validator.unit} numberChanged={(number) => { NumberInputHandler(question.validator, number)}} />
             break;
         case "text":
             inputView = <StringInput input={inputState.input} textChanged={(text) => TextInputHandler(question.validator, text)} />
@@ -211,7 +211,13 @@ function validityToIcon(validity) {
 
 const NumberInput = (props) => {
     return (
-        <TextInput value={props.input} onChangeText={props.numberChanged} keyboardType="numeric" style={styles.input} placeholder="Hier eingeben..."></TextInput>
+        <View style={styles.numberRow}>
+            <TextInput value={props.input} onChangeText={props.numberChanged} keyboardType="numeric" style={styles.input} placeholder="Hier eingeben..."></TextInput>
+          {props.unit && <View style={styles.unitTextWrapper}>
+                <ContentText>in [{props.unit}]</ContentText>
+           </View>}
+          
+        </View>
     )
 }
 
@@ -262,7 +268,21 @@ const styles = StyleSheet.create({
         flex: 1,
         marginStart: 8
     },
+    numberRow:{
+        flexDirection: 'row'
+    },
+    unitTextWrapper:{
+        marginTop: 4,
+        marginStart: 4,
+        paddingHorizontal: 4,
+        borderRadius: Layout.borderRadius,
+        borderWidth: 1,
+        borderColor: Colors.grey,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     input: {
+        flex: 1,
         marginTop: 4,
         paddingHorizontal: 8,
         paddingVertical: 10,
