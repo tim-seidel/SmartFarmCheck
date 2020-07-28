@@ -184,9 +184,11 @@ const QuestionView = props => {
                     {question.description && (<Icon style={styles.infoIcon} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
                 </View>
                 <View style={styles.errorRow}>
-                    <Icon style={styles.errorIcon} name={validityToIcon(inputState.validity)} size={24}></Icon>
-                    <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'} style={{flex: 1}} >{inputState.errorMessage}</ContentText>
-                </View>
+                    <Icon name={validityToIcon(inputState.validity)} size={24}></Icon>
+                    <View style={styles.errorTextWrapper}>
+                    <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'}>{inputState.errorMessage}</ContentText>
+                    </View>
+              </View>
                 {inputView}
 
             </View>
@@ -253,11 +255,12 @@ const styles = StyleSheet.create({
     },
     errorRow: {
         marginVertical: 4,
-        flexDirection: "row"
+        flexDirection: "row",
+        alignItems: 'center'
     },
-    errorIcon: {
-        alignSelf: "center",
-        marginEnd: 4
+    errorTextWrapper: {
+        flex: 1,
+        marginStart: 8
     },
     input: {
         marginTop: 4,
