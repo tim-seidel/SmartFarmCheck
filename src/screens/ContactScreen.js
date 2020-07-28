@@ -1,11 +1,9 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 
-
 const ContactScreen = (props) => {
-
     return (
         <View style={styles.container}>
             <InformationCard style={styles.welcomeCard}>

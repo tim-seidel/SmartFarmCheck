@@ -6,8 +6,14 @@ import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { ContentText } from './Text';
 
+/**
+ * A default button layout, that can be customized. 
+ * Default styles:
+ * - outline
+ * - solid (filled)  <- default (on iOS transparent)
+ * - light: transparent
+ */
 export default class IconButton extends Component {
-
     render() {
         const { icon, text, type } = this.props;
         return (
@@ -18,8 +24,7 @@ export default class IconButton extends Component {
                 color={type === 'solid' ? Colors.white : Colors.primary}
                 backgroundColor={type === 'solid' ? Colors.primary : Colors.transparent}
                 underlayColor={Colors.lightgrey}
-                onPress={this.props.onPress}
-            >
+                onPress={this.props.onPress}>
                 <ContentText
                     numberOfLines={1}
                     lineBreakMode="tail"

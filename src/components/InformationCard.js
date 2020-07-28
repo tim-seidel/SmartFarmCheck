@@ -4,7 +4,7 @@ import Colors from '../constants/Colors'
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
 
-/*
+/**
  * A basic UI element that displays text in a card like style.
  * Usage:
  * <InformationCard>
