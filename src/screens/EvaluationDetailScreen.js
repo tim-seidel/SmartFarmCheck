@@ -54,7 +54,7 @@ const EvaluationDetailScreen = (props) => {
     } else if (!isLoaded) {
         return <NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView>
     } else {
-        const head = '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>'
+        const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial;} p{text-align: justify; hyphens: auto; }</style></head>'
         var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
 
         if (measure?.resources) {

@@ -10,7 +10,7 @@ export default function MeasureScreen({ route, navigation }) {
     title: measure?.name ?? "Maßnahmeninformation"
   })
 
-  const head = '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>'
+  const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial;} p{text-align: justify; hyphens: auto; }</style></head>'
   var content = measure.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
 
   measure.resources.forEach(r => {
