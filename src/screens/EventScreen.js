@@ -1,33 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Linking } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
 import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItem';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 import { HeadingText } from '../components/Text';
+import events from '../model/Events';
 
-const eventMock = [
-  {
-    id: "1",
-    date: "01.04.2020",
-    title: "KI-Einführung",
-    short: "Ein Workshop, der eine Einführung in das KI-Thema bietet."
-  },
-  {
-    id: "2",
-    date: "01.04.2020",
-    title: "KI-Workshop",
-    short: "Ein Workshop, der eine Einführung in das KI-Thema bietet."
-  },
-  {
-    id: "3",
-    date: "01.04.2020",
-    title: "App-Workshop",
-    short: "Ein Workshop, der eine Einführung in das KI-Thema bietet."
-  }
-]
-
+const eventMock = events
 const EventScreen = (props) => {
 
   const [eventState, setEventState] = useState({ isLoaded: false, error: null, errorCode: 0, events: [] })
@@ -62,12 +43,21 @@ const EventScreen = (props) => {
           setEventState({ isLoaded: true, error: error, errorCode: -1, events: [] })
         })
         */
-       setEventState({isLoaded: true, error: null, errorCode: 0, events: []})
+       setEventState({isLoaded: true, error: null, errorCode: 0, events: eventMock})
     }
   }
 
   function retryHandler() {
     setEventState({ isLoaded: false, error: null, errorCode: 0, events: [] })
+  }
+
+  function showDetailHandler(url){
+    Linking.openURL(url)
+    //props.navigation.navigate("EventDetail", url)
+  }
+
+  function showRegisterHandler(event){
+    Linking.openURL(event.url)
   }
 
   const { isLoaded, error, errorCode, events } = eventState;
@@ -83,14 +73,14 @@ const EventScreen = (props) => {
   } else {
     eventContent = (
       <>
-        <HeadingText large weight="bold" style={{marginTop: 16,  marginBottom: 8, marginHorizontal: 8}}>Kommende Veranstaltungen:</HeadingText>
+        <HeadingText large weight="bold" style={{marginTop: 16,  marginBottom: 8}}>Kommende Veranstaltungen:</HeadingText>
         <FlatList
           data={events}
           renderItem={({ item }) => (
             <EventListItemView
-              id={item.id}
-              title={item.title}
-              short={item.short}
+              event={item}
+              onDetailPress={showDetailHandler}
+              onRegisterPress={() => showRegisterHandler(item)}
             />
           )}
           keyExtractor={item => item.id}
@@ -100,9 +90,8 @@ const EventScreen = (props) => {
 
   return (
     <View style={styles.container} >
-      <InformationCard style={styles.welcomeCard}>
-        <InformationHighlight style={styles.welcomeHeading}>Willkommen</InformationHighlight>
-        <InformationText style={styles.welcomeText}> in der Smartfarmcheck-App! In dieser App finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb. </InformationText>
+      <InformationCard title="Herzlich Willkommen" style={styles.welcomeCard}>
+        <InformationText>...in der Smartfarmcheck-App! In dieser App finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb. </InformationText>
       </InformationCard>
       {eventContent}
     </View>
@@ -116,7 +105,6 @@ const styles = StyleSheet.create({
   },
   welcomeCard: {
     marginTop: 16,
-    marginHorizontal: 8
   }
 });
 
