@@ -40,7 +40,8 @@ const events = [
         <li>Demonstration von praktischen Beispielen | Hayyan Alkhatib &amp; Maximilian Haverkamp (Hochschule Osnabrück)</li>
         <li>Treffen in virtuellen Themen- und Gruppenräumen mit moderierter Diskussion und Zusammenfassung</li>
         <li>Evaluation </li>
-        </ul>"`
+        </ul>"`,
+        url: 'https://kompetenzzentrum-lingen.digital/termin/die-fabrik-der-zukunft-vision-und-praxis'
     },
 ]
 
