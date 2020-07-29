@@ -25,6 +25,9 @@ export function InformationText(props) {
 const InformationCard = (props) => {
     return (
         <View style={{ ...styles.card, ...props.style }}>
+            <View style={styles.titleWrapper}>
+                <HeadingText style={styles.titleText}>{props.title ?? 'Information'}</HeadingText>
+            </View>
             <Text style={styles.textWrapper} >
                 {props.children}
             </Text>
@@ -35,14 +38,23 @@ const InformationCard = (props) => {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: Colors.white,
-        paddingHorizontal: 8,
-        paddingVertical: 16,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
+        paddingBottom: 8
+    },
+    titleWrapper:{
+        backgroundColor: Colors.primary,
+        minHeight: 16,
+    },
+    titleText:{
+        color: Colors.white,
+        paddingHorizontal: 8,
+        paddingVertical: 4
     },
     textWrapper: {
-        textAlign: "center"
+        padding: 8,
+        textAlign: 'center'
     }
 })
 
