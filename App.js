@@ -15,6 +15,7 @@ import PrivacyScreen from "./src/screens/PrivacyScreen";
 import FormScreen from "./src/screens/FormScreen";
 import EvaluationScreen from './src/screens/EvaluationScreen';
 import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
+import EventDetailScreen from './src/screens/EventDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -125,6 +126,16 @@ export default function App(props) {
               }}
               name="Privacy"
               component={PrivacyScreen} />
+            <Stack.Screen
+              options={{
+                title: "Eventdetails",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="EventDetail"
+              component={EventDetailScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View >
