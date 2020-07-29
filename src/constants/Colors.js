@@ -16,5 +16,5 @@ export default {
   error: "#ff0000",
 
   textPrimary: '#000',
-  textSecondary: '#666',
+  textSecondary: '#505050',
 };
