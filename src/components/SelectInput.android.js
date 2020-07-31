@@ -1,27 +1,28 @@
 import React from 'react'
 import { View, Picker, StyleSheet } from 'react-native'
-import Colors from "../constants/Colors"
-import Layout from '../constants/Layout'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import Colors from '../constants/Colors'
+import Layout from '../constants/Layout'
 
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    let items = props.options.map((opt, index) => {
-        return <Picker.Item value={opt} key={index} label={opt}></Picker.Item>
-    });
+    let items = props.options != null ? props.options.map((option, index) => {
+        return <Picker.Item value={opt} key={index} label={option}></Picker.Item>
+    }) : [];
 
-    function clearPicker(){
+    function clearPickerHandler() {
         props.selectionChanged('')
     }
 
     return (
         <View style={styles.pickerContainer}>
-            <Picker style={props.input ? {flex: 1, color: Colors.textPrimary} : {flex: 1, color: Colors.lightgrey}} selectedValue={props.input} onValueChange={props.selectionChanged}>
-                <Picker.Item value="" label={picker_placeholder} key="defaultOption"></Picker.Item>
+            <Picker style={{ flex: 1, color: props.input ? Colors.textPrimary : Colors.lightgrey }} selectedValue={props.input} onValueChange={props.selectionChanged}>
+                <Picker.Item value="" label={props.placeholder ?? picker_placeholder} key="defaultOption"></Picker.Item>
                 {items}
             </Picker>
-            {!!props.input && <Icon style={{paddingHorizontal: 8, alignSelf: 'center'}} name={'close'} onPress={() => clearPicker()} size={24}></Icon>}
+            {!!props.input && <Icon style={styles.clearIcon} name={'close'} onPress={clearPickerHandler} size={24}></Icon>}
         </View>
     )
 }
@@ -33,6 +34,10 @@ const styles = StyleSheet.create({
         borderRadius: Layout.borderRadius,
         borderWidth: 1,
         borderColor: Colors.grey
+    },
+    clearIcon: {
+        paddingHorizontal: 8,
+        alignSelf: 'center'
     },
     pickerHint: {
         color: Colors.grey,
