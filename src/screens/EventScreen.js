@@ -185,7 +185,7 @@ const EventScreen = (props) => {
       );
     } else if (status !== 'granted' && !canAskAgain) {
       Alert.alert(
-        Strings.permission_calender_denied,
+        Strings.permission_calendar_denied,
         Strings.permission_calendar_information_before_denied_permanent,
         [
           {
@@ -206,7 +206,7 @@ const EventScreen = (props) => {
     if (status === 'denied' && canAskAgain) {
       Alert.alert(
         Strings.permission_calendar_denied,
-        Strings.permission_calendar_information_after,
+        Strings.permission_calendar_information_after_denied,
         [
           {
             text: Strings.okay,
@@ -217,7 +217,7 @@ const EventScreen = (props) => {
       );
     } else if (status === 'denied' && !canAskAgain) {
       Alert.alert(
-        Strings.permission_calender_denied,
+        Strings.permission_calendar_denied,
         Strings.permission_calendar_information_after_denied_permanent,
         [
           {

@@ -53,7 +53,7 @@ const Strings = {
     event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
 
     permission_calendar: "Kalenderberechtigung",
-    permission_calender_denied: "Fehlende Kalenderberechtigung",
+    permission_calendar_denied: "Fehlende Kalenderberechtigung",
     permission_calendar_information_before: "Nachfolgend wird die Systemberechtigung zum Bearbeiten der Kalender abgefragt. Diese wird benötigt, um automatisch Termine in Ihren Kalender einzutragen.",
     permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine in Ihren Kalender eintragen können. Sie können diese manuell in den Systemeinstellungen erteilen.",
     permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alernativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
