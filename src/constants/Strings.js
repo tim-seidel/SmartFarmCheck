@@ -5,6 +5,10 @@ const Strings = {
     okay: "Okay",
     close: "Schließen",
     try_again: "Erneut versuchen",
+    refresh: "Aktualisieren",
+
+    main_greeting_title: "Herzlich Willkommen",
+    main_greeting_content: "...in der Smartfarmcheck-App! Hier finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb.",
 
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
@@ -36,6 +40,24 @@ const Strings = {
     evaluation_loading: "Die Bewertung wird durchgeführt...",
     evaluation_loading_error: "Aktuell kann die Bewertung nicht durchgefürt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     evaluation_loading_empty: "Die Auswertung konnte aktuell keine Maßnahmen finden. Bitte überprüfen Sie Ihre Eingaben oder versuchen Sie es später erneut.",
+
+    event_calendar: "Veranstaltungskalendar",
+    event_list_heading: "Kommende Veranstaltungen",
+    event_loading: "Laden der kommenden Veranstaltungen...",
+    event_loading_error: "Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
+    event_loading_empty: "Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Akutell stehen keine Veranstaltungen an.",
+
+    event_already_in_calendar_title: "Veranstaltung bereits eingetragen",
+    event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
+
+    permission_calendar: "Kalenderberechtigung",
+    permission_calender_denied: "Fehlende Kalenderberechtigung",
+    permission_calendar_information_before: "Nachfolgend wird die Systemberechtigung zum Bearbeiten der Kalender abgefragt. Diese wird benötigt, um automatisch Termine in Ihren Kalender einzutragen.",
+    permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine in Ihren Kalender eintragen können. Sie können diese manuell in den Systemeinstellungen erteilen.",
+    permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alernativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
+    permission_calendar_information_after_denied_permanent: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Wenn Sie sich dennoch umentscheiden können Sie die Berechtigung in den Berechtigungseinstellung ihres System ändern."
+
+    
 }
 
 export default Strings;
