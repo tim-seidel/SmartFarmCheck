@@ -9,7 +9,7 @@ const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
     let items = props.options != null ? props.options.map((option, index) => {
-        return <Picker.Item value={opt} key={index} label={option}></Picker.Item>
+        return <Picker.Item value={option} key={index} label={option}></Picker.Item>
     }) : [];
 
     function clearPickerHandler() {
