@@ -5,6 +5,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import NoContentView from '../components/NoContentView';
 import MeasureListItemView from '../components/MeasureListItemView';
 import IconButton from '../components/IconButton';
+import InformationCard, { InformationText } from "../components//InformationCard";
 
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
@@ -64,6 +65,9 @@ const MeasureScreen = props => {
     return (
       <View style={styles.container} >
         <FlatList
+        ListHeaderComponent={<InformationCard style={styles.informationCard} title={Strings.measure_information_title}>
+        <InformationText>{Strings.measure_information_text} </InformationText>
+      </InformationCard>}
           data={measures}
           renderItem={({ item }) => (
             <MeasureListItemView
@@ -87,6 +91,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 8,
+  },
+  informationCard:{
+    marginTop: 8,
+    marginBottom: 12
   },
   calculateButtonWrapper: {
     marginVertical: 4

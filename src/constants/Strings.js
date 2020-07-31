@@ -13,6 +13,8 @@ const Strings = {
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
 
+    measure_information_title : "Über die Maßnahmen",
+    measure_information_text : "Hier sehen sie verschiedene Maßnahmen zur Digitalisierung , die sich für mittelständische Landwirtschaftsbetriebe eignen. Gerne können Sie sich über unser Formular persönliche Empfehlungen berechnen lassen oder uns jederzeit kontaktieren.",
     measure_loading: "Laden der aktuellsten Maßnahmen...",
     measure_loading_error: "Aktuell können die Maßnahmen nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_empty: "Aktuell konnten keine Maßnahmen gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
