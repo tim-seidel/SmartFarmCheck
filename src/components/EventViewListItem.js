@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     event: {
         backgroundColor: Colors.white,
         flex: 1,
-        marginVertical: 4,
+        marginVertical: 12,
         padding: 8,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,

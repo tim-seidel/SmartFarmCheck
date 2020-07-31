@@ -113,7 +113,7 @@ const EventScreen = (props) => {
   } else {
     eventContent = (
       <>
-        <HeadingText large weight="bold" style={{ marginTop: 16, marginBottom: 8 }}>Kommende Veranstaltungen:</HeadingText>
+        <HeadingText large weight="bold" style={{ marginTop: 16, marginStart: 2}}>Kommende Veranstaltungen:</HeadingText>
         <Modal transparent visible={showCalendarModal}>
           <View style={styles.modalView}>
             <HeadingText>Standardkalender auswählen</HeadingText>
