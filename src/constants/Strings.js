@@ -7,6 +7,8 @@ const Strings = {
     try_again: "Erneut versuchen",
     refresh: "Aktualisieren",
 
+    mail: "mittelstand40@hs-osnabrueck.de",
+
     main_greeting_title: "Herzlich Willkommen",
     main_greeting_content: "...in der Smartfarmcheck-App! Hier finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb.",
 
