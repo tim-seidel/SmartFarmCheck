@@ -16,6 +16,7 @@ import FormScreen from "./src/screens/FormScreen";
 import EvaluationScreen from './src/screens/EvaluationScreen';
 import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
 import EventDetailScreen from './src/screens/EventDetailScreen';
+import FeedbackScreen from './src/screens/FeedbackScreen';
 
 const Stack = createStackNavigator();
 
@@ -136,6 +137,16 @@ export default function App(props) {
               }}
               name="EventDetail"
               component={EventDetailScreen} />
+            <Stack.Screen
+              options={{
+                title: "Feedback geben",
+                headerTintColor: "#fff",
+                headerStyle: {
+                  backgroundColor: Colors.primary
+                }
+              }}
+              name="Feedback"
+              component={FeedbackScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View >
