@@ -8,7 +8,7 @@ import Layout from '../constants/Layout';
 
 function MeasureListItemView(props) {
     return (
-        <View style={styles.outerWrapper}>
+        <View style={{...styles.outerWrapper, ...props.style}}>
         <TouchableHighlight underlayColor={Colors.lightgrey} onPress={props.measureSelected}>
             <View style={styles.innerWrapper}>
                 <View style={styles.measureContent}>
@@ -24,7 +24,6 @@ function MeasureListItemView(props) {
 
 const styles = StyleSheet.create({
     outerWrapper: {
-        marginVertical: 12,
         borderRadius: Layout.borderRadius, 
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,

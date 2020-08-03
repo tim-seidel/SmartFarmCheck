@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform, Dimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-
+import * as Device from 'expo-device'
 import NoContentView from '../components/NoContentView';
 import MeasureListItemView from '../components/MeasureListItemView';
 import IconButton from '../components/IconButton';
@@ -9,9 +9,34 @@ import InformationCard, { InformationText } from "../components//InformationCard
 
 import Colors from '../constants/Colors';
 import Strings from '../constants/Strings';
+import { HeadingText } from '../components/Text';
+
+const isPortrait = () => {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
 
 const MeasureScreen = props => {
+  const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
+  const [isTablet, setIsTablet] = useState(Platform.isPad)
   const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measures: [] })
+
+
+  useEffect(() => {
+    const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape');
+
+    const checkTablet = async () =>{
+      const type = Device.getDeviceTypeAsync()
+      setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
+    }
+
+    Dimensions.addEventListener('change', callback);
+    checkTablet()
+
+    return () => {
+      Dimensions.removeEventListener('change', callback);
+    };
+  }, []);
 
   useEffect(() => {
     if (!measureState.isLoaded) {
@@ -30,22 +55,22 @@ const MeasureScreen = props => {
         .then(response => response.json())
         .then(json => {
           //Check for request errors
-          if(json.status && json.status != 200){
-            setMeasureState({isLoaded: true, error: json, errorCode: json.status ?? -1, measures: []})
-          }else{
+          if (json.status && json.status != 200) {
+            setMeasureState({ isLoaded: true, error: json, errorCode: json.status ?? -1, measures: [] })
+          } else {
             //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-            json.sort(function(l, r){
-              if(l.name < r.name) return -1
-              else if(l.name > r.name) return 1
+            json.sort(function (l, r) {
+              if (l.name < r.name) return -1
+              else if (l.name > r.name) return 1
               else return 0
             })
             setMeasureState({ isLoaded: true, error: null, errorCode: 0, measures: json })
           }
-          
+
         })
         .catch(error => {
           console.log("Error", error)
-          setMeasureState({ isLoaded: true, error: error, errorCode: -1, measures: []})
+          setMeasureState({ isLoaded: true, error: error, errorCode: -1, measures: [] })
         })
     }
   }
@@ -65,12 +90,21 @@ const MeasureScreen = props => {
     return (
       <View style={styles.container} >
         <FlatList
-        ListHeaderComponent={<InformationCard style={styles.informationCard} title={Strings.measure_information_title}>
-        <InformationText>{Strings.measure_information_text} </InformationText>
-      </InformationCard>}
+          key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
+          numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
+          style={styles.measureList}
+          ListHeaderComponent={
+            <View>
+              <InformationCard style={styles.informationCard}
+                title={Strings.measure_information_title}>
+                <InformationText>{Strings.measure_information_text} </InformationText>
+              </InformationCard>
+              <HeadingText large weight="bold" style={styles.heading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
+            </View>}
           data={measures}
           renderItem={({ item }) => (
             <MeasureListItemView
+              style={styles.measureColumn}
               key={item.uuid}
               title={item.name}
               short={item.excerpt}
@@ -90,19 +124,32 @@ const MeasureScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 8,
   },
-  informationCard:{
+  informationCard: {
     marginTop: 8,
-    marginBottom: 12
+    marginHorizontal: 4
+  },
+  heading: {
+    marginTop: 16,
+    marginBottom: 8,
+    marginStart: 6
+  },
+  measureList: {
+    marginHorizontal: 4,
+  },
+  measureColumn: {
+    flex: 1,
+    marginHorizontal: 4,
+    marginVertical: 4
   },
   calculateButtonWrapper: {
-    marginVertical: 4
+    margin: 8
   },
   calculateButton: {
     justifyContent: "center",
     backgroundColor: Colors.primary
-  }
-});
+  },
+}
+);
 
 export default MeasureScreen
