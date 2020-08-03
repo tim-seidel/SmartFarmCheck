@@ -9,7 +9,7 @@ import Colors from './src/constants/Colors';
 
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import MeasureDetailScreen from "./src/screens/MeasureDetailScreen";
-import ContactScreen from "./src/screens/ContactScreen";
+import AboutScreen from "./src/screens/AboutScreen";
 import ImprintScreen from "./src/screens/ImprintScreen";
 import PrivacyScreen from "./src/screens/PrivacyScreen";
 import FormScreen from "./src/screens/FormScreen";
@@ -99,14 +99,14 @@ export default function App(props) {
               component={EvaluationScreen} />
             <Stack.Screen
               options={{
-                title: "Kontakt",
+                title: "Über diese App",
                 headerTintColor: "#fff",
                 headerStyle: {
                   backgroundColor: Colors.primary
                 }
               }}
-              name="Contact"
-              component={ContactScreen} />
+              name="About"
+              component={AboutScreen} />
             <Stack.Screen
               options={{
                 title: "Impressum",

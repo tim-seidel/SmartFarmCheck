@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import EventScreen from '../screens/EventScreen';
 import MeasureScreen from '../screens/MeasureScreen';
-import AboutScreen from "../screens/AboutScreen"
+import ContactScreen from "../screens/ContactScreen"
 import Colors from '../constants/Colors';
 
 const BottomTab = createBottomTabNavigator();
@@ -48,11 +48,11 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="About"
-        component={AboutScreen}
+        name="Contact"
+        component={ContactScreen}
         options={{
           title: 'Kontakt',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="information-outline" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="contact-mail-outline" />,
         }}
       />
     </BottomTab.Navigator>
@@ -67,8 +67,8 @@ function getHeaderTitle(route) {
       return 'Maßnahmenübersicht';
     case 'Events':
       return 'Smartfarmcheck';
-    case 'About':
-      return "Über diese App & Kontakt";
+    case 'Contact':
+      return "Kontakt";
     default:
       return "Smartfarmcheck";
 
