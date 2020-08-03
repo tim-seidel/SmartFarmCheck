@@ -43,7 +43,6 @@ const ContactScreen = (props) => {
     }
 
     const aboutAppHandler = () => {
-        console.log('Über diese App!')
         props.navigation.navigate('About')
     }
     const contentAboutApp = <ActionButton icon="information-outline" text="Über diese App" onPress={aboutAppHandler} />
@@ -55,7 +54,7 @@ const ContactScreen = (props) => {
 
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
-                <InformationCard title="Über diese App" style={cardStyle} contentView={contentAboutApp}>
+                <InformationCard title="Informationen zur App" style={cardStyle} contentView={contentAboutApp}>
                     <InformationText>{"Informationen über Förderer, Impressum und Datenschutz.\n"}</InformationText>
                 </InformationCard>
                 <InformationCard title="Per Mail" style={cardStyle} contentView={contentMail}>
@@ -80,10 +79,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         flex: 1,
-        justifyContent: 'space-around'
-    },
-    scrollView: {
-        margin: 8
+        justifyContent: 'space-evenly'
     },
     contactCardSingle: {
         marginVertical: 8,
@@ -91,10 +87,12 @@ const styles = StyleSheet.create({
     },
     contactCardGrid: {
         marginVertical: 8,
-        width: '49%'
+        width: '45%'
     },
     action: {
-        marginHorizontal: 8
+        marginHorizontal: 8,
+        justifyContent: 'flex-end',
+         flex: 1
     },
     buttonRow: {
         flexDirection: 'row',
