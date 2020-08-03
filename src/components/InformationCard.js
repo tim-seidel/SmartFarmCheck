@@ -31,6 +31,7 @@ const InformationCard = (props) => {
             <Text style={styles.textWrapper} >
                 {props.children}
             </Text>
+            {props.contentView}
         </View>
     )
 }
