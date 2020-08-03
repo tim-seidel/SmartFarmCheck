@@ -72,7 +72,7 @@ const EventScreen = (props) => {
   }
 
   function calendarOptionChangeHandler(value, index) {
-    console.log("Calendaroption: ",value, index)
+    console.log("Calendaroption: ", value, index)
     setSelectedCalendarOption(value)
     if (index >= 0 && index < calendarOptions.length) {
       setSelectedCalendarOptionId(calendarOptions[index].id)
@@ -113,7 +113,6 @@ const EventScreen = (props) => {
   } else {
     eventContent = (
       <>
-        <HeadingText large weight="bold" style={{ marginTop: 16, marginStart: 2}}>Kommende Veranstaltungen:</HeadingText>
         <Modal transparent visible={showCalendarModal}>
           <View style={styles.modalView}>
             <HeadingText>Standardkalender auswählen</HeadingText>
@@ -132,6 +131,13 @@ const EventScreen = (props) => {
         </Modal>
         <FlatList
           data={events}
+          ListHeaderComponent={
+            <View>
+              <InformationCard title={Strings.main_greeting_title} style={styles.welcomeCard}>
+                <InformationText>{Strings.main_greeting_content}</InformationText>
+              </InformationCard>
+              <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
+            </View>}
           renderItem={({ item }) => (
             <EventListItemView
               event={item}
@@ -147,26 +153,23 @@ const EventScreen = (props) => {
 
   return (
     <View style={styles.container} >
-      <InformationCard title={Strings.main_greeting_title} style={styles.welcomeCard}>
-        <InformationText>{Strings.main_greeting_content}</InformationText>
-      </InformationCard>
       {eventContent}
     </View>
   );
 
   async function exportToCalendarWithPermissionInformationHandler(event) {
-    
+
     var status = 'denied'
     var canAskAgain = true
-    if(Platform.OS === "android"){
+    if (Platform.OS === "android") {
       var android = await Calendar.getCalendarPermissionsAsync();
       status = android.status
       canAskAgain = android.canAskAgain
-    }else if(Platform.OS === "ios"){
+    } else if (Platform.OS === "ios") {
       const iosCal = await Calendar.getCalendarPermissionsAsync();
       const iosRem = await Calendar.getRemindersPermissionsAsync();
 
-      status = iosCal.status === 'granted' && iosCal.status === 'granted'  ? 'granted' : 'denied'
+      status = iosCal.status === 'granted' && iosCal.status === 'granted' ? 'granted' : 'denied'
       canAskAgain = iosCal.canAskAgain || iosRem.canAskAgain
     }
 
@@ -273,13 +276,13 @@ const EventScreen = (props) => {
   async function exportToCalendarHandler(event) {
     var { status } = await Calendar.requestCalendarPermissionsAsync();
 
-    if(Platform.OS === 'ios'){
+    if (Platform.OS === 'ios') {
       const iosRem = await Calendar.requestRemindersPermissionsAsync();
-      if(iosRem.status !== 'granted'){
+      if (iosRem.status !== 'granted') {
         return showFailedPermissionInformation();
       }
     }
-    
+
     if (status === 'granted') {
       const storedCalendarId = await getPresistedCalendarIdAsync();
       if (storedCalendarId) {
@@ -320,7 +323,7 @@ const EventScreen = (props) => {
     calendars.forEach(c => {
       if (c.allowsModifications) list.push({ id: c.id, name: c.title })
     });
-    list.push({id: 'sfc_calendar_new',  name: '[Neuen Kalender erstellen]'})
+    list.push({ id: 'sfc_calendar_new', name: '[Neuen Kalender erstellen]' })
     setCalendarOptions(list)
     calendarOptionChangeHandler(list[0], 0)
     setShowCalendarModal(true)
@@ -355,6 +358,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 8,
+  },
+  heading: {
+    marginTop: 16,
+    marginStart: 2
   },
   modalView: {
     margin: 24,

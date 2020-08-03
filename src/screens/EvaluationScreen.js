@@ -8,7 +8,6 @@ import EvaluationListItemView from '../components/EvaluationListItemView';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
-import Separator from '../components/Separator';
 
 class EvaluationScreen extends React.Component {
 
@@ -22,7 +21,7 @@ class EvaluationScreen extends React.Component {
     }
 
     componentDidMount() {
-        if(!this.state.isLoaded){
+        if (!this.state.isLoaded) {
             this.evaluate();
         }
     }
@@ -88,16 +87,19 @@ class EvaluationScreen extends React.Component {
             })
             return (
                 <View style={styles.container} >
-                    <InformationCard style={styles.explanationCard}>
-                        <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
-                        <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
-                        <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
-                        <InformationHighlight>tippen</InformationHighlight>
-                        <InformationText> Sie diese einfach an.</InformationText>
-                    </InformationCard>
-                    <HeadingText large  style={{marginTop: 12}}>Ergebnisse:</HeadingText>
                     <FlatList
                         data={evaluation}
+                        ListHeaderComponent={
+                            <View>
+                                <InformationCard style={styles.explanationCard}>
+                                    <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
+                                    <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
+                                    <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
+                                    <InformationHighlight>tippen</InformationHighlight>
+                                    <InformationText> Sie diese einfach an.</InformationText>
+                                </InformationCard>
+                                <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
+                            </View>}
                         renderItem={({ item }) => (
                             <EvaluationListItemView
                                 key={item.uuid}
@@ -121,7 +123,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 8
     },
     explanationCard: {
-        marginVertical: 8
+        marginTop: 8
+    },
+    heading: {
+        marginStart: 2,
+        marginTop: 16
     }
 });
 
