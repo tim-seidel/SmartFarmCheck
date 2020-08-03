@@ -28,10 +28,11 @@ const InformationCard = (props) => {
             <View style={styles.titleWrapper}>
                 <HeadingText style={styles.titleText}>{props.title ?? 'Information'}</HeadingText>
             </View>
-            <Text style={styles.textWrapper} >
-                {props.children}
-            </Text>
-            {props.contentView}
+            <View style={styles.textWrapper}>
+                <Text style={styles.text} >
+                    {props.children}
+                </Text>
+            </View>
         </View>
     )
 }
@@ -42,19 +43,21 @@ const styles = StyleSheet.create({
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
-        paddingBottom: 8
+        paddingBottom: 8,
     },
-    titleWrapper:{
+    titleWrapper: {
         backgroundColor: Colors.primary,
         minHeight: 16,
     },
-    titleText:{
+    titleText: {
         color: Colors.white,
         paddingHorizontal: 8,
         paddingVertical: 4
     },
     textWrapper: {
-        padding: 8,
+        margin: 8
+    },
+    text: {
         textAlign: 'center'
     }
 })

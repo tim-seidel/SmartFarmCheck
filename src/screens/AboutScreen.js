@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 8,
     width: '90%',
-    maxWidth: 400,
+    maxWidth: 500,
     alignSelf: 'center'
   },
   sponsor: {
     width: "90%",
-    maxWidth: 400,
+    maxWidth: 500,
     overflow: "hidden",
     marginVertical: 8,
     alignSelf: 'center',
