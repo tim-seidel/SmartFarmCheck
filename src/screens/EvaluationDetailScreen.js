@@ -50,10 +50,10 @@ const EvaluationDetailScreen = (props) => {
     const { isLoaded, error, errorCode, measure } = measureState;
 
     if (error) {
-        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"
-     }></NoContentView>
+        return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"
+     }></NoContentView></View>
     } else if (!isLoaded) {
-        return <NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView>
+        return <View style={styles.container}><NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView></View>
     } else {
         const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial;} p{text-align: justify; hyphens: auto; }</style></head>'
         var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"

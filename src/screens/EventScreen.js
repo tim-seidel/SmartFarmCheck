@@ -105,11 +105,11 @@ const EventScreen = (props) => {
   });
 
   if (error) {
-    eventContent = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+    eventContent = <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
   } else if (!isLoaded) {
-    eventContent = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
+    eventContent = <View style={styles.container}><NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView></View>
   } else if (!events || events.length === 0) {
-    eventContent = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
+    eventContent = <View style={styles.container}><NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView></View>
   } else {
     eventContent = (
       <>

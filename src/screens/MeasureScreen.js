@@ -81,11 +81,11 @@ const MeasureScreen = props => {
 
   const { error, errorCode, isLoaded, measures } = measureState;
   if (error) {
-    return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+    return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
   } else if (!isLoaded) {
-    return <NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView>
+    return <View style={styles.container}><NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView></View>
   } else if (measures.length === 0) {
-    return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView>
+    return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView></View>
   } else {
     return (
       <View style={styles.container} >

@@ -74,11 +74,11 @@ class EvaluationScreen extends React.Component {
         const { error, isLoaded, evaluation } = this.state;
 
         if (error) {
-            return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title={Strings.evaluation_loading_error}></NoContentView>
+            return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title={Strings.evaluation_loading_error}></NoContentView></View>
         } else if (!isLoaded) {
-            return <NoContentView icon="cloud-download" loading title={Strings.evaluation_loading}></NoContentView>
+            return <View style={styles.container}><NoContentView icon="cloud-download" loading title={Strings.evaluation_loading}></NoContentView></View>
         } else if (!evaluation || evaluation.length === 0) {
-            return <NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title={Strings.evaluation_loading_empty}></NoContentView>
+            return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={this.onRetryHandler.bind(this)} title={Strings.evaluation_loading_empty}></NoContentView></View>
         } else {
             let max = 0;
             evaluation.forEach(e => {

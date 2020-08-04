@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 8,
     maxWidth: 600,
-    alignSelf: 'center',
-    backgroundColor: ColorTheme.current.background
+    alignSelf: 'center'
   },
   textStyle: {
     marginVertical: 8,

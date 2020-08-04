@@ -82,11 +82,11 @@ const FormScreen = props => {
     const { isLoaded, error, errorCode, questions } = questionState;
     console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
     if (error) {
-        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error+ " (Fehlercode: " + errorCode + ")"}></NoContentView>
+        return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error+ " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
     } else if (!isLoaded) {
-        return <NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView>
+        return <View style={styles.container}><NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView></View>
     } else if (questions.length === 0) {
-        return <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView>
+        return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView></View>
     } else {
         props.navigation.setOptions({
             headerRight: () => (
