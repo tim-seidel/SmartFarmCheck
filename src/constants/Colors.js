@@ -1,3 +1,5 @@
+import { Appearance } from "react-native-appearance"
+
 const defaultPrimary = "#B50900"
 const defaultSecondary = "#7e0000"
 
@@ -38,5 +40,5 @@ export const darkTheme = {
 }
 
 export const ColorTheme  ={
-  current : lightTheme
+  current :  Appearance.getColorScheme() === 'dark' ? darkTheme : lightTheme
 }
