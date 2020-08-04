@@ -3,7 +3,7 @@ import { StyleSheet, View} from 'react-native';
 import IconButton from '../components/IconButton';
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
-import Colors from '../constants/Colors';
+import {ColorTheme} from'../constants/Colors';
 
 import moment from 'moment'
 
@@ -46,7 +46,7 @@ function formatDate(start, end){
 
 const styles = StyleSheet.create({
     event: {
-        backgroundColor: Colors.white,
+        backgroundColor: ColorTheme.current.componentBackground,
         flex: 1,
         marginVertical: 12,
         padding: 8,

@@ -5,7 +5,7 @@ import { SplashScreen } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Colors from './src/constants/Colors';
+import {ColorTheme} from './src/constants/Colors';
 
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import MeasureDetailScreen from "./src/screens/MeasureDetailScreen";
@@ -21,7 +21,7 @@ import FeedbackScreen from './src/screens/FeedbackScreen';
 const Stack = createStackNavigator();
 
 export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [isLoadingComplete, setLoadingComplete] = React.useState(false)
 
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
@@ -44,14 +44,14 @@ export default function App(props) {
   } else {
     return (
       <View style={styles.container}>
-        {<StatusBar backgroundColor={Colors.secondary} barStyle="default" />}
+        {<StatusBar backgroundColor={ColorTheme.current.secondary} barStyle="default" />}
         <NavigationContainer>
           <Stack.Navigator >
             <Stack.Screen
               options={{
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="Root"
@@ -60,9 +60,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Maßnahmeninformation",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="MeasureDetail"
@@ -70,9 +70,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Angaben zum Betrieb",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="Form"
@@ -80,9 +80,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Maßnahmeninformation",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="EvaluationDetail"
@@ -92,7 +92,7 @@ export default function App(props) {
                 title: "Maßnahmenbewertung",
                 headerTintColor: "#fff",
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="Evaluation"
@@ -100,9 +100,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Über diese App",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="About"
@@ -110,9 +110,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Impressum",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="Imprint"
@@ -120,9 +120,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Datenschutz",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="Privacy"
@@ -130,9 +130,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Eventdetails",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="EventDetail"
@@ -140,9 +140,9 @@ export default function App(props) {
             <Stack.Screen
               options={{
                 title: "Feedback geben",
-                headerTintColor: "#fff",
+                headerTintColor: ColorTheme.current.textPrimaryContrast,
                 headerStyle: {
-                  backgroundColor: Colors.primary
+                  backgroundColor: ColorTheme.current.primary
                 }
               }}
               name="Feedback"

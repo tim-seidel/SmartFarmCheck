@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Colors from '../constants/Colors';
+import {ColorTheme} from'../constants/Colors';
 import { StringValidator, NumberValidatior, SelectValidator } from "../model/Validation"
 import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text';
@@ -184,7 +184,7 @@ const QuestionView = props => {
                     {question.description && (<Icon style={styles.infoIcon} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
                 </View>
                 <View style={styles.errorRow}>
-                    <Icon name={validityToIcon(inputState.validity)} size={24}></Icon>
+                    <Icon name={validityToIcon(inputState.validity)} size={24} color={ColorTheme.current.textPrimary}></Icon>
                     <View style={styles.errorTextWrapper}>
                     <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'}>{inputState.errorMessage}</ContentText>
                     </View>
@@ -212,11 +212,10 @@ function validityToIcon(validity) {
 const NumberInput = (props) => {
     return (
         <View style={styles.numberRow}>
-            <TextInput value={props.input} onChangeText={props.numberChanged} keyboardType="numeric" style={styles.input} placeholder="Hier eingeben..."></TextInput>
+            <TextInput value={props.input} placeholderTextColor={ColorTheme.current.textSecondary} onChangeText={props.numberChanged} keyboardType="numeric" style={styles.input} placeholder="Hier eingeben..."></TextInput>
           {props.unit && <View style={styles.unitTextWrapper}>
                 <ContentText>in [{props.unit}]</ContentText>
            </View>}
-          
         </View>
     )
 }
@@ -233,16 +232,16 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
         marginTop: 16,
         marginBottom: 32,
-        borderColor: "black"
     },
     questionNumber: {
         fontSize: 22,
         textAlign: "center",
         textAlignVertical: "center",
-        aspectRatio: 1
+        aspectRatio: 1,
+        color: ColorTheme.current.textPrimary
     },
     numberWrapper: {
-        borderColor: "black",
+        borderColor: ColorTheme.current.textPrimary,
         borderWidth: 1,
         borderRadius: 24,
         padding: 2,
@@ -258,6 +257,7 @@ const styles = StyleSheet.create({
     },
     infoIcon: {
         marginTop: 4,
+        color: ColorTheme.current.textPrimary
     },
     errorRow: {
         marginVertical: 4,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 4,
         borderRadius: Layout.borderRadius,
         borderWidth: 1,
-        borderColor: Colors.grey,
+        borderColor: ColorTheme.current.grey,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -287,9 +287,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 10,
         borderRadius: Layout.borderRadius,
+        color: ColorTheme.current.textPrimary,
         borderWidth: 1,
         fontSize: 17,
-        borderColor: Colors.grey
+        borderColor: ColorTheme.current.grey
     },
     buttonRow: {
         flexDirection: "row",
@@ -306,7 +307,7 @@ const styles = StyleSheet.create({
         marginEnd: 4
     },
     eventButton: {
-        backgroundColor: Colors.primary,
+        backgroundColor: ColorTheme.current.primary,
         justifyContent: "center"
     }
 });

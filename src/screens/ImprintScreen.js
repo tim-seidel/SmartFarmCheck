@@ -2,12 +2,13 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { ContentText } from '../components/Text'
 import { ScrollView } from 'react-native-gesture-handler'
+import {ColorTheme} from'../constants/Colors'
 
 const ImprintScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <ScrollView>
+            <ScrollView style={styles.scrollView}>
                 <ContentText>Hochschule Osnabrück</ContentText>
                 <ContentText>Albrechtstraße 30</ContentText>
                 <ContentText>49076 Osnabrück</ContentText>
@@ -35,7 +36,11 @@ const ImprintScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 8
+        backgroundColor: ColorTheme.current.background
+    },
+    scrollView: {
+        marginHorizontal: 8,
+        marginTop: 8
     }
 })
 

@@ -3,7 +3,7 @@ import { Text, StyleSheet, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
-import Colors from '../constants/Colors';
+import {ColorTheme} from'../constants/Colors';
 import { ContentText } from './Text';
 
 /**
@@ -21,15 +21,15 @@ export default class IconButton extends Component {
                 style={type === 'outline' ? styles.buttonOutlined : styles.button}
                 name={icon}
                 size={24}
-                color={type === 'solid' ? Colors.white : Colors.primary}
-                backgroundColor={type === 'solid' ? Colors.primary : Colors.transparent}
-                underlayColor={Colors.lightgrey}
+                color={type === 'solid' ? ColorTheme.current.textPrimaryContrast : ColorTheme.current.primary}
+                backgroundColor={type === 'solid' ? ColorTheme.current.primary : ColorTheme.current.transparent}
+                underlayColor={ColorTheme.current.grey}
                 onPress={this.props.onPress}>
                 <ContentText
                     numberOfLines={1}
                     lineBreakMode="tail"
                     ellipsizeMode="tail"
-                    style={{ color: type === 'solid' ? Colors.white : Colors.primary }}>
+                    style={{ color: type === 'solid' ? ColorTheme.current.textPrimaryContrast : ColorTheme.current.primary }}>
                     {text}
                 </ContentText>
             </Icon.Button>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     buttonOutlined: {
-        borderColor: Colors.primary,
+        borderColor: ColorTheme.current.primary,
         borderWidth: 1.5,
         justifyContent: "center"
     }

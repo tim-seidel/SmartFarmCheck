@@ -8,6 +8,7 @@ import EvaluationListItemView from '../components/EvaluationListItemView';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
+import {ColorTheme} from'../constants/Colors';
 
 class EvaluationScreen extends React.Component {
 
@@ -88,10 +89,11 @@ class EvaluationScreen extends React.Component {
             return (
                 <View style={styles.container} >
                     <FlatList
+                        style={styles.list}
                         data={evaluation}
                         ListHeaderComponent={
                             <View>
-                                <InformationCard style={styles.explanationCard}>
+                                <InformationCard>
                                     <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
                                     <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
                                     <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
@@ -120,10 +122,10 @@ class EvaluationScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 8
+        backgroundColor: ColorTheme.current.background
     },
-    explanationCard: {
-        marginTop: 8
+    list: {
+        margin: 8
     },
     heading: {
         marginStart: 2,

@@ -2,9 +2,8 @@ import React from 'react';
 import { Image, StyleSheet, View, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import IconButton from '../components/IconButton';
-import Colors from '../constants/Colors';
+import {ColorTheme} from '../constants/Colors';
 import Layout from '../constants/Layout';
-import InformationCard from '../components/InformationCard';
 import { HeadingText } from '../components/Text';
 
 const Sponsor = props => {
@@ -45,7 +44,8 @@ export default function AboutScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: ColorTheme.current.background
   },
   title: {
     marginTop: 8,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginVertical: 8,
     alignSelf: 'center',
-    backgroundColor: Colors.white,
+    backgroundColor: ColorTheme.current.background,
     borderRadius: Layout.borderRadius,
     borderColor: Layout.borderColor,
     borderWidth: Layout.borderWidth,

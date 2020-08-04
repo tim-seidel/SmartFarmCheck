@@ -1,11 +1,12 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import EventScreen from '../screens/EventScreen';
 import MeasureScreen from '../screens/MeasureScreen';
 import ContactScreen from "../screens/ContactScreen"
-import Colors from '../constants/Colors';
+import {ColorTheme} from'../constants/Colors';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -14,7 +15,7 @@ const TabBarIcon = (props) => {
     <Icon
       name={props.name}
       size={24}
-      color={props.focused ? Colors.primary : Colors.grey}
+      color={props.focused ? ColorTheme.current.primary : ColorTheme.current.textSecondary}
     />
   );
 }
@@ -26,10 +27,10 @@ export default function BottomTabNavigator({ navigation, route }) {
       initialRouteName="Events"
       tabBarOptions={{
         style:{
-          backgroundColor: Colors.white
+          backgroundColor: ColorTheme.current.componentBackground
         },
-        inactiveTintColor: Colors.grey,
-        activeTintColor: Colors.secondary,
+        inactiveTintColor: ColorTheme.current.grey,
+        activeTintColor: ColorTheme.current.secondary,
       }}>
       <BottomTab.Screen
         name="Measures"

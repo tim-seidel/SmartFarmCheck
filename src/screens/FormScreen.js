@@ -6,13 +6,13 @@ import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import NoContentView from "../components/NoContentView";
 import QuestionView from "../components/QuestionView";
 import IconButton from '../components/IconButton';
-import Colors from '../constants/Colors';
+import {ColorTheme} from'../constants/Colors';
 import Strings from '../constants/Strings';
 import { ContentText } from '../components/Text';
 import Layout from '../constants/Layout';
 
 const SFCHeaderButton = props => (
-    <HeaderButton {...props} IconComponent={Icon} iconSize={24} color={Colors.white} />
+    <HeaderButton {...props} IconComponent={Icon} iconSize={24} color={ColorTheme.current.textPrimaryContrast} />
 )
 
 //TODO: Evaluate functional vs. class component
@@ -124,31 +124,31 @@ const FormScreen = props => {
                                 <Icon
                                     name="chevron-left"
                                     size={24}
-                                    color={Colors.white}>
+                                    color={ColorTheme.current.textPrimaryContrast}>
                                 </Icon>
                                 <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ color: Colors.white }}>
+                                    style={{ color: ColorTheme.current.textPrimaryContrast }}>
                                     {Strings.form_paging_backwards}
                                     </ContentText>
                             </View>
                         </TouchableOpacity>
-                        <View style={styles.pageInfo}><ContentText  style={{ color: Colors.white }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
+                        <View style={styles.pageInfo}><ContentText  style={{ color: ColorTheme.current.textPrimaryContrast }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
                         <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={canNavigateNext ? styles.pagingButton : styles.pagingButtonDisabled}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
                                 <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ color: Colors.white }}>
+                                    style={{ color: ColorTheme.current.textPrimaryContrast }}>
                                     {Strings.form_paging_forwards}
                                     </ContentText>
                                 <Icon
                                     name="chevron-right"
                                     size={24}
-                                    color={Colors.white}>
+                                    color={ColorTheme.current.textPrimaryContrast}>
                                 </Icon>
                             </View>
                         </TouchableOpacity>
@@ -237,7 +237,8 @@ const FormScreen = props => {
 
 styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: ColorTheme.current.background
     },
     listContainer: {
         flex: 1,
@@ -261,19 +262,19 @@ styles = StyleSheet.create({
         borderTopRightRadius: 6
     },
     pagingButton: {
-        backgroundColor: Colors.primary,
+        backgroundColor: ColorTheme.current.primary,
         borderRadius: Layout.borderRadius,
         padding: 8,
         flex: 1
     },
     pagingButtonDisabled: {
-        backgroundColor: Colors.grey,
+        backgroundColor: ColorTheme.current.grey,
         borderRadius: Layout.borderRadius,
         padding: 8,
         flex: 1
     },
     pageInfo: {
-        backgroundColor: Colors.primary,
+        backgroundColor: ColorTheme.current.primary,
         borderRadius: Layout.borderRadius,
         paddingVertical: 8,
         paddingHorizontal: 16,

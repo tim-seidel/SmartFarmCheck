@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
+import {ColorTheme} from'../constants/Colors'
 
 const FeedbackScreen = (props) => {
 
@@ -12,7 +13,7 @@ const FeedbackScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 8
+        backgroundColor: ColorTheme.current.background
     }
 })
 

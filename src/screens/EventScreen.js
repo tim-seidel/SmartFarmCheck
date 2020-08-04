@@ -9,7 +9,7 @@ import EventListItemView from '../components/EventViewListItem';
 import InformationCard, { InformationText } from '../components/InformationCard';
 import { HeadingText } from '../components/Text';
 import events from '../model/Events';
-import Colors from '../constants/Colors';
+import {ColorTheme} from'../constants/Colors';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 
@@ -343,7 +343,7 @@ const EventScreen = (props) => {
     const defaultCalendarSource = await getDefaultCalendarSource()
     return Calendar.createCalendarAsync({
       title: Strings.event_calendar,
-      color: Colors.primary,
+      color: ColorTheme.current.primary,
       entityType: Calendar.EntityTypes.EVENT,
       sourceId: defaultCalendarSource.id,
       source: defaultCalendarSource,
@@ -358,6 +358,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 8,
+    backgroundColor: ColorTheme.current.background
   },
   heading: {
     marginTop: 16,
@@ -366,7 +367,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 24,
     padding: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: ColorTheme.current.background,
     alignSelf: 'center',
     justifyContent: 'center',
     elevation: 5

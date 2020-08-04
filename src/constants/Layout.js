@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import Colors from './Colors';
+import {ColorTheme} from'./Colors';
 
 
 export default {

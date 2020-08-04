@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Linking, Platform, Dimensions} from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Linking, Platform, Dimensions } from 'react-native'
 
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { ScrollView } from 'react-native-gesture-handler';
+import { ColorTheme } from '../constants/Colors';
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
@@ -51,7 +52,6 @@ const ContactScreen = (props) => {
     const contentFeedback = <ActionButton icon="file-document-outline" text="Zum Feedback" onPress={contactFeedbackHandler} />
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
-
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
                 <InformationCard title="Informationen zur App" style={cardStyle} contentView={contentAboutApp}>
@@ -70,16 +70,19 @@ const ContactScreen = (props) => {
                 </InformationCard>
             </View>
         </ScrollView>
-
     )
 }
 
 const styles = StyleSheet.create({
+    scrollView:{
+        flex: 1,
+        backgroundColor: ColorTheme.current.background
+    },
     container: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        flex: 1,
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+
     },
     contactCardSingle: {
         marginVertical: 8,
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
     action: {
         marginHorizontal: 8,
         justifyContent: 'flex-end',
-         flex: 1
+        flex: 1
     },
     buttonRow: {
         flexDirection: 'row',

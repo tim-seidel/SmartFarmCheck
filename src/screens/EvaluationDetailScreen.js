@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import NoContentView from '../components/NoContentView';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
+import {ColorTheme} from'../constants/Colors';
 
 const EvaluationDetailScreen = (props) => {
 
@@ -85,7 +86,7 @@ const EvaluationDetailScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fafafa',
+        backgroundColor: ColorTheme.current.background,
     }
 });
 

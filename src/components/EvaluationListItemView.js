@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, useColorScheme, } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { HeadingText, ContentText } from './Text';
-import Colors from '../constants/Colors';
+import {ColorTheme} from'../constants/Colors';
 import Layout from '../constants/Layout';
 
 const zeroPad = (value, places) => String(value).padStart(places, ' ')
@@ -11,7 +11,7 @@ const zeroPad = (value, places) => String(value).padStart(places, ' ')
 function EvaluationListItemView(props) {
     return (
         <View style={styles.outerWrapper}>
-        <TouchableHighlight underlayColor={Colors.lightgrey} onPress={props.measureSelected}>
+        <TouchableHighlight underlayColor={ColorTheme.current.lightgrey} onPress={props.measureSelected}>
             <View style={styles.innerWrapper}>
                 <Text style={styles.rating}>{zeroPad(props.rating, 2)}%</Text>
                 <View style={styles.divider}></View>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         borderRadius: Layout.borderRadius, 
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
-        backgroundColor: Colors.white,
+        backgroundColor: ColorTheme.current.componentBackground,
         overflow: "hidden"
         
     },
@@ -56,14 +56,15 @@ const styles = StyleSheet.create({
         height: "100%",
         marginStart: 4,
         marginEnd: 8,
-        backgroundColor: Colors.black,
+        backgroundColor: ColorTheme.current.textPrimary,
     },
     measureContent: {
         flexDirection: "column",
         flex: 1
     },
     detailIcon: {
-        alignSelf: "center"
+        alignSelf: "center",
+        color: ColorTheme.current.textPrimary
     }
 });
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
+import {ColorTheme} from'../constants/Colors';
 
 export default function MeasureScreen({ route, navigation }) {
   const measure = route.params
@@ -33,7 +34,7 @@ export default function MeasureScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fafafa',
+    backgroundColor: ColorTheme.current.background
   }
 });
 

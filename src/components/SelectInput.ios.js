@@ -3,7 +3,7 @@ import { StyleSheet, ActionSheetIOS, TouchableOpacity, View } from 'react-native
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ContentText } from './Text'
-import Colors from "../constants/Colors"
+import {ColorTheme} from"../constants/Colors"
 import Layout from '../constants/Layout'
 
 const picker_placeholder = "[Keine Auswahl]"
@@ -31,7 +31,7 @@ const SelectInput = (props) => {
     return (
         <View style={styles.pickerRow}>
             <TouchableOpacity style={styles.pickerTouchWrapper} onPress={showIosPickerHandler}>
-                <ContentText style={{ color: props.input ? Colors.textPrimary : Colors.lightgrey }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
+                <ContentText style={{ color: props.input ? ColorTheme.current.textPrimary : ColorTheme.current.textSecondary }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
             </TouchableOpacity>
             {!!props.input && <Icon style={styles.clearIcon} name={'close'} onPress={clearPickerHandler} size={20}></Icon>}
         </View>
@@ -46,16 +46,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: 8,
         paddingVertical: 10,
-        borderColor: Colors.grey
+        borderColor: ColorTheme.current.grey
     },
     pickerTouchWrapper: {
         flex: 1
     },
     pickerHint: {
-        color: Colors.grey
+        color: ColorTheme.current.textSecondary
     },
     clearIcon: {
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
+        color: ColorTheme.current.textSecondary
     }
 
 });

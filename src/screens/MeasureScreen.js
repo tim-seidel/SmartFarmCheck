@@ -7,7 +7,7 @@ import MeasureListItemView from '../components/MeasureListItemView';
 import IconButton from '../components/IconButton';
 import InformationCard, { InformationText } from "../components//InformationCard";
 
-import Colors from '../constants/Colors';
+import { ColorTheme } from '../constants/Colors';
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
 
@@ -25,7 +25,7 @@ const MeasureScreen = props => {
   useEffect(() => {
     const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape');
 
-    const checkTablet = async () =>{
+    const checkTablet = async () => {
       const type = Device.getDeviceTypeAsync()
       setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
     }
@@ -124,6 +124,7 @@ const MeasureScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: ColorTheme.current.background
   },
   informationCard: {
     marginTop: 8,
@@ -139,16 +140,14 @@ const styles = StyleSheet.create({
   },
   measureColumn: {
     flex: 1,
-    marginHorizontal: 4,
-    marginVertical: 4
+    margin: 4
   },
   calculateButtonWrapper: {
     margin: 8
   },
   calculateButton: {
-    justifyContent: "center",
-    backgroundColor: Colors.primary
-  },
+    justifyContent: "center"
+  }
 }
 );
 

@@ -24,6 +24,7 @@
     "expo-av": "~8.2.1",
     "expo-calendar": "~8.2.1",
     "expo-constants": "~9.1.1",
+    "expo-device": "~2.2.1",
     "expo-font": "~8.2.1",
     "expo-web-browser": "~8.3.1",
     "moment": "^2.27.0",
@@ -39,9 +40,10 @@
     "react-native-web": "~0.11.7",
     "react-native-webview": "9.4.0",
     "react-navigation-header-buttons": "^3.0.5",
+    "react-navigation-stack": "^2.8.2",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "expo-device": "~2.2.1"
+    "react-native-appearance": "~0.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

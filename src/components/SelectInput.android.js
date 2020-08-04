@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Picker, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Colors from '../constants/Colors'
+import {ColorTheme} from'../constants/Colors'
 import Layout from '../constants/Layout'
 
 const picker_placeholder = "[Keine Auswahl]"
@@ -18,7 +18,7 @@ const SelectInput = (props) => {
 
     return (
         <View style={styles.pickerContainer}>
-            <Picker style={{ flex: 1, color: props.input ? Colors.textPrimary : Colors.lightgrey }} selectedValue={props.input} onValueChange={props.selectionChanged}>
+            <Picker style={{ flex: 1, color: props.input ? ColorTheme.current.textPrimary : ColorTheme.current.lightgrey }} selectedValue={props.input} onValueChange={props.selectionChanged}>
                 <Picker.Item value="" label={props.placeholder ?? picker_placeholder} key="defaultOption"></Picker.Item>
                 {items}
             </Picker>
@@ -33,14 +33,15 @@ const styles = StyleSheet.create({
         marginTop: 4,
         borderRadius: Layout.borderRadius,
         borderWidth: 1,
-        borderColor: Colors.grey
+        borderColor: ColorTheme.current.grey
     },
     clearIcon: {
         paddingHorizontal: 8,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color: ColorTheme.current.textPrimary
     },
     pickerHint: {
-        color: Colors.grey,
+        color: ColorTheme.current.textSecondary,
     },
 });
 

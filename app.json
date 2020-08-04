@@ -16,6 +16,7 @@
       "backgroundColor": "#ffffff"
     },
     "primaryColor": "#B50900",
+    "userInterfaceStyle": "automatic",
     "updates": {
       "enabled": false
     },

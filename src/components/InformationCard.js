@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import Colors from '../constants/Colors'
+import {ColorTheme} from'../constants/Colors'
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
 
@@ -40,24 +40,24 @@ const InformationCard = (props) => {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: Colors.white,
+        backgroundColor: ColorTheme.current.componentBackground,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
+        overflow: 'hidden',
         paddingBottom: 8
     },
     titleWrapper: {
-        backgroundColor: Colors.primary,
+        backgroundColor: ColorTheme.current.primary,
         minHeight: 16,
     },
     titleText: {
-        color: Colors.white,
+        color: ColorTheme.current.textPrimaryContrast,
         paddingHorizontal: 8,
         paddingVertical: 4
     },
     textWrapper: {
-        margin: 8,
-     
+        margin: 8
     },
     text: {
         textAlign: 'center'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, Platform} from 'react-native'
-import Colors from '../constants/Colors'
+import {ColorTheme} from'../constants/Colors'
 
 /**
  * This file contains the default text formats for the application.
@@ -17,9 +17,9 @@ const text_size_content_large = 17
 
 const text_weight_heading =  Platform.OS === 'ios' ? '500' : '900'
 
-const text_color = Colors.textPrimary
-const text_color_light = Colors.textSecondary
-const text_color_error = Colors.error
+const text_color = ColorTheme.current.textPrimary
+const text_color_light = ColorTheme.current.textSecondary
+const text_color_error = ColorTheme.current.error
 
 //Components
 
