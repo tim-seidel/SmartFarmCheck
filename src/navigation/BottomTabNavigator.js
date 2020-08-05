@@ -20,7 +20,7 @@ const TabBarIcon = (props) => {
     <Icon
       name={props.name}
       size={24}
-      color={props.focused ? colorTheme.primary : colorTheme.textSecondary}
+      color={props.focused ? colorTheme.primary : ConstantColors.grey}
     />
   );
 }
@@ -43,7 +43,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         style:{
           backgroundColor: colorTheme.componentBackground
         },
-        inactiveTintColor: ConstantColors.lightgrey,
+        inactiveTintColor: ConstantColors.grey,
         activeTintColor: colorTheme.secondary,
       }}>
       <BottomTab.Screen
