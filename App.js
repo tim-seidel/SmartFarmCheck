@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Appearance } from 'react-native-appearance';
 
-import {lightTheme, darkTheme } from './src/constants/Colors';
+import { lightTheme, darkTheme } from './src/constants/Colors';
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import MeasureDetailScreen from "./src/screens/MeasureDetailScreen";
 import AboutScreen from "./src/screens/AboutScreen";
@@ -47,14 +47,25 @@ export default function App(props) {
   }
 
   const reducer = (state, action) => {
+    console.log("reducer", action)
     switch (action.type) {
-      case 'changeTheme':
+      case 'toggleTheme':
         const newScheme = state.scheme === 'dark' ? 'light' : 'dark'
         return {
           ...state,
           scheme: newScheme,
           colorTheme: newScheme === 'dark' ? darkTheme : lightTheme
         }
+      case 'setTheme': {
+        const newScheme = action.scheme === 'dark' ? 'light' : 'dark'
+        return {
+          ...state,
+          scheme: newScheme,
+          colorTheme: newScheme === 'dark' ? darkTheme : lightTheme
+        }
+      }
+      default:
+        return state
     }
   }
 
@@ -66,7 +77,7 @@ export default function App(props) {
   } else {
     return (
       <StateProvider initialState={initialState} reducer={reducer}>
-        <View style={{...styles.container, backgroundColor: colorTheme.background}}>
+        <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
           {<StatusBar backgroundColor={colorTheme.secondary} barStyle="default" />}
           <NavigationContainer>
             <Stack.Navigator >
