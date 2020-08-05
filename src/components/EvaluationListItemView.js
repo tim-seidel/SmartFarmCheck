@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
+import { useStateValue } from '../StateProvider';
 
 const zeroPad = (value, places) => String(value).padStart(places, ' ')
 

@@ -177,7 +177,7 @@ const QuestionView = props => {
 
     return (
         <View style={styles.question}>
-            <View style={{...styles.numberWrapper, borderColor: textPrimary}}>
+            <View style={{...styles.numberWrapper, borderColor: colorTheme.textPrimary}}>
                 <Text style={{...styles.questionNumber, color: colorTheme.textPrimary}}>{props.index}</Text>
             </View>
             <View style={styles.questionInputColumn}>
@@ -225,6 +225,8 @@ const NumberInput = (props) => {
 }
 
 const StringInput = (props) => {
+    const [{colorTheme}] = useStateValue()
+
     return (
         <TextInput style={{...styles.input, color: colorTheme.textPrimary}} placeholder="Hier eingeben..."></TextInput>
     )
