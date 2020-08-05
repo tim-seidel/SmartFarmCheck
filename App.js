@@ -4,9 +4,9 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 import { SplashScreen } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Appearance } from 'react-native-appearance';
 
-import {ColorTheme} from './src/constants/Colors';
-
+import {lightTheme, darkTheme } from './src/constants/Colors';
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import MeasureDetailScreen from "./src/screens/MeasureDetailScreen";
 import AboutScreen from "./src/screens/AboutScreen";
@@ -17,6 +17,7 @@ import EvaluationScreen from './src/screens/EvaluationScreen';
 import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
 import EventDetailScreen from './src/screens/EventDetailScreen';
 import FeedbackScreen from './src/screens/FeedbackScreen';
+import { StateProvider, useStateValue } from './src/StateProvider';
 
 const Stack = createStackNavigator();
 
@@ -39,124 +40,146 @@ export default function App(props) {
     loadResourcesAndDataAsync();
   }, []);
 
+  const scheme = Appearance.getColorScheme()
+  const initialState = {
+    scheme: scheme,
+    colorTheme: scheme === 'dark' ? darkTheme : lightTheme
+  }
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'changeTheme':
+        const newScheme = state.scheme === 'dark' ? 'light' : 'dark'
+        return {
+          ...state,
+          scheme: newScheme,
+          colorTheme: newScheme === 'dark' ? darkTheme : lightTheme
+        }
+    }
+  }
+
+  const state = useStateValue()
+  const colorTheme = state !== undefined ? state.colorTheme : initialState.colorTheme
+
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null; /* Handled by splash screen. */
   } else {
     return (
-      <View style={styles.container}>
-        {<StatusBar backgroundColor={ColorTheme.current.secondary} barStyle="default" />}
-        <NavigationContainer>
-          <Stack.Navigator >
-            <Stack.Screen
-              options={{
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="Root"
-              component={BottomTabNavigator}
-            />
-            <Stack.Screen
-              options={{
-                title: "Maßnahmeninformation",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="MeasureDetail"
-              component={MeasureDetailScreen} />
-            <Stack.Screen
-              options={{
-                title: "Angaben zum Betrieb",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="Form"
-              component={FormScreen} />
-            <Stack.Screen
-              options={{
-                title: "Maßnahmeninformation",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="EvaluationDetail"
-              component={EvaluationDetailScreen} />
-            <Stack.Screen
-              options={{
-                title: "Maßnahmenbewertung",
-                headerTintColor: "#fff",
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="Evaluation"
-              component={EvaluationScreen} />
-            <Stack.Screen
-              options={{
-                title: "Über diese App",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="About"
-              component={AboutScreen} />
-            <Stack.Screen
-              options={{
-                title: "Impressum",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="Imprint"
-              component={ImprintScreen} />
-            <Stack.Screen
-              options={{
-                title: "Datenschutz",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="Privacy"
-              component={PrivacyScreen} />
-            <Stack.Screen
-              options={{
-                title: "Eventdetails",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="EventDetail"
-              component={EventDetailScreen} />
-            <Stack.Screen
-              options={{
-                title: "Feedback geben",
-                headerTintColor: ColorTheme.current.textPrimaryContrast,
-                headerStyle: {
-                  backgroundColor: ColorTheme.current.primary
-                }
-              }}
-              name="Feedback"
-              component={FeedbackScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View >
+      <StateProvider initialState={initialState} reducer={reducer}>
+        <View style={{...styles.container, backgroundColor: colorTheme.background}}>
+          {<StatusBar backgroundColor={colorTheme.secondary} barStyle="default" />}
+          <NavigationContainer>
+            <Stack.Navigator >
+              <Stack.Screen
+                options={{
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Root"
+                component={BottomTabNavigator}
+              />
+              <Stack.Screen
+                options={{
+                  title: "Maßnahmeninformation",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="MeasureDetail"
+                component={MeasureDetailScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Angaben zum Betrieb",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Form"
+                component={FormScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Maßnahmeninformation",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="EvaluationDetail"
+                component={EvaluationDetailScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Maßnahmenbewertung",
+                  headerTintColor: "#fff",
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Evaluation"
+                component={EvaluationScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Über diese App",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="About"
+                component={AboutScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Impressum",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Imprint"
+                component={ImprintScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Datenschutz",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Privacy"
+                component={PrivacyScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Eventdetails",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="EventDetail"
+                component={EventDetailScreen} />
+              <Stack.Screen
+                options={{
+                  title: "Feedback geben",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Feedback"
+                component={FeedbackScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View >
+      </StateProvider>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: ColorTheme.current.background
+    flex: 1
   },
 });

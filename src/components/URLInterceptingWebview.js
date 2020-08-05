@@ -1,7 +1,6 @@
 import React from 'react';
 import { Linking, StyleSheet } from 'react-native';
 import { WebView } from "react-native-webview"
-import {ColorTheme} from'../constants/Colors';
 
 export default function URLInterceptingWebview(props) {
     const webview = React.useRef(null)
@@ -15,7 +14,12 @@ export default function URLInterceptingWebview(props) {
     }
 
     return (
-        <WebView ref={webview} onNavigationStateChange={navigationStateChangeHandler} style={styles.webview} {...props}>
-        </WebView>
+        <WebView ref={webview} onNavigationStateChange={navigationStateChangeHandler} style={styles.webview} {...props}/>
     );
 }
+
+const styles = StyleSheet.create({
+    webview: {
+    },
+  }
+  );

@@ -6,31 +6,36 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EventScreen from '../screens/EventScreen';
 import MeasureScreen from '../screens/MeasureScreen';
 import ContactScreen from "../screens/ContactScreen"
-import {ColorTheme} from'../constants/Colors';
+import { useStateValue } from '../StateProvider';
+import { ConstantColors } from '../constants/Colors';
 
 const BottomTab = createBottomTabNavigator();
 
 const TabBarIcon = (props) => {
+  const [{colorTheme}] = useStateValue()
+   
   return (
     <Icon
       name={props.name}
       size={24}
-      color={props.focused ? ColorTheme.current.primary : ColorTheme.current.textSecondary}
+      color={props.focused ? colorTheme.primary : colorTheme.textSecondary}
     />
   );
 }
 
 export default function BottomTabNavigator({ navigation, route }) {
+  const [{colorTheme}] = useStateValue()
+  
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
   return (
     <BottomTab.Navigator
       initialRouteName="Events"
       tabBarOptions={{
         style:{
-          backgroundColor: ColorTheme.current.componentBackground
+          backgroundColor: colorTheme.componentBackground
         },
-        inactiveTintColor: ColorTheme.current.grey,
-        activeTintColor: ColorTheme.current.secondary,
+        inactiveTintColor: ConstantColors.grey,
+        activeTintColor: colorTheme.secondary,
       }}>
       <BottomTab.Screen
         name="Measures"

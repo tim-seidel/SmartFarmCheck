@@ -3,12 +3,14 @@ import { StyleSheet, ActionSheetIOS, TouchableOpacity, View } from 'react-native
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ContentText } from './Text'
-import {ColorTheme} from"../constants/Colors"
 import Layout from '../constants/Layout'
+import { useStateValue } from '../StateProvider';
+import { ConstantColors } from '../constants/Colors';
 
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
+    const [{colorTheme}] = useStateValue()
 
     function showIosPickerHandler() {
         const pickerOptions = [picker_placeholder, ...props.options ?? []]
@@ -31,9 +33,9 @@ const SelectInput = (props) => {
     return (
         <View style={styles.pickerRow}>
             <TouchableOpacity style={styles.pickerTouchWrapper} onPress={showIosPickerHandler}>
-                <ContentText style={{ color: props.input ? ColorTheme.current.textPrimary : ColorTheme.current.textSecondary }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
+                <ContentText style={{ color: props.input ? colorTheme.textPrimary : colorTheme.textSecondary }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
             </TouchableOpacity>
-            {!!props.input && <Icon style={styles.clearIcon} name={'close'} onPress={clearPickerHandler} size={20}></Icon>}
+            {!!props.input && <Icon style={{...styles.clearIcon, color: colorTheme.textPrimary}} name={'close'} onPress={clearPickerHandler} size={20}></Icon>}
         </View>
     )
 }
@@ -46,17 +48,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: 8,
         paddingVertical: 10,
-        borderColor: ColorTheme.current.grey
+        borderColor: ConstantColors.grey
     },
     pickerTouchWrapper: {
         flex: 1
     },
-    pickerHint: {
-        color: ColorTheme.current.textSecondary
-    },
     clearIcon: {
-        paddingHorizontal: 8,
-        color: ColorTheme.current.textSecondary
+        paddingHorizontal: 8
     }
 
 });

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, Platform} from 'react-native'
-import {ColorTheme} from'../constants/Colors'
+import { useStateValue } from '../StateProvider'
 
 /**
  * This file contains the default text formats for the application.
@@ -17,26 +17,33 @@ const text_size_content_large = 17
 
 const text_weight_heading =  Platform.OS === 'ios' ? '500' : '900'
 
-const text_color = ColorTheme.current.textPrimary
-const text_color_light = ColorTheme.current.textSecondary
-const text_color_error = ColorTheme.current.error
+/*
+const colors = {
+    text : colorTheme.textPrimary,
+    text_light : colorTheme.textSecondary,
+    text_error : colorTheme.error
+}
+*/
 
 //Components
-
 export const HeadingText = (props) => {
+    const [{colorTheme}] = useStateValue()
+
     return (
             <Text {...props} style={[{
                 fontWeight: props.weight ?? text_weight_heading,
                 fontSize: props.large ? text_size_heading_large : text_size_heading,
-                color: text_color
+                color: colorTheme.textPrimary
             }, props.style]}>{props.children}</Text>
     )
 }
 
 export const ContentText = (props) => {
+    const [{colorTheme}] = useStateValue()
+
     return (
             <Text {...props} style={[{
-                color: props.error ? text_color_error : props.light ? text_color_light : text_color,
+                color: props.error ? colorTheme.error : props.light ? colorTheme.textSecondary : colorTheme.textPrimary,
                 fontSize: props.large ? text_size_content_large : props.small ? text_size_content_small : text_size_content
             }, props.style]}>{props.children}</Text>
     )

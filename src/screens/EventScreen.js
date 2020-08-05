@@ -3,21 +3,23 @@ import { StyleSheet, View, Linking, Platform, Alert, AsyncStorage, Modal, Picker
 import { FlatList } from 'react-native-gesture-handler';
 import * as Calendar from 'expo-calendar'
 import moment from 'moment'
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 
 import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItem';
 import InformationCard, { InformationText } from '../components/InformationCard';
 import { HeadingText } from '../components/Text';
 import events from '../model/Events';
-import {ColorTheme} from'../constants/Colors';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
+import { useStateValue } from '../StateProvider';
 
 const key_default_calendar_id = 'sfc_default_calendar_id'
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
 const eventMock = events
 const EventScreen = (props) => {
+  const [{ colorTheme }, dispatch] = useStateValue()
 
   const [eventState, setEventState] = useState({ isLoaded: false, error: null, errorCode: 0, events: [] })
   const [calendarOptions, setCalendarOptions] = useState([])
@@ -104,17 +106,23 @@ const EventScreen = (props) => {
     return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
   });
 
+  function darkModelHandler() {
+    dispatch({
+      type: 'changeTheme'
+    })
+  }
+
   if (error) {
-    eventContent = <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
+    eventContent = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
   } else if (!isLoaded) {
-    eventContent = <View style={styles.container}><NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView></View>
+    eventContent = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
   } else if (!events || events.length === 0) {
-    eventContent = <View style={styles.container}><NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView></View>
+    eventContent = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
   } else {
     eventContent = (
       <>
         <Modal transparent visible={showCalendarModal}>
-          <View style={styles.modalView}>
+          <View style={{ ...styles.modalView, backgroundColor: colorTheme.background }}>
             <HeadingText>Standardkalender auswählen</HeadingText>
             <Picker selectedValue={selectedCalendarOption} onValueChange={calendarOptionChangeHandler}>
               {calendarOptionsContent}
@@ -152,7 +160,7 @@ const EventScreen = (props) => {
   }
 
   return (
-    <View style={styles.container} >
+    <View style={{ ...styles.container, backgroundColor: colorTheme.background }} >
       {eventContent}
     </View>
   );
@@ -343,7 +351,7 @@ const EventScreen = (props) => {
     const defaultCalendarSource = await getDefaultCalendarSource()
     return Calendar.createCalendarAsync({
       title: Strings.event_calendar,
-      color: ColorTheme.current.primary,
+      color: colorTheme.primary,
       entityType: Calendar.EntityTypes.EVENT,
       sourceId: defaultCalendarSource.id,
       source: defaultCalendarSource,
@@ -357,8 +365,7 @@ const EventScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 8,
-    backgroundColor: ColorTheme.current.background
+    paddingHorizontal: 8
   },
   heading: {
     marginTop: 16,
@@ -367,7 +374,6 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 24,
     padding: 24,
-    backgroundColor: ColorTheme.current.background,
     alignSelf: 'center',
     justifyContent: 'center',
     elevation: 5

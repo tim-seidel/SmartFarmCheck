@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, VirtualizedList, Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { HeaderButtons, HeaderButton, Item } from 'react-navigation-header-buttons';
+import { View, VirtualizedList, Alert, StyleSheet,  TouchableOpacity } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
 import NoContentView from "../components/NoContentView";
 import QuestionView from "../components/QuestionView";
 import IconButton from '../components/IconButton';
-import {ColorTheme} from'../constants/Colors';
 import Strings from '../constants/Strings';
 import { ContentText } from '../components/Text';
 import Layout from '../constants/Layout';
-
-const SFCHeaderButton = props => (
-    <HeaderButton {...props} IconComponent={Icon} iconSize={24} color={ColorTheme.current.textPrimaryContrast} />
-)
+import SFCHeaderButton from '../navigation/SFCHeaderButton';
+import { useStateValue } from '../StateProvider';
+import { ConstantColors } from '../constants/Colors';
 
 //TODO: Evaluate functional vs. class component
 const FormScreen = props => {
+    const [{colorTheme}] = useStateValue()
+
     const [mode, setMode] = useState('list')
     const [questionState, setQuestionState] = useState({ isLoaded: false, error: null, errorCode: 0, questions: [] })
     const [pagingIndex, setPagingIndex] = useState(0)
@@ -82,11 +82,11 @@ const FormScreen = props => {
     const { isLoaded, error, errorCode, questions } = questionState;
     console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
     if (error) {
-        return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error+ " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
+        return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error+ " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
     } else if (!isLoaded) {
-        return <View style={styles.container}><NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView></View>
+        return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView></View>
     } else if (questions.length === 0) {
-        return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView></View>
+        return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView></View>
     } else {
         props.navigation.setOptions({
             headerRight: () => (
@@ -119,36 +119,36 @@ const FormScreen = props => {
                 <View style={styles.singleQuestionLayoutContainer}>
                     <QuestionView formId={formId} onInputChanged={(input, validity) => inputChangeHandler(currentQuestion, input, validity)} index={pagingIndex + 1} question={currentQuestion} />
                     <View style={styles.questionPagingRow}>
-                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={canNavigatePrevious ? styles.pagingButton : styles.pagingButtonDisabled}>
+                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={canNavigatePrevious ? {...styles.pagingButton, backgroundColor: colorTheme.primary} : styles.pagingButtonDisabled}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                                 <Icon
                                     name="chevron-left"
                                     size={24}
-                                    color={ColorTheme.current.textPrimaryContrast}>
+                                    color={colorTheme.textPrimaryContrast}>
                                 </Icon>
                                 <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ color: ColorTheme.current.textPrimaryContrast }}>
+                                    style={{ color: colorTheme.textPrimaryContrast }}>
                                     {Strings.form_paging_backwards}
                                     </ContentText>
                             </View>
                         </TouchableOpacity>
-                        <View style={styles.pageInfo}><ContentText  style={{ color: ColorTheme.current.textPrimaryContrast }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
-                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={canNavigateNext ? styles.pagingButton : styles.pagingButtonDisabled}>
+                        <View style={{...styles.pageInfo, backgroundColor: colorTheme.primary}}><ContentText  style={{ color: colorTheme.textPrimaryContrast }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
+                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={canNavigateNext ? {...styles.pagingButton, backgroundColor: colorTheme.primary} : styles.pagingButtonDisabled}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
                                 <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ color: ColorTheme.current.textPrimaryContrast }}>
+                                    style={{ color: colorTheme.textPrimaryContrast }}>
                                     {Strings.form_paging_forwards}
                                     </ContentText>
                                 <Icon
                                     name="chevron-right"
                                     size={24}
-                                    color={ColorTheme.current.textPrimaryContrast}>
+                                    color={colorTheme.textPrimaryContrast}>
                                 </Icon>
                             </View>
                         </TouchableOpacity>
@@ -237,8 +237,7 @@ const FormScreen = props => {
 
 styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: ColorTheme.current.background
+        flex: 1
     },
     listContainer: {
         flex: 1,
@@ -262,19 +261,17 @@ styles = StyleSheet.create({
         borderTopRightRadius: 6
     },
     pagingButton: {
-        backgroundColor: ColorTheme.current.primary,
         borderRadius: Layout.borderRadius,
         padding: 8,
         flex: 1
     },
     pagingButtonDisabled: {
-        backgroundColor: ColorTheme.current.grey,
+        backgroundColor: ConstantColors.grey,
         borderRadius: Layout.borderRadius,
         padding: 8,
         flex: 1
     },
-    pageInfo: {
-        backgroundColor: ColorTheme.current.primary,
+    pageInfo:{
         borderRadius: Layout.borderRadius,
         paddingVertical: 8,
         paddingHorizontal: 16,
@@ -297,7 +294,7 @@ styles = StyleSheet.create({
     },
     submitWrapper: {
         flex: 1
-    },
+    }
 });
 
 export default FormScreen

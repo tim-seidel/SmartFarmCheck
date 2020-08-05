@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {ColorTheme} from'../constants/Colors';
 import { StringValidator, NumberValidatior, SelectValidator } from "../model/Validation"
 import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
+import { useStateValue } from '../StateProvider';
+import { ConstantColors } from '../constants/Colors';
 
 const INPUT_CHANGE = "INPUT_CHANGE"
 const FORM_ID_CHANGE = "FORM_ID_CHANGE"
@@ -38,6 +39,7 @@ const inputReducer = (state, action) => {
 }
 
 const QuestionView = props => {
+    const [{colorTheme}] = useStateValue()
     const { question, formId } = props;
 
     const [inputState, dispatch] = useReducer(inputReducer, {
@@ -175,16 +177,16 @@ const QuestionView = props => {
 
     return (
         <View style={styles.question}>
-            <View style={styles.numberWrapper}>
-                <Text style={styles.questionNumber}>{props.index}</Text>
+            <View style={{...styles.numberWrapper, borderColor: textPrimary}}>
+                <Text style={{...styles.questionNumber, color: colorTheme.textPrimary}}>{props.index}</Text>
             </View>
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
                     <HeadingText weight="normal" style={{flex: 1}}>{question.text}</HeadingText>
-                    {question.description && (<Icon style={styles.infoIcon} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
+                    {question.description && (<Icon style={{...styles.infoIcon, color: colorTheme.textPrimary}} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
                 </View>
                 <View style={styles.errorRow}>
-                    <Icon name={validityToIcon(inputState.validity)} size={24} color={ColorTheme.current.textPrimary}></Icon>
+                    <Icon name={validityToIcon(inputState.validity)} size={24} color={colorTheme.textPrimary}></Icon>
                     <View style={styles.errorTextWrapper}>
                     <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'}>{inputState.errorMessage}</ContentText>
                     </View>
@@ -210,9 +212,11 @@ function validityToIcon(validity) {
 }
 
 const NumberInput = (props) => {
+    const [{colorTheme}] = useStateValue()
+
     return (
         <View style={styles.numberRow}>
-            <TextInput value={props.input} placeholderTextColor={ColorTheme.current.textSecondary} onChangeText={props.numberChanged} keyboardType="numeric" style={styles.input} placeholder="Hier eingeben..."></TextInput>
+            <TextInput value={props.input} placeholderTextColor={colorTheme.textSecondary} onChangeText={props.numberChanged} keyboardType="numeric" style={{...styles.input, color: colorTheme.textPrimary}} placeholder="Hier eingeben..."></TextInput>
           {props.unit && <View style={styles.unitTextWrapper}>
                 <ContentText>in [{props.unit}]</ContentText>
            </View>}
@@ -222,7 +226,7 @@ const NumberInput = (props) => {
 
 const StringInput = (props) => {
     return (
-        <TextInput style={styles.input} placeholder="Hier eingeben..."></TextInput>
+        <TextInput style={{...styles.input, color: colorTheme.textPrimary}} placeholder="Hier eingeben..."></TextInput>
     )
 }
 
@@ -237,11 +241,9 @@ const styles = StyleSheet.create({
         fontSize: 22,
         textAlign: "center",
         textAlignVertical: "center",
-        aspectRatio: 1,
-        color: ColorTheme.current.textPrimary
+        aspectRatio: 1
     },
     numberWrapper: {
-        borderColor: ColorTheme.current.textPrimary,
         borderWidth: 1,
         borderRadius: 24,
         padding: 2,
@@ -256,8 +258,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     infoIcon: {
-        marginTop: 4,
-        color: ColorTheme.current.textPrimary
+        marginTop: 4
     },
     errorRow: {
         marginVertical: 4,
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 4,
         borderRadius: Layout.borderRadius,
         borderWidth: 1,
-        borderColor: ColorTheme.current.grey,
+        borderColor: ConstantColors.grey,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -287,10 +288,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 10,
         borderRadius: Layout.borderRadius,
-        color: ColorTheme.current.textPrimary,
         borderWidth: 1,
         fontSize: 17,
-        borderColor: ColorTheme.current.grey
+        borderColor: ConstantColors.grey
     },
     buttonRow: {
         flexDirection: "row",
@@ -305,10 +305,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginStart: 2,
         marginEnd: 4
-    },
-    eventButton: {
-        backgroundColor: ColorTheme.current.primary,
-        justifyContent: "center"
     }
 });
 

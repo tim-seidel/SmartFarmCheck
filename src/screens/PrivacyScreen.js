@@ -2,12 +2,14 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { ContentText, HeadingText } from '../components/Text'
 import { ScrollView } from 'react-native-gesture-handler'
-import {ColorTheme} from'../constants/Colors'
+
+import { useStateValue } from '../StateProvider'
 
 const PrivacyScreen = (props) => {
+    const [{colorTheme}] = useStateValue()
 
     return (
-        <View style={styles.container}>
+        <View style={{...styles.container, backgroundColor: colorTheme.background}}>
             <ScrollView style={styles.scrollView}>
                 <HeadingText style={styles.heading} weight="bold">Letzte Änderung: 08. November 2019</HeadingText>
                 <ContentText>Im Folgenden erläutern wir, welche Informatione während der Nutztun der Applikation erfasst und verarbeitet werden.</ContentText>
@@ -20,8 +22,7 @@ const PrivacyScreen = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: ColorTheme.current.background
+        flex: 1
     },
     scrollView:{
         marginHorizontal: 8

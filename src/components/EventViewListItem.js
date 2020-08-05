@@ -3,15 +3,16 @@ import { StyleSheet, View} from 'react-native';
 import IconButton from '../components/IconButton';
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
-import {ColorTheme} from'../constants/Colors';
 
 import moment from 'moment'
+import { useStateValue } from '../StateProvider';
 
 function EventListItemView(props) {
     const event = props.event
+    const [{colorTheme}] = useStateValue()
 
     return (
-        <View style={styles.event}>
+        <View style={{...styles.event, backgroundColor: colorTheme.componentBackground}}>
             <HeadingText weight={'bold'}>{formatDate(moment(event.startDate), moment(event.endDate))}</HeadingText>
             <View style={styles.separator}></View>
             <HeadingText>{event.title}</HeadingText>
@@ -46,7 +47,6 @@ function formatDate(start, end){
 
 const styles = StyleSheet.create({
     event: {
-        backgroundColor: ColorTheme.current.componentBackground,
         flex: 1,
         marginVertical: 12,
         padding: 8,

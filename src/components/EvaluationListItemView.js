@@ -1,25 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View, useColorScheme, } from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { HeadingText, ContentText } from './Text';
-import {ColorTheme} from'../constants/Colors';
 import Layout from '../constants/Layout';
 
 const zeroPad = (value, places) => String(value).padStart(places, ' ')
 
 function EvaluationListItemView(props) {
+    const [{colorTheme}] = useStateValue()
+
     return (
-        <View style={styles.outerWrapper}>
-        <TouchableHighlight underlayColor={ColorTheme.current.lightgrey} onPress={props.measureSelected}>
+        <View style={{...styles.outerWrapper, backgroundColor: colorTheme.componentBackground}}>
+        <TouchableHighlight underlayColor={colorTheme.lightgrey} onPress={props.measureSelected}>
             <View style={styles.innerWrapper}>
                 <Text style={styles.rating}>{zeroPad(props.rating, 2)}%</Text>
-                <View style={styles.divider}></View>
+                <View style={{...styles.divider, backgroundColor: colorTheme.textPrimary}}></View>
                 <View style={styles.measureContent}>
                     <HeadingText large>{props.title}</HeadingText>
                     <ContentText light numberOfLines={3} style={{marginVertical: 4}}>{props.short}</ContentText>
                 </View>
-                <Icon style={styles.detailIcon} name="chevron-right" size={32}></Icon>
+                <Icon style={{...styles.detailIcon, color: colorTheme.textPrimary}} name="chevron-right" size={32}></Icon>
             </View>
         </TouchableHighlight>
         </View>
@@ -32,7 +33,6 @@ const styles = StyleSheet.create({
         borderRadius: Layout.borderRadius, 
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
-        backgroundColor: ColorTheme.current.componentBackground,
         overflow: "hidden"
         
     },
@@ -55,16 +55,14 @@ const styles = StyleSheet.create({
         width: Layout.borderWidth,
         height: "100%",
         marginStart: 4,
-        marginEnd: 8,
-        backgroundColor: ColorTheme.current.textPrimary,
+        marginEnd: 8
     },
     measureContent: {
         flexDirection: "column",
         flex: 1
     },
     detailIcon: {
-        alignSelf: "center",
-        color: ColorTheme.current.textPrimary
+        alignSelf: "center"
     }
 });
 

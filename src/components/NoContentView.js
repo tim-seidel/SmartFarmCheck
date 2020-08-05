@@ -6,7 +6,7 @@ import * as Animatable from 'react-native-animatable'
 import IconButton from './IconButton';
 import Strings from '../constants/Strings';
 import { ContentText } from './Text';
-import {ColorTheme} from'../constants/Colors';
+import { useStateValue } from '../StateProvider';
 
 /*
  * A basic view that can be used if no content is available.
@@ -17,10 +17,12 @@ import {ColorTheme} from'../constants/Colors';
  */
 
 const NoContentView = props => {
+  const [{colorTheme}] = useStateValue()
+
   const icon = !props.loading ?
-    (<Icon name={props.icon} color={ColorTheme.current.textPrimary} size={64}></Icon>) :
+    (<Icon name={props.icon} color={colorTheme.textPrimary} size={64}></Icon>) :
     (<Animatable.Text animation="rotate" iterationDelay={500} iterationCount="infinite">
-      <Icon name={props.icon} color={ColorTheme.current.textPrimary} size={64}></Icon>
+      <Icon name={props.icon} color={colorTheme.textPrimary} size={64}></Icon>
     </Animatable.Text>)
 
   return (

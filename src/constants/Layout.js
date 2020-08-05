@@ -1,6 +1,4 @@
 import { Dimensions } from 'react-native';
-import {ColorTheme} from'./Colors';
-
 
 export default {
   borderRadius: 6,

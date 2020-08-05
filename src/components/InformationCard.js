@@ -1,8 +1,9 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import {ColorTheme} from'../constants/Colors'
+
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
+import { useStateValue } from '../StateProvider';
 
 /**
  * A basic UI element that displays text in a card like style.
@@ -15,7 +16,7 @@ import Layout from '../constants/Layout';
  */
 
 export function InformationHighlight(props) {
-    return <HeadingText style={styles.highlight}>{props.children}</HeadingText>
+    return <HeadingText>{props.children}</HeadingText>
 }
 
 export function InformationText(props) {
@@ -23,10 +24,12 @@ export function InformationText(props) {
 }
 
 const InformationCard = (props) => {
+    const [{colorTheme}] = useStateValue()
+
     return (
-        <View style={{ ...styles.card, ...props.style }}>
-            <View style={styles.titleWrapper}>
-                <HeadingText style={styles.titleText}>{props.title ?? 'Information'}</HeadingText>
+        <View style={{ ...styles.card, backgroundColor: colorTheme.componentBackground, ...props.style }}>
+            <View style={{...styles.titleWrapper, backgroundColor: colorTheme.primary}}>
+                <HeadingText style={{...styles.titleText, color: colorTheme.textPrimaryContrast}}>{props.title ?? 'Information'}</HeadingText>
             </View>
                 <View style={styles.textWrapper}>
                     <Text style={styles.text} >
@@ -40,7 +43,6 @@ const InformationCard = (props) => {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: ColorTheme.current.componentBackground,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
@@ -48,11 +50,9 @@ const styles = StyleSheet.create({
         paddingBottom: 8
     },
     titleWrapper: {
-        backgroundColor: ColorTheme.current.primary,
         minHeight: 16,
     },
     titleText: {
-        color: ColorTheme.current.textPrimaryContrast,
         paddingHorizontal: 8,
         paddingVertical: 4
     },

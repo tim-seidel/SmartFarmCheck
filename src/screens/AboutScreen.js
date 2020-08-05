@@ -1,14 +1,17 @@
 import React from 'react';
 import { Image, StyleSheet, View, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+
 import IconButton from '../components/IconButton';
-import {ColorTheme} from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { HeadingText } from '../components/Text';
+import { useStateValue } from '../StateProvider';
 
 const Sponsor = props => {
+  const [{colorTheme}] = useStateValue()
+
   return (
-  <View style={styles.sponsor}>
+  <View style={{...styles.sponsor, backgroundColor: colorTheme.componentBackground}}>
     <Image style={styles.image} source={props.localPath}></Image>
     <View style={styles.buttonWrapper}>
     <IconButton type="outline" icon="web" text={props.name} onPress={props.onPress}></IconButton>
@@ -22,8 +25,10 @@ const onSponsorPressedHandler = (url) => {
 }
 
 export default function AboutScreen({ navigation }) {
+  const [{colorTheme}] = useStateValue()
+  
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, backgroundColor: colorTheme.background}}>
       <ScrollView style={styles.container} >
         <HeadingText large weight="bold" style={styles.title}>Gefördert durch:</HeadingText>
         <Sponsor name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logo_mittelstand4.png")} />
@@ -44,8 +49,7 @@ export default function AboutScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: ColorTheme.current.background
+    flex: 1
   },
   title: {
     marginTop: 8,
@@ -59,7 +63,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginVertical: 8,
     alignSelf: 'center',
-    backgroundColor: ColorTheme.current.background,
     borderRadius: Layout.borderRadius,
     borderColor: Layout.borderColor,
     borderWidth: Layout.borderWidth,

@@ -1,19 +1,19 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import {ColorTheme} from'../constants/Colors'
+import { useStateValue } from '../StateProvider'
 
 const FeedbackScreen = (props) => {
+    const [{colorTheme}] = useStateValue()
 
     return (
-        <View style={styles.container}>
+        <View style={{...styles.container, backgroundColor: colorTheme.background}}>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: ColorTheme.current.background
+        flex: 1
     }
 })
 

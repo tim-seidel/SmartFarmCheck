@@ -3,10 +3,10 @@ import { StyleSheet, View } from 'react-native';
 
 import NoContentView from '../components/NoContentView';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
-import {ColorTheme} from'../constants/Colors';
+import { useStateValue } from '../StateProvider';
 
 const EvaluationDetailScreen = (props) => {
-
+    const [{ colorTheme }] = useStateValue()
     const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measure: null })
 
     useEffect(() => {
@@ -50,10 +50,10 @@ const EvaluationDetailScreen = (props) => {
     const { isLoaded, error, errorCode, measure } = measureState;
 
     if (error) {
-        return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"
-     }></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"
+        }></NoContentView></View>
     } else if (!isLoaded) {
-        return <View style={styles.container}><NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView></View>
     } else {
         const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial;} p{text-align: justify; hyphens: auto; }</style></head>'
         var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
@@ -76,7 +76,7 @@ const EvaluationDetailScreen = (props) => {
         })
 
         return (
-            <View style={styles.container}>
+            <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
                 <URLInterceptingWebview source={{ html: wrapped }} />
             </View>
         );
@@ -85,8 +85,7 @@ const EvaluationDetailScreen = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: ColorTheme.current.background,
+        flex: 1
     }
 });
 

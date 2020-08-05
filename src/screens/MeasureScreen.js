@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Platform, Dimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import * as Device from 'expo-device'
+
 import NoContentView from '../components/NoContentView';
 import MeasureListItemView from '../components/MeasureListItemView';
 import IconButton from '../components/IconButton';
 import InformationCard, { InformationText } from "../components//InformationCard";
-
-import { ColorTheme } from '../constants/Colors';
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
+import { useStateValue } from '../StateProvider';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -17,6 +17,8 @@ const isPortrait = () => {
 };
 
 const MeasureScreen = props => {
+  const [{colorTheme}] = useStateValue()
+
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)
   const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measures: [] })
@@ -81,14 +83,14 @@ const MeasureScreen = props => {
 
   const { error, errorCode, isLoaded, measures } = measureState;
   if (error) {
-    return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
+    return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
   } else if (!isLoaded) {
-    return <View style={styles.container}><NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView></View>
+    return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView></View>
   } else if (measures.length === 0) {
-    return <View style={styles.container}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView></View>
+    return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView></View>
   } else {
     return (
-      <View style={styles.container} >
+      <View style={{...styles.container, backgroundColor: colorTheme.background}} >
         <FlatList
           key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
           numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
@@ -123,8 +125,7 @@ const MeasureScreen = props => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: ColorTheme.current.background
+    flex: 1
   },
   informationCard: {
     marginTop: 8,

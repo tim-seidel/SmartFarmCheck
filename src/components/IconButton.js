@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Text, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { StyleSheet, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
-import {ColorTheme} from'../constants/Colors';
 import { ContentText } from './Text';
+import { useStateValue } from '../StateProvider';
+import { ConstantColors } from '../constants/Colors';
 
 /**
  * A default button layout, that can be customized. 
@@ -13,28 +14,28 @@ import { ContentText } from './Text';
  * - solid (filled)  <- default (on iOS transparent)
  * - light: transparent
  */
-export default class IconButton extends Component {
-    render() {
-        const { icon, text, type } = this.props;
+const IconButton = (props) =>{
+        const [{colorTheme}] = useStateValue()
+
+        const { icon, text, type } = props;
         return (
             <Icon.Button
-                style={type === 'outline' ? styles.buttonOutlined : styles.button}
+                style={type === 'outline' ? {...styles.buttonOutlined, borderColor: colorTheme.primary} : styles.button}
                 name={icon}
                 size={24}
-                color={type === 'solid' ? ColorTheme.current.textPrimaryContrast : ColorTheme.current.primary}
-                backgroundColor={type === 'solid' ? ColorTheme.current.primary : ColorTheme.current.transparent}
-                underlayColor={ColorTheme.current.grey}
-                onPress={this.props.onPress}>
+                color={type === 'solid' ? colorTheme.textPrimaryContrast : colorTheme.primary}
+                backgroundColor={type === 'solid' ? colorTheme.primary : ConstantColors.transparent}
+                underlayColor={ConstantColors.grey}
+                onPress={props.onPress}>
                 <ContentText
                     numberOfLines={1}
                     lineBreakMode="tail"
                     ellipsizeMode="tail"
-                    style={{ color: type === 'solid' ? ColorTheme.current.textPrimaryContrast : ColorTheme.current.primary }}>
+                    style={{ color: type === 'solid' ? colorTheme.textPrimaryContrast : colorTheme.primary }}>
                     {text}
                 </ContentText>
             </Icon.Button>
         )
-    }
 }
 
 IconButton.propTypes = {
@@ -56,8 +57,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     buttonOutlined: {
-        borderColor: ColorTheme.current.primary,
         borderWidth: 1.5,
         justifyContent: "center"
     }
 })
+
+export default IconButton

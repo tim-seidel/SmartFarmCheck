@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
-import {ColorTheme} from'../constants/Colors';
+import { useStateValue } from '../StateProvider';
 
 export default function MeasureScreen({ route, navigation }) {
+  const [{colorTheme}] = useStateValue()
   const measure = route.params
 
   navigation.setOptions({
@@ -25,7 +26,7 @@ export default function MeasureScreen({ route, navigation }) {
   const wrapped = head + '<body>' + content + '</body></html>'
 
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, backgroundColor: colorTheme.background}}>
       <URLInterceptingWebview source={{ html: wrapped }} />
     </View>
   );
@@ -33,8 +34,7 @@ export default function MeasureScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: ColorTheme.current.background
+    flex: 1
   }
 });
 

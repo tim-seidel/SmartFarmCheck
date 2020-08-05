@@ -5,7 +5,7 @@ import InformationCard, { InformationHighlight, InformationText } from '../compo
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { ScrollView } from 'react-native-gesture-handler';
-import { ColorTheme } from '../constants/Colors';
+import { useStateValue } from '../StateProvider';
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
@@ -19,6 +19,7 @@ const isPortrait = () => {
 };
 
 const ContactScreen = (props) => {
+    const [{ colorTheme }] = useStateValue()
     const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const ContactScreen = (props) => {
     const contentFeedback = <ActionButton icon="file-document-outline" text="Zum Feedback" onPress={contactFeedbackHandler} />
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={{ ...styles.scrollView, backgroundColor: colorTheme.background }}>
             <View style={styles.container}>
                 <InformationCard title="Informationen zur App" style={cardStyle} contentView={contentAboutApp}>
                     <InformationText>{"Informationen über Förderer, Impressum und Datenschutz.\n"}</InformationText>
@@ -74,9 +75,8 @@ const ContactScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-    scrollView:{
-        flex: 1,
-        backgroundColor: ColorTheme.current.background
+    scrollView: {
+        flex: 1
     },
     container: {
         flexDirection: 'row',
