@@ -54,7 +54,6 @@ const MeasureScreen = props => {
         if (state.isConnected) {
           loadMeasures()
         } else {
-          console.log("Not loading : No internet")
           setMeasureState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, measures: [] })
         }
       });

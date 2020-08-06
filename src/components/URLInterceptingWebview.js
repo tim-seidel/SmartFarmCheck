@@ -5,7 +5,6 @@ export default function URLInterceptingWebview(props) {
     const webview = React.useRef(null)
 
     const navigationStateChangeHandler = request => {
-        console.log(request)
         const { url } = request;
         if (!url || url === "about:blank") return true;
 
