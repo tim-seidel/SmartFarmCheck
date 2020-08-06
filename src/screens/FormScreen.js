@@ -157,7 +157,7 @@ const FormScreen = props => {
             )
         }
         return (
-            <View style={styles.container}>
+            <View style={{...styles.container, backgroundColor: colorTheme.background}}>
                 {questionContent}
                 <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>                  
                     <View style={styles.submitWrapper}>
