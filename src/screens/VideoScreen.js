@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { useStateValue } from '../StateProvider'
+import WebView from 'react-native-webview'
 
 const VideoScreen = (props) => {
     const [{ colorTheme }] = useStateValue()
