@@ -12,7 +12,7 @@ import { useStateValue } from '../StateProvider';
 
 const EvaluationScreen = (props) => {
     const [{ colorTheme }] = useStateValue()
-    const [evalulationState, setEvaluationState] = useState({ error: null, hasNetwork: true, isLoaded: false, evaluation: [] })
+    const [evalulationState, setEvaluationState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, evaluation: [] })
 
     useEffect(() => {
         if (!evalulationState.isLoaded) {
@@ -27,7 +27,7 @@ const EvaluationScreen = (props) => {
                 if (state.isConnected) {
                     evaluate()
                 } else {
-                    setEvaluationState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, evaluation: [] })
+                    setEvaluationState({ isLoaded: true, hasNetwork: false, error: null, errorCode: 0, evaluation: [] })
                 }
             });
         }
@@ -47,27 +47,32 @@ const EvaluationScreen = (props) => {
         })
             .then(response => response.json())
             .then(json => {
-                console.log("Received evaluation", json)
-                setEvaluationState({ isLoaded: true, hasNetwork: true, evaluation: json, error: null })
+                //Check for request errors
+                if (json.status && json.status != 200) {
+                    setEvaluationState({ isLoaded: true, hasNetwork: true, error: json, errorCode: json?.status ?? -1, evaluation: [] })
+                } else {
+                    //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+                    setEvaluationState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, evaluation: json })
+                }
             })
             .catch(error => {
                 console.log("Error", error)
-                setEvaluationState.setState({ isLoaded: false, hasNetwork: true, error: error, evaluation: [] })
+                setEvaluationState.setState({ isLoaded: false, hasNetwork: true, error: error, errorCode: -1, evaluation: [] })
             })
     }
 
     function retryHandler() {
-        setEvaluationState({ isLoaded: false, hasNetwork: true, error: null, evaluation: [] })
+        setEvaluationState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, evaluation: [] })
     }
 
     function measureSelectedHandler(uuid) {
         props.navigation.navigate("EvaluationDetail", uuid)
     }
 
-    const { error, hasNetwork, isLoaded, evaluation } = evalulationState
+    const { isLoaded, hasNetwork, error, errorCode, evaluation } = evalulationState
 
     if (error) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_error}></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_error + " (Fehlercode: " + errorCode + ")."}></NoContentView></View>
     } else if (!isLoaded) {
         return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.evaluation_loading}></NoContentView></View>
     } else if (!hasNetwork) {
