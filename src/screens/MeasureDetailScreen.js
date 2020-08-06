@@ -3,16 +3,23 @@ import { StyleSheet, View } from 'react-native';
 
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
 import { useStateValue } from '../StateProvider';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import SFCHeaderButton from '../navigation/SFCHeaderButton';
 
 export default function MeasureScreen({ route, navigation }) {
-  const [{colorTheme}] = useStateValue()
+  const [{ colorTheme }, dispatch] = useStateValue()
   const measure = route.params
 
   navigation.setOptions({
-    title: measure?.name ?? "Maßnahmeninformation"
+    title: measure?.name ?? "Maßnahmeninformation",
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+        <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={() => dispatch({ type: 'toggleTheme' })} />
+      </HeaderButtons>
+    )
   })
 
-  const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial;} p{text-align: justify; hyphens: auto; }</style></head>'
+  const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; }</style></head>'
   var content = measure.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
 
   measure.resources.forEach(r => {
@@ -26,8 +33,8 @@ export default function MeasureScreen({ route, navigation }) {
   const wrapped = head + '<body>' + content + '</body></html>'
 
   return (
-    <View style={{...styles.container, backgroundColor: colorTheme.background}}>
-      <URLInterceptingWebview source={{ html: wrapped }} />
+    <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
+      <URLInterceptingWebview style={{ backgroundColor: colorTheme.background }} source={{ html: wrapped }} />
     </View>
   );
 }

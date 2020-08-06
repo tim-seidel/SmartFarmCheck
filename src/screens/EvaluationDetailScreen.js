@@ -4,9 +4,11 @@ import { StyleSheet, View } from 'react-native';
 import NoContentView from '../components/NoContentView';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
 import { useStateValue } from '../StateProvider';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import SFCHeaderButton from '../navigation/SFCHeaderButton';
 
 const EvaluationDetailScreen = (props) => {
-    const [{ colorTheme }] = useStateValue()
+    const [{ colorTheme }, dispatch] = useStateValue()
     const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measure: null })
 
     useEffect(() => {
@@ -55,7 +57,7 @@ const EvaluationDetailScreen = (props) => {
     } else if (!isLoaded) {
         return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView></View>
     } else {
-        const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial;} p{text-align: justify; hyphens: auto; }</style></head>'
+        const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color:  ' + colorTheme.textPrimary + '} p{text-align: justify; hyphens: auto; }</style></head>'
         var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
 
         if (measure?.resources) {
@@ -72,12 +74,17 @@ const EvaluationDetailScreen = (props) => {
         const wrapped = head + '<body>' + content + '</body></html>'
 
         props.navigation.setOptions({
-            title: measure?.name ?? "Maßnahmeninformation"
-        })
+            title: measure?.name ?? "Maßnahmeninformation",
+            headerRight: () => (
+              <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+                <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={() => dispatch({ type: 'toggleTheme' })} />
+              </HeaderButtons>
+            )
+          })
 
         return (
             <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-                <URLInterceptingWebview source={{ html: wrapped }} />
+                <URLInterceptingWebview style={{backgroundColor: colorTheme.background}} source={{ html: wrapped }} />
             </View>
         );
     }
