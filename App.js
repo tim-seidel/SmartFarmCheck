@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
-import { enableScreens } from 'react-native-screens'; 
 import { SplashScreen } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,8 +20,6 @@ import FeedbackScreen from './src/screens/FeedbackScreen';
 import { StateProvider, useStateValue } from './src/StateProvider';
 import VideoScreen from './src/screens/VideoScreen';
 import AudioScreen from './src/screens/AudioScreen';
-
-enableScreens()
 
 const Stack = createStackNavigator();
 
@@ -52,7 +49,6 @@ export default function App(props) {
   }
 
   const reducer = (state, action) => {
-    console.log("reducer", action)
     switch (action.type) {
       case 'toggleTheme':
         const newScheme = state.scheme === 'dark' ? 'light' : 'dark'
