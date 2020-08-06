@@ -5,6 +5,7 @@ import URLInterceptingWebview from '../components/URLInterceptingWebview';
 import { useStateValue } from '../StateProvider';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import SFCHeaderButton from '../navigation/SFCHeaderButton';
+import { ConstantColors } from '../constants/Colors';
 
 export default function MeasureScreen({ route, navigation }) {
   const [{ colorTheme }, dispatch] = useStateValue()
@@ -44,8 +45,8 @@ export default function MeasureScreen({ route, navigation }) {
   const wrapped = head + '<body>' + content + '</body></html>'
 
   return (
-    <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-      <URLInterceptingWebview style={{ backgroundColor: colorTheme.background }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
+    <View style={{ ...styles.container, backgroundColor: colorTheme.background}}>
+      <URLInterceptingWebview style={{ backgroundColor: ConstantColors.transparent }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
     </View>
   );
 }

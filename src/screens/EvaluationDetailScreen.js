@@ -8,6 +8,7 @@ import { useStateValue } from '../StateProvider';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import SFCHeaderButton from '../navigation/SFCHeaderButton';
 import Strings from '../constants/Strings';
+import { ConstantColors } from '../constants/Colors';
 
 const EvaluationDetailScreen = (props) => {
     const [{ colorTheme }, dispatch] = useStateValue()
@@ -87,7 +88,8 @@ const EvaluationDetailScreen = (props) => {
 
         const wrapped = head + '<body>' + content + '</body></html>'
 
-        props.navigation.setOptions({
+        const navigation = props.navigation
+        navigation.setOptions({
             title: measure?.name ?? "Maßnahmeninformation",
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
@@ -96,9 +98,20 @@ const EvaluationDetailScreen = (props) => {
             )
         })
 
+        function onURLHandler(url) {
+            if (url.includes('.mp4') || url.includes('.avi')) {
+                navigation.navigate('Video', url)
+            } else if (url.includes('.mp3')) {
+                navigation.navigate('Audio', url)
+            }
+            else {
+                Linking.openURL(url)
+            }
+        }
+
         return (
             <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-                <URLInterceptingWebview style={{ backgroundColor: colorTheme.background }} source={{ html: wrapped }} />
+                <URLInterceptingWebview style={{ backgroundColor: ConstantColors.transparent }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
             </View>
         );
     }

@@ -7,7 +7,7 @@ export default function URLInterceptingWebview(props) {
     const navigationStateChangeHandler = request => {
         console.log(request)
         const { url } = request;
-        if (!url || url === "about:blank") return;
+        if (!url || url === "about:blank") return true;
 
         if (props.onURLSelected) {
             props.onURLSelected(url)
@@ -17,6 +17,6 @@ export default function URLInterceptingWebview(props) {
     }
 
     return (
-        <WebView ref={webview} onShouldStartLoadWithRequest={navigationStateChangeHandler} style={styles.webview} {...props} />
+        <WebView ref={webview} onShouldStartLoadWithRequest={navigationStateChangeHandler} {...props} />
     );
 }
