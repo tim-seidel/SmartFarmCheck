@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Linking } from 'react-native';
 
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
 import { useStateValue } from '../StateProvider';
@@ -9,6 +9,17 @@ import SFCHeaderButton from '../navigation/SFCHeaderButton';
 export default function MeasureScreen({ route, navigation }) {
   const [{ colorTheme }, dispatch] = useStateValue()
   const measure = route.params
+
+  function onURLHandler(url) {
+    if (url.includes('.mp4') || url.includes('.avi')) {
+      navigation.navigate('Video', url)
+    } else if (url.includes('.mp3')) {
+      navigation.navigate('Audio', url)
+    }
+    else {
+      Linking.openURL(url)
+    }
+  }
 
   navigation.setOptions({
     title: measure?.name ?? "Maßnahmeninformation",
@@ -34,7 +45,7 @@ export default function MeasureScreen({ route, navigation }) {
 
   return (
     <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-      <URLInterceptingWebview style={{ backgroundColor: colorTheme.background }} source={{ html: wrapped }} />
+      <URLInterceptingWebview style={{ backgroundColor: colorTheme.background }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
     </View>
   );
 }
@@ -44,4 +55,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-

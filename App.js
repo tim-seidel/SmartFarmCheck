@@ -18,7 +18,8 @@ import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
 import EventDetailScreen from './src/screens/EventDetailScreen';
 import FeedbackScreen from './src/screens/FeedbackScreen';
 import { StateProvider, useStateValue } from './src/StateProvider';
-
+import VideoScreen from './src/screens/VideoScreen';
+import AudioScreen from './src/screens/AudioScreen';
 const Stack = createStackNavigator();
 
 export default function App(props) {
@@ -181,6 +182,26 @@ export default function App(props) {
                 }}
                 name="Feedback"
                 component={FeedbackScreen} />
+                <Stack.Screen
+                options={{
+                  title: "Video-Player",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Video"
+                component={VideoScreen} />
+                  <Stack.Screen
+                options={{
+                  title: "Audio-Player",
+                  headerTintColor: colorTheme.textPrimaryContrast,
+                  headerStyle: {
+                    backgroundColor: colorTheme.primary
+                  }
+                }}
+                name="Audio"
+                component={AudioScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </View >
