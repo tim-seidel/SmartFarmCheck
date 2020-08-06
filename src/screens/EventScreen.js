@@ -3,7 +3,7 @@ import { StyleSheet, View, Linking, Platform, Alert, AsyncStorage, Modal, Picker
 import { FlatList } from 'react-native-gesture-handler';
 import * as Calendar from 'expo-calendar'
 import moment from 'moment'
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
+import NetInfo from '@react-native-community/netinfo';
 
 import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItem';
@@ -29,12 +29,24 @@ const EventScreen = (props) => {
 
   useEffect(() => {
     if (!eventState.isLoaded) {
-      loadEvents();
+      checkAndLoadEvents();
     }
   }, [eventState.isLoaded])
 
-  function loadEvents() {
+  function checkAndLoadEvents() {
     if (!eventState.isLoaded) {
+
+        NetInfo.fetch().then(state => {
+            if (state.isConnected) {
+              loadEvents()
+            } else {
+                setEventState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, events: [] })
+            }
+        });
+    }
+}
+
+  function loadEvents() {
       /*
       fetch('https://pas.coala.digital/v1/events', {
         headers: {
@@ -46,23 +58,22 @@ const EventScreen = (props) => {
         .then(json => {
           //Check for request errors
           if (json.status && json.status != 200) {
-            setEventState({ isLoaded: true, error: json, errorCode: json.status ?? -1, events: [] })
+            setEventState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, events: [] })
           } else {
             //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-            setEventState({ isLoaded: true, error: null, errorCode: 0, events: json })
+            setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: json })
           }
         })
         .catch(error => {
           console.log("Error", error)
-          setEventState({ isLoaded: true, error: error, errorCode: -1, events: [] })
+          setEventState({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, events: [] })
         })
         */
-      setEventState({ isLoaded: true, error: null, errorCode: 0, events: eventMock })
-    }
+      setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: eventMock })
   }
 
   function retryHandler() {
-    setEventState({ isLoaded: false, error: null, errorCode: 0, events: [] })
+    setEventState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, events: [] })
   }
 
   function showDetailHandler(event) {
@@ -99,7 +110,7 @@ const EventScreen = (props) => {
     return AsyncStorage.setItem(key_default_calendar_id, id)
   }
 
-  const { isLoaded, error, errorCode, events } = eventState;
+  const { isLoaded, hasNetwork, error, errorCode, events } = eventState;
 
   let eventContent = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
@@ -116,6 +127,8 @@ const EventScreen = (props) => {
     eventContent = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
   } else if (!isLoaded) {
     eventContent = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
+  } else if (!hasNetwork) {
+    eventContent = <NoContentView icon="cloud-off-outline" loading title={Strings.event_loading_no_network}></NoContentView>
   } else if (!events || events.length === 0) {
     eventContent = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
   } else {

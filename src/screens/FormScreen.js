@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, VirtualizedList, Alert, StyleSheet,  TouchableOpacity } from 'react-native';
+import { View, VirtualizedList, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
+import NetInfo from '@react-native-community/netinfo';
 
 import NoContentView from "../components/NoContentView";
 import QuestionView from "../components/QuestionView";
@@ -13,48 +14,59 @@ import SFCHeaderButton from '../navigation/SFCHeaderButton';
 import { useStateValue } from '../StateProvider';
 import { ConstantColors } from '../constants/Colors';
 
-//TODO: Evaluate functional vs. class component
 const FormScreen = props => {
-    const [{colorTheme}] = useStateValue()
+    const [{ colorTheme }] = useStateValue()
 
     const [mode, setMode] = useState('list')
-    const [questionState, setQuestionState] = useState({ isLoaded: false, error: null, errorCode: 0, questions: [] })
+    const [questionState, setQuestionState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, questions: [] })
     const [pagingIndex, setPagingIndex] = useState(0)
     const [formId, setFormId] = useState(0)
 
     useEffect(() => {
         if (!questionState.isLoaded) {
-            loadQuestions();
+            checkAndLoadQuestions();
         }
     }, [questionState.isLoaded])
 
-    function loadQuestions() {
+
+    function checkAndLoadQuestions() {
         if (!questionState.isLoaded) {
-            fetch('https://pas.coala.digital/v1/questions', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-            })
-                .then(response => response.json())
-                .then(json => {
-                    //Check for http errors
-                    if(json.status && json.status != 200){
-                        setQuestionState({isLoaded: true, error: json, errorCode: json.status ?? -1, questions: []})
-                    }else{
-                        //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-                        setQuestionState({ isLoaded: true, error: null, errorCode: 0, questions: json })
-                    }
-                })
-                .catch(error => {
-                    console.log("Error", error)
-                    setQuestionState(qs => ({ isLoaded: true, error: error, errorCode: -1, questions: qs.questions }))
-                })
+
+            NetInfo.fetch().then(state => {
+                if (state.isConnected) {
+                    loadQuestions()
+                } else {
+                    setQuestionState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, questions: [] })
+                }
+            });
         }
     }
 
+    function loadQuestions() {
+        fetch('https://pas.coala.digital/v1/questions', {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(json => {
+                //Check for http errors
+                if (json.status && json.status != 200) {
+                    setQuestionState({ isLoaded: true, hasNetwork: true, error: json, errorCode: json.status ?? -1, questions: [] })
+                } else {
+                    //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+                    setQuestionState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, questions: json })
+                }
+            })
+            .catch(error => {
+                console.log("Error", error)
+                setQuestionState(qs => ({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, questions: qs.questions }))
+            })
+    }
+
     function retryHandler() {
-        setQuestionState({ isLoaded: false, error: null, errorCode: 0, questions: [] })
+        setQuestionState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, questions: [] })
     }
 
     function inputChangeHandler(question, input, validity) {
@@ -77,16 +89,18 @@ const FormScreen = props => {
             qNext = max
         }
         setPagingIndex(qNext)
-    } 
+    }
 
-    const { isLoaded, error, errorCode, questions } = questionState;
+    const { isLoaded, hasNetwork, error, errorCode, questions } = questionState;
     console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
     if (error) {
-        return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error+ " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
     } else if (!isLoaded) {
-        return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView></View>
+    } else if (!hasNetwork) {
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.form_loading_no_network}></NoContentView></View>
     } else if (questions.length === 0) {
-        return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView></View>
     } else {
         props.navigation.setOptions({
             headerRight: () => (
@@ -119,7 +133,7 @@ const FormScreen = props => {
                 <View style={styles.singleQuestionLayoutContainer}>
                     <QuestionView formId={formId} onInputChanged={(input, validity) => inputChangeHandler(currentQuestion, input, validity)} index={pagingIndex + 1} question={currentQuestion} />
                     <View style={styles.questionPagingRow}>
-                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={canNavigatePrevious ? {...styles.pagingButton, backgroundColor: colorTheme.primary} : styles.pagingButtonDisabled}>
+                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={canNavigatePrevious ? { ...styles.pagingButton, backgroundColor: colorTheme.primary } : styles.pagingButtonDisabled}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                                 <Icon
                                     name="chevron-left"
@@ -132,11 +146,11 @@ const FormScreen = props => {
                                     ellipsizeMode="tail"
                                     style={{ color: colorTheme.textPrimaryContrast }}>
                                     {Strings.form_paging_backwards}
-                                    </ContentText>
+                                </ContentText>
                             </View>
                         </TouchableOpacity>
-                        <View style={{...styles.pageInfo, backgroundColor: colorTheme.primary}}><ContentText  style={{ color: colorTheme.textPrimaryContrast }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
-                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={canNavigateNext ? {...styles.pagingButton, backgroundColor: colorTheme.primary} : styles.pagingButtonDisabled}>
+                        <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}><ContentText style={{ color: colorTheme.textPrimaryContrast }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
+                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={canNavigateNext ? { ...styles.pagingButton, backgroundColor: colorTheme.primary } : styles.pagingButtonDisabled}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
                                 <ContentText
                                     numberOfLines={1}
@@ -144,7 +158,7 @@ const FormScreen = props => {
                                     ellipsizeMode="tail"
                                     style={{ color: colorTheme.textPrimaryContrast }}>
                                     {Strings.form_paging_forwards}
-                                    </ContentText>
+                                </ContentText>
                                 <Icon
                                     name="chevron-right"
                                     size={24}
@@ -157,11 +171,11 @@ const FormScreen = props => {
             )
         }
         return (
-            <View style={{...styles.container, backgroundColor: colorTheme.background}}>
+            <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
                 {questionContent}
-                <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>                  
+                <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>
                     <View style={styles.submitWrapper}>
-                        <IconButton icon="chart-areaspline" text={Strings.form_calculate}onPress={calculateHandler}  ></IconButton>
+                        <IconButton icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler}  ></IconButton>
                     </View>
                 </View>
             </View>
@@ -213,7 +227,7 @@ const FormScreen = props => {
         }
 
         if (indiciesEmpty.length > 0) {
-            Alert.alert(Strings.form_dialog_send_unfinished_title,   Strings.form_dialog_send_unfinished_content + ' Unbeantwortet: (' + indiciesEmpty.join(', ') + ')', [
+            Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortet: (' + indiciesEmpty.join(', ') + ')', [
                 { text: Strings.cancel, onPress: () => console.log("Canceled sending"), style: "cancel" },
                 { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
             ],
@@ -271,7 +285,7 @@ styles = StyleSheet.create({
         padding: 8,
         flex: 1
     },
-    pageInfo:{
+    pageInfo: {
         borderRadius: Layout.borderRadius,
         paddingVertical: 8,
         paddingHorizontal: 16,

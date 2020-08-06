@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Platform, Dimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import * as Device from 'expo-device'
+import NetInfo from '@react-native-community/netinfo';
 
 import NoContentView from '../components/NoContentView';
 import MeasureListItemView from '../components/MeasureListItemView';
@@ -17,11 +18,11 @@ const isPortrait = () => {
 };
 
 const MeasureScreen = props => {
-  const [{colorTheme}] = useStateValue()
+  const [{ colorTheme }] = useStateValue()
 
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)
-  const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measures: [] })
+  const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measures: [] })
 
 
   useEffect(() => {
@@ -42,55 +43,69 @@ const MeasureScreen = props => {
 
   useEffect(() => {
     if (!measureState.isLoaded) {
-      loadMeasures();
+      checkAndLoadMeasures();
     }
   }, [measureState.isLoaded])
 
-  function loadMeasures() {
+  function checkAndLoadMeasures() {
     if (!measureState.isLoaded) {
-      fetch('https://pas.coala.digital/v1/measures', {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-      })
-        .then(response => response.json())
-        .then(json => {
-          //Check for request errors
-          if (json.status && json.status != 200) {
-            setMeasureState({ isLoaded: true, error: json, errorCode: json.status ?? -1, measures: [] })
-          } else {
-            //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-            json.sort(function (l, r) {
-              if (l.name < r.name) return -1
-              else if (l.name > r.name) return 1
-              else return 0
-            })
-            setMeasureState({ isLoaded: true, error: null, errorCode: 0, measures: json })
-          }
 
-        })
-        .catch(error => {
-          console.log("Error", error)
-          setMeasureState({ isLoaded: true, error: error, errorCode: -1, measures: [] })
-        })
+      NetInfo.fetch().then(state => {
+        if (state.isConnected) {
+          loadMeasures()
+        } else {
+          console.log("Not loading : No internet")
+          setMeasureState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, measures: [] })
+        }
+      });
     }
+  }
+
+  function loadMeasures() {
+    fetch('https://pas.coala.digital/v1/measures', {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+    })
+      .then(response => response.json())
+      .then(json => {
+        //Check for request errors
+        if (json.status && json.status != 200) {
+          setMeasureState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, measures: [] })
+        } else {
+          //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+          json.sort(function (l, r) {
+            if (l.name < r.name) return -1
+            else if (l.name > r.name) return 1
+            else return 0
+          })
+          setMeasureState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, measures: json })
+        }
+
+      })
+      .catch(error => {
+        console.log("Error", error)
+        setMeasureState({ isLoaded: true, hasNetowrk: true, error: error, errorCode: -1, measures: [] })
+      })
   }
 
   function retryHandler() {
     setMeasureState({ isLoaded: false, error: false, errorCode: 0, measures: [] })
   }
 
-  const { error, errorCode, isLoaded, measures } = measureState;
+  const { error, errorCode, hasNetwork, isLoaded, measures } = measureState;
   if (error) {
-    return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
+    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
   } else if (!isLoaded) {
-    return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView></View>
+    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView></View>
+  } else if (!hasNetwork) {
+    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.measure_loading_no_network}></NoContentView></View>
   } else if (measures.length === 0) {
-    return <View style={{...styles.container, backgroundColor: colorTheme.background}}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView></View>
+    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView></View>
   } else {
     return (
-      <View style={{...styles.container, backgroundColor: colorTheme.background}} >
+      <View style={{ ...styles.container, backgroundColor: colorTheme.background }} >
         <FlatList
           key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
           numColumns={isTablet && orientation === 'landscape' ? 2 : 1}

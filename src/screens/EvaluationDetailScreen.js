@@ -1,61 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 
 import NoContentView from '../components/NoContentView';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
 import { useStateValue } from '../StateProvider';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import SFCHeaderButton from '../navigation/SFCHeaderButton';
+import Strings from '../constants/Strings';
 
 const EvaluationDetailScreen = (props) => {
     const [{ colorTheme }, dispatch] = useStateValue()
-    const [measureState, setMeasureState] = useState({ isLoaded: false, error: null, errorCode: 0, measure: null })
+    const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measure: null })
 
     useEffect(() => {
         if (!measureState.isLoaded) {
-            loadMeasure();
+            checkAndLoadMeasure();
         }
     }, [measureState.isLoaded])
+
+    function checkAndLoadMeasure() {
+        if (!measureState.isLoaded) {
+
+            NetInfo.fetch().then(state => {
+                if (state.isConnected) {
+                    loadMeasure()
+                } else {
+                    setMeasureState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, measure: null })
+                }
+            });
+        }
+    }
 
     function loadMeasure() {
         const measureId = props.route.params;
 
-        if (!measureState.isLoaded) {
-            fetch('https://pas.coala.digital/v1/measures/' + measureId, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
+        fetch('https://pas.coala.digital/v1/measures/' + measureId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                //Check for request errors
+                if (json.status && json.status != 200) {
+                    setMeasureState({ isLoaded: true, hasNetwork: true, error: json, errorCode: json.status ?? -1, measure: null })
+                } else {
+                    //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+                    setMeasureState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, measure: json })
                 }
             })
-                .then(response => response.json())
-                .then(json => {
-                    //Check for request errors
-                    if (json.status && json.status != 200) {
-                        setMeasureState({ isLoaded: true, error: json, errorCode: json.status ?? -1, measure: null })
-                    } else {
-                        //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-                        setMeasureState({ isLoaded: true, error: null, errorCode: 0, measure: json })
-                    }
-                })
-                .catch(error => {
-                    console.log("Error", error)
-                    setMeasureState({ isLoaded: true, error: error, errorCode: -1, measure: null })
-                })
-        }
+            .catch(error => {
+                console.log("Error", error)
+                setMeasureState({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, measure: null })
+            })
     }
 
     function retryHandler() {
-        setMeasureState({ isLoaded: false, error: false, errorCode: 0, measure: null })
+        setMeasureState({ isLoaded: false, hasNetwork: true, error: false, errorCode: 0, measure: null })
     }
 
-    const { isLoaded, error, errorCode, measure } = measureState;
+    const { isLoaded, hasNetwork, error, errorCode, measure } = measureState;
 
     if (error) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={"Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut." + " (Fehlercode: " + errorCode + ")"
-        }></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network + " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
     } else if (!isLoaded) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title="Die Evaluierung wird durchgeführt..."></NoContentView></View>
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.evaluation_detail_loading}></NoContentView></View>
+    } else if (!hasNetwork) {
+        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network}></NoContentView></View>
     } else {
         const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color:  ' + colorTheme.textPrimary + '} p{text-align: justify; hyphens: auto; }</style></head>'
         var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
@@ -76,15 +90,15 @@ const EvaluationDetailScreen = (props) => {
         props.navigation.setOptions({
             title: measure?.name ?? "Maßnahmeninformation",
             headerRight: () => (
-              <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
-                <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={() => dispatch({ type: 'toggleTheme' })} />
-              </HeaderButtons>
+                <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+                    <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={() => dispatch({ type: 'toggleTheme' })} />
+                </HeaderButtons>
             )
-          })
+        })
 
         return (
             <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-                <URLInterceptingWebview style={{backgroundColor: colorTheme.background}} source={{ html: wrapped }} />
+                <URLInterceptingWebview style={{ backgroundColor: colorTheme.background }} source={{ html: wrapped }} />
             </View>
         );
     }

@@ -20,11 +20,13 @@ const Strings = {
     measure_loading: "Laden der aktuellsten Maßnahmen...",
     measure_loading_error: "Aktuell können die Maßnahmen nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_empty: "Aktuell konnten keine Maßnahmen gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
+    measure_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Maßnahmen können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
     measure_navigate_evaluation: "Jetzt Empfehlungen berechnen",
 
     form_loading: "Laden des akutellsten Fragebogens...",
     form_loading_error: "Aktuell kann das Formular nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     form_loading_empty: "Akutell konnten keine Fragen zum Formular gefunden werden. Bitte übeprüfen Sie Ihre Internetverbindung und versuchen Sie es später erneut.",
+    form_loading_no_network: "Aktuell besteht keine Internetverbindung. Das aktuelle Formular kann daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
     form_reset: "Zurücksetzten",
     form_calculate: "Jetzt berechnen",
     form_paging_backwards: "Zurück",
@@ -44,12 +46,19 @@ const Strings = {
     evaluation_loading: "Die Bewertung wird durchgeführt...",
     evaluation_loading_error: "Aktuell kann die Bewertung nicht durchgefürt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     evaluation_loading_empty: "Die Auswertung konnte aktuell keine Maßnahmen finden. Bitte überprüfen Sie Ihre Eingaben oder versuchen Sie es später erneut.",
+    evaluation_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Auswertung kann daher nicht durchgeführt werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
+
+    evaluation_detail_loading: "Die Maßnahme wird geladen...",
+    evaluation_detail_loading_error: "Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
+    evaluation_detail_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Details zur Maßnahme können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
+    
 
     event_calendar: "Veranstaltungskalendar",
     event_list_heading: "Kommende Veranstaltungen",
     event_loading: "Laden der kommenden Veranstaltungen...",
     event_loading_error: "Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     event_loading_empty: "Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Akutell stehen keine Veranstaltungen an.",
+    event_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Veranstaltungen können daher nicht gelaaden werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
 
     event_already_in_calendar_title: "Veranstaltung bereits eingetragen",
     event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
