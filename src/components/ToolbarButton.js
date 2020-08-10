@@ -4,7 +4,7 @@ import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
 import { useThemeProvider } from '../ThemeContext';
 
-const SFCHeaderButton = (props) => {
+const ToolbarButton = (props) => {
     const {colorTheme} = useThemeProvider()
 
     return (
@@ -12,4 +12,4 @@ const SFCHeaderButton = (props) => {
     )
 }
 
-export default SFCHeaderButton
+export default ToolbarButton

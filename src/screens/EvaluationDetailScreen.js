@@ -6,7 +6,7 @@ import NoContentView from '../components/NoContentView';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
 import { useThemeProvider } from '../ThemeContext';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import SFCHeaderButton from '../navigation/SFCHeaderButton';
+import ToolbarButton from '../components/ToolbarButton';
 import Strings from '../constants/Strings';
 import { ConstantColors } from '../constants/Colors';
 
@@ -92,7 +92,7 @@ const EvaluationDetailScreen = (props) => {
         navigation.setOptions({
             title: measure?.name ?? "Maßnahmeninformation",
             headerRight: () => (
-                <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+                <HeaderButtons HeaderButtonComponent={ToolbarButton}>
                     <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toogleTheme} />
                 </HeaderButtons>
             )

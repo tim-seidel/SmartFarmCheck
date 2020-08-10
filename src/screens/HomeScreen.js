@@ -1,37 +1,25 @@
 
 import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import EventScreen from '../screens/EventScreen';
-import MeasureScreen from '../screens/MeasureScreen';
-import ContactScreen from "../screens/ContactScreen"
+import EventScreen from './EventScreen';
+import MeasureScreen from './MeasureScreen';
+import ContactScreen from "./ContactScreen"
 import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import SFCHeaderButton from './SFCHeaderButton';
+import ToolbarButton from '../components/ToolbarButton';
+import TabBarIcon from '../components/TabBarIcon';
 
 const BottomTab = createBottomTabNavigator();
 
-const TabBarIcon = (props) => {
-  const {colorTheme} = useThemeProvider()
-
-  return (
-    <Icon
-      name={props.name}
-      size={24}
-      color={props.focused ? colorTheme.primary : ConstantColors.grey}
-    />
-  );
-}
-
-export default function BottomTabNavigator({ navigation, route }) {
+export default function HomeScreen({ navigation, route }) {
   const {colorTheme, toggleTheme} = useThemeProvider()
 
   navigation.setOptions({
     headerTitle: getHeaderTitle(route),
     headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+        <HeaderButtons HeaderButtonComponent={ToolbarButton}>
             <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toggleTheme} />
         </HeaderButtons>
     )
@@ -50,7 +38,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Measures"
         component={MeasureScreen}
         options={{
-          title: 'Maßnahmen',
+          tabBarLabel: 'Maßnahmen',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="book-open-outline" />,
         }}
       />
@@ -58,7 +46,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Events"
         component={EventScreen}
         options={{
-          title: 'Veranstaltungen',
+          tabBarLabel: 'Veranstaltungen',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="calendar" />,
         }}
       />
@@ -66,7 +54,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Contact"
         component={ContactScreen}
         options={{
-          title: 'Kontakt',
+          tabBarLabel: 'Kontakt',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="contact-mail-outline" />,
         }}
       />
@@ -85,7 +73,6 @@ function getHeaderTitle(route) {
     case 'Contact':
       return "Kontakt";
     default:
-      return "Smartfarmcheck";
-
+      return "SmartFarmCheck";
   }
 }

@@ -4,7 +4,7 @@ import { StyleSheet, View, Linking } from 'react-native';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
 import { useThemeProvider } from '../ThemeContext';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import SFCHeaderButton from '../navigation/SFCHeaderButton';
+import ToolbarButton from '../components/ToolbarButton';
 import { ConstantColors } from '../constants/Colors';
 
 export default function MeasureScreen({ route, navigation }) {
@@ -25,7 +25,7 @@ export default function MeasureScreen({ route, navigation }) {
   navigation.setOptions({
     title: measure?.name ?? "Maßnahmeninformation",
     headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+      <HeaderButtons HeaderButtonComponent={ToolbarButton}>
         <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toggleTheme} />
       </HeaderButtons>
     )

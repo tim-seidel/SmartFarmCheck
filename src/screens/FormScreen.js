@@ -10,7 +10,7 @@ import IconButton from '../components/IconButton';
 import Strings from '../constants/Strings';
 import { ContentText } from '../components/Text';
 import Layout from '../constants/Layout';
-import SFCHeaderButton from '../navigation/SFCHeaderButton';
+import ToolbarButton from '../components/ToolbarButton';
 import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 
@@ -104,7 +104,7 @@ const FormScreen = props => {
     } else {
         props.navigation.setOptions({
             headerRight: () => (
-                <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
+                <HeaderButtons HeaderButtonComponent={ToolbarButton}>
                     <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
                     <Item key="option-reset" iconName="delete" title={Strings.form_reset} onPress={resetHandler} />
                 </HeaderButtons>
