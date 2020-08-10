@@ -10,7 +10,7 @@ import { ConstantColors } from '../constants/Colors';
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    const {colorTheme} = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     function showIosPickerHandler() {
         const pickerOptions = [picker_placeholder, ...props.options ?? []]

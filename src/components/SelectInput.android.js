@@ -9,7 +9,7 @@ import { useThemeProvider } from '../ThemeContext';
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    const {colorTheme} = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     let items = props.options != null ? props.options.map((option, index) => {
         return <Picker.Item value={option} key={index} label={option}></Picker.Item>
