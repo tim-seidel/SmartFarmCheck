@@ -32,5 +32,6 @@ export const darkTheme = {
 export const ConstantColors ={
   grey: "#aaa",
   lightgrey: "#ccc",
-  transparent: 'transparent'
+  transparent: 'transparent',
+  white: '#fff'
 }
