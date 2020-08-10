@@ -19,7 +19,7 @@ const name_default_calendar = 'smartfarmcheck_event_calendar'
 
 const eventMock = events
 const EventScreen = (props) => {
-  const { colorTheme, toogleTheme} = useThemeProvider()
+  const { colorTheme } = useThemeProvider()
 
   const [eventState, setEventState] = useState({ isLoaded: false, error: null, errorCode: 0, events: [] })
   const [calendarOptions, setCalendarOptions] = useState([])
@@ -35,41 +35,41 @@ const EventScreen = (props) => {
 
   function checkAndLoadEvents() {
     if (!eventState.isLoaded) {
-
-        NetInfo.fetch().then(state => {
-            if (state.isConnected) {
-              loadEvents()
-            } else {
-                setEventState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, events: [] })
-            }
-        });
+      NetInfo.fetch().then(state => {
+        if (state.isConnected) {
+          loadEvents()
+        } else {
+          setEventState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, events: [] })
+        }
+      })
     }
-}
+  }
 
   function loadEvents() {
-      /*
-      fetch('https://pas.coala.digital/v1/events', {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
+    /*
+    fetch('https://pas.coala.digital/v1/events', {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+    })
+      .then(response => response.json())
+      .then(json => {
+        //Check for request errors
+        if (json.status && json.status != 200) {
+          setEventState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, events: [] })
+        } else {
+          //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
+          setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: json })
+        }
       })
-        .then(response => response.json())
-        .then(json => {
-          //Check for request errors
-          if (json.status && json.status != 200) {
-            setEventState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, events: [] })
-          } else {
-            //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-            setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: json })
-          }
-        })
-        .catch(error => {
-          console.log("Error", error)
-          setEventState({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, events: [] })
-        })
-        */
-      setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: eventMock })
+      .catch(error => {
+        console.log("Error", error)
+        setEventState({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, events: [] })
+      })
+      */
+
+    setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: eventMock })
   }
 
   function retryHandler() {
@@ -122,7 +122,7 @@ const EventScreen = (props) => {
   } else if (!isLoaded) {
     eventContent = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
   } else if (!hasNetwork) {
-    eventContent = <NoContentView icon="cloud-off-outline" loading title={Strings.event_loading_no_network}></NoContentView>
+    eventContent = <NoContentView icon="cloud-off-outline" title={Strings.event_loading_no_network} onRetry={retryHandler}></NoContentView>
   } else if (!events || events.length === 0) {
     eventContent = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
   } else {
