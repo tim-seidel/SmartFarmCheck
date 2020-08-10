@@ -8,10 +8,10 @@ import EvaluationListItemView from '../components/EvaluationListItemView';
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 
 const EvaluationScreen = (props) => {
-    const [{ colorTheme }] = useStateValue()
+    const { colorTheme } = useThemeProvider()
     const [evalulationState, setEvaluationState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, evaluation: [] })
 
     useEffect(() => {

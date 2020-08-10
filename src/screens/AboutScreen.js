@@ -5,10 +5,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import IconButton from '../components/IconButton';
 import Layout from '../constants/Layout';
 import { HeadingText } from '../components/Text';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 
 const Sponsor = props => {
-  const [{colorTheme}] = useStateValue()
+  const {colorTheme} = useThemeProvider()
 
   return (
   <View style={{...styles.sponsor, backgroundColor: colorTheme.componentBackground}}>
@@ -25,7 +25,7 @@ const onSponsorPressedHandler = (url) => {
 }
 
 export default function AboutScreen({ navigation }) {
-  const [{colorTheme}] = useStateValue()
+  const {colorTheme} = useThemeProvider()
   
   return (
     <View style={{...styles.container, backgroundColor: colorTheme.background}}>

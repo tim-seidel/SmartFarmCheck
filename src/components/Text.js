@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, Platform} from 'react-native'
-import { useStateValue } from '../StateProvider'
+import { useThemeProvider } from '../ThemeContext'
 
 /**
  * This file contains the default text formats for the application.
@@ -27,7 +27,7 @@ const colors = {
 
 //Components
 export const HeadingText = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
             <Text {...props} style={[{
@@ -39,7 +39,7 @@ export const HeadingText = (props) => {
 }
 
 export const ContentText = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
             <Text {...props} style={[{

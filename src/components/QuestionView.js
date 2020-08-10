@@ -7,7 +7,7 @@ import { StringValidator, NumberValidatior, SelectValidator } from "../model/Val
 import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 
 const INPUT_CHANGE = "INPUT_CHANGE"
@@ -39,7 +39,7 @@ const inputReducer = (state, action) => {
 }
 
 const QuestionView = props => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
     const { question, formId } = props;
 
     const [inputState, dispatch] = useReducer(inputReducer, {
@@ -212,7 +212,7 @@ function validityToIcon(validity) {
 }
 
 const NumberInput = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <View style={styles.numberRow}>
@@ -225,7 +225,7 @@ const NumberInput = (props) => {
 }
 
 const StringInput = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <TextInput style={{...styles.input, color: colorTheme.textPrimary}} placeholder="Hier eingeben..."></TextInput>

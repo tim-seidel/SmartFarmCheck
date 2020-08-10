@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, View, Linking } from 'react-native';
 
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import SFCHeaderButton from '../navigation/SFCHeaderButton';
 import { ConstantColors } from '../constants/Colors';
 
 export default function MeasureScreen({ route, navigation }) {
-  const [{ colorTheme }, dispatch] = useStateValue()
+  const { colorTheme, toggleTheme } = useThemeProvider()
   const measure = route.params
 
   function onURLHandler(url) {
@@ -26,7 +26,7 @@ export default function MeasureScreen({ route, navigation }) {
     title: measure?.name ?? "Maßnahmeninformation",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
-        <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={() => dispatch({ type: 'toggleTheme' })} />
+        <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toggleTheme} />
       </HeaderButtons>
     )
   })

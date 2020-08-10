@@ -5,11 +5,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 
 function MeasureListItemView(props) {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <View style={{...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style}}>

@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { useStateValue } from '../StateProvider'
+import { useThemeProvider } from '../ThemeContext'
 import InformationCard, { InformationText } from '../components/InformationCard'
 
 const FeedbackScreen = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <View style={{...styles.container, backgroundColor: colorTheme.background}}>

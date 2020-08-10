@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 
 /**
  * A basic UI element that displays text in a card like style.
@@ -24,7 +24,7 @@ export function InformationText(props) {
 }
 
 const InformationCard = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <View style={{ ...styles.card, backgroundColor: colorTheme.componentBackground, ...props.style }}>

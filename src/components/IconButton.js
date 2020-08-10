@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 
 import { ContentText } from './Text';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 
 /**
@@ -15,7 +15,7 @@ import { ConstantColors } from '../constants/Colors';
  * - light: transparent
  */
 const IconButton = (props) =>{
-        const [{colorTheme}] = useStateValue()
+        const {colorTheme} = useThemeProvider()
 
         const { icon, text, type } = props;
         return (

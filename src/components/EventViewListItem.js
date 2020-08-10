@@ -5,11 +5,11 @@ import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
 
 import moment from 'moment'
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 
 function EventListItemView(props) {
     const event = props.event
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <View style={{...styles.event, backgroundColor: colorTheme.componentBackground}}>

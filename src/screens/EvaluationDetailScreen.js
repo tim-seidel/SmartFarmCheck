@@ -4,14 +4,14 @@ import NetInfo from '@react-native-community/netinfo';
 
 import NoContentView from '../components/NoContentView';
 import URLInterceptingWebview from '../components/URLInterceptingWebview';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import SFCHeaderButton from '../navigation/SFCHeaderButton';
 import Strings from '../constants/Strings';
 import { ConstantColors } from '../constants/Colors';
 
 const EvaluationDetailScreen = (props) => {
-    const [{ colorTheme }, dispatch] = useStateValue()
+    const { colorTheme, toogleTheme} = useThemeProvider()
     const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measure: null })
 
     useEffect(() => {
@@ -93,7 +93,7 @@ const EvaluationDetailScreen = (props) => {
             title: measure?.name ?? "Maßnahmeninformation",
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
-                    <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={() => dispatch({ type: 'toggleTheme' })} />
+                    <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toogleTheme} />
                 </HeaderButtons>
             )
         })

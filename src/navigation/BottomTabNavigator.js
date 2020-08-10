@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EventScreen from '../screens/EventScreen';
 import MeasureScreen from '../screens/MeasureScreen';
 import ContactScreen from "../screens/ContactScreen"
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import SFCHeaderButton from './SFCHeaderButton';
@@ -14,7 +14,7 @@ import SFCHeaderButton from './SFCHeaderButton';
 const BottomTab = createBottomTabNavigator();
 
 const TabBarIcon = (props) => {
-  const [{colorTheme}] = useStateValue()
+  const {colorTheme} = useThemeProvider()
 
   return (
     <Icon
@@ -26,13 +26,13 @@ const TabBarIcon = (props) => {
 }
 
 export default function BottomTabNavigator({ navigation, route }) {
-  const [{colorTheme}, dispatch] = useStateValue()
+  const {colorTheme, toggleTheme} = useThemeProvider()
 
   navigation.setOptions({
     headerTitle: getHeaderTitle(route),
     headerRight: () => (
         <HeaderButtons HeaderButtonComponent={SFCHeaderButton}>
-            <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={() => dispatch({type: 'toggleTheme'})} />
+            <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toggleTheme} />
         </HeaderButtons>
     )
 })

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useState} from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { SplashScreen } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,7 +17,7 @@ import EvaluationScreen from './src/screens/EvaluationScreen';
 import EvaluationDetailScreen from './src/screens/EvaluationDetailScreen';
 import EventDetailScreen from './src/screens/EventDetailScreen';
 import FeedbackScreen from './src/screens/FeedbackScreen';
-import { StateProvider, useStateValue } from './src/StateProvider';
+import { ThemeContext } from './src/ThemeContext';
 import VideoScreen from './src/screens/VideoScreen';
 import AudioScreen from './src/screens/AudioScreen';
 
@@ -25,6 +25,15 @@ const Stack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false)
+  const [themeState, setThemeState] = useState({
+    colorTheme: Appearance.getColorScheme() === 'dark' ? darkTheme : lightTheme,
+    toggleTheme: () => {
+      setThemeState(state => ({
+        colorTheme: state.colorTheme === darkTheme ? lightTheme : darkTheme,
+        toggleTheme: state.toggleTheme
+      }))
+    }
+  })
 
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
@@ -40,44 +49,16 @@ export default function App(props) {
     }
 
     loadResourcesAndDataAsync();
-  }, []);
+  }, [])
 
-  const scheme = Appearance.getColorScheme()
-  const initialState = {
-    scheme: scheme,
-    colorTheme: scheme === 'dark' ? darkTheme : lightTheme
-  }
 
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case 'toggleTheme':
-        const newScheme = state.scheme === 'dark' ? 'light' : 'dark'
-        return {
-          ...state,
-          scheme: newScheme,
-          colorTheme: newScheme === 'dark' ? darkTheme : lightTheme
-        }
-      case 'setTheme': {
-        const newScheme = action.scheme === 'dark' ? 'light' : 'dark'
-        return {
-          ...state,
-          scheme: newScheme,
-          colorTheme: newScheme === 'dark' ? darkTheme : lightTheme
-        }
-      }
-      default:
-        return state
-    }
-  }
-
-  const state = useStateValue()
-  const colorTheme = state !== undefined ? state.colorTheme : initialState.colorTheme
+  const colorTheme = themeState.colorTheme
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null; /* Handled by splash screen. */
   } else {
     return (
-      <StateProvider initialState={initialState} reducer={reducer}>
+      <ThemeContext.Provider value={themeState}>
         <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
           {<StatusBar backgroundColor={colorTheme.secondary} barStyle="default" />}
           <NavigationContainer>
@@ -182,7 +163,7 @@ export default function App(props) {
                 }}
                 name="Feedback"
                 component={FeedbackScreen} />
-                <Stack.Screen
+              <Stack.Screen
                 options={{
                   title: "Video-Player",
                   headerTintColor: colorTheme.textPrimaryContrast,
@@ -192,7 +173,7 @@ export default function App(props) {
                 }}
                 name="Video"
                 component={VideoScreen} />
-                  <Stack.Screen
+              <Stack.Screen
                 options={{
                   title: "Audio-Player",
                   headerTintColor: colorTheme.textPrimaryContrast,
@@ -205,7 +186,7 @@ export default function App(props) {
             </Stack.Navigator>
           </NavigationContainer>
         </View >
-      </StateProvider>
+      </ThemeContext.Provider>
     );
   }
 }

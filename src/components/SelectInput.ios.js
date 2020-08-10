@@ -4,13 +4,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ContentText } from './Text'
 import Layout from '../constants/Layout'
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useStateValue()
 
     function showIosPickerHandler() {
         const pickerOptions = [picker_placeholder, ...props.options ?? []]

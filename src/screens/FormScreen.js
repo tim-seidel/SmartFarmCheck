@@ -11,11 +11,11 @@ import Strings from '../constants/Strings';
 import { ContentText } from '../components/Text';
 import Layout from '../constants/Layout';
 import SFCHeaderButton from '../navigation/SFCHeaderButton';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 import { ConstantColors } from '../constants/Colors';
 
 const FormScreen = props => {
-    const [{ colorTheme }] = useStateValue()
+    const { colorTheme } = useThemeProvider()
 
     const [mode, setMode] = useState('list')
     const [questionState, setQuestionState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, questions: [] })

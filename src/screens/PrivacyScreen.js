@@ -3,10 +3,10 @@ import { View, StyleSheet } from 'react-native'
 import { ContentText, HeadingText } from '../components/Text'
 import { ScrollView } from 'react-native-gesture-handler'
 
-import { useStateValue } from '../StateProvider'
+import { useThemeProvider } from '../ThemeContext'
 
 const PrivacyScreen = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <View style={{...styles.container, backgroundColor: colorTheme.background}}>

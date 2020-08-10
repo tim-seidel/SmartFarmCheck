@@ -5,7 +5,7 @@ import InformationCard, { InformationHighlight, InformationText } from '../compo
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
@@ -19,7 +19,7 @@ const isPortrait = () => {
 };
 
 const ContactScreen = (props) => {
-    const [{ colorTheme }] = useStateValue()
+    const { colorTheme } = useThemeProvider()
     const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
 
     useEffect(() => {

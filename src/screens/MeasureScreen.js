@@ -10,7 +10,7 @@ import IconButton from '../components/IconButton';
 import InformationCard, { InformationText } from "../components//InformationCard";
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -18,7 +18,7 @@ const isPortrait = () => {
 };
 
 const MeasureScreen = props => {
-  const [{ colorTheme }] = useStateValue()
+  const { colorTheme } = useThemeProvider()
 
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)

@@ -3,10 +3,10 @@ import { View, StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 import { ContentText } from '../components/Text'
-import { useStateValue } from '../StateProvider'
+import { useThemeProvider } from '../ThemeContext'
 
 const ImprintScreen = (props) => {
-    const [{colorTheme}] = useStateValue()
+    const {colorTheme} = useThemeProvider()
 
     return (
         <View style={{...styles.container, backgroundColor: colorTheme.background}}>

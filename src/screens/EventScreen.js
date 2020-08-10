@@ -12,14 +12,14 @@ import { HeadingText } from '../components/Text';
 import events from '../model/Events';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
-import { useStateValue } from '../StateProvider';
+import { useThemeProvider } from '../ThemeContext';
 
 const key_default_calendar_id = 'sfc_default_calendar_id'
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
 const eventMock = events
 const EventScreen = (props) => {
-  const [{ colorTheme }, dispatch] = useStateValue()
+  const { colorTheme, toogleTheme} = useThemeProvider()
 
   const [eventState, setEventState] = useState({ isLoaded: false, error: null, errorCode: 0, events: [] })
   const [calendarOptions, setCalendarOptions] = useState([])
@@ -116,12 +116,6 @@ const EventScreen = (props) => {
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
     return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
   });
-
-  function darkModelHandler() {
-    dispatch({
-      type: 'changeTheme'
-    })
-  }
 
   if (error) {
     eventContent = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
