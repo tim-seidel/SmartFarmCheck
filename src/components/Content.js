@@ -18,6 +18,7 @@ import { useThemeProvider } from '../ThemeContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import FormSelectScreen from '../screens/FormSelectScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -159,6 +160,16 @@ const Content = (props) => {
                         }}
                         name="FormSelect"
                         component={FormSelectScreen} />
+                    <Stack.Screen
+                        options={{
+                            title: "Einstellungen",
+                            headerTintColor: colorTheme.textPrimaryContrast,
+                            headerStyle: {
+                                backgroundColor: colorTheme.primary
+                            }
+                        }}
+                        name="Settings"
+                        component={SettingsScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
         </View >

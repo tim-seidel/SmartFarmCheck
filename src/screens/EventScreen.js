@@ -27,6 +27,22 @@ const EventScreen = (props) => {
   const [showCalendarModal, setShowCalendarModal] = useState(false)
   const [selectedCalendarOptionId, setSelectedCalendarOptionId] = useState()
 
+  var unsubscribeNetworkListener = undefined
+
+  useEffect(
+    () => {
+      unsubscribeNetworkListener = NetInfo.addEventListener(state => {
+        if (state.isConnected && eventState.isLoaded && !hasNetwork) {
+          console.log("Retry loading...")
+          setEventState({ isLoaded: false, error: null, errorCode: 0, hasNetwork: true, events: [] })
+        }
+      })
+
+      return () => {
+        if(unsubscribeNetworkListener) unsubscribeNetworkListener()
+      }
+    }, [])
+
   useEffect(() => {
     if (!eventState.isLoaded) {
       checkAndLoadEvents();

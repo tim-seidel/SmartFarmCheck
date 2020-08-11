@@ -14,13 +14,13 @@ import TabBarIcon from '../components/TabBarIcon';
 const BottomTab = createBottomTabNavigator();
 
 export default function HomeScreen({ navigation, route }) {
-  const {colorTheme, toggleTheme} = useThemeProvider()
+  const {colorTheme} = useThemeProvider()
 
   navigation.setOptions({
     headerTitle: getHeaderTitle(route),
     headerRight: () => (
         <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-            <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toggleTheme} />
+            <Item key="option-settings" iconName="settings" title={"Dunkelmodus toggeln"} onPress={() => navigation.navigate('Settings')} />
         </HeaderButtons>
     )
 })
