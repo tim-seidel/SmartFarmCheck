@@ -1,14 +1,14 @@
-import React, { useReducer } from 'react';
-import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useReducer } from 'react'
+import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { StringValidator, NumberValidatior, SelectValidator } from "../model/Validation"
 import SelectInput from "./SelectInput"
-import { HeadingText, ContentText } from './Text';
-import Layout from '../constants/Layout';
-import { useThemeProvider } from '../ThemeContext';
-import { ConstantColors } from '../constants/Colors';
+import { HeadingText, ContentText } from './Text'
+import Layout from '../constants/Layout'
+import { useThemeProvider } from '../ThemeContext'
+import { ConstantColors } from '../constants/Colors'
 
 const INPUT_CHANGE = "INPUT_CHANGE"
 const FORM_ID_CHANGE = "FORM_ID_CHANGE"
@@ -34,13 +34,13 @@ const inputReducer = (state, action) => {
                 questionId: action.questionId
             }
         default:
-            return state;
+            return state
     }
 }
 
 const QuestionView = props => {
-    const {colorTheme} = useThemeProvider()
-    const { question, formId } = props;
+    const { colorTheme } = useThemeProvider()
+    const { question, formId } = props
 
     const [inputState, dispatch] = useReducer(inputReducer, {
         input: props.initalValue ?? '',
@@ -55,7 +55,7 @@ const QuestionView = props => {
             type: FORM_ID_CHANGE,
             formId: props.formId
         })
-        setInput('');
+        setInput('')
     }
 
     if (inputState.questionId !== question.uuid) {
@@ -63,7 +63,7 @@ const QuestionView = props => {
             type: QUESTION_CHANGE,
             questionId: question.uuid
         })
-        setupWithPrefillValueOrDefault();
+        setupWithPrefillValueOrDefault()
     }
 
     async function setupWithPrefillValueOrDefault() {
@@ -83,13 +83,13 @@ const QuestionView = props => {
         switch (question.validator.inputType.toLowerCase()) {
             case "number":
                 NumberInputHandler(question.validator, value ?? undefined, store)
-                break;
+                break
             case "text":
                 TextInputHandler(question.validator, value ?? '', store)
-                break;
+                break
             case "select":
                 SelectInputHandler(question.validator, value ?? '', store)
-                break;
+                break
         }
     }
 
@@ -100,13 +100,13 @@ const QuestionView = props => {
         switch (question.validator.inputType.toLowerCase()) {
             case "number":
                 message = NumberValidatior(question.validator, _input).message
-                break;
+                break
             case "text":
                 message = StringValidator(question.validator, _input).message
-                break;
+                break
             case "select":
                 message = SelectValidator(question.validator, _input).message
-                break;
+                break
         }
 
         dispatch({
@@ -132,8 +132,8 @@ const QuestionView = props => {
     //and updates the state (input, message, validity).
     //It also stores or removes the input for prefill usage if needed
     function InputHandler(validator, validation, s_input, store) {
-        s_input = s_input.trim();
-        if (s_input === inputState.input) return;
+        s_input = s_input.trim()
+        if (s_input === inputState.input) return
 
         const { validity, message } = validator(validation, s_input)
         dispatch({
@@ -162,35 +162,35 @@ const QuestionView = props => {
         )
     }
 
-    let inputView;
+    let inputView
     switch (question.validator.inputType.toLowerCase()) {
         case "number":
-            inputView = <NumberInput input={inputState.input} unit={question.validator.unit} numberChanged={(number) => { NumberInputHandler(question.validator, number)}} />
-            break;
+            inputView = <NumberInput input={inputState.input} unit={question.validator.unit} numberChanged={(number) => { NumberInputHandler(question.validator, number) }} />
+            break
         case "text":
             inputView = <StringInput input={inputState.input} textChanged={(text) => TextInputHandler(question.validator, text)} />
-            break;
+            break
         case "select":
             inputView = <SelectInput options={question.validator.options} input={inputState.input} selectionChanged={(value) => SelectInputHandler(question.validator, value)} />
-            break;
+            break
     }
 
     return (
         <View style={styles.question}>
-            <View style={{...styles.numberWrapper, borderColor: colorTheme.textPrimary}}>
-                <Text style={{...styles.questionNumber, color: colorTheme.textPrimary}}>{props.index}</Text>
+            <View style={{ ...styles.numberWrapper, borderColor: colorTheme.textPrimary }}>
+                <Text style={{ ...styles.questionNumber, color: colorTheme.textPrimary }}>{props.index}</Text>
             </View>
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
-                    <HeadingText weight="normal" style={{flex: 1}}>{question.text}</HeadingText>
-                    {question.description && (<Icon style={{...styles.infoIcon, color: colorTheme.textPrimary}} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
+                    <HeadingText weight="normal" style={{ flex: 1 }}>{question.text}</HeadingText>
+                    {question.description && (<Icon style={{ ...styles.infoIcon, color: colorTheme.textPrimary }} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
                 </View>
                 <View style={styles.errorRow}>
                     <Icon name={validityToIcon(inputState.validity)} size={24} color={colorTheme.textPrimary}></Icon>
                     <View style={styles.errorTextWrapper}>
-                    <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'}>{inputState.errorMessage}</ContentText>
+                        <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'}>{inputState.errorMessage}</ContentText>
                     </View>
-              </View>
+                </View>
                 {inputView}
 
             </View>
@@ -212,23 +212,23 @@ function validityToIcon(validity) {
 }
 
 const NumberInput = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     return (
         <View style={styles.numberRow}>
-            <TextInput value={props.input} placeholderTextColor={colorTheme.textSecondary} onChangeText={props.numberChanged} keyboardType="numeric" style={{...styles.input, color: colorTheme.textPrimary}} placeholder="Hier eingeben..."></TextInput>
-          {props.unit && <View style={styles.unitTextWrapper}>
+            <TextInput value={props.input} placeholderTextColor={colorTheme.textSecondary} onChangeText={props.numberChanged} keyboardType="numeric" style={{ ...styles.input, color: colorTheme.textPrimary }} placeholder="Hier eingeben..."></TextInput>
+            {props.unit && <View style={styles.unitTextWrapper}>
                 <ContentText>in [{props.unit}]</ContentText>
-           </View>}
+            </View>}
         </View>
     )
 }
 
 const StringInput = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     return (
-        <TextInput style={{...styles.input, color: colorTheme.textPrimary}} placeholder="Hier eingeben..."></TextInput>
+        <TextInput style={{ ...styles.input, color: colorTheme.textPrimary }} placeholder="Hier eingeben..."></TextInput>
     )
 }
 
@@ -271,10 +271,10 @@ const styles = StyleSheet.create({
         flex: 1,
         marginStart: 8
     },
-    numberRow:{
+    numberRow: {
         flexDirection: 'row'
     },
-    unitTextWrapper:{
+    unitTextWrapper: {
         marginTop: 4,
         marginStart: 4,
         paddingHorizontal: 4,
@@ -308,6 +308,6 @@ const styles = StyleSheet.create({
         marginStart: 2,
         marginEnd: 4
     }
-});
+})
 
-export default QuestionView;
+export default QuestionView

@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
+import NetInfo from '@react-native-community/netinfo'
 
-import NoContentView from '../components/NoContentView';
-import URLInterceptingWebview from '../components/URLInterceptingWebview';
-import { useThemeProvider } from '../ThemeContext';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import ToolbarButton from '../components/ToolbarButton';
-import Strings from '../constants/Strings';
-import { ConstantColors } from '../constants/Colors';
+import NoContentView from '../components/NoContentView'
+import URLInterceptingWebview from '../components/URLInterceptingWebview'
+import { useThemeProvider } from '../ThemeContext'
+import Strings from '../constants/Strings'
+import { ConstantColors } from '../constants/Colors'
 
 const EvaluationDetailScreen = (props) => {
-    const { colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
     const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measure: null })
 
     useEffect(() => {
         if (!measureState.isLoaded) {
-            checkAndLoadMeasure();
+            checkAndLoadMeasure()
         }
     }, [measureState.isLoaded])
 
@@ -29,12 +27,12 @@ const EvaluationDetailScreen = (props) => {
                 } else {
                     setMeasureState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, measure: null })
                 }
-            });
+            })
         }
     }
 
     function loadMeasure() {
-        const measureId = props.route.params;
+        const measureId = props.route.params
 
         fetch('https://pas.coala.digital/v1/measures/' + measureId, {
             method: 'GET',
@@ -63,7 +61,7 @@ const EvaluationDetailScreen = (props) => {
         setMeasureState({ isLoaded: false, hasNetwork: true, error: false, errorCode: 0, measure: null })
     }
 
-    const { isLoaded, hasNetwork, error, errorCode, measure } = measureState;
+    const { isLoaded, hasNetwork, error, errorCode, measure } = measureState
 
     if (error) {
         return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network + " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
@@ -83,7 +81,7 @@ const EvaluationDetailScreen = (props) => {
                         const uri = "https://pas.coala.digital/v1/measures/" + measure.uuid + "/resource/" + r.name
                         content += "<img style=\"max-width: 100%\" src=\"" + uri + "\"/>" + "<p>Bild: " + r.description + "</>"
                 }
-            });
+            })
         }
 
         const wrapped = head + '<body>' + content + '</body></html>'
@@ -104,7 +102,7 @@ const EvaluationDetailScreen = (props) => {
             <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
                 <URLInterceptingWebview style={{ backgroundColor: ConstantColors.transparent }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
             </View>
-        );
+        )
     }
 }
 
@@ -112,6 +110,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     }
-});
+})
 
 export default EvaluationDetailScreen

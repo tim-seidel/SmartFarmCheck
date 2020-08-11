@@ -1,12 +1,12 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as Animatable from 'react-native-animatable'
 
-import IconButton from './IconButton';
-import Strings from '../constants/Strings';
-import { ContentText } from './Text';
-import { useThemeProvider } from '../ThemeContext';
+import IconButton from './IconButton'
+import Strings from '../constants/Strings'
+import { ContentText } from './Text'
+import { useThemeProvider } from '../ThemeContext'
 
 /*
  * A basic view that can be used if no content is available.
@@ -17,7 +17,7 @@ import { useThemeProvider } from '../ThemeContext';
  */
 
 const NoContentView = props => {
-  const {colorTheme} = useThemeProvider()
+  const { colorTheme } = useThemeProvider()
 
   const icon = !props.loading ?
     (<Icon name={props.icon} color={colorTheme.textPrimary} size={64}></Icon>) :
@@ -31,7 +31,7 @@ const NoContentView = props => {
       <ContentText large style={styles.textStyle}>{props.title}</ContentText>
       {props.onRetry && (<IconButton icon="reload" onPress={props.onRetry} text={props.retryTitle ?? Strings.try_again}></IconButton>)}
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     textAlign: 'center'
   }
-});
+})
 
-export default NoContentView;
+export default NoContentView

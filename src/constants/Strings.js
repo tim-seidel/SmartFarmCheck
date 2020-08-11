@@ -1,6 +1,6 @@
 const Strings = {
     yes: "Ja",
-    no: "Nein", 
+    no: "Nein",
     cancel: "Abbrechen",
     okay: "Okay",
     close: "Schließen",
@@ -15,16 +15,16 @@ const Strings = {
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
 
-    measure_information_title : "Über die Maßnahmen",
-    measure_information_text : "Hier sehen sie verschiedene Maßnahmen zur Digitalisierung , die sich für mittelständische Landwirtschaftsbetriebe eignen. Gerne können Sie sich über unser Formular persönliche Empfehlungen berechnen lassen oder uns jederzeit kontaktieren.",
+    measure_information_title: "Über die Maßnahmen",
+    measure_information_text: "Hier sehen sie verschiedene Maßnahmen zur Digitalisierung , die sich für mittelständische Landwirtschaftsbetriebe eignen. Gerne können Sie sich über unser Formular persönliche Empfehlungen berechnen lassen oder uns jederzeit kontaktieren.",
     measure_loading: "Laden der aktuellsten Maßnahmen...",
     measure_loading_error: "Aktuell können die Maßnahmen nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_empty: "Aktuell konnten keine Maßnahmen gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Maßnahmen können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
     measure_navigate_evaluation: "Jetzt Empfehlungen berechnen",
 
-    select_form_information_title : "Zur Auswahl des Fragebogens",
-    select_form_information_text : "Nachfolgend haben wir für Sie verschiedene, an Branchen und Bereiche angepasste Fragebögen vorbereitet, anhand derer wir Ihnen angepasste Empfehlungen berechnen können.",
+    select_form_information_title: "Zur Auswahl des Fragebogens",
+    select_form_information_text: "Nachfolgend haben wir für Sie verschiedene, an Branchen und Bereiche angepasste Fragebögen vorbereitet, anhand derer wir Ihnen angepasste Empfehlungen berechnen können.",
     select_form_loading: "Laden der verfügbaren Formulare...",
     select_form_loading_error: "Aktuell können die Formulare nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     select_form_loading_empty: "Aktuell konnten keine Formulare gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -37,7 +37,7 @@ const Strings = {
     form_reset: "Zurücksetzten",
     form_calculate: "Jetzt berechnen",
     form_paging_backwards: "Zurück",
-    form_paging_forwards: "Weiter", 
+    form_paging_forwards: "Weiter",
     form_dialog_confirm_reset_title: "Wirklich zurücksetzten?",
     form_dialog_confirm_reset_content: "Wenn Sie das Formular zurücksetzen, werden Ihre bestehenden Eingaben unwiderruflich gelöscht. Möchten Sie dies?",
     form_dialog_empty_title: "Leeres Formular",
@@ -58,7 +58,7 @@ const Strings = {
     evaluation_detail_loading: "Die Maßnahme wird geladen...",
     evaluation_detail_loading_error: "Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     evaluation_detail_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Details zur Maßnahme können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
-    
+
 
     event_calendar: "Veranstaltungskalendar",
     event_list_heading: "Kommende Veranstaltungen",
@@ -76,8 +76,6 @@ const Strings = {
     permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine in Ihren Kalender eintragen können. Sie können diese manuell in den Systemeinstellungen erteilen.",
     permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alernativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
     permission_calendar_information_after_denied_permanent: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Wenn Sie sich dennoch umentscheiden können Sie die Berechtigung in den Berechtigungseinstellung ihres System ändern."
-
-    
 }
 
-export default Strings;
+export default Strings

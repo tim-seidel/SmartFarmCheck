@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
-import { HeadingText, ContentText } from './Text';
-import Layout from '../constants/Layout';
-import { useThemeProvider } from '../ThemeContext';
+import { HeadingText, ContentText } from './Text'
+import Layout from '../constants/Layout'
+import { useThemeProvider } from '../ThemeContext'
 
 /**
  * A basic UI element that displays text in a card like style.
@@ -24,19 +24,19 @@ export function InformationText(props) {
 }
 
 const InformationCard = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     return (
         <View style={{ ...styles.card, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-            <View style={{...styles.titleWrapper, backgroundColor: colorTheme.primary}}>
-                <HeadingText style={{...styles.titleText, color: colorTheme.textPrimaryContrast}}>{props.title ?? 'Information'}</HeadingText>
+            <View style={{ ...styles.titleWrapper, backgroundColor: colorTheme.primary }}>
+                <HeadingText style={{ ...styles.titleText, color: colorTheme.textPrimaryContrast }}>{props.title ?? 'Information'}</HeadingText>
             </View>
-                <View style={styles.textWrapper}>
-                    <Text style={styles.text} >
-                        {props.children}
-                    </Text>
-                </View>
-                {props.contentView}
+            <View style={styles.textWrapper}>
+                <Text style={styles.text} >
+                    {props.children}
+                </Text>
+            </View>
+            {props.contentView}
         </View>
     )
 }
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default InformationCard;
+export default InformationCard

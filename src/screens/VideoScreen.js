@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { useThemeProvider } from '../ThemeContext'
 import WebView from 'react-native-webview'
+
+import { useThemeProvider } from '../ThemeContext'
 
 const VideoScreen = (props) => {
     const { colorTheme } = useThemeProvider()
@@ -21,4 +22,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default VideoScreen;
+export default VideoScreen

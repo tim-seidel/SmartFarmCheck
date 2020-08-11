@@ -1,12 +1,12 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import { TouchableHighlight } from 'react-native-gesture-handler'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import { HeadingText, ContentText } from './Text';
-import Layout from '../constants/Layout';
-import { useThemeProvider } from '../ThemeContext';
-import { ConstantColors } from '../constants/Colors';
+import { HeadingText, ContentText } from './Text'
+import Layout from '../constants/Layout'
+import { useThemeProvider } from '../ThemeContext'
+import { ConstantColors } from '../constants/Colors'
 
 const FormSelectListItemView = (props) => {
     const { colorTheme } = useThemeProvider()

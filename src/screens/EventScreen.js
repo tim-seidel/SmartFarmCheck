@@ -38,7 +38,7 @@ const EventScreen = (props) => {
       })
 
       return () => {
-        if(unsubscribeNetworkListener) unsubscribeNetworkListener()
+        if (unsubscribeNetworkListener) unsubscribeNetworkListener()
       }
     }, [])
 
@@ -406,4 +406,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EventScreen;
+export default EventScreen

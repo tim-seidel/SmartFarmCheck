@@ -1,21 +1,21 @@
-import React from 'react';
-import { StyleSheet, View, Linking } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React from 'react'
+import { StyleSheet, View, Linking } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 
-import IconButton from '../components/IconButton';
-import { HeadingText } from '../components/Text';
-import { useThemeProvider } from '../ThemeContext';
-import SponsorView from '../components/SponsorView';
+import IconButton from '../components/IconButton'
+import { HeadingText } from '../components/Text'
+import { useThemeProvider } from '../ThemeContext'
+import SponsorView from '../components/SponsorView'
 
 const onSponsorPressedHandler = (url) => {
   Linking.openURL(url)
 }
 
 export default function AboutScreen({ navigation }) {
-  const {colorTheme} = useThemeProvider()
-  
+  const { colorTheme } = useThemeProvider()
+
   return (
-    <View style={{...styles.container, backgroundColor: colorTheme.background}}>
+    <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
       <ScrollView style={styles.container} >
         <HeadingText large weight="bold" style={styles.title}>Gefördert durch:</HeadingText>
         <SponsorView style={styles.sponsor} name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logo_mittelstand4.png")} />
@@ -31,7 +31,7 @@ export default function AboutScreen({ navigation }) {
         </View>
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     maxWidth: 500,
     alignSelf: 'center'
   },
-  sponsor:{
+  sponsor: {
     width: "90%",
     maxWidth: 500,
     marginVertical: 8,
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row'
   }
-});
+})

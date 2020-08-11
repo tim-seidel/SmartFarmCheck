@@ -1,11 +1,9 @@
-import React from 'react';
-import { StyleSheet, View, Linking } from 'react-native';
+import React from 'react'
+import { StyleSheet, View, Linking } from 'react-native'
 
-import URLInterceptingWebview from '../components/URLInterceptingWebview';
-import { useThemeProvider } from '../ThemeContext';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import ToolbarButton from '../components/ToolbarButton';
-import { ConstantColors } from '../constants/Colors';
+import URLInterceptingWebview from '../components/URLInterceptingWebview'
+import { useThemeProvider } from '../ThemeContext'
+import { ConstantColors } from '../constants/Colors'
 
 export default function MeasureScreen({ route, navigation }) {
   const { colorTheme } = useThemeProvider()
@@ -32,18 +30,18 @@ export default function MeasureScreen({ route, navigation }) {
         const uri = "https://pas.coala.digital/v1/measures/" + measure.uuid + "/resource/" + r.name
         content += "<img style=\"max-width: 100%\" src=\"" + uri + "\"/>" + "<p>Bild: " + r.description + "</>"
     }
-  });
+  })
   const wrapped = head + '<body>' + content + '</body></html>'
 
   return (
-    <View style={{ ...styles.container, backgroundColor: colorTheme.background}}>
+    <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
       <URLInterceptingWebview style={{ backgroundColor: ConstantColors.transparent }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
   }
-});
+})

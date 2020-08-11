@@ -6,10 +6,10 @@ import { ContentText } from '../components/Text'
 import { useThemeProvider } from '../ThemeContext'
 
 const ImprintScreen = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     return (
-        <View style={{...styles.container, backgroundColor: colorTheme.background}}>
+        <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
             <ScrollView style={styles.scrollView}>
                 <ContentText>Hochschule Osnabrück</ContentText>
                 <ContentText>Albrechtstraße 30</ContentText>
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ImprintScreen;
+export default ImprintScreen

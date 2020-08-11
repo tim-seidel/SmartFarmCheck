@@ -1,34 +1,34 @@
 
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import EventScreen from './EventScreen';
-import MeasureScreen from './MeasureScreen';
+import EventScreen from './EventScreen'
+import MeasureScreen from './MeasureScreen'
 import ContactScreen from "./ContactScreen"
-import { useThemeProvider } from '../ThemeContext';
-import { ConstantColors } from '../constants/Colors';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import ToolbarButton from '../components/ToolbarButton';
-import TabBarIcon from '../components/TabBarIcon';
+import { useThemeProvider } from '../ThemeContext'
+import { ConstantColors } from '../constants/Colors'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import ToolbarButton from '../components/ToolbarButton'
+import TabBarIcon from '../components/TabBarIcon'
 
-const BottomTab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator()
 
 export default function HomeScreen({ navigation, route }) {
-  const {colorTheme} = useThemeProvider()
+  const { colorTheme } = useThemeProvider()
 
   navigation.setOptions({
     headerTitle: getHeaderTitle(route),
     headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-            <Item key="option-settings" iconName="settings" title={"Dunkelmodus toggeln"} onPress={() => navigation.navigate('Settings')} />
-        </HeaderButtons>
+      <HeaderButtons HeaderButtonComponent={ToolbarButton}>
+        <Item key="option-settings" iconName="settings" title={"Dunkelmodus toggeln"} onPress={() => navigation.navigate('Settings')} />
+      </HeaderButtons>
     )
-})
+  })
   return (
     <BottomTab.Navigator
       initialRouteName="Events"
       tabBarOptions={{
-        style:{
+        style: {
           backgroundColor: colorTheme.componentBackground
         },
         inactiveTintColor: ConstantColors.grey,
@@ -59,20 +59,20 @@ export default function HomeScreen({ navigation, route }) {
         }}
       />
     </BottomTab.Navigator>
-  );
+  )
 }
 
 function getHeaderTitle(route) {
-  const routeName = route.state?.routes[route.state.index]?.name;
+  const routeName = route.state?.routes[route.state.index]?.name
 
   switch (routeName) {
     case 'Measures':
-      return 'Maßnahmenübersicht';
+      return 'Maßnahmenübersicht'
     case 'Events':
-      return 'Smartfarmcheck';
+      return 'Smartfarmcheck'
     case 'Contact':
-      return "Kontakt";
+      return "Kontakt"
     default:
-      return "SmartFarmCheck";
+      return "SmartFarmCheck"
   }
 }

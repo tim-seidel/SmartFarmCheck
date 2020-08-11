@@ -1,19 +1,19 @@
-import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React from 'react'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { useThemeProvider } from '../ThemeContext';
-import { ConstantColors } from '../constants/Colors';
+import { useThemeProvider } from '../ThemeContext'
+import { ConstantColors } from '../constants/Colors'
 
 const TabBarIcon = (props) => {
-    const {colorTheme} = useThemeProvider()
-  
-    return (
-      <Icon
-        name={props.name}
-        size={24}
-        color={props.focused ? colorTheme.primary : ConstantColors.grey}
-      />
-    );
-  }
+  const { colorTheme } = useThemeProvider()
 
-  export default TabBarIcon
+  return (
+    <Icon
+      name={props.name}
+      size={24}
+      color={props.focused ? colorTheme.primary : ConstantColors.grey}
+    />
+  )
+}
+
+export default TabBarIcon

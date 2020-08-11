@@ -1,19 +1,19 @@
 import React from 'react'
 import { View, Picker, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import {ConstantColors} from'../constants/Colors'
+import { ConstantColors } from '../constants/Colors'
 import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext';
+import { useThemeProvider } from '../ThemeContext'
 
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     let items = props.options != null ? props.options.map((option, index) => {
         return <Picker.Item value={option} key={index} label={option}></Picker.Item>
-    }) : [];
+    }) : []
 
     function clearPickerHandler() {
         props.selectionChanged('')
@@ -25,7 +25,7 @@ const SelectInput = (props) => {
                 <Picker.Item value="" label={props.placeholder ?? picker_placeholder} key="defaultOption"></Picker.Item>
                 {items}
             </Picker>
-            {!!props.input && <Icon style={{...styles.clearIcon, color: colorTheme.textPrimary}} name={'close'} onPress={clearPickerHandler} size={24}></Icon>}
+            {!!props.input && <Icon style={{ ...styles.clearIcon, color: colorTheme.textPrimary }} name={'close'} onPress={clearPickerHandler} size={24}></Icon>}
         </View>
     )
 }
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         alignSelf: 'center',
     }
-});
+})
 
-export default SelectInput;
+export default SelectInput

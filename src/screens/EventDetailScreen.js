@@ -5,11 +5,11 @@ import WebView from 'react-native-webview'
 import { useThemeProvider } from '../ThemeContext'
 
 const EventDetailScreen = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
     const url = props.route.params
     return (
-        <View style={{...styles.container, backgroundColor: colorTheme.background}}>
-            <WebView source={{uri: url}}/>
+        <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
+            <WebView source={{ uri: url }} />
         </View>
     )
 }
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default EventDetailScreen;
+export default EventDetailScreen

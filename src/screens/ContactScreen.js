@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Linking, Platform, Dimensions } from 'react-native'
 
-import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
-import Strings from '../constants/Strings';
-import IconButton from '../components/IconButton';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useThemeProvider } from '../ThemeContext';
+import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard'
+import Strings from '../constants/Strings'
+import IconButton from '../components/IconButton'
+import { ScrollView } from 'react-native-gesture-handler'
+import { useThemeProvider } from '../ThemeContext'
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
@@ -14,23 +14,23 @@ const ActionButton = (props) => {
 }
 
 const isPortrait = () => {
-    const dim = Dimensions.get('screen');
-    return dim.height >= dim.width;
-};
+    const dim = Dimensions.get('screen')
+    return dim.height >= dim.width
+}
 
 const ContactScreen = (props) => {
     const { colorTheme } = useThemeProvider()
     const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
 
     useEffect(() => {
-        const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape');
+        const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape')
 
-        Dimensions.addEventListener('change', callback);
+        Dimensions.addEventListener('change', callback)
 
         return () => {
-            Dimensions.removeEventListener('change', callback);
-        };
-    }, []);
+            Dimensions.removeEventListener('change', callback)
+        }
+    }, [])
 
     const contactMailHandler = () => {
         Linking.openURL("mailto:mittelstand40@hs-osnabrueck.de")
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ContactScreen;
+export default ContactScreen

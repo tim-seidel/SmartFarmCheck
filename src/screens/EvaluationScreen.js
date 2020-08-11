@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import NetInfo from '@react-native-community/netinfo';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, Text } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import NetInfo from '@react-native-community/netinfo'
 
-import NoContentView from '../components/NoContentView';
-import EvaluationListItemView from '../components/EvaluationListItemView';
-import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard';
-import Strings from '../constants/Strings';
-import { HeadingText } from '../components/Text';
-import { useThemeProvider } from '../ThemeContext';
+import NoContentView from '../components/NoContentView'
+import EvaluationListItemView from '../components/EvaluationListItemView'
+import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard'
+import Strings from '../constants/Strings'
+import { HeadingText } from '../components/Text'
+import { useThemeProvider } from '../ThemeContext'
 
 const EvaluationScreen = (props) => {
     const { colorTheme } = useThemeProvider()
@@ -16,7 +16,7 @@ const EvaluationScreen = (props) => {
 
     useEffect(() => {
         if (!evalulationState.isLoaded) {
-            checkAndEvaluate();
+            checkAndEvaluate()
         }
     }, [evalulationState.isLoaded])
 
@@ -29,12 +29,12 @@ const EvaluationScreen = (props) => {
                 } else {
                     setEvaluationState({ isLoaded: true, hasNetwork: false, error: null, errorCode: 0, evaluation: [] })
                 }
-            });
+            })
         }
     }
 
     function evaluate() {
-        const data = props.route.params;
+        const data = props.route.params
         console.log("Sending input", data)
 
         fetch('https://pas.coala.digital/v1/evaluate', {
@@ -80,7 +80,7 @@ const EvaluationScreen = (props) => {
     } else if (!evaluation || evaluation.length === 0) {
         return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty}></NoContentView></View>
     } else {
-        let max = 0;
+        let max = 0
         evaluation.forEach(e => {
             if (e.rating > max) {
                 max = e.rating
@@ -114,7 +114,7 @@ const EvaluationScreen = (props) => {
                     keyExtractor={item => item.uuid}
                 />
             </View>
-        );
+        )
     }
 }
 
@@ -129,6 +129,6 @@ const styles = StyleSheet.create({
         marginStart: 2,
         marginTop: 16
     }
-});
+})
 
 export default EvaluationScreen

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'
 
@@ -35,7 +35,7 @@ const FormSelectScreen = (props) => {
 
     useEffect(() => {
         if (!formsState.isLoaded) {
-            checkAndLoadForms();
+            checkAndLoadForms()
         }
     }, [formsState.isLoaded])
 
@@ -48,7 +48,7 @@ const FormSelectScreen = (props) => {
                 } else {
                     setFormsState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, forms: [] })
                 }
-            });
+            })
         }
     }
 
@@ -81,18 +81,18 @@ const FormSelectScreen = (props) => {
                 setFormsState({ isLoaded: true, hasNetowrk: true, error: error, errorCode: -1, forms: [] })
             })
             */
-           setFormsState({isLoaded: true, hasNetwork: true, error: null, errorCode: 0, forms: formsMock})
+        setFormsState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, forms: formsMock })
     }
 
     function retryHandler() {
         setFormsState({ isLoaded: false, error: false, errorCode: 0, forms: [] })
     }
 
-    function formSelectedHandler(formUuid){
+    function formSelectedHandler(formUuid) {
         props.navigation.navigate('Form', formUuid)
     }
 
-    const { error, errorCode, hasNetwork, isLoaded, forms } = formsState;
+    const { error, errorCode, hasNetwork, isLoaded, forms } = formsState
 
     if (error) {
         return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
@@ -141,13 +141,13 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     heading: {
-       marginTop: 16,
-       marginBottom: 8,
+        marginTop: 16,
+        marginBottom: 8,
         marginStart: 2
     },
-    list:{
+    list: {
         marginHorizontal: 8
     }
 })
 
-export default FormSelectScreen;
+export default FormSelectScreen

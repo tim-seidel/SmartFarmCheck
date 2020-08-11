@@ -1,11 +1,11 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import IconButton from './IconButton';
-import { HeadingText, ContentText } from './Text';
-import Layout from '../constants/Layout';
-
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
 import moment from 'moment'
-import { useThemeProvider } from '../ThemeContext';
+
+import IconButton from './IconButton'
+import { HeadingText, ContentText } from './Text'
+import Layout from '../constants/Layout'
+import { useThemeProvider } from '../ThemeContext'
 
 function EventListItemView(props) {
     const event = props.event
@@ -29,7 +29,7 @@ function EventListItemView(props) {
                 </View>
             </View>
         </View>
-    );
+    )
 }
 
 function formatDate(start, end) {
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginHorizontal: 4
     },
-});
+})
 
-export default EventListItemView;
+export default EventListItemView

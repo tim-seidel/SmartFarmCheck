@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Switch } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import { useThemeProvider } from '../ThemeContext'
-import { ContentText } from '../components/Text';
-import { Appearance } from 'react-native-appearance';
-import Keys from '../constants/Keys';
-import { darkTheme } from '../constants/Colors';
+import { ContentText } from '../components/Text'
+import Keys from '../constants/Keys'
+import { darkTheme } from '../constants/Colors'
 
 const SettingsView = (props) => {
-  
-    const [isEnabled, setIsEnabled] = useState(props.initalValue ?? false);
+
+    const [isEnabled, setIsEnabled] = useState(props.initalValue ?? false)
     const { colorTheme } = useThemeProvider()
 
     useEffect(() => {
@@ -66,4 +65,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SettingsScreen;
+export default SettingsScreen

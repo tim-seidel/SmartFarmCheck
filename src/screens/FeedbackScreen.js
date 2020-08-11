@@ -1,13 +1,14 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
+
 import { useThemeProvider } from '../ThemeContext'
 import InformationCard, { InformationText } from '../components/InformationCard'
 
 const FeedbackScreen = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     return (
-        <View style={{...styles.container, backgroundColor: colorTheme.background}}>
+        <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
             <InformationCard style={styles.card} title="Work in progress">
                 <InformationText>An der Möglichkeit zum spezifischen Feedback zu Problemen und Aktionen in der App wird gerade gearbeitet.</InformationText>
             </InformationCard>
@@ -19,9 +20,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    card:{
+    card: {
         margin: 8
     }
 })
 
-export default FeedbackScreen;
+export default FeedbackScreen

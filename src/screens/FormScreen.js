@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { View, VirtualizedList, Alert, StyleSheet, TouchableOpacity } from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
-import NetInfo from '@react-native-community/netinfo';
+import React, { useState, useEffect } from 'react'
+import { View, VirtualizedList, Alert, StyleSheet, TouchableOpacity } from 'react-native'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import NetInfo from '@react-native-community/netinfo'
 
-import NoContentView from "../components/NoContentView";
-import QuestionView from "../components/QuestionView";
-import IconButton from '../components/IconButton';
-import Strings from '../constants/Strings';
-import { ContentText } from '../components/Text';
-import Layout from '../constants/Layout';
-import ToolbarButton from '../components/ToolbarButton';
-import { useThemeProvider } from '../ThemeContext';
-import { ConstantColors } from '../constants/Colors';
+import NoContentView from "../components/NoContentView"
+import QuestionView from "../components/QuestionView"
+import IconButton from '../components/IconButton'
+import Strings from '../constants/Strings'
+import { ContentText } from '../components/Text'
+import Layout from '../constants/Layout'
+import ToolbarButton from '../components/ToolbarButton'
+import { useThemeProvider } from '../ThemeContext'
+import { ConstantColors } from '../constants/Colors'
 
 const FormScreen = props => {
     const { colorTheme } = useThemeProvider()
@@ -24,7 +24,7 @@ const FormScreen = props => {
 
     useEffect(() => {
         if (!questionState.isLoaded) {
-            checkAndLoadQuestions();
+            checkAndLoadQuestions()
         }
     }, [questionState.isLoaded])
 
@@ -38,7 +38,7 @@ const FormScreen = props => {
                 } else {
                     setQuestionState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, questions: [] })
                 }
-            });
+            })
         }
     }
 
@@ -79,7 +79,7 @@ const FormScreen = props => {
     }
 
     function questionPagingHandler(toNext) {
-        var qNext = toNext ? pagingIndex + 1 : pagingIndex - 1;
+        var qNext = toNext ? pagingIndex + 1 : pagingIndex - 1
         if (qNext < 0) {
             qNext = 0
         }
@@ -91,7 +91,7 @@ const FormScreen = props => {
         setPagingIndex(qNext)
     }
 
-    const { isLoaded, hasNetwork, error, errorCode, questions } = questionState;
+    const { isLoaded, hasNetwork, error, errorCode, questions } = questionState
     console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
     if (error) {
         return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
@@ -111,7 +111,7 @@ const FormScreen = props => {
             )
         })
 
-        var questionContent = null;
+        var questionContent = null
         if (mode === 'list') {
             questionContent = (
                 <View style={styles.listContainer}>
@@ -187,8 +187,8 @@ const FormScreen = props => {
             { text: Strings.form_reset, onPress: () => resetForm(), style: "destructive" },
             { text: Strings.cancel, style: "default" },
         ],
-            { cancelable: false });
-        return;
+            { cancelable: false })
+        return
     }
 
     function resetForm() {
@@ -207,23 +207,23 @@ const FormScreen = props => {
             if (!q.input) {
                 indiciesEmpty.push(index + 1)
             }
-        });
+        })
 
         //Check first if no input was given. 
         if (indiciesEmpty.length == questions.length) {
             Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content, [
                 { text: Strings.okay, onPress: () => console.log("Canceled sending"), style: "cancel" },
             ],
-                { cancelable: false });
-            return;
+                { cancelable: false })
+            return
         }
 
         if (indiciesError.length > 0) {
             Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhaft: (' + indiciesError.join(', ') + ')', [
                 { text: Strings.okay, onPress: () => console.log("Canceled sending"), style: "cancel" },
             ],
-                { cancelable: false });
-            return;
+                { cancelable: false })
+            return
         }
 
         if (indiciesEmpty.length > 0) {
@@ -231,9 +231,9 @@ const FormScreen = props => {
                 { text: Strings.cancel, onPress: () => console.log("Canceled sending"), style: "cancel" },
                 { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
             ],
-                { cancelable: false });
+                { cancelable: false })
         } else {
-            gotoEvaluation(questions);
+            gotoEvaluation(questions)
         }
     }
 
@@ -244,7 +244,7 @@ const FormScreen = props => {
                 send.push({ 'questionUUID': q.uuid, 'value': q.input })
             }
         })
-        const data = JSON.stringify(send);
+        const data = JSON.stringify(send)
         props.navigation.navigate("Evaluation", data)
     }
 }
@@ -309,6 +309,6 @@ styles = StyleSheet.create({
     submitWrapper: {
         flex: 1
     }
-});
+})
 
 export default FormScreen

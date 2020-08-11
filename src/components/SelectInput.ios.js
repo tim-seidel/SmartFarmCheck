@@ -1,16 +1,16 @@
 import React from 'react'
 import { StyleSheet, ActionSheetIOS, TouchableOpacity, View } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { ContentText } from './Text'
 import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext';
-import { ConstantColors } from '../constants/Colors';
+import { useThemeProvider } from '../ThemeContext'
+import { ConstantColors } from '../constants/Colors'
 
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     function showIosPickerHandler() {
         const pickerOptions = [picker_placeholder, ...props.options ?? []]
@@ -23,7 +23,7 @@ const SelectInput = (props) => {
             (buttonIndex) => {
                 props.selectionChanged(buttonIndex !== noOptionIndex ? pickerOptions[buttonIndex] : '')
             }
-        );
+        )
     }
 
     function clearPickerHandler() {
@@ -35,7 +35,7 @@ const SelectInput = (props) => {
             <TouchableOpacity style={styles.pickerTouchWrapper} onPress={showIosPickerHandler}>
                 <ContentText style={{ color: props.input ? colorTheme.textPrimary : colorTheme.textSecondary }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
             </TouchableOpacity>
-            {!!props.input && <Icon style={{...styles.clearIcon, color: colorTheme.textPrimary}} name={'close'} onPress={clearPickerHandler} size={20}></Icon>}
+            {!!props.input && <Icon style={{ ...styles.clearIcon, color: colorTheme.textPrimary }} name={'close'} onPress={clearPickerHandler} size={20}></Icon>}
         </View>
     )
 }
@@ -57,6 +57,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8
     }
 
-});
+})
 
-export default SelectInput;
+export default SelectInput

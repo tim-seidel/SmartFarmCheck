@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { useThemeProvider } from '../ThemeContext'
 import WebView from 'react-native-webview'
+
+import { useThemeProvider } from '../ThemeContext'
 
 const AudioScreen = (props) => {
     const { colorTheme } = useThemeProvider()
@@ -20,4 +21,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AudioScreen;
+export default AudioScreen

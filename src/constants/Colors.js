@@ -8,7 +8,7 @@ export const lightTheme = {
 
   background: 'transparent',
   componentBackground: '#fff',
-  
+
   error: "#f00",
   textPrimary: '#000',
   textPrimaryContrast: '#fff',
@@ -29,7 +29,7 @@ export const darkTheme = {
   textSecondary: '#ccc',
 }
 
-export const ConstantColors ={
+export const ConstantColors = {
   grey: "#aaa",
   lightgrey: "#ccc",
   transparent: 'transparent',
