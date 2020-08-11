@@ -130,7 +130,7 @@ const MeasureScreen = props => {
           keyExtractor={item => item.uuid}
         />
         <View style={styles.calculateButtonWrapper}>
-          <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate("Form") }} />
+          <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate("FormSelect") }} />
         </View>
       </View>
     );

@@ -17,6 +17,7 @@ import AudioScreen from '../screens/AudioScreen';
 import { useThemeProvider } from '../ThemeContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
+import FormSelectScreen from '../screens/FormSelectScreen';
 
 const Stack = createStackNavigator();
 
@@ -148,6 +149,16 @@ const Content = (props) => {
                         }}
                         name="Audio"
                         component={AudioScreen} />
+                    <Stack.Screen
+                        options={{
+                            title: "Fragebogenauswahl",
+                            headerTintColor: colorTheme.textPrimaryContrast,
+                            headerStyle: {
+                                backgroundColor: colorTheme.primary
+                            }
+                        }}
+                        name="FormSelect"
+                        component={FormSelectScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
         </View >

@@ -23,6 +23,13 @@ const Strings = {
     measure_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Maßnahmen können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
     measure_navigate_evaluation: "Jetzt Empfehlungen berechnen",
 
+    select_form_information_title : "Zur Auswahl des Fragebogens",
+    select_form_information_text : "Nachfolgend haben wir für Sie verschiedene, an Branchen und Bereiche angepasste Fragebögen vorbereitet, anhand derer wir Ihnen angepasste Empfehlungen berechnen können.",
+    select_form_loading: "Laden der verfügbaren Formulare...",
+    select_form_loading_error: "Aktuell können die Formulare nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
+    select_form_loading_empty: "Aktuell konnten keine Formulare gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
+    select_form_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Formulare können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
+
     form_loading: "Laden des akutellsten Fragebogens...",
     form_loading_error: "Aktuell kann das Formular nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     form_loading_empty: "Akutell konnten keine Fragen zum Formular gefunden werden. Bitte übeprüfen Sie Ihre Internetverbindung und versuchen Sie es später erneut.",
