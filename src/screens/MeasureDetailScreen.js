@@ -8,7 +8,7 @@ import ToolbarButton from '../components/ToolbarButton';
 import { ConstantColors } from '../constants/Colors';
 
 export default function MeasureScreen({ route, navigation }) {
-  const { colorTheme, toggleTheme } = useThemeProvider()
+  const { colorTheme } = useThemeProvider()
   const measure = route.params
 
   function onURLHandler(url) {
@@ -21,15 +21,6 @@ export default function MeasureScreen({ route, navigation }) {
       Linking.openURL(url)
     }
   }
-
-  navigation.setOptions({
-    title: measure?.name ?? "Maßnahmeninformation",
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-        <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toggleTheme} />
-      </HeaderButtons>
-    )
-  })
 
   const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; }</style></head>'
   var content = measure.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"

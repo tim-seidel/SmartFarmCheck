@@ -11,7 +11,7 @@ import Strings from '../constants/Strings';
 import { ConstantColors } from '../constants/Colors';
 
 const EvaluationDetailScreen = (props) => {
-    const { colorTheme, toogleTheme} = useThemeProvider()
+    const { colorTheme} = useThemeProvider()
     const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measure: null })
 
     useEffect(() => {
@@ -89,15 +89,6 @@ const EvaluationDetailScreen = (props) => {
         const wrapped = head + '<body>' + content + '</body></html>'
 
         const navigation = props.navigation
-        navigation.setOptions({
-            title: measure?.name ?? "Maßnahmeninformation",
-            headerRight: () => (
-                <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-                    <Item key="option-darkmode" iconName="brightness-6" title={"Dunkelmodus toggeln"} onPress={toogleTheme} />
-                </HeaderButtons>
-            )
-        })
-
         function onURLHandler(url) {
             if (url.includes('.mp4') || url.includes('.avi')) {
                 navigation.navigate('Video', url)
