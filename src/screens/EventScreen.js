@@ -6,7 +6,7 @@ import moment from 'moment'
 import NetInfo from '@react-native-community/netinfo';
 
 import NoContentView from '../components/NoContentView';
-import EventListItemView from '../components/EventViewListItem';
+import EventListItemView from '../components/EventViewListItemView';
 import InformationCard, { InformationText } from '../components/InformationCard';
 import { HeadingText } from '../components/Text';
 import events from '../model/Events';
@@ -33,7 +33,6 @@ const EventScreen = (props) => {
     () => {
       unsubscribeNetworkListener = NetInfo.addEventListener(state => {
         if (state.isConnected && eventState.isLoaded && !hasNetwork) {
-          console.log("Retry loading...")
           setEventState({ isLoaded: false, error: null, errorCode: 0, hasNetwork: true, events: [] })
         }
       })
@@ -392,6 +391,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginTop: 16,
+    marginBottom: 8,
     marginStart: 2
   },
   modalView: {

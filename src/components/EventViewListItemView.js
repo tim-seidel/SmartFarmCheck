@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View} from 'react-native';
-import IconButton from '../components/IconButton';
+import { StyleSheet, View } from 'react-native';
+import IconButton from './IconButton';
 import { HeadingText, ContentText } from './Text';
 import Layout from '../constants/Layout';
 
@@ -9,14 +9,14 @@ import { useThemeProvider } from '../ThemeContext';
 
 function EventListItemView(props) {
     const event = props.event
-    const {colorTheme} = useThemeProvider()
+    const { colorTheme } = useThemeProvider()
 
     return (
-        <View style={{...styles.event, backgroundColor: colorTheme.componentBackground}}>
+        <View style={{ ...styles.event, backgroundColor: colorTheme.componentBackground }}>
             <HeadingText weight={'bold'}>{formatDate(moment(event.startDate), moment(event.endDate))}</HeadingText>
             <View style={styles.separator}></View>
             <HeadingText>{event.title}</HeadingText>
-            <ContentText light numberOfLines={3} style={{paddingTop: 4, paddingBottom: 8}}>{event.short}</ContentText>
+            <ContentText light numberOfLines={3} style={{ paddingTop: 4, paddingBottom: 8 }}>{event.short}</ContentText>
             <View style={styles.eventButtonRow}>
                 <View style={styles.eventButtonWrapper}>
                     <IconButton icon="information-outline" text="Details" fontSize={15} onPress={props.onDetailPress}></IconButton>
@@ -32,14 +32,14 @@ function EventListItemView(props) {
     );
 }
 
-function formatDate(start, end){
+function formatDate(start, end) {
     var d = new Date()
 
-    if(start.isSame(end, 'day')){
+    if (start.isSame(end, 'day')) {
         return start.format("DD.MM.YYYY | HH:mm") + " - " + end.format("HH:mm")
-    }else if(start.isSame(end, 'year')){
+    } else if (start.isSame(end, 'year')) {
         return start.format("DD.MM.2020 HH:mm") + " - " + end.format("DD.MM.2020 HH:mm")
-    }else{
+    } else {
         return start.format("DD.MM.YYYY HH:mm") + " - " + end.format("DD.MM.YYYY HH:mm")
     }
 }
@@ -48,7 +48,7 @@ function formatDate(start, end){
 const styles = StyleSheet.create({
     event: {
         flex: 1,
-        marginVertical: 12,
+        marginVertical: 4,
         padding: 8,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
