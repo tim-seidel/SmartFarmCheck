@@ -9,6 +9,7 @@ import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
+import Strings from '../constants/Strings'
 
 const INPUT_CHANGE = "INPUT_CHANGE"
 const FORM_ID_CHANGE = "FORM_ID_CHANGE"
@@ -158,7 +159,7 @@ const QuestionView = props => {
         Alert.alert(
             question.text,
             question.description,
-            [{ text: "Okay!", style: "default" }]
+            [{ text: Strings.okay, style: "default" }]
         )
     }
 
@@ -176,7 +177,7 @@ const QuestionView = props => {
     }
 
     return (
-        <View style={styles.question}>
+        <View style={{ ...styles.question, backgroundColor: colorTheme.componentBackground }}>
             <View style={{ ...styles.numberWrapper, borderColor: colorTheme.textPrimary }}>
                 <Text style={{ ...styles.questionNumber, color: colorTheme.textPrimary }}>{props.index}</Text>
             </View>
@@ -216,8 +217,8 @@ const NumberInput = (props) => {
 
     return (
         <View style={styles.numberRow}>
-            <TextInput value={props.input} placeholderTextColor={colorTheme.textSecondary} onChangeText={props.numberChanged} keyboardType="numeric" style={{ ...styles.input, color: colorTheme.textPrimary }} placeholder="Hier eingeben..."></TextInput>
-            {props.unit && <View style={styles.unitTextWrapper}>
+            <TextInput value={props.input} placeholder={Strings.form_input_placeholder} placeholderTextColor={ConstantColors.lightgrey} onChangeText={props.numberChanged} keyboardType="numeric" style={{ ...(props.unit ? styles.inputWithUnit : styles.input), color: colorTheme.textPrimary, backgroundColor: colorTheme.background }} ></TextInput>
+            {props.unit && <View style={{ ...styles.unitTextWrapper, backgroundColor: colorTheme.background }}>
                 <ContentText>in [{props.unit}]</ContentText>
             </View>}
         </View>
@@ -228,7 +229,7 @@ const StringInput = (props) => {
     const { colorTheme } = useThemeProvider()
 
     return (
-        <TextInput style={{ ...styles.input, color: colorTheme.textPrimary }} placeholder="Hier eingeben..."></TextInput>
+        <TextInput value={props.input} placeholder={Strings.form_input_placeholder} placeholderTextColor={ConstantColors.lightgrey} onChangeText={props.textChanged} style={{ ...styles.input, backgroundColor: colorTheme.background }}></TextInput>
     )
 }
 
@@ -236,8 +237,11 @@ const styles = StyleSheet.create({
     question: {
         flexDirection: "row",
         marginHorizontal: 8,
-        marginTop: 16,
-        marginBottom: 32,
+        marginVertical: 8,
+        padding: 8,
+        borderColor: Layout.borderColor,
+        borderWidth: Layout.borderWidth,
+        borderRadius: Layout.borderRadius,
     },
     questionNumber: {
         fontSize: 22,
@@ -246,7 +250,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1
     },
     numberWrapper: {
-        borderWidth: 1,
+        borderWidth: Layout.borderWidth,
         borderRadius: 24,
         padding: 2,
         alignSelf: "baseline",
@@ -276,11 +280,13 @@ const styles = StyleSheet.create({
     },
     unitTextWrapper: {
         marginTop: 4,
-        marginStart: 4,
         paddingHorizontal: 4,
         borderRadius: Layout.borderRadius,
-        borderWidth: 1,
-        borderColor: ConstantColors.grey,
+        borderWidth: Layout.borderWidth,
+        borderColor: Layout.borderColor,
+        borderLeftWidth: 0,
+        borderBottomLeftRadius: 0,
+        borderTopLeftRadius: 0,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -290,9 +296,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 10,
         borderRadius: Layout.borderRadius,
-        borderWidth: 1,
-        fontSize: 17,
-        borderColor: ConstantColors.grey
+        borderWidth: Layout.borderWidth,
+        borderColor: Layout.borderColor,
+        fontSize: 17
+    },
+    inputWithUnit: {
+        flex: 1,
+        marginTop: 4,
+        paddingHorizontal: 8,
+        paddingVertical: 10,
+        borderTopWidth: Layout.borderWidth,
+        borderLeftWidth: Layout.borderWidth,
+        borderBottomWidth: Layout.borderWidth,
+        borderTopLeftRadius: Layout.borderRadius,
+        borderBottomLeftRadius: Layout.borderRadius,
+        borderColor: Layout.borderColor,
+        borderEndWidth: 0,
+        borderTopEndRadius: 0,
+        borderBottomRightRadius: 0,
+        fontSize: 17
     },
     buttonRow: {
         flexDirection: "row",

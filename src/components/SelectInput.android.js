@@ -20,7 +20,7 @@ const SelectInput = (props) => {
     }
 
     return (
-        <View style={styles.pickerContainer}>
+        <View style={{...styles.pickerContainer, backgroundColor: colorTheme.background}}>
             <Picker style={{ flex: 1, color: props.input ? colorTheme.textPrimary : ConstantColors.lightgrey }} selectedValue={props.input} onValueChange={props.selectionChanged}>
                 <Picker.Item value="" label={props.placeholder ?? picker_placeholder} key="defaultOption"></Picker.Item>
                 {items}
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 4,
         borderRadius: Layout.borderRadius,
-        borderWidth: 1,
-        borderColor: ConstantColors.grey
+        borderWidth: Layout.borderWidth,
+        borderColor: Layout.borderColor
     },
     clearIcon: {
         paddingHorizontal: 8,

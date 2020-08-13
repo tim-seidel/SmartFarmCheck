@@ -49,6 +49,7 @@ const Strings = {
     form_dialog_send_unfinished_content: "Sie haben das Formular noch nicht vollständig ausgfüllt, möchten Sie es trotzdem absenden? Je mehr Fragen Sie beantworten, desto individueller können die Empfehlungen berechnet werden.",
     form_send: "Absenden",
     form_layout_questions: "Fragenlayout",
+    form_input_placeholder: "Hier eingeben...",
 
     evaluation_list_heading: "Die Bewertung:",
     evaluation_loading: "Die Bewertung wird durchgeführt...",

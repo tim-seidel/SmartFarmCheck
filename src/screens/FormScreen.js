@@ -184,8 +184,8 @@ const FormScreen = props => {
 
     function resetHandler() {
         Alert.alert(Strings.form_dialog_confirm_reset_title, Strings.form_dialog_confirm_reset_content, [
-            { text: Strings.form_reset, onPress: () => resetForm(), style: "destructive" },
             { text: Strings.cancel, style: "default" },
+            { text: Strings.form_reset, onPress: () => resetForm(), style: "destructive" }
         ],
             { cancelable: false })
         return

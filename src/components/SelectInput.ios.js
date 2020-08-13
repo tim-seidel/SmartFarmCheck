@@ -31,9 +31,9 @@ const SelectInput = (props) => {
     }
 
     return (
-        <View style={styles.pickerRow}>
+        <View style={{...styles.pickerRow, backgroundColor: colorTheme.background}}>
             <TouchableOpacity style={styles.pickerTouchWrapper} onPress={showIosPickerHandler}>
-                <ContentText style={{ color: props.input ? colorTheme.textPrimary : colorTheme.textSecondary }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
+                <ContentText style={{ color: props.input ? colorTheme.textPrimary : ConstantColors.lightgrey }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
             </TouchableOpacity>
             {!!props.input && <Icon style={{ ...styles.clearIcon, color: colorTheme.textPrimary }} name={'close'} onPress={clearPickerHandler} size={20}></Icon>}
         </View>
@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
     pickerRow: {
         flexDirection: 'row',
         marginTop: 4,
-        borderRadius: Layout.borderRadius,
-        borderWidth: 1,
         paddingHorizontal: 8,
         paddingVertical: 10,
-        borderColor: ConstantColors.grey
+        borderRadius: Layout.borderRadius,
+        borderWidth: Layout.borderWidth,
+        borderColor: Layout.borderColor
     },
     pickerTouchWrapper: {
         flex: 1
