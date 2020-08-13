@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Switch } from 'react-native'
+import { View, StyleSheet, Switch, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import { useThemeProvider } from '../ThemeContext'
 import { ContentText } from '../components/Text'
 import Keys from '../constants/Keys'
-import { darkTheme } from '../constants/Colors'
+import { darkTheme, ConstantColors } from '../constants/Colors'
+import { TouchableHighlight } from 'react-native-gesture-handler'
+import Strings from '../constants/Strings'
+import Layout from '../constants/Layout'
 
-const SettingsView = (props) => {
-
+const SettingsToggleView = (props) => {
     const [isEnabled, setIsEnabled] = useState(props.initalValue ?? false)
     const { colorTheme } = useThemeProvider()
 
@@ -21,7 +23,6 @@ const SettingsView = (props) => {
         })
     }, [])
 
-
     const toggleSwitch = (value) => {
         setIsEnabled(value)
         props.onValueChanged(value)
@@ -29,12 +30,32 @@ const SettingsView = (props) => {
     }
 
     return (
-        <View style={{ ...styles.setting, backgroundColor: colorTheme.componentBackground }}>
-            <Icon style={{ color: colorTheme.textPrimary }} name={props.icon} size={32}></Icon>
+        <View style={{ ...styles.switchSetting, backgroundColor: colorTheme.componentBackground, ...props.style }}>
+            <Icon style={{ color: colorTheme.textPrimary }} name={props.icon} size={24}></Icon>
             <View style={styles.nameWrapper}>
                 <ContentText>{props.name}</ContentText>
             </View>
-            <Switch onValueChange={toggleSwitch} value={isEnabled} />
+            <Switch onValueChange={toggleSwitch} value={isEnabled}
+                thumbColor={isEnabled ? colorTheme.accent : ConstantColors.accent}
+                trackColor={{ false: "#767577", true: colorTheme.primary }} />
+        </View>
+    )
+}
+
+const SettingsClickView = (props) => {
+    const { colorTheme } = useThemeProvider()
+
+    return (
+        <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
+            <TouchableHighlight underlayColor={ConstantColors.grey} onPress={props.onPress}>
+                <View style={styles.innerWrapper}>
+                    <Icon style={{ color: colorTheme.textPrimary, marginStart: 8 }} name={props.icon} size={24}></Icon>
+                    <View style={styles.nameWrapper}>
+                        <ContentText>{props.name}</ContentText>
+                    </View>
+                    <Icon style={{ color: colorTheme.textPrimary, marginEnd: 8 }} name="chevron-right" size={24}></Icon>
+                </View>
+            </TouchableHighlight>
         </View>
     )
 }
@@ -42,25 +63,65 @@ const SettingsView = (props) => {
 const SettingsScreen = (props) => {
     const { colorTheme, toggleTheme } = useThemeProvider()
 
+    function resetFormsHandler() {
+        Alert.alert(Strings.settings_reset_form_dialog_title, Strings.settings_reset_form_dialog_content, [
+            { text: Strings.cancel, style: "default" },
+            { text: Strings.reset, onPress: () => resetForms(), style: "destructive" }
+        ],
+            { cancelable: true }
+        )
+    }
+
+    function resetForms(){
+        //TODO: Reset forms
+    }
+
+    function licenseHandler() {
+        props.navigation.navigate('License')
+    }
+
+    const isDark = colorTheme === darkTheme
     return (
         <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-            <SettingsView storeKey={Keys.SETTING_DARKMODE} name="Dunkelmodus" icon="brightness-6" initalValue={colorTheme === darkTheme} onValueChanged={toggleTheme}></SettingsView>
+            <SettingsToggleView storeKey={Keys.SETTING_DARKMODE} name={Strings.settings_darkmode_title} icon="brightness-6" initalValue={isDark} onValueChanged={toggleTheme}></SettingsToggleView>
+            <SettingsClickView name={Strings.settings_reset_form_title} icon="delete" initalValue={isDark} onPress={resetFormsHandler}></SettingsClickView>
+            <SettingsClickView name={Strings.settings_licenses_title} icon="copyright" initalValue={isDark} onPress={licenseHandler} ></SettingsClickView>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        paddingHorizontal: 8
     },
-    setting: {
-        paddingHorizontal: 8,
+    switchSetting: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingHorizontal: 8,
+        borderRadius: 8,
+        marginTop: 8,
+        borderColor: Layout.borderColor,
+        borderRadius: Layout.borderRadius, 
+        borderWidth: Layout.borderWidth
+
+    },
+    outerWrapper: {
+        overflow: 'hidden',
+        borderRadius: 8,
+        marginTop: 8,
+        borderColor: Layout.borderColor,
+        borderRadius: Layout.borderRadius, 
+        borderWidth: Layout.borderWidth
+    },
+    innerWrapper: {
+        alignItems: 'center',
+        flexDirection: 'row',
     },
     nameWrapper: {
         flex: 1,
-        paddingHorizontal: 8,
+        marginStart: 16,
+        marginEnd: 8,
         paddingVertical: 16
     }
 })
