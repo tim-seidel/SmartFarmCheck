@@ -44,7 +44,6 @@ function formatDate(start, end) {
     }
 }
 
-
 const styles = StyleSheet.create({
     event: {
         flex: 1,
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     separator: {
         backgroundColor: Layout.borderColor,
         height: Layout.borderWidth,
-        marginVertical: 4
+        marginVertical: 8
     },
     eventButtonRow: {
         flexDirection: "row",

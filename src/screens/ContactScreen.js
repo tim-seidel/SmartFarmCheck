@@ -82,14 +82,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-
+        paddingVertical: 4,
+        paddingHorizontal: 8
     },
     contactCardSingle: {
-        marginVertical: 8,
-        width: '90%'
+        marginVertical: 4,
+        width: '100%'
     },
     contactCardGrid: {
-        marginVertical: 8,
+        marginVertical: 4,
         width: '45%'
     },
     action: {
