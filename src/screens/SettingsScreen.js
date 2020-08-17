@@ -72,8 +72,14 @@ const SettingsScreen = (props) => {
         )
     }
 
-    function resetForms(){
+    async function resetForms(){
         //TODO: Reset forms
+        const keys = await AsyncStorage.getAllKeys();
+        const formKeys = keys.filter(k => k.startsWith(Keys.PREFILL_PREFIX))
+
+        console.log(keys)
+        await  AsyncStorage.multiRemove(formKeys)
+        console.log(await AsyncStorage.getAllKeys())
     }
 
     function licenseHandler() {

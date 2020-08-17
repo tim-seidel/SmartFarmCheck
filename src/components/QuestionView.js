@@ -10,6 +10,7 @@ import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import Strings from '../constants/Strings'
+import Keys from '../constants/Keys'
 
 const INPUT_CHANGE = "INPUT_CHANGE"
 const FORM_ID_CHANGE = "FORM_ID_CHANGE"
@@ -69,7 +70,7 @@ const QuestionView = props => {
 
     async function setupWithPrefillValueOrDefault() {
         try {
-            let value = await AsyncStorage.getItem(question.uuid)
+            let value = await AsyncStorage.getItem(Keys.PREFILL_PREFIX + question.uuid)
             if (value) {
                 setInput(value, false)
             } else {
@@ -146,9 +147,9 @@ const QuestionView = props => {
 
         if (store) {
             if (s_input) { //TODO better check or length. (E.g if s_input is 'false' (string) It might be treated as not store-worthy)
-                AsyncStorage.setItem(question.uuid, s_input)
+                AsyncStorage.setItem(Keys.PREFILL_PREFIX + question.uuid, s_input)
             } else {
-                AsyncStorage.removeItem(question.uuid)
+                AsyncStorage.removeItem(Keys.PREFILL_PREFIX + question.uuid)
             }
         }
 
