@@ -122,7 +122,7 @@ const Content = (props) => {
                         component={EventDetailScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Feedback geben",
+                            title: "Feedback/Hilfe",
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
