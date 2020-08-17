@@ -37,6 +37,7 @@ export const HeadingText = (props) => {
             fontWeight: props.weight ?? text_weight_heading,
             fontSize: props.large ? text_size_heading_large : text_size_heading,
             color: colorTheme.textPrimary,
+            textAlign: props.align ?? 'auto'
         }, props.style]}>{props.children}</Text>
     )
 }
@@ -48,6 +49,7 @@ export const ContentText = (props) => {
         <Text {...props} style={[{
             color: props.error ? colorTheme.error : props.light ? colorTheme.textSecondary : colorTheme.textPrimary,
             fontSize: props.large ? text_size_content_large : props.small ? text_size_content_small : text_size_content,
+            textAlign: props.align ?? 'auto'
         }, props.style]}>{props.children}</Text>
     )
 }
