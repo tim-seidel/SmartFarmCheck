@@ -13,8 +13,8 @@ import events from '../model/Events';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { useThemeProvider } from '../ThemeContext';
+import Keys from '../constants/Keys';
 
-const key_default_calendar_id = 'sfc_default_calendar_id'
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
 const eventMock = events
@@ -122,7 +122,7 @@ const EventScreen = (props) => {
   }
 
   async function saveDefaultCalendarAsync(id) {
-    return AsyncStorage.setItem(key_default_calendar_id, id)
+    return AsyncStorage.setItem(Keys.DEFAULT_CALENDAR_ID, id)
   }
 
   const { isLoaded, hasNetwork, error, errorCode, events } = eventState;
@@ -264,7 +264,7 @@ const EventScreen = (props) => {
   }
 
   async function getPresistedCalendarIdAsync() {
-    return AsyncStorage.getItem(key_default_calendar_id)
+    return AsyncStorage.getItem(Keys.DEFAULT_CALENDAR_ID)
   }
 
   async function exportEventAsync(calendarId, event) {
@@ -274,7 +274,7 @@ const EventScreen = (props) => {
       endDate: new Date(event.endDate)
     }
 
-    await AsyncStorage.setItem(key_default_calendar_id, calendarId)
+    await AsyncStorage.setItem(Keys.DEFAULT_CALENDAR_ID, calendarId)
 
     var events = await Calendar.getEventsAsync([calendarId], details.startDate, details.endDate)
     const existing = events.find(e => compare(e, event))
