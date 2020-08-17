@@ -1,7 +1,9 @@
 import React from 'react'
-import { Text, Platform } from 'react-native'
+import { Text, Platform, TextInput, StyleSheet } from 'react-native'
 
 import { useThemeProvider } from '../ThemeContext'
+import Layout from '../constants/Layout'
+import { ConstantColors } from '../constants/Colors'
 
 /**
  * This file contains the default text formats for the application.
@@ -34,7 +36,7 @@ export const HeadingText = (props) => {
         <Text {...props} style={[{
             fontWeight: props.weight ?? text_weight_heading,
             fontSize: props.large ? text_size_heading_large : text_size_heading,
-            color: colorTheme.textPrimary
+            color: colorTheme.textPrimary,
         }, props.style]}>{props.children}</Text>
     )
 }
@@ -45,7 +47,33 @@ export const ContentText = (props) => {
     return (
         <Text {...props} style={[{
             color: props.error ? colorTheme.error : props.light ? colorTheme.textSecondary : colorTheme.textPrimary,
-            fontSize: props.large ? text_size_content_large : props.small ? text_size_content_small : text_size_content
+            fontSize: props.large ? text_size_content_large : props.small ? text_size_content_small : text_size_content,
         }, props.style]}>{props.children}</Text>
+    )
+}
+
+export const Input = (props) => {
+    const { colorTheme } = useThemeProvider()
+
+    return (
+        <TextInput
+            value={props.value}
+            onChangeText={props.onChangeText}
+            placeholder={props.placeholder}
+            placeholderTextColor={ConstantColors.lightgrey}
+            textAlignVertical="top"
+            multiline={props.multiline}
+            numberOfLines={props.numberOfLines}
+            maxLength={props.maxLength ?? 5000}
+            style={{
+                backgroundColor: colorTheme.componentBackground,
+                color: colorTheme.textPrimary,
+                fontSize: text_size_content,
+                borderColor: Layout.borderColor,
+                borderRadius: Layout.borderRadius,
+                borderWidth: Layout.borderWidth,
+                padding: 8,
+                ...props.style
+            }}></TextInput>
     )
 }
