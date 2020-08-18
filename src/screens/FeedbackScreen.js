@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, StyleSheet, Alert } from 'react-native'
+import React, { useEffect } from 'react'
+import { View, StyleSheet, Alert, AsyncStorage } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useThemeProvider } from '../ThemeContext'
@@ -8,6 +8,7 @@ import { Input, HeadingText, ContentText } from '../components/Text'
 import IconButton from '../components/IconButton'
 import NoContentView from '../components/NoContentView'
 import Strings from '../constants/Strings'
+import Keys from '../constants/Keys'
 
 const FeedbackScreen = (props) => {
     const [userInput, onUserInputChange] = React.useState('')
@@ -18,8 +19,8 @@ const FeedbackScreen = (props) => {
     function sendFeedbackHandler() {
         if (userInput.length < 10) {
             Alert.alert("Fehlender Input",
-                "Ein paar Zeichen lang sollte die Nachricht schon sein (mindestens 10) :)",
-                { text: Strings.okay, style: "cancel" },
+                "Die Nachricht sollte mindestens 10 Zeichen lang sein.",
+                [ { text: Strings.okay, style: "cancel" } ],
                 { cancelable: true })
         } else {
             setSubmitState({ isLoading: true, isSubmitted: false })
@@ -34,7 +35,7 @@ const FeedbackScreen = (props) => {
     if (!submitState.isLoading && !submitState.isSubmitted) {
         content = (
             <>
-                <InformationCard style={styles.card} title="Feedback/Hilfe zur App">
+                <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FEEDBACK_SCREEN} style={styles.card} title="Feedback/Hilfe zur App">
                     <InformationText>Falls Sie eine Fragen oder Probleme mit der App haben, oder Feedback geben möchten, können Sie dieses Formular verwenden. Geben Sie gerne auch Kontaktdaten an, damit wir uns bei Ihnen zurückmelden können.</InformationText>
                 </InformationCard>
                 <HeadingText style={styles.heading}>Wie können wir Sie erreichen? (optional)</HeadingText>

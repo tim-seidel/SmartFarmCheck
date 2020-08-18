@@ -9,6 +9,7 @@ import Strings from '../constants/Strings'
 import NoContentView from '../components/NoContentView'
 import { HeadingText } from '../components/Text'
 import { FlatList } from 'react-native-gesture-handler'
+import Keys from '../constants/Keys'
 
 const formsMock = [
     {
@@ -106,7 +107,7 @@ const FormSelectScreen = (props) => {
 
         const informationHeader =
             <View>
-                <InformationCard style={styles.card} title={Strings.select_form_information_title}>
+                <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN} style={styles.card} title={Strings.select_form_information_title}>
                     <InformationText>{Strings.select_form_information_text}</InformationText>
                 </InformationCard>
                 <HeadingText large weight="bold" style={styles.heading}>Verfübare Fragebögen:</HeadingText>

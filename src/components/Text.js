@@ -15,7 +15,7 @@ const text_size_heading = 19
 const text_size_heading_large = 22
 
 const text_size_content = 16 // Platform.isPas ? 18 : 16
-const text_size_content_small = 15
+const text_size_content_small = 14
 const text_size_content_large = 17
 
 const text_weight_heading = Platform.OS === 'ios' ? '500' : '900'

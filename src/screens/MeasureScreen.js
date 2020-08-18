@@ -11,6 +11,7 @@ import InformationCard, { InformationText } from "../components//InformationCard
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
 import { useThemeProvider } from '../ThemeContext';
+import Keys from '../constants/Keys';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -23,7 +24,6 @@ const MeasureScreen = props => {
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)
   const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measures: [] })
-
 
   useEffect(() => {
     const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape');
@@ -111,7 +111,7 @@ const MeasureScreen = props => {
           style={styles.measureList}
           ListHeaderComponent={
             <View>
-              <InformationCard style={styles.informationCard}
+              <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_MEASURE_SCREEN} style={styles.informationCard}
                 title={Strings.measure_information_title}>
                 <InformationText>{Strings.measure_information_text} </InformationText>
               </InformationCard>
