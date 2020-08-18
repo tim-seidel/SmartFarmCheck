@@ -1,5 +1,6 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, AsyncStorage } from 'react-native'
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
@@ -25,15 +26,38 @@ export function InformationText(props) {
 
 const InformationCard = (props) => {
     const { colorTheme } = useThemeProvider()
+    const [isInformationInvisible, setInformationVisible] = useState(true)
+
+    const toggleInformationEnabled = props.toggleInformationEnabled ?? false
+
+    useEffect(() => {
+        if (toggleInformationEnabled) {
+            if(!props.toggleStoreKey) throw Error("If toggleInformationEnabled is set, a toggleStoreKey must be provided aswell.")
+            AsyncStorage.getItem(props.toggleStoreKey, (error, value) => {
+                setInformationVisible(JSON.parse(value) ?? true)
+            })
+        }
+    }, [])
+
+    function toggleInformationVisibility() {
+        if(!props.toggleStoreKey) throw Error("If toggleInformationEnabled is set, a toggleStoreKey must be provided aswell.")
+
+        const newVal = !isInformationInvisible
+        setInformationVisible(newVal)
+        AsyncStorage.setItem(props.toggleStoreKey, JSON.stringify(newVal))
+    }
 
     return (
         <View style={{ ...styles.card, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-            <View style={{ ...styles.titleWrapper, backgroundColor: colorTheme.primary }}>
-                <HeadingText style={{ ...styles.titleText, color: colorTheme.textPrimaryContrast }}>{props.title ?? 'Information'}</HeadingText>
+            <View style={{ ...styles.titleRow, backgroundColor: colorTheme.primary }}>
+                <View style={styles.titleWrapper}>
+                    <HeadingText style={{ color: colorTheme.textPrimaryContrast }}>{props.title ?? 'Information'}</HeadingText>
+                </View>
+                {toggleInformationEnabled && <Icon name={isInformationInvisible ? "chevron-up" : "chevron-down"} size={24} style={{ ...styles.minimizeIcon, color: colorTheme.textPrimaryContrast }} onPress={toggleInformationVisibility}></Icon>}
             </View>
             <View style={styles.textWrapper}>
                 <Text style={styles.text} >
-                    {props.children}
+                    {isInformationInvisible ? props.children : <ContentText small light>Ausklappen für weitere Infos.</ContentText>}
                 </Text>
             </View>
             {props.contentView}
@@ -47,12 +71,14 @@ const styles = StyleSheet.create({
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
         overflow: 'hidden',
-        paddingBottom: 8
+    },
+    titleRow: {
+        minHeight: 16,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     titleWrapper: {
-        minHeight: 16,
-    },
-    titleText: {
+        flex: 1,
         paddingHorizontal: 8,
         paddingVertical: 4
     },
@@ -61,6 +87,9 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center'
+    },
+    minimizeIcon: {
+        marginEnd: 8
     }
 })
 
