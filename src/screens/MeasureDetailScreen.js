@@ -1,9 +1,10 @@
 import React from 'react'
-import { StyleSheet, View, Linking } from 'react-native'
+import { Linking} from 'react-native'
 
 import URLInterceptingWebview from '../components/URLInterceptingWebview'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
+import RootView from '../components/RootView'
 
 export default function MeasureScreen({ route, navigation }) {
   const { colorTheme } = useThemeProvider()
@@ -34,14 +35,8 @@ export default function MeasureScreen({ route, navigation }) {
   const wrapped = head + '<body>' + content + '</body></html>'
 
   return (
-    <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
+    <RootView>
       <URLInterceptingWebview style={{ backgroundColor: ConstantColors.transparent }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
-    </View>
+    </RootView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-})

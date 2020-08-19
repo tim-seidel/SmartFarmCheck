@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Linking, Platform, Alert, AsyncStorage, Modal, Picker } from 'react-native';
+import { StyleSheet, View, Linking, Platform, Alert, AsyncStorage, Modal, Picker, SafeAreaView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import * as Calendar from 'expo-calendar'
 import moment from 'moment'
@@ -14,6 +14,7 @@ import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { useThemeProvider } from '../ThemeContext';
 import Keys from '../constants/Keys';
+import RootView from '../components/RootView';
 
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
@@ -127,21 +128,21 @@ const EventScreen = (props) => {
 
   const { isLoaded, hasNetwork, error, errorCode, events } = eventState;
 
-  let eventContent = null;
+  let contentView = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
     return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
   });
 
   if (error) {
-    eventContent = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+    contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
   } else if (!isLoaded) {
-    eventContent = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
+    contentView = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
   } else if (!hasNetwork) {
-    eventContent = <NoContentView icon="cloud-off-outline" title={Strings.event_loading_no_network} onRetry={retryHandler}></NoContentView>
+    contentView = <NoContentView icon="cloud-off-outline" title={Strings.event_loading_no_network} onRetry={retryHandler}></NoContentView>
   } else if (!events || events.length === 0) {
-    eventContent = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
+    contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
   } else {
-    eventContent = (
+    contentView = (
       <>
         <Modal transparent visible={showCalendarModal}>
           <View style={{ ...styles.modalView, backgroundColor: colorTheme.background }}>
@@ -182,9 +183,9 @@ const EventScreen = (props) => {
   }
 
   return (
-    <View style={{ ...styles.container, backgroundColor: colorTheme.background }} >
-      {eventContent}
-    </View>
+    <RootView style={styles.container}>
+      {contentView}
+    </RootView>
   );
 
   async function exportToCalendarWithPermissionInformationHandler(event) {
@@ -387,7 +388,8 @@ const EventScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 8
+    paddingStart: 8,
+    paddingEnd: 8
   },
   heading: {
     marginTop: 16,

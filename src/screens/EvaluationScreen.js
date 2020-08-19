@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import NetInfo from '@react-native-community/netinfo'
 
@@ -8,10 +8,9 @@ import EvaluationListItemView from '../components/EvaluationListItemView'
 import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard'
 import Strings from '../constants/Strings'
 import { HeadingText } from '../components/Text'
-import { useThemeProvider } from '../ThemeContext'
+import RootView from '../components/RootView'
 
 const EvaluationScreen = (props) => {
-    const { colorTheme } = useThemeProvider()
     const [evalulationState, setEvaluationState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, evaluation: [] })
 
     useEffect(() => {
@@ -70,15 +69,15 @@ const EvaluationScreen = (props) => {
     }
 
     const { isLoaded, hasNetwork, error, errorCode, evaluation } = evalulationState
-
+    var contentView = null
     if (error) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_error + " (Fehlercode: " + errorCode + ")."}></NoContentView></View>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_error + " (Fehlercode: " + errorCode + ")."} />
     } else if (!isLoaded) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.evaluation_loading}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-download" loading title={Strings.evaluation_loading} />
     } else if (!hasNetwork) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_loading_no_network}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_loading_no_network} />
     } else if (!evaluation || evaluation.length === 0) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty}></NoContentView></View>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty} />
     } else {
         let max = 0
         evaluation.forEach(e => {
@@ -86,42 +85,43 @@ const EvaluationScreen = (props) => {
                 max = e.rating
             }
         })
-        return (
-            <View style={{ ...styles.container, backgroundColor: colorTheme.background }} >
-                <FlatList
-                    style={styles.list}
-                    data={evaluation}
-                    ListHeaderComponent={
-                        <View>
-                            <InformationCard>
-                                <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
-                                <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
-                                <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
-                                <InformationHighlight>tippen</InformationHighlight>
-                                <InformationText> Sie diese einfach an.</InformationText>
-                            </InformationCard>
-                            <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
-                        </View>}
-                    renderItem={({ item }) => (
-                        <EvaluationListItemView
-                            key={item.uuid}
-                            rating={Math.round((item.rating / max) * 100)}
-                            title={item.name}
-                            short={item.excerpt}
-                            measureSelected={() => measureSelectedHandler(item.uuid)}
-                        />
-                    )}
-                    keyExtractor={item => item.uuid}
-                />
-            </View>
+        contentView = (
+            <FlatList
+                style={styles.list}
+                data={evaluation}
+                ListHeaderComponent={
+                    <View>
+                        <InformationCard>
+                            <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
+                            <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
+                            <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
+                            <InformationHighlight>tippen</InformationHighlight>
+                            <InformationText> Sie diese einfach an.</InformationText>
+                        </InformationCard>
+                        <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
+                    </View>}
+                renderItem={({ item }) => (
+                    <EvaluationListItemView
+                        key={item.uuid}
+                        rating={Math.round((item.rating / max) * 100)}
+                        title={item.name}
+                        short={item.excerpt}
+                        measureSelected={() => measureSelectedHandler(item.uuid)}
+                    />
+                )}
+                keyExtractor={item => item.uuid}
+            />
         )
     }
+
+    return (
+        <RootView>
+            {contentView}
+        </RootView>
+    )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     list: {
         margin: 8
     },

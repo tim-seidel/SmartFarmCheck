@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'
 
 import NoContentView from '../components/NoContentView'
@@ -7,6 +6,7 @@ import URLInterceptingWebview from '../components/URLInterceptingWebview'
 import { useThemeProvider } from '../ThemeContext'
 import Strings from '../constants/Strings'
 import { ConstantColors } from '../constants/Colors'
+import RootView from '../components/RootView'
 
 const EvaluationDetailScreen = (props) => {
     const { colorTheme } = useThemeProvider()
@@ -62,13 +62,13 @@ const EvaluationDetailScreen = (props) => {
     }
 
     const { isLoaded, hasNetwork, error, errorCode, measure } = measureState
-
+    var contentView = null
     if (error) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network + " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network + " (Fehlercode: " + errorCode + ")"} />
     } else if (!isLoaded) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.evaluation_detail_loading}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-download" loading title={Strings.evaluation_detail_loading} />
     } else if (!hasNetwork) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network} />
     } else {
         const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color:  ' + colorTheme.textPrimary + '} p{text-align: justify; hyphens: auto; }</style></head>'
         var content = measure?.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</>"
@@ -98,18 +98,14 @@ const EvaluationDetailScreen = (props) => {
             }
         }
 
-        return (
-            <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-                <URLInterceptingWebview style={{ backgroundColor: ConstantColors.transparent }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
-            </View>
-        )
+        contentView = <URLInterceptingWebview style={{ backgroundColor: ConstantColors.transparent }} onURLSelected={onURLHandler} source={{ html: wrapped }} />
     }
-}
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-})
+    return (
+        <RootView>
+            {contentView}
+        </RootView>
+    )
+}
 
 export default EvaluationDetailScreen

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, VirtualizedList, Alert, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, VirtualizedList, Alert, StyleSheet, TouchableOpacity, FlatList, SafeAreaView } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import NetInfo from '@react-native-community/netinfo'
@@ -13,6 +13,7 @@ import Layout from '../constants/Layout'
 import ToolbarButton from '../components/ToolbarButton'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
+import RootView from '../components/RootView'
 
 const FormScreen = props => {
     const { colorTheme } = useThemeProvider()
@@ -93,14 +94,15 @@ const FormScreen = props => {
 
     const { isLoaded, hasNetwork, error, errorCode, questions } = questionState
     console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
+    var contentView = null
     if (error) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"}></NoContentView></View>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"} />
     } else if (!isLoaded) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.form_loading}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-download" loading title={Strings.form_loading} />
     } else if (!hasNetwork) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.form_loading_no_network}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.form_loading_no_network} />
     } else if (questions.length === 0) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty}></NoContentView></View>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty} />
     } else {
         props.navigation.setOptions({
             headerRight: () => (
@@ -115,13 +117,11 @@ const FormScreen = props => {
         if (mode === 'list') {
             questionContent = (
                 <View style={styles.listContainer}>
-                    <VirtualizedList
+                    <FlatList
                         contentContainerStyle={styles.listContent}
                         data={questions}
                         renderItem={({ item, index }) => <QuestionView formId={formId} onInputChanged={(input, validity) => inputChangeHandler(item, input, validity)} index={index + 1} question={item} key={item.uuid} />}
                         keyExtractor={item => item.uuid}
-                        getItemCount={() => questions.length}
-                        getItem={(data, index) => { return questions[index] }}
                     />
                 </View>)
         } else if (mode === 'single') {
@@ -170,17 +170,23 @@ const FormScreen = props => {
                 </View>
             )
         }
-        return (
-            <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
+
+        contentView =
+            <>
                 {questionContent}
                 <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>
                     <View style={styles.submitWrapper}>
                         <IconButton icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler}  ></IconButton>
                     </View>
                 </View>
-            </View>
-        )
+            </>
     }
+
+    return (
+        <RootView>
+            {contentView}
+        </RootView>
+    )
 
     function resetHandler() {
         Alert.alert(Strings.form_dialog_confirm_reset_title, Strings.form_dialog_confirm_reset_content, [
@@ -250,9 +256,6 @@ const FormScreen = props => {
 }
 
 styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     listContainer: {
         flex: 1,
         width: "100%",

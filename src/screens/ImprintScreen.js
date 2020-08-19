@@ -1,15 +1,13 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 import { ContentText } from '../components/Text'
-import { useThemeProvider } from '../ThemeContext'
+import RootView from '../components/RootView'
 
 const ImprintScreen = (props) => {
-    const { colorTheme } = useThemeProvider()
-
     return (
-        <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
+        <RootView>
             <ScrollView style={styles.scrollView}>
                 <ContentText>Hochschule Osnabrück</ContentText>
                 <ContentText>Albrechtstraße 30</ContentText>
@@ -31,7 +29,7 @@ const ImprintScreen = (props) => {
                 <ContentText>Tel: +49 541 969-2177</ContentText>
                 <ContentText>webmaster@hs-osnabrueck.de</ContentText>
             </ScrollView>
-        </View>
+        </RootView>
     )
 }
 

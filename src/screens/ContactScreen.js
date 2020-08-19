@@ -5,7 +5,7 @@ import InformationCard, { InformationHighlight, InformationText } from '../compo
 import Strings from '../constants/Strings'
 import IconButton from '../components/IconButton'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useThemeProvider } from '../ThemeContext'
+import RootView from '../components/RootView'
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
@@ -19,7 +19,6 @@ const isPortrait = () => {
 }
 
 const ContactScreen = (props) => {
-    const { colorTheme } = useThemeProvider()
     const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
 
     useEffect(() => {
@@ -53,37 +52,36 @@ const ContactScreen = (props) => {
     const contentFeedback = <ActionButton icon="file-document-outline" text="Zum Feedback" onPress={contactFeedbackHandler} />
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
-        <ScrollView style={{ ...styles.scrollView, backgroundColor: colorTheme.background }}>
-            <View style={styles.container}>
-                <InformationCard title="Informationen zur App" style={cardStyle} contentView={contentAboutApp}>
-                    <InformationText>{"Informationen über Förderer, Impressum und Datenschutz.\n"}</InformationText>
-                </InformationCard>
-                <InformationCard title="Per Mail" style={cardStyle} contentView={contentMail}>
-                    <InformationText>{"Bei allgemeinen Fragen können Sie uns jederzeit per Mail erreichen. Wir werden uns dann entsprechend bei Ihnen zurückmelden.\n\n"}</InformationText>
-                    <InformationHighlight>{Strings.mail + "\n"}</InformationHighlight>
-                </InformationCard>
-                <InformationCard title="Telefonisch" style={cardStyle} contentView={contentPhone}>
-                    <InformationText>{"Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.\n\n"}</InformationText>
-                    <InformationHighlight>{"Andreas Ansprechpartner\nTel: 0541-969-1234\n"}</InformationHighlight>
-                </InformationCard>
-                <InformationCard title="App-Feedback" style={cardStyle} contentView={contentFeedback}>
-                    <InformationText>{"Bei Fragen zur App oder Problemen können Sie auch hier ein Formular ausfüllen.\n"}</InformationText>
-                </InformationCard>
-            </View>
-        </ScrollView>
+        <RootView>
+            <ScrollView>
+                <View style={styles.contactGrid}>
+                    <InformationCard title="Informationen zur App" style={cardStyle} contentView={contentAboutApp}>
+                        <InformationText>{"Informationen über Förderer, Impressum und Datenschutz.\n"}</InformationText>
+                    </InformationCard>
+                    <InformationCard title="Per Mail" style={cardStyle} contentView={contentMail}>
+                        <InformationText>{"Bei allgemeinen Fragen können Sie uns jederzeit per Mail erreichen. Wir werden uns dann entsprechend bei Ihnen zurückmelden.\n\n"}</InformationText>
+                        <InformationHighlight>{Strings.mail + "\n"}</InformationHighlight>
+                    </InformationCard>
+                    <InformationCard title="Telefonisch" style={cardStyle} contentView={contentPhone}>
+                        <InformationText>{"Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.\n\n"}</InformationText>
+                        <InformationHighlight>{"Andreas Ansprechpartner\nTel: 0541-969-1234\n"}</InformationHighlight>
+                    </InformationCard>
+                    <InformationCard title="App-Feedback" style={cardStyle} contentView={contentFeedback}>
+                        <InformationText>{"Bei Fragen zur App oder Problemen können Sie auch hier ein Formular ausfüllen.\n"}</InformationText>
+                    </InformationCard>
+                </View>
+            </ScrollView>
+            </RootView>
     )
 }
 
 const styles = StyleSheet.create({
-    scrollView: {
-        flex: 1
-    },
-    container: {
+    contactGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
         paddingVertical: 4,
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
     },
     contactCardSingle: {
         marginVertical: 4,

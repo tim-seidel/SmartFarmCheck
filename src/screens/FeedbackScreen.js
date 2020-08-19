@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { View, StyleSheet, Alert, AsyncStorage } from 'react-native'
+import React from 'react'
+import { View, StyleSheet, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useThemeProvider } from '../ThemeContext'
@@ -9,18 +9,19 @@ import IconButton from '../components/IconButton'
 import NoContentView from '../components/NoContentView'
 import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
+import RootView from '../components/RootView'
 
 const FeedbackScreen = (props) => {
     const [userInput, onUserInputChange] = React.useState('')
     const [userContact, onUserContactChange] = React.useState('')
-    const { colorTheme } = useThemeProvider()
     const [submitState, setSubmitState] = React.useState({ isLoading: false, isSubmitted: false })
+    const { colorTheme } = useThemeProvider()
 
     function sendFeedbackHandler() {
         if (userInput.length < 10) {
             Alert.alert("Fehlender Input",
                 "Die Nachricht sollte mindestens 10 Zeichen lang sein.",
-                [ { text: Strings.okay, style: "cancel" } ],
+                [{ text: Strings.okay, style: "cancel" }],
                 { cancelable: true })
         } else {
             setSubmitState({ isLoading: true, isSubmitted: false })
@@ -31,9 +32,9 @@ const FeedbackScreen = (props) => {
         props.navigation.goBack()
     }
 
-    var content = null
+    var contentView = null
     if (!submitState.isLoading && !submitState.isSubmitted) {
-        content = (
+        contentView = (
             <>
                 <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FEEDBACK_SCREEN} style={styles.card} title="Feedback/Hilfe zur App">
                     <InformationText>Falls Sie eine Fragen oder Probleme mit der App haben, oder Feedback geben möchten, können Sie dieses Formular verwenden. Geben Sie gerne auch Kontaktdaten an, damit wir uns bei Ihnen zurückmelden können.</InformationText>
@@ -48,10 +49,10 @@ const FeedbackScreen = (props) => {
             </>
         )
     } else if (submitState.isLoading) {
-        content = <NoContentView title="Anfrage wird versendet..." loading icon="cloud-download" />
+        contentView = <NoContentView title="Anfrage wird versendet..." loading icon="cloud-download" />
         setSubmitState({ isLoading: false, isSubmitted: true })
     } else if (submitState.isSubmitted) {
-        content = (
+        contentView = (
             <>
                 <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
                     <Icon color={colorTheme.textPrimary} name="check" size={96}></Icon>
@@ -66,16 +67,13 @@ const FeedbackScreen = (props) => {
     }
 
     return (
-        <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-            {content}
-        </View>
+        <RootView>
+            {contentView}
+        </RootView>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     card: {
         margin: 8
     },

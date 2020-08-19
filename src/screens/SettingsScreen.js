@@ -10,6 +10,7 @@ import { darkTheme, ConstantColors } from '../constants/Colors'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
+import RootView from '../components/RootView'
 
 const SettingsToggleView = (props) => {
     const [isEnabled, setIsEnabled] = useState(props.initalValue ?? false)
@@ -72,13 +73,13 @@ const SettingsScreen = (props) => {
         )
     }
 
-    async function resetForms(){
+    async function resetForms() {
         //TODO: Reset forms
         const keys = await AsyncStorage.getAllKeys();
         const formKeys = keys.filter(k => k.startsWith(Keys.PREFILL_PREFIX))
 
         console.log(keys)
-        await  AsyncStorage.multiRemove(formKeys)
+        await AsyncStorage.multiRemove(formKeys)
         console.log(await AsyncStorage.getAllKeys())
     }
 
@@ -88,18 +89,18 @@ const SettingsScreen = (props) => {
 
     const isDark = colorTheme === darkTheme
     return (
-        <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
+        <RootView style={styles.container}>
             <SettingsToggleView storeKey={Keys.SETTING_DARKMODE} name={Strings.settings_darkmode_title} icon="brightness-6" initalValue={isDark} onValueChanged={toggleTheme}></SettingsToggleView>
             <SettingsClickView name={Strings.settings_reset_form_title} icon="delete" initalValue={isDark} onPress={resetFormsHandler}></SettingsClickView>
             <SettingsClickView name={Strings.settings_licenses_title} icon="copyright" initalValue={isDark} onPress={licenseHandler} ></SettingsClickView>
-        </View>
+        </RootView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingHorizontal: 8
+        paddingStart: 8,
+        paddingEnd: 8
     },
     switchSetting: {
         flexDirection: 'row',
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 8,
         borderColor: Layout.borderColor,
-        borderRadius: Layout.borderRadius, 
+        borderRadius: Layout.borderRadius,
         borderWidth: Layout.borderWidth
 
     },
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 8,
         borderColor: Layout.borderColor,
-        borderRadius: Layout.borderRadius, 
+        borderRadius: Layout.borderRadius,
         borderWidth: Layout.borderWidth
     },
     innerWrapper: {

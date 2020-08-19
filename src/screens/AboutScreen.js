@@ -4,18 +4,16 @@ import { ScrollView } from 'react-native-gesture-handler'
 
 import IconButton from '../components/IconButton'
 import { HeadingText } from '../components/Text'
-import { useThemeProvider } from '../ThemeContext'
 import SponsorView from '../components/SponsorView'
+import RootView from '../components/RootView'
 
 const onSponsorPressedHandler = (url) => {
   Linking.openURL(url)
 }
 
 export default function AboutScreen({ navigation }) {
-  const { colorTheme } = useThemeProvider()
-
   return (
-    <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
+    <RootView>
       <ScrollView style={styles.container} >
         <HeadingText large weight="bold" style={styles.title}>Gefördert durch:</HeadingText>
         <SponsorView style={styles.sponsor} name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logo_mittelstand4.png")} />
@@ -30,14 +28,11 @@ export default function AboutScreen({ navigation }) {
           <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate("Privacy") }} />
         </View>
       </View>
-    </View>
+    </RootView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   title: {
     marginTop: 8,
     width: '90%',

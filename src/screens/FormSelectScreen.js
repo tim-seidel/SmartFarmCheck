@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'
 
-import { useThemeProvider } from '../ThemeContext'
 import InformationCard, { InformationText } from '../components/InformationCard'
 import FormSelectListItemView from '../components/FormSelectListItemView'
 import Strings from '../constants/Strings'
@@ -10,6 +9,7 @@ import NoContentView from '../components/NoContentView'
 import { HeadingText } from '../components/Text'
 import { FlatList } from 'react-native-gesture-handler'
 import Keys from '../constants/Keys'
+import RootView from '../components/RootView'
 
 const formsMock = [
     {
@@ -31,8 +31,6 @@ const formsMock = [
 
 const FormSelectScreen = (props) => {
     const [formsState, setFormsState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, forms: [] })
-
-    const { colorTheme } = useThemeProvider()
 
     useEffect(() => {
         if (!formsState.isLoaded) {
@@ -94,17 +92,16 @@ const FormSelectScreen = (props) => {
     }
 
     const { error, errorCode, hasNetwork, isLoaded, forms } = formsState
-
+    var contentView = null
     if (error) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_error + "(Fehlercode: " + errorCode + ")"} />
     } else if (!isLoaded) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.select_form_loading}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-download" loading title={Strings.select_form_loading} />
     } else if (!hasNetwork) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.select_form_loading_no_network}></NoContentView></View>
+        contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.select_form_loading_no_network} />
     } else if (forms.length === 0) {
-        return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_empty}></NoContentView></View>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_empty} />
     } else {
-
         const informationHeader =
             <View>
                 <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN} style={styles.card} title={Strings.select_form_information_title}>
@@ -113,31 +110,32 @@ const FormSelectScreen = (props) => {
                 <HeadingText large weight="bold" style={styles.heading}>Verfübare Fragebögen:</HeadingText>
             </View>
 
-        return (
-            <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-                <FlatList
-                    style={styles.list}
-                    data={forms}
-                    ListHeaderComponent={informationHeader}
-                    renderItem={({ item }) => (
-                        <FormSelectListItemView
-                            key={item.uuid}
-                            title={item.title}
-                            description={item.description}
-                            onSelected={() => formSelectedHandler(item.uuid)}
-                        />
-                    )}
-                    keyExtractor={item => item.uuid}
-                />
-            </View>
+        contentView = (
+            <FlatList
+                style={styles.list}
+                data={forms}
+                ListHeaderComponent={informationHeader}
+                renderItem={({ item }) => (
+                    <FormSelectListItemView
+                        key={item.uuid}
+                        title={item.title}
+                        description={item.description}
+                        onSelected={() => formSelectedHandler(item.uuid)}
+                    />
+                )}
+                keyExtractor={item => item.uuid}
+            />
         )
     }
+
+    return (
+        <RootView>
+            {contentView}
+        </RootView>
+    )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     card: {
         marginTop: 8
     },

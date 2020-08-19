@@ -10,8 +10,8 @@ import IconButton from '../components/IconButton';
 import InformationCard, { InformationText } from "../components//InformationCard";
 import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
-import { useThemeProvider } from '../ThemeContext';
 import Keys from '../constants/Keys';
+import RootView from '../components/RootView';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -19,8 +19,6 @@ const isPortrait = () => {
 };
 
 const MeasureScreen = props => {
-  const { colorTheme } = useThemeProvider()
-
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)
   const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measures: [] })
@@ -94,17 +92,18 @@ const MeasureScreen = props => {
   }
 
   const { error, errorCode, hasNetwork, isLoaded, measures } = measureState;
+  var contentView = null
   if (error) {
-    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView></View>
+    contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"} />
   } else if (!isLoaded) {
-    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-download" loading title={Strings.measure_loading}></NoContentView></View>
+    contentView = <NoContentView icon="cloud-download" loading title={Strings.measure_loading} />
   } else if (!hasNetwork) {
-    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.measure_loading_no_network}></NoContentView></View>
+    contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.measure_loading_no_network} />
   } else if (measures.length === 0) {
-    return <View style={{ ...styles.container, backgroundColor: colorTheme.background }}><NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty}></NoContentView></View>
+    contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty} />
   } else {
-    return (
-      <View style={{ ...styles.container, backgroundColor: colorTheme.background }} >
+    contentView = (
+      <>
         <FlatList
           key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
           numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
@@ -132,15 +131,18 @@ const MeasureScreen = props => {
         <View style={styles.calculateButtonWrapper}>
           <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate("FormSelect") }} />
         </View>
-      </View>
-    );
+      </>
+    )
   }
+
+  return (
+    <RootView>
+      {contentView}
+    </RootView>
+  )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   informationCard: {
     marginTop: 8,
     marginHorizontal: 4
