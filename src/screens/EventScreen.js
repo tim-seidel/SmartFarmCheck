@@ -9,7 +9,7 @@ import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItemView';
 import InformationCard, { InformationText } from '../components/InformationCard';
 import { HeadingText } from '../components/Text';
-import events from '../model/Events';
+import events from '../data/Events';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { useThemeProvider } from '../ThemeContext';
@@ -70,7 +70,7 @@ const EventScreen = (props) => {
       },
     })
       .then(response => response.json())
-      .then(json => {
+      .then(json => { 
         //Check for request errors
         if (json.status && json.status != 200) {
           setEventState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, events: [] })

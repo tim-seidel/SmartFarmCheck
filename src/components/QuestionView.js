@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { StringValidator, NumberValidatior, SelectValidator } from "../model/Validation"
+import { StringValidator, NumberValidatior, SelectValidator } from "../models/Validation"
 import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
