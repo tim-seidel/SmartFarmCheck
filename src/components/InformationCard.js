@@ -34,7 +34,7 @@ const InformationCard = (props) => {
         if (toggleInformationEnabled) {
             if(!props.toggleStoreKey) throw Error("If toggleInformationEnabled is set, a toggleStoreKey must be provided aswell.")
             AsyncStorage.getItem(props.toggleStoreKey, (error, value) => {
-                setInformationVisible(JSON.parse(value) ?? true)
+                setInformationVisible(JSON.parse(value) ?? (props.initialValue ?? true))
             })
         }
     }, [])
