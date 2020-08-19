@@ -32,7 +32,7 @@ function EvaluationListItemView(props) {
 
 const styles = StyleSheet.create({
     outerWrapper: {
-        marginVertical: 12,
+        marginVertical: 4,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,

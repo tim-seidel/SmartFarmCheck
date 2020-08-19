@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 4,
         borderRadius: Layout.borderRadius,
-        borderWidth: Layout.borderWidth,
+        borderWidth: 1,
         borderColor: Layout.borderColor
     },
     clearIcon: {
