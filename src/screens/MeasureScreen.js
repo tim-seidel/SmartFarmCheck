@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Platform, Dimensions } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler';
 import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
@@ -12,6 +13,7 @@ import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
 import Keys from '../constants/Keys';
 import RootView from '../components/RootView';
+import { fetchMeasures } from '../store/actions/measures';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -21,83 +23,61 @@ const isPortrait = () => {
 const MeasureScreen = props => {
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)
-  const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measures: [] })
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasNoNetwork, setHasNoNetwork] = useState(false)
+  const [errorCode, setErrorCode] = useState(0)
+
+  const dispatch = useDispatch()
+  const measures = useSelector(state => state.measures.measures)
 
   useEffect(() => {
-    const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape');
-
+    const callback = ({ screen }) => {
+      setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
+    }
     const checkTablet = async () => {
       const type = Device.getDeviceTypeAsync()
       setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
     }
-
-    Dimensions.addEventListener('change', callback);
     checkTablet()
 
+    Dimensions.addEventListener('change', callback);
     return () => {
       Dimensions.removeEventListener('change', callback);
     };
   }, []);
 
   useEffect(() => {
-    if (!measureState.isLoaded) {
-      checkAndLoadMeasures();
+    checkAndLoadMeasures()
+  }, [checkAndLoadMeasures])
+
+  const checkAndLoadMeasures = useCallback(async () => {
+    const netinfo = await NetInfo.fetch()
+    if (netinfo.isConnected) {
+      setIsLoading(true)
+      try {
+        await dispatch(fetchMeasures())
+      } catch (err) {
+        setErrorCode(err.status ?? -1)
+      }
+      setIsLoading(false)
+    } else {
+      setHasNoNetwork(true)
     }
-  }, [measureState.isLoaded])
-
-  function checkAndLoadMeasures() {
-    if (!measureState.isLoaded) {
-
-      NetInfo.fetch().then(state => {
-        if (state.isConnected) {
-          loadMeasures()
-        } else {
-          setMeasureState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, measures: [] })
-        }
-      });
-    }
-  }
-
-  function loadMeasures() {
-    fetch('https://pas.coala.digital/v1/measures', {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-    })
-      .then(response => response.json())
-      .then(json => {
-        //Check for request errors
-        if (json.status && json.status != 200) {
-          setMeasureState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, measures: [] })
-        } else {
-          //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-          json.sort(function (l, r) {
-            if (l.name < r.name) return -1
-            else if (l.name > r.name) return 1
-            else return 0
-          })
-          setMeasureState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, measures: json })
-        }
-
-      })
-      .catch(error => {
-        console.log("Error", error)
-        setMeasureState({ isLoaded: true, hasNetowrk: true, error: error, errorCode: -1, measures: [] })
-      })
-  }
+  }, [dispatch])
 
   function retryHandler() {
-    setMeasureState({ isLoaded: false, error: false, errorCode: 0, measures: [] })
+    setErrorCode(0)
+    setHasNoNetwork(false)
+    checkAndLoadMeasures()
   }
 
-  const { error, errorCode, hasNetwork, isLoaded, measures } = measureState;
   var contentView = null
-  if (error) {
+  if (errorCode !== 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"} />
-  } else if (!isLoaded) {
+  } else if (isLoading) {
     contentView = <NoContentView icon="cloud-download" loading title={Strings.measure_loading} />
-  } else if (!hasNetwork) {
+  } else if (hasNoNetwork && measures.length === 0) {
     contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.measure_loading_no_network} />
   } else if (measures.length === 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty} />

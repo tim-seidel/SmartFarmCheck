@@ -2,12 +2,22 @@ import 'react-native-gesture-handler'
 import React, { useState } from 'react'
 import { SplashScreen } from 'expo'
 import { Appearance } from 'react-native-appearance'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import ReduxThunk from 'redux-thunk'
 
 import { lightTheme, darkTheme } from './src/constants/Colors'
 import { ThemeContext } from './src/ThemeContext'
 import Content from './src/components/Content'
 import AsyncStorage from '@react-native-community/async-storage'
 import Keys from './src/constants/Keys'
+
+import measureReducer from './src/store/reducers/measures'
+
+const rootReducer = combineReducers({
+  measures: measureReducer
+})
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false)
@@ -52,7 +62,9 @@ export default function App(props) {
   } else {
     return (
       <ThemeContext.Provider value={themeState}>
-        <Content />
+        <Provider store={store}>
+          <Content />
+        </Provider>
       </ThemeContext.Provider>
     )
   }
