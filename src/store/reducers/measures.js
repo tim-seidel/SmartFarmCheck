@@ -1,4 +1,5 @@
-import { SET_MEASURES } from "../actions/measures"
+import { SET_MEASURES, UPDATE_MEASURE } from "../actions/measures"
+import Measure from "../../models/Measure"
 
 const initialState = {
     measures: []
@@ -11,6 +12,30 @@ const measuresReducer = (state = initialState, action) => {
                 ...state,
                 measures: action.measures
             }
+        case UPDATE_MEASURE: {
+            const measure = new Measure(
+                action.measureId,
+                action.measureData.name,
+                action.measureData.excerpt,
+                action.measureData.description,
+                action.measureData.resources
+            )
+
+            const measureIndex = state.measures.findIndex(m => m.uuid === action.measureId)
+            if (measureIndex !== -1) {
+                const updateMeasures = [...state.measures]
+                updateMeasures[measureIndex] = measure
+                return {
+                    ...state,
+                    measures: updateMeasures
+                }
+            } else {
+                return {
+                    ...state,
+                    measures: state.measures.concat(measure)
+                }
+            }
+        }
         default:
             return state;
     }
