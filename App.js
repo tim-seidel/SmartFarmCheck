@@ -38,7 +38,7 @@ export default function App(props) {
         /* Additional loading should be put here.*/
 
         AsyncStorage.getItem(Keys.SETTING_DARKMODE, (error, value) => {
-          if (!error && value !== null) {
+          if (!error && value != null) {
             setThemeState(prev => ({
               colorTheme: JSON.parse(value) ? darkTheme : lightTheme,
               toggleTheme: prev.toggleTheme

@@ -18,7 +18,7 @@ const SettingsToggleView = (props) => {
 
     useEffect(() => {
         AsyncStorage.getItem(props.storeKey, (error, value) => {
-            if (!error && value !== null) {
+            if (!error && value != null) {
                 setIsEnabled(JSON.parse(value))
             }
         })
