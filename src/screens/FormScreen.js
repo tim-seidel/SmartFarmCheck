@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { View, VirtualizedList, Alert, StyleSheet, TouchableOpacity, FlatList, SafeAreaView } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { View, Alert, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import NetInfo from '@react-native-community/netinfo'
@@ -14,60 +15,46 @@ import ToolbarButton from '../components/ToolbarButton'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import RootView from '../components/RootView'
+import { fetchQuestions } from '../store/actions/questions'
 
 const FormScreen = props => {
     const { colorTheme } = useThemeProvider()
 
     const [mode, setMode] = useState('list')
-    const [questionState, setQuestionState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, questions: [] })
     const [pagingIndex, setPagingIndex] = useState(0)
     const [formId, setFormId] = useState(0)
 
+    const [isLoading, setIsLoading] = useState(false)
+    const [hasNoNetwork, setHasNoNetwork] = useState(false)
+    const [errorCode, setErrorCode] = useState(0)
+
+    const dispatch = useDispatch()
+    const questions = useSelector(state => state.questions.questions)
+
     useEffect(() => {
-        if (!questionState.isLoaded) {
-            checkAndLoadQuestions()
+        checkAndLoadQuestions()
+    }, [checkAndLoadQuestions])
+
+    const checkAndLoadQuestions = useCallback(async () => {
+        const netinfo = await NetInfo.fetch()
+        if (netinfo.isConnected) {
+            setIsLoading(true)
+            try {
+                await dispatch(fetchQuestions())
+            } catch (err) {
+                console.log(err)
+                setErrorCode(err.status ?? -1)
+            }
+            setIsLoading(false)
+        } else {
+            setHasNoNetwork(true)
         }
-    }, [questionState.isLoaded])
-
-
-    function checkAndLoadQuestions() {
-        if (!questionState.isLoaded) {
-
-            NetInfo.fetch().then(state => {
-                if (state.isConnected) {
-                    loadQuestions()
-                } else {
-                    setQuestionState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, questions: [] })
-                }
-            })
-        }
-    }
-
-    function loadQuestions() {
-        fetch('https://pas.coala.digital/v1/questions', {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            },
-        })
-            .then(response => response.json())
-            .then(json => {
-                //Check for http errors
-                if (json.status && json.status != 200) {
-                    setQuestionState({ isLoaded: true, hasNetwork: true, error: json, errorCode: json.status ?? -1, questions: [] })
-                } else {
-                    //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-                    setQuestionState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, questions: json })
-                }
-            })
-            .catch(error => {
-                console.log("Error", error)
-                setQuestionState(qs => ({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, questions: qs.questions }))
-            })
-    }
+    }, [dispatch])
 
     function retryHandler() {
-        setQuestionState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, questions: [] })
+        setErrorCode(0)
+        setHasNoNetwork(false)
+        checkAndLoadQuestions()
     }
 
     function inputChangeHandler(question, input, validity) {
@@ -92,14 +79,13 @@ const FormScreen = props => {
         setPagingIndex(qNext)
     }
 
-    const { isLoaded, hasNetwork, error, errorCode, questions } = questionState
-    console.log("FormScreen.render()", isLoaded, error, errorCode, questions.length)
+    console.log("FormScreen.render()", isLoading, hasNoNetwork, errorCode, questions.length)
     var contentView = null
-    if (error) {
+    if (errorCode !== 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"} />
-    } else if (!isLoaded) {
+    } else if (isLoading) {
         contentView = <NoContentView icon="cloud-download" loading title={Strings.form_loading} />
-    } else if (!hasNetwork) {
+    } else if (hasNoNetwork && questions.length === 0) {
         contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.form_loading_no_network} />
     } else if (questions.length === 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty} />
@@ -108,7 +94,6 @@ const FormScreen = props => {
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={ToolbarButton}>
                     <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
-                    <Item key="option-reset" iconName="delete" title={Strings.form_reset} onPress={resetHandler} />
                 </HeaderButtons>
             )
         })
@@ -120,7 +105,15 @@ const FormScreen = props => {
                     <FlatList
                         contentContainerStyle={styles.listContent}
                         data={questions}
-                        renderItem={({ item, index }) => <QuestionView formId={formId} onInputChanged={(input, validity) => inputChangeHandler(item, input, validity)} index={index + 1} question={item} key={item.uuid} />}
+                        renderItem={({ item, index }) =>
+                            <QuestionView
+                                index={index + 1}
+                                questionId={item.uuid}
+                                text={item.text}
+                                description={item.description}
+                                prefill={item.input}
+                                validator={item.validator}
+                                onInputChanged={(input, validity) => inputChangeHandler(item, input, validity)} />}
                         keyExtractor={item => item.uuid}
                     />
                 </View>)
@@ -131,7 +124,15 @@ const FormScreen = props => {
 
             questionContent = (
                 <View style={styles.singleQuestionLayoutContainer}>
-                    <QuestionView formId={formId} onInputChanged={(input, validity) => inputChangeHandler(currentQuestion, input, validity)} index={pagingIndex + 1} question={currentQuestion} />
+                    <QuestionView
+                        questionId={currentQuestion.uuid}
+                        text={currentQuestion.text}
+                        description={currentQuestion.description}
+                        prefill={currentQuestion.input}
+                        validator={currentQuestion.validator}
+                        onInputChanged={(input, validity) => inputChangeHandler(currentQuestion, input, validity)}
+                        index={pagingIndex + 1}
+                    />
                     <View style={styles.questionPagingRow}>
                         <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={canNavigatePrevious ? { ...styles.pagingButton, backgroundColor: colorTheme.primary } : styles.pagingButtonDisabled}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
@@ -191,15 +192,10 @@ const FormScreen = props => {
     function resetHandler() {
         Alert.alert(Strings.form_dialog_confirm_reset_title, Strings.form_dialog_confirm_reset_content, [
             { text: Strings.cancel, style: "default" },
-            { text: Strings.form_reset, onPress: () => resetForm(), style: "destructive" }
+            { text: Strings.form_reset, onPress: () => {}, style: "destructive" }
         ],
             { cancelable: false })
         return
-    }
-
-    function resetForm() {
-        //An updated form id triggers the rerender/update in each QuestionView
-        setFormId(formId + 1)
     }
 
     function calculateHandler() {

@@ -13,10 +13,13 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Keys from './src/constants/Keys'
 
 import measureReducer from './src/store/reducers/measures'
+import questionsReducer from './src/store/reducers/questions'
 
 const rootReducer = combineReducers({
-  measures: measureReducer
+  measures: measureReducer,
+  questions: questionsReducer
 })
+
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 export default function App(props) {

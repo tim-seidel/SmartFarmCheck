@@ -1,4 +1,4 @@
-export const NumberValidatior = function (validator, input) {
+export const NumberValidation = function (validator, input) {
     let validity = 'empty'
     if (input !== null && input !== undefined && input !== '') {
         validity = !isNaN(input) && input >= validator.min && input <= validator.max ? 'valid' : 'invalid'
@@ -8,7 +8,7 @@ export const NumberValidatior = function (validator, input) {
     return { validity: validity, message: message }
 }
 
-export const StringValidator = function (validator, input) {
+export const StringValidation = function (validator, input) {
     let validity = 'empty'
     if (input !== null && input !== undefined && input.length > 0) {
         validity = input.length >= validator.minLength && input.length <= validator.maxLength ? 'valid' : 'invalid'
@@ -18,7 +18,7 @@ export const StringValidator = function (validator, input) {
     return { validity: validity, message: message }
 }
 
-export const SelectValidator = function (validator, input) {
+export const SelectValidation = function (validator, input) {
     let validity = 'empty'
     if (input !== null && input !== undefined && input.length > 0) {
         validity = validator.options.includes(input) ? 'valid' : 'invalid'

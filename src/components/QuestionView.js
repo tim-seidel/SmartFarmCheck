@@ -1,9 +1,9 @@
-import React, { useReducer } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { StringValidator, NumberValidatior, SelectValidator } from "../models/Validation"
+import { StringValidation, NumberValidation, SelectValidation } from "../models/Validation"
 import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
@@ -12,168 +12,59 @@ import { ConstantColors } from '../constants/Colors'
 import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
 
-const INPUT_CHANGE = "INPUT_CHANGE"
-const FORM_ID_CHANGE = "FORM_ID_CHANGE"
-const QUESTION_CHANGE = "QUESTION_CHANGE"
-const inputReducer = (state, action) => {
-    switch (action.type) {
-        case INPUT_CHANGE:
-            return {
-                ...state,
-                input: action.input,
-                validity: action.validity,
-                errorMessage: action.errorMessage
-            }
-        //The formId prop is used to clear the input from outside
-        case FORM_ID_CHANGE:
-            return {
-                ...state,
-                formId: action.formId
-            }
-        case QUESTION_CHANGE:
-            return {
-                ...state,
-                questionId: action.questionId
-            }
-        default:
-            return state
-    }
-}
-
 const QuestionView = props => {
     const { colorTheme } = useThemeProvider()
-    const { question, formId } = props
+    const { questionId, validator } = props
 
-    const [inputState, dispatch] = useReducer(inputReducer, {
-        input: props.initalValue ?? '',
-        validity: 'unedited',
-        errorMessage: 'Bitte einen Wert eingeben',
-        formId: 0,
-        questionId: ''
-    })
+    const [input, setInput] = useState(props.prefill ?? '')
+    const [validity, setValidity] = useState('unedited')
+    const [errorMessage, setErrorMessage] = useState('Bitte einen Wert eingeben')
+    const validation = validator.inputType === "NUMBER" ? NumberValidation : validator.inputType === "SELECT" ? SelectValidation : StringValidation
 
-    if (formId !== inputState.formId) {
-        dispatch({
-            type: FORM_ID_CHANGE,
-            formId: props.formId
-        })
-        setInput('')
-    }
+    useEffect(() => {
+        const { validity, message } = validation(validator, input)
+        setValidity(validity)
+        setErrorMessage(message)
+    }, [input])
 
-    if (inputState.questionId !== question.uuid) {
-        dispatch({
-            type: QUESTION_CHANGE,
-            questionId: question.uuid
-        })
-        setupWithPrefillValueOrDefault()
-    }
-
-    async function setupWithPrefillValueOrDefault() {
-        try {
-            let value = await AsyncStorage.getItem(Keys.PREFILL_PREFIX + question.uuid)
-            if (value) {
-                setInput(value, false)
-            } else {
-                setDefaultMessage()
-            }
-        } catch (e) { }
-    }
-
-    //Sets the given input and updates the message
-    //If store is set, the value will be stored for prefill usage.
-    function setInput(value, store = true) {
-        switch (question.validator.inputType.toLowerCase()) {
-            case "number":
-                NumberInputHandler(question.validator, value ?? undefined, store)
-                break
-            case "text":
-                TextInputHandler(question.validator, value ?? '', store)
-                break
-            case "select":
-                SelectInputHandler(question.validator, value ?? '', store)
-                break
-        }
-    }
-
-    //Sets the input to an empty state and triggers the default emmpty/error message
-    function setDefaultMessage() {
-        var message = ''
-        const _input = ''
-        switch (question.validator.inputType.toLowerCase()) {
-            case "number":
-                message = NumberValidatior(question.validator, _input).message
-                break
-            case "text":
-                message = StringValidator(question.validator, _input).message
-                break
-            case "select":
-                message = SelectValidator(question.validator, _input).message
-                break
-        }
-
-        dispatch({
-            type: INPUT_CHANGE,
-            errorMessage: message,
-            input: _input
-        })
-    }
-
-    function NumberInputHandler(validaton, s_input, store = true) {
-        InputHandler(NumberValidatior, validaton, s_input, store)
-    }
-
-    function TextInputHandler(validaton, s_input, store = true) {
-        InputHandler(StringValidator, validaton, s_input)
-    }
-
-    function SelectInputHandler(validation, s_input, store = true) {
-        InputHandler(SelectValidator, validation, s_input, store)
-    }
+    //TODO: Clear form (atm via form)
 
     //The base function for input handlingm that calculates the validation
     //and updates the state (input, message, validity).
     //It also stores or removes the input for prefill usage if needed
-    function InputHandler(validator, validation, s_input, store) {
+    async function inputHandler(s_input) {
         s_input = s_input.trim()
-        if (s_input === inputState.input) return
+        if (s_input === input) return
 
-        const { validity, message } = validator(validation, s_input)
-        dispatch({
-            type: INPUT_CHANGE,
-            input: s_input,
-            validity: validity,
-            errorMessage: message
-        })
+        setInput(s_input)
 
-        if (store) {
-            if (s_input) { //TODO better check or length. (E.g if s_input is 'false' (string) It might be treated as not store-worthy)
-                AsyncStorage.setItem(Keys.PREFILL_PREFIX + question.uuid, s_input)
-            } else {
-                AsyncStorage.removeItem(Keys.PREFILL_PREFIX + question.uuid)
-            }
+        if (s_input != null && input.trim() != '') {
+            await AsyncStorage.setItem(Keys.PREFILL_PREFIX + questionId, s_input)
+        } else {
+            await AsyncStorage.removeItem(Keys.PREFILL_PREFIX + questionId)
         }
 
         props.onInputChanged(s_input, validity)
     }
 
-    const QuestionInfoHandler = (question) => {
+    const questionInfoHandler = () => {
         Alert.alert(
-            question.text,
-            question.description,
+            props.text,
+            props.description,
             [{ text: Strings.okay, style: "default" }]
         )
     }
 
     let inputView
-    switch (question.validator.inputType.toLowerCase()) {
+    switch (validator.inputType.toLowerCase()) {
         case "number":
-            inputView = <NumberInput input={inputState.input} unit={question.validator.unit} numberChanged={(number) => { NumberInputHandler(question.validator, number) }} />
+            inputView = <NumberInput input={input} unit={validator.unit} numberChanged={inputHandler} />
             break
         case "text":
-            inputView = <StringInput input={inputState.input} textChanged={(text) => TextInputHandler(question.validator, text)} />
+            inputView = <StringInput input={input} textChanged={inputHandler} />
             break
         case "select":
-            inputView = <SelectInput options={question.validator.options} input={inputState.input} selectionChanged={(value) => SelectInputHandler(question.validator, value)} />
+            inputView = <SelectInput options={validator.options} input={input} selectionChanged={inputHandler} />
             break
     }
 
@@ -184,13 +75,13 @@ const QuestionView = props => {
             </View>
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
-                    <HeadingText weight="normal" style={{ flex: 1 }}>{question.text}</HeadingText>
-                    {question.description && (<Icon style={{ ...styles.infoIcon, color: colorTheme.textPrimary }} onPress={QuestionInfoHandler.bind(this, question)} name="information-outline" size={24}></Icon>)}
+                    <HeadingText weight="normal" style={{ flex: 1 }}>{props.text}</HeadingText>
+                    {props.description && (<Icon style={{ ...styles.infoIcon, color: colorTheme.textPrimary }} onPress={questionInfoHandler} name="information-outline" size={24}></Icon>)}
                 </View>
                 <View style={styles.errorRow}>
-                    <Icon name={validityToIcon(inputState.validity)} size={24} color={colorTheme.textPrimary}></Icon>
+                    <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary}></Icon>
                     <View style={styles.errorTextWrapper}>
-                        <ContentText small error={inputState.validity === 'invalid'} light={inputState.validity === 'valid'}>{inputState.errorMessage}</ContentText>
+                        <ContentText small error={validity === 'invalid'} light={validity === 'valid'}>{errorMessage}</ContentText>
                     </View>
                 </View>
                 {inputView}
@@ -218,7 +109,16 @@ const NumberInput = (props) => {
 
     return (
         <View style={styles.numberRow}>
-            <TextInput value={props.input} placeholder={Strings.form_input_placeholder} placeholderTextColor={ConstantColors.lightgrey} onChangeText={props.numberChanged} keyboardType="numeric" style={{ ...(props.unit ? styles.inputWithUnit : styles.input), color: colorTheme.textPrimary, backgroundColor: colorTheme.background }} ></TextInput>
+            <TextInput
+                value={props.input}
+                placeholder={Strings.form_input_placeholder}
+                placeholderTextColor={ConstantColors.lightgrey}
+                onChangeText={props.numberChanged} keyboardType="numeric"
+                style={{
+                    ...(props.unit ? styles.inputWithUnit : styles.input),
+                    color: colorTheme.textPrimary,
+                    backgroundColor: colorTheme.background
+                }}/>
             {props.unit && <View style={{ ...styles.unitTextWrapper, backgroundColor: colorTheme.background }}>
                 <ContentText>in [{props.unit}]</ContentText>
             </View>}
@@ -230,7 +130,15 @@ const StringInput = (props) => {
     const { colorTheme } = useThemeProvider()
 
     return (
-        <TextInput value={props.input} placeholder={Strings.form_input_placeholder} placeholderTextColor={ConstantColors.lightgrey} onChangeText={props.textChanged} style={{ ...styles.input, backgroundColor: colorTheme.background }}></TextInput>
+        <TextInput
+            value={props.input}
+            placeholder={Strings.form_input_placeholder}
+            placeholderTextColor={ConstantColors.lightgrey}
+            onChangeText={props.textChanged}
+            style={{
+                ...styles.input,
+                backgroundColor: colorTheme.background
+            }}/>
     )
 }
 
