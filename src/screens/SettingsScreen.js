@@ -78,9 +78,7 @@ const SettingsScreen = (props) => {
         const keys = await AsyncStorage.getAllKeys();
         const formKeys = keys.filter(k => k.startsWith(Keys.PREFILL_PREFIX))
 
-        console.log(keys)
         await AsyncStorage.multiRemove(formKeys)
-        console.log(await AsyncStorage.getAllKeys())
     }
 
     function licenseHandler() {
