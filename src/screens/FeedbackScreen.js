@@ -36,13 +36,13 @@ const FeedbackScreen = (props) => {
     if (!submitState.isLoading && !submitState.isSubmitted) {
         contentView = (
             <>
-                <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FEEDBACK_SCREEN} style={styles.card} title="Feedback/Hilfe zur App">
-                    <InformationText>Falls Sie eine Fragen oder Probleme mit der App haben, oder Feedback geben möchten, können Sie dieses Formular verwenden. Geben Sie gerne auch Kontaktdaten an, damit wir uns bei Ihnen zurückmelden können.</InformationText>
+                <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FEEDBACK_SCREEN} style={styles.card} title={Strings.feedback_information_title}>
+                    <InformationText>{Strings.feedback_information_text}</InformationText>
                 </InformationCard>
-                <HeadingText style={styles.heading}>Wie können wir Sie erreichen? (optional)</HeadingText>
-                <Input placeholder="z.B. Name, Mail, Telefon, ..." multiline numberOfLines={3} style={styles.contact} value={userContact} onChangeText={text => onUserContactChange(text)} />
-                <HeadingText style={styles.heading}>Was möchten Sie uns mitteilen?</HeadingText>
-                <Input placeholder="Ihr Anliegen..." multiline style={styles.feedback} value={userInput} onChangeText={text => onUserInputChange(text)} />
+                <HeadingText style={styles.heading}>{Strings.feedback_contact_title}</HeadingText>
+                <Input placeholder={Strings.feedback_contact_placeholder} autoCorrect={false} multiline numberOfLines={3} style={styles.contact} value={userContact} onChangeText={text => onUserContactChange(text)} />
+        <HeadingText style={styles.heading}>{Strings.feedback_content_title}</HeadingText>
+                <Input placeholder={Strings.feedback_content_placeholder} multiline style={styles.feedback} value={userInput} onChangeText={text => onUserInputChange(text)} />
                 <View style={styles.button}>
                     <IconButton icon="chart-areaspline" text={"Absenden"} onPress={sendFeedbackHandler} />
                 </View>

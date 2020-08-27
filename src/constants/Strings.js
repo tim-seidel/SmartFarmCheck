@@ -82,7 +82,14 @@ const Strings = {
     settings_reset_form_title : "Formulare zurücksetzen",
     settings_reset_form_dialog_title : "Alle Formulare zurücksetzen?",
     settings_reset_form_dialog_content : "Sind Sie sicher, dass sie alle Formulare zurücksetzen möchten? Ihre bisherigen Eingaben werden dann unwiderruflich gelöscht.",
-    settings_licenses_title: "Lizenzen"
+    settings_licenses_title: "Lizenzen",
+    
+    feedback_information_title : "Feedback/Hilfe zur App",
+    feedback_information_text : "Falls Sie eine Fragen oder Probleme mit der App haben, oder Feedback geben möchten, können Sie dieses Formular verwenden. Geben Sie gerne auch Kontaktdaten an, damit wir uns bei Ihnen zurückmelden können.",
+    feedback_contact_title : "Wie können wir Sie erreichen? (optional)",
+    feedback_contact_placeholder: "z.B. Name, Mail, Telefon, ...",
+    feedback_content_title: "Was möchten Sie uns mitteilen?",
+    feedback_content_placeholder: "Ihr Anliegen..."
 }
 
 export default Strings
