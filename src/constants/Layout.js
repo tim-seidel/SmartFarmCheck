@@ -1,5 +1,5 @@
 export default {
-  borderRadius: 6,
-  borderWidth: 1.5,
+  borderRadius: 8,
+  borderWidth: 1,
   borderColor: '#666'
 }
