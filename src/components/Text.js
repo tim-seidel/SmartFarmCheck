@@ -64,9 +64,7 @@ export const Input = (props) => {
             placeholder={props.placeholder}
             placeholderTextColor={ConstantColors.lightgrey}
             textAlignVertical="top"
-            multiline={props.multiline}
-            numberOfLines={props.numberOfLines}
-            maxLength={props.maxLength ?? 5000}
+            {...props}
             style={{
                 backgroundColor: colorTheme.componentBackground,
                 color: colorTheme.textPrimary,
@@ -76,6 +74,6 @@ export const Input = (props) => {
                 borderWidth: Layout.borderWidth,
                 padding: 8,
                 ...props.style
-            }}></TextInput>
+            }}/>
     )
 }
