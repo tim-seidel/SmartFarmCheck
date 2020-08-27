@@ -56,7 +56,7 @@ const EvaluationScreen = (props) => {
             })
             .catch(error => {
                 console.log("Error", error)
-                setEvaluationState.setState({ isLoaded: false, hasNetwork: true, error: error, errorCode: -1, evaluation: [] })
+                setEvaluationState({ isLoaded: false, hasNetwork: true, error: error, errorCode: -1, evaluation: [] })
             })
     }
 
