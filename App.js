@@ -14,10 +14,12 @@ import Keys from './src/constants/Keys'
 
 import measureReducer from './src/store/reducers/measures'
 import questionsReducer from './src/store/reducers/questions'
+import eventReducer from './src/store/reducers/events'
 
 const rootReducer = combineReducers({
   measures: measureReducer,
-  questions: questionsReducer
+  questions: questionsReducer,
+  events: eventReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))

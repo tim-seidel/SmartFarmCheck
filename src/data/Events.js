@@ -1,8 +1,8 @@
-const events = [
+const eventMock = [
     {
         id: "1",
-        startDate: "2020-06-04T16:00:00.000Z",
-        endDate: "2020-06-04T18:00:00.000Z",
+        startDate: new Date("2021-06-04T16:00:00.000Z"),
+        endDate: new Date("2021-06-04T18:00:00.000Z"),
         title: "Die Fabrik der Zukunft - Vision und Praxis",
         short: "Künstliche Intelligenz zur Nutzung des Wissens aus digitalen Daten",
         descripion: `"<h2>Künstliche Intelligenz zur Nutzung des Wissens aus digitalen Daten</h2>
@@ -23,8 +23,8 @@ const events = [
     },
     {
         id: "2",
-        startDate: "2020-08-12T14:00:00.000Z",
-        endDate: "2020-08-12T17:00:00.000Z",
+        startDate: new Date("2021-08-12T14:00:00.000Z"),
+        endDate: new Date("2021-08-12T17:00:00.000Z"),
         title: "Chatbots erfolgreich konzipieren und umsetzen",
         short: 'Im Workshop "Chatbots erfolgreich konzipieren und umsetzen" erkunden Teilnehmenden, die verschiedenen Funktionen und Einsatzbereiche von Chatbots. Dabei steht das eigene Unternehmen im Vordergrund.',
         descripion: `"<p>Prozessoptimierung, Marketing oder auch Kundenservice sind wesentliche Bestandteile jedes Unternehmens und essenziell für die Kundenbindung. Bei den Anwendungsmöglichkeiten von Künstlicher Intelligenz im Bereich der menschenähnlichen Kommunikation haben sich insbesondere Chatbots von einem Nischenthema zu einer vieldiskutierten sowie häufig verwendeten Technologie entwickelt. <br />
@@ -47,4 +47,4 @@ const events = [
     },
 ]
 
-export default events
+export default eventMock

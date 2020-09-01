@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Linking, Platform, Alert, AsyncStorage, Modal, Picker, SafeAreaView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Linking, Platform, Alert, AsyncStorage, Modal, Picker } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler';
 import * as Calendar from 'expo-calendar'
 import moment from 'moment'
@@ -9,87 +10,54 @@ import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItemView';
 import InformationCard, { InformationText } from '../components/InformationCard';
 import { HeadingText } from '../components/Text';
-import events from '../data/Events';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { useThemeProvider } from '../ThemeContext';
 import Keys from '../constants/Keys';
 import RootView from '../components/RootView';
+import { fetchEvents } from '../store/actions/events';
 
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
-const eventMock = events
 const EventScreen = (props) => {
   const { colorTheme } = useThemeProvider()
 
-  const [eventState, setEventState] = useState({ isLoaded: false, error: null, errorCode: 0, events: [] })
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasNoNetwork, setHasNoNetwork] = useState(false)
+  const [errorCode, setErrorCode] = useState(0)
+
   const [calendarOptions, setCalendarOptions] = useState([])
   const [selectedCalendarOption, setSelectedCalendarOption] = useState('')
   const [showCalendarModal, setShowCalendarModal] = useState(false)
   const [selectedCalendarOptionId, setSelectedCalendarOptionId] = useState()
 
-  var unsubscribeNetworkListener = undefined
-
-  useEffect(
-    () => {
-      unsubscribeNetworkListener = NetInfo.addEventListener(state => {
-        if (state.isConnected && eventState.isLoaded && !hasNetwork) {
-          setEventState({ isLoaded: false, error: null, errorCode: 0, hasNetwork: true, events: [] })
-        }
-      })
-
-      return () => {
-        if (unsubscribeNetworkListener) unsubscribeNetworkListener()
-      }
-    }, [])
+  const dispatch = useDispatch()
+  const events = useSelector(state => state.events.comming)
 
   useEffect(() => {
-    if (!eventState.isLoaded) {
-      checkAndLoadEvents();
+    checkAndLoadEvents()
+  }, [checkAndLoadEvents])
+
+  const checkAndLoadEvents = useCallback(async () => {
+    const netinfo = await NetInfo.fetch()
+    if (netinfo.isConnected) {
+      setIsLoading(true)
+      try {
+        await dispatch(fetchEvents())
+      } catch (err) {
+        console.log(err)
+        setErrorCode(err.status ?? -1)
+      }
+      setIsLoading(false)
+    } else {
+      setHasNoNetwork(true)
     }
-  }, [eventState.isLoaded])
-
-  function checkAndLoadEvents() {
-    if (!eventState.isLoaded) {
-      NetInfo.fetch().then(state => {
-        if (state.isConnected) {
-          loadEvents()
-        } else {
-          setEventState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, events: [] })
-        }
-      })
-    }
-  }
-
-  function loadEvents() {
-    /*
-    fetch('https://pas.coala.digital/v1/events', {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-    })
-      .then(response => response.json())
-      .then(json => { 
-        //Check for request errors
-        if (json.status && json.status != 200) {
-          setEventState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, events: [] })
-        } else {
-          //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-          setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: json })
-        }
-      })
-      .catch(error => {
-        console.log("Error", error)
-        setEventState({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, events: [] })
-      })
-      */
-
-    setEventState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, events: eventMock })
-  }
+  }, [dispatch])
 
   function retryHandler() {
-    setEventState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, events: [] })
+    setErrorCode(0)
+    setHasNoNetwork(false)
+    checkAndLoadEvents()
   }
 
   function showDetailHandler(event) {
@@ -126,18 +94,16 @@ const EventScreen = (props) => {
     return AsyncStorage.setItem(Keys.DEFAULT_CALENDAR_ID, id)
   }
 
-  const { isLoaded, hasNetwork, error, errorCode, events } = eventState;
-
   let contentView = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
     return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
   });
 
-  if (error) {
+  if (errorCode !== 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
-  } else if (!isLoaded) {
+  } else if (isLoading) {
     contentView = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
-  } else if (!hasNetwork) {
+  } else if (hasNoNetwork && events.length === 0) {
     contentView = <NoContentView icon="cloud-off-outline" title={Strings.event_loading_no_network} onRetry={retryHandler}></NoContentView>
   } else if (!events || events.length === 0) {
     contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
