@@ -7,6 +7,7 @@ const Strings = {
     try_again: "Erneut versuchen",
     refresh: "Aktualisieren",
     reset: "Zurücksetzen",
+    back: "Zurück",
 
     mail: "mittelstand40@hs-osnabrueck.de",
 
@@ -89,7 +90,13 @@ const Strings = {
     feedback_contact_title : "Wie können wir Sie erreichen? (optional)",
     feedback_contact_placeholder: "z.B. Name, Mail, Telefon, ...",
     feedback_content_title: "Was möchten Sie uns mitteilen?",
-    feedback_content_placeholder: "Ihr Anliegen..."
+    feedback_content_placeholder: "Ihr Anliegen...",
+    feedback_sending: "Anfrage wird versendet...",
+    feedback_sending_competed: "Erfolgreich versendet.",
+    feedback_contact_soon : "Wir werden uns nach Möglichkeit bald bei Ihnen melden.",
+    feedback_submit: "Absenden",
+    feedback_content_missing_input: "Fehlender Input",
+    feedback_content_mimimum_input_length_message: "Die Nachricht sollte mindestens 10 Zeichen lang sein.",
 }
 
 export default Strings

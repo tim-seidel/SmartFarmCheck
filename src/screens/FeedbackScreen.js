@@ -19,8 +19,8 @@ const FeedbackScreen = (props) => {
 
     function sendFeedbackHandler() {
         if (userInput.length < 10) {
-            Alert.alert("Fehlender Input",
-                "Die Nachricht sollte mindestens 10 Zeichen lang sein.",
+            Alert.alert(Strings.feedback_content_missing_input,
+                Strings.feedback_content_mimimum_input_length_message,
                 [{ text: Strings.okay, style: "cancel" }],
                 { cancelable: true })
         } else {
@@ -44,23 +44,23 @@ const FeedbackScreen = (props) => {
         <HeadingText style={styles.heading}>{Strings.feedback_content_title}</HeadingText>
                 <Input placeholder={Strings.feedback_content_placeholder} multiline style={styles.feedback} value={userInput} onChangeText={text => onUserInputChange(text)} />
                 <View style={styles.button}>
-                    <IconButton icon="chart-areaspline" text={"Absenden"} onPress={sendFeedbackHandler} />
+                    <IconButton icon="chart-areaspline" text={Strings.feedback_submit} onPress={sendFeedbackHandler} />
                 </View>
             </>
         )
     } else if (submitState.isLoading) {
-        contentView = <NoContentView title="Anfrage wird versendet..." loading icon="cloud-download" />
+        contentView = <NoContentView title={Strings.feedback_sending} loading icon="cloud-download" />
         setSubmitState({ isLoading: false, isSubmitted: true })
     } else if (submitState.isSubmitted) {
         contentView = (
             <>
                 <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
                     <Icon color={colorTheme.textPrimary} name="check" size={96}></Icon>
-                    <HeadingText>Erfolgreich versendet.</HeadingText>
-                    {userContact.length > 5 && <ContentText align='center'>Wir werden uns nach Möglichkeit möglichst bald bei Ihnen melden.</ContentText>}
+                    <HeadingText>{Strings.feedback_sending_competed}</HeadingText>
+                    {userContact.length > 5 && <ContentText align='center'>{Strings.feedback_contact_soon}</ContentText>}
                 </View>
                 <View style={styles.button}>
-                    <IconButton icon="chevron-left" text="Zurück" onPress={goBackHandler}></IconButton>
+                    <IconButton icon="chevron-left" text={Strings.back} onPress={goBackHandler}></IconButton>
                 </View>
             </>
         )
