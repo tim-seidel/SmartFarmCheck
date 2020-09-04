@@ -10,6 +10,7 @@ import { ConstantColors } from '../constants/Colors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import ToolbarButton from '../components/ToolbarButton'
 import TabBarIcon from '../components/TabBarIcon'
+import { SETTINGSSCREEN, EVENTSCREEN, MEASURESCREEN, CONTACTSCREEN } from '../constants/Paths'
 
 const BottomTab = createBottomTabNavigator()
 
@@ -20,7 +21,7 @@ export default function HomeScreen({ navigation, route }) {
     headerTitle: getHeaderTitle(route),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-        <Item key="option-settings" iconName="settings" title={"Dunkelmodus toggeln"} onPress={() => navigation.navigate('Settings')} />
+        <Item key="option-settings" iconName="settings" title={"Dunkelmodus toggeln"} onPress={() => navigation.navigate(SETTINGSSCREEN)} />
       </HeaderButtons>
     )
   })
@@ -35,7 +36,7 @@ export default function HomeScreen({ navigation, route }) {
         activeTintColor: colorTheme.secondary,
       }}>
       <BottomTab.Screen
-        name="Measures"
+        name={MEASURESCREEN}
         component={MeasureScreen}
         options={{
           tabBarLabel: 'Maßnahmen',
@@ -43,7 +44,7 @@ export default function HomeScreen({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Events"
+        name={EVENTSCREEN}
         component={EventScreen}
         options={{
           tabBarLabel: 'Veranstaltungen',
@@ -51,7 +52,7 @@ export default function HomeScreen({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Contact"
+        name={CONTACTSCREEN}
         component={ContactScreen}
         options={{
           tabBarLabel: 'Kontakt',

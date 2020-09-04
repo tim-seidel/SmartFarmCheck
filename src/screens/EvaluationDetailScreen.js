@@ -9,6 +9,7 @@ import Strings from '../constants/Strings'
 import { ConstantColors } from '../constants/Colors'
 import RootView from '../components/RootView'
 import { fetchMeasure } from '../store/actions/measures'
+import { VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths'
 
 const EvaluationDetailScreen = (props) => {
     const measureId = props.route.params
@@ -79,9 +80,9 @@ const EvaluationDetailScreen = (props) => {
         const navigation = props.navigation
         function onURLHandler(url) {
             if (url.includes('.mp4') || url.includes('.avi')) {
-                navigation.navigate('Video', url)
+                navigation.navigate(VIDEOSCREEN, url)
             } else if (url.includes('.mp3')) {
-                navigation.navigate('Audio', url)
+                navigation.navigate(AUDIOSCREEN, url)
             }
             else {
                 Linking.openURL(url)

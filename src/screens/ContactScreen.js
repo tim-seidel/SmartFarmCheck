@@ -6,6 +6,7 @@ import Strings from '../constants/Strings'
 import IconButton from '../components/IconButton'
 import { ScrollView } from 'react-native-gesture-handler'
 import RootView from '../components/RootView'
+import { FEEDBACKSCREEN, ABOUTSCREEN } from '../constants/Paths'
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
@@ -40,11 +41,11 @@ const ContactScreen = (props) => {
     }
 
     const contactFeedbackHandler = () => {
-        props.navigation.navigate('Feedback')
+        props.navigation.navigate(FEEDBACKSCREEN)
     }
 
     const aboutAppHandler = () => {
-        props.navigation.navigate('About')
+        props.navigation.navigate(ABOUTSCREEN)
     }
     const contentAboutApp = <ActionButton icon="information-outline" text="Über diese App" onPress={aboutAppHandler} />
     const contentMail = <ActionButton icon="email-outline" text="Jetzt E-Mail verfassen" onPress={contactMailHandler} />

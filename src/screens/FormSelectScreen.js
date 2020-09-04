@@ -10,6 +10,7 @@ import { HeadingText } from '../components/Text'
 import { FlatList } from 'react-native-gesture-handler'
 import Keys from '../constants/Keys'
 import RootView from '../components/RootView'
+import { FORMSCREEN } from '../constants/Paths'
 
 const formsMock = [
     {
@@ -88,7 +89,7 @@ const FormSelectScreen = (props) => {
     }
 
     function formSelectedHandler(formUuid) {
-        props.navigation.navigate('Form', formUuid)
+        props.navigation.navigate(FORMSCREEN, formUuid)
     }
 
     const { error, errorCode, hasNetwork, isLoaded, forms } = formsState

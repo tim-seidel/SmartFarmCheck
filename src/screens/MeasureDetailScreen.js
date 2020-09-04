@@ -5,6 +5,7 @@ import URLInterceptingWebview from '../components/URLInterceptingWebview'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import RootView from '../components/RootView'
+import { VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths'
 
 export default function MeasureScreen({ route, navigation }) {
   const { colorTheme } = useThemeProvider()
@@ -12,9 +13,9 @@ export default function MeasureScreen({ route, navigation }) {
 
   function onURLHandler(url) {
     if (url.includes('.mp4') || url.includes('.avi')) {
-      navigation.navigate('Video', url)
+      navigation.navigate(VIDEOSCREEN, url)
     } else if (url.includes('.mp3')) {
-      navigation.navigate('Audio', url)
+      navigation.navigate(AUDIOSCREEN, url)
     }
     else {
       Linking.openURL(url)

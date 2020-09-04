@@ -11,6 +11,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler'
 import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
 import RootView from '../components/RootView'
+import { LICENSESCREEN } from '../constants/Paths'
 
 const SettingsToggleView = (props) => {
     const [isEnabled, setIsEnabled] = useState(props.initalValue ?? false)
@@ -82,7 +83,7 @@ const SettingsScreen = (props) => {
     }
 
     function licenseHandler() {
-        props.navigation.navigate('License')
+        props.navigation.navigate(LICENSESCREEN)
     }
 
     const isDark = colorTheme === darkTheme

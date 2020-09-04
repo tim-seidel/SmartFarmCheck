@@ -6,6 +6,7 @@ import IconButton from '../components/IconButton'
 import { HeadingText } from '../components/Text'
 import SponsorView from '../components/SponsorView'
 import RootView from '../components/RootView'
+import { IMPRINTSCREEN, PRIVACYSCREEN } from '../constants/Paths'
 
 const onSponsorPressedHandler = (url) => {
   Linking.openURL(url)
@@ -22,10 +23,10 @@ export default function AboutScreen({ navigation }) {
       </ScrollView>
       <View style={styles.buttonRow}>
         <View style={{ flex: 1, marginLeft: 4, marginTop: 2, marginRight: 2, marginBottom: 4 }}>
-          <IconButton icon="information-variant" text="Impressum" onPress={() => { navigation.navigate("Imprint") }} />
+          <IconButton icon="information-variant" text="Impressum" onPress={() => { navigation.navigate(IMPRINTSCREEN) }} />
         </View>
         <View style={{ flex: 1, marginLeft: 2, marginTop: 2, marginRight: 4, marginBottom: 4 }}>
-          <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate("Privacy") }} />
+          <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate(PRIVACYSCREEN) }} />
         </View>
       </View>
     </RootView>

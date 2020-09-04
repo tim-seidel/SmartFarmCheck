@@ -19,6 +19,7 @@ import HomeScreen from '../screens/HomeScreen'
 import FormSelectScreen from '../screens/FormSelectScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import LicenseScreen from '../screens/LicenseScreen'
+import { ABOUTSCREEN, AUDIOSCREEN, EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, EVENTDETAILSCREEN, FEEDBACKSCREEN, FORMSCREEN, FORMSELECTSCREEN, HOMESCREEM, IMPRINTSCREEN, LICENSESCREEN, MEASUREDETAILSCREEN, PRIVACYSCREEN, SETTINGSSCREEN, VIDEOSCREEN } from '../constants/Paths'
 
 const Stack = createStackNavigator()
 
@@ -37,7 +38,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Home"
+                        name={HOMESCREEM}
                         component={HomeScreen}
                     />
                     <Stack.Screen
@@ -48,7 +49,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="MeasureDetail"
+                        name={MEASUREDETAILSCREEN}
                         component={MeasureDetailScreen} />
                     <Stack.Screen
                         options={{
@@ -58,7 +59,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Form"
+                        name={FORMSCREEN}
                         component={FormScreen} />
                     <Stack.Screen
                         options={{
@@ -68,7 +69,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="EvaluationDetail"
+                        name={EVALUATIONDETAILSCREEN}
                         component={EvaluationDetailScreen} />
                     <Stack.Screen
                         options={{
@@ -78,7 +79,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Evaluation"
+                        name={EVALUATIONSCREEN}
                         component={EvaluationScreen} />
                     <Stack.Screen
                         options={{
@@ -88,7 +89,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="About"
+                        name={ABOUTSCREEN}
                         component={AboutScreen} />
                     <Stack.Screen
                         options={{
@@ -98,7 +99,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Imprint"
+                        name={IMPRINTSCREEN}
                         component={ImprintScreen} />
                     <Stack.Screen
                         options={{
@@ -108,7 +109,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Privacy"
+                        name={PRIVACYSCREEN}
                         component={PrivacyScreen} />
                     <Stack.Screen
                         options={{
@@ -118,7 +119,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="EventDetail"
+                        name={EVENTDETAILSCREEN}
                         component={EventDetailScreen} />
                     <Stack.Screen
                         options={{
@@ -128,7 +129,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Feedback"
+                        name={FEEDBACKSCREEN}
                         component={FeedbackScreen} />
                     <Stack.Screen
                         options={{
@@ -138,7 +139,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Video"
+                        name={VIDEOSCREEN}
                         component={VideoScreen} />
                     <Stack.Screen
                         options={{
@@ -148,7 +149,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Audio"
+                        name={AUDIOSCREEN}
                         component={AudioScreen} />
                     <Stack.Screen
                         options={{
@@ -158,7 +159,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="FormSelect"
+                        name={FORMSELECTSCREEN}
                         component={FormSelectScreen} />
                     <Stack.Screen
                         options={{
@@ -168,7 +169,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="Settings"
+                        name={SETTINGSSCREEN}
                         component={SettingsScreen} />
                     <Stack.Screen
                         options={{
@@ -178,7 +179,7 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name="License"
+                        name={LICENSESCREEN}
                         component={LicenseScreen} />
                 </Stack.Navigator>
             </NavigationContainer>

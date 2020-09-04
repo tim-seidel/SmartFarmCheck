@@ -9,6 +9,7 @@ import InformationCard, { InformationHighlight, InformationText } from '../compo
 import Strings from '../constants/Strings'
 import { HeadingText } from '../components/Text'
 import RootView from '../components/RootView'
+import { EVALUATIONDETAILSCREEN } from '../constants/Paths'
 
 const EvaluationScreen = (props) => {
     const [evalulationState, setEvaluationState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, evaluation: [] })
@@ -65,7 +66,7 @@ const EvaluationScreen = (props) => {
     }
 
     function measureSelectedHandler(uuid) {
-        props.navigation.navigate("EvaluationDetail", uuid)
+        props.navigation.navigate(EVALUATIONDETAILSCREEN, uuid)
     }
 
     const { isLoaded, hasNetwork, error, errorCode, evaluation } = evalulationState

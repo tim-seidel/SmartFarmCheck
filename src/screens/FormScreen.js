@@ -16,6 +16,7 @@ import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import RootView from '../components/RootView'
 import { fetchQuestions } from '../store/actions/questions'
+import { EVALUATIONSCREEN } from '../constants/Paths'
 
 const FormScreen = props => {
     const { colorTheme } = useThemeProvider()
@@ -247,7 +248,7 @@ const FormScreen = props => {
             }
         })
         const data = JSON.stringify(send)
-        props.navigation.navigate("Evaluation", data)
+        props.navigation.navigate(EVALUATIONSCREEN, data)
     }
 }
 

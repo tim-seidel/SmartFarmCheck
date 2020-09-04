@@ -14,6 +14,7 @@ import { HeadingText } from '../components/Text';
 import Keys from '../constants/Keys';
 import RootView from '../components/RootView';
 import { fetchMeasures } from '../store/actions/measures';
+import { MEASUREDETAILSCREEN, FORMSELECTSCREEN } from '../constants/Paths';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -103,13 +104,13 @@ const MeasureScreen = props => {
               key={item.uuid}
               title={item.name}
               short={item.excerpt}
-              measureSelected={() => { props.navigation.navigate("MeasureDetail", item) }}
+              measureSelected={() => { props.navigation.navigate(MEASUREDETAILSCREEN, item) }}
             />
           )}
           keyExtractor={item => item.uuid}
         />
         <View style={styles.calculateButtonWrapper}>
-          <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate("FormSelect") }} />
+          <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
         </View>
       </>
     )
