@@ -6,6 +6,7 @@ import { ContentText } from './Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 const picker_placeholder = "[Keine Auswahl]"
 
@@ -31,7 +32,7 @@ const SelectInput = (props) => {
     }
 
     return (
-        <View style={{...styles.pickerRow}}>
+        <View style={{...styles.pickerRow, backgroundColor: colorTheme.background}}>
             <TouchableOpacity style={styles.pickerTouchWrapper} onPress={showIosPickerHandler}>
                 <ContentText style={{ color: props.input ? colorTheme.textPrimary : ConstantColors.lightgrey }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
             </TouchableOpacity>
