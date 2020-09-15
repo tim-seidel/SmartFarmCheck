@@ -1,10 +1,10 @@
 import 'react-native-gesture-handler'
 import React, { useState } from 'react'
-import { SplashScreen } from 'expo'
 import { Appearance } from 'react-native-appearance'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
+import * as SplashScreen from 'expo-splash-screen';
 
 import { lightTheme, darkTheme } from './src/constants/Colors'
 import { ThemeContext } from './src/ThemeContext'
@@ -39,30 +39,32 @@ export default function App(props) {
   })
 
   React.useEffect(() => {
-    async function loadResourcesAndDataAsync() {
+    async function loadWithSplashScreen() {
       try {
-        SplashScreen.preventAutoHide()
-        /* Additional loading should be put here.*/
-
-        AsyncStorage.getItem(Keys.SETTING_DARKMODE, (error, value) => {
-          if (!error && value != null) {
-            setThemeState(prev => ({
-              colorTheme: JSON.parse(value) ? darkTheme : lightTheme,
-              toggleTheme: prev.toggleTheme
-            }))
-          } else {
-            AsyncStorage.setItem(Keys.SETTING_DARKMODE, JSON.stringify(themeState.colorTheme === darkTheme))
-          }
-        })
+        await SplashScreen.preventAutoHideAsync()
+        await loadResourcesAndDataAsync()
       } catch (e) {
         console.warn(e)
       } finally {
         setLoadingComplete(true)
-        SplashScreen.hide()
+        await SplashScreen.hideAsync()
       }
     }
-    loadResourcesAndDataAsync()
+    loadWithSplashScreen()
   }, [])
+
+  async function loadResourcesAndDataAsync() {
+    return AsyncStorage.getItem(Keys.SETTING_DARKMODE, (error, value) => {
+      if (!error && value != null) {
+        setThemeState(prev => ({
+          colorTheme: JSON.parse(value) ? darkTheme : lightTheme,
+          toggleTheme: prev.toggleTheme
+        }))
+      } else {
+        AsyncStorage.setItem(Keys.SETTING_DARKMODE, JSON.stringify(themeState.colorTheme === darkTheme))
+      }
+    })
+  }
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null /* Handled by splash screen. */
