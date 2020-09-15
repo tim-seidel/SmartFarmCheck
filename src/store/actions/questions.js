@@ -6,7 +6,6 @@ import Keys from "../../constants/Keys"
 export const SET_QUESTIONS = "SET_QUESTIONS"
 
 export const fetchQuestions = () => {
-    console.log("fetchQuestions")
     return async dispatch => {
         const response = await fetch('https://pas.coala.digital/v1/questions', {
             headers: {
