@@ -12,6 +12,9 @@ const feedbackReducer = (state = initalState, action) => {
                 feedback: state.feedback.concat(action.feedback)
             }
         }
+        default : {
+            return state
+        }
     }
 }
 
