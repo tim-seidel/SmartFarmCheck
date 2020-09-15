@@ -94,9 +94,12 @@ const Strings = {
     feedback_sending: "Anfrage wird versendet...",
     feedback_sending_competed: "Erfolgreich versendet.",
     feedback_contact_soon : "Wir werden uns nach Möglichkeit bald bei Ihnen melden.",
+    feedback_no_contact_soon: "Wir werden versuchen Ihr Feedback zu berücksichtigen.",
     feedback_submit: "Absenden",
     feedback_content_missing_input: "Fehlender Input",
     feedback_content_mimimum_input_length_message: "Die Nachricht sollte mindestens 10 Zeichen lang sein.",
+    feedback_submitting_no_network: "Aktuell besteht keine Internetverbindung. Daher kann das Feedback nicht gesendet werden. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    feedback_sumitting_error: "Beim Senden des Feedbacks ist ein Fehler aufgereten. Bitte Überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."
 }
 
 export default Strings

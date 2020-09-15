@@ -15,11 +15,13 @@ import Keys from './src/constants/Keys'
 import measureReducer from './src/store/reducers/measures'
 import questionsReducer from './src/store/reducers/questions'
 import eventReducer from './src/store/reducers/events'
+import feedbackReducer from './src/store/reducers/feedback'
 
 const rootReducer = combineReducers({
   measures: measureReducer,
   questions: questionsReducer,
-  events: eventReducer
+  events: eventReducer,
+  feedback: feedbackReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
