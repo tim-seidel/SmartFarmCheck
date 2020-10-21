@@ -65,7 +65,7 @@ const ContactScreen = (props) => {
                     </InformationCard>
                     <InformationCard title="Telefonisch" style={cardStyle} contentView={contentPhone}>
                         <InformationText>{"Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.\n\n"}</InformationText>
-                        <InformationHighlight>{"Andreas Ansprechpartner\nTel: 0541-969-1234\n"}</InformationHighlight>
+                        <InformationHighlight>{"Nikolas Neddermann\nTel: 0541-969-5017\n"}</InformationHighlight>
                     </InformationCard>
                     <InformationCard title="App-Feedback" style={cardStyle} contentView={contentFeedback}>
                         <InformationText>{"Bei Fragen zur App oder Problemen können Sie auch hier ein Formular ausfüllen.\n"}</InformationText>
