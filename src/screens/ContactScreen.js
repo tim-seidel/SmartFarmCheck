@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     },
     action: {
         marginHorizontal: 8,
+        marginBottom: 8,
         justifyContent: 'flex-end',
         flex: 1
     },
