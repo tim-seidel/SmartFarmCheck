@@ -6,7 +6,7 @@ import Strings from '../constants/Strings'
 import IconButton from '../components/IconButton'
 import { ScrollView } from 'react-native-gesture-handler'
 import RootView from '../components/RootView'
-import { FEEDBACKSCREEN, ABOUTSCREEN } from '../constants/Paths'
+import { ABOUTSCREEN } from '../constants/Paths'
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
@@ -40,17 +40,12 @@ const ContactScreen = (props) => {
         Linking.openURL("tel:05419691234")
     }
 
-    const contactFeedbackHandler = () => {
-        props.navigation.navigate(FEEDBACKSCREEN)
-    }
-
     const aboutAppHandler = () => {
         props.navigation.navigate(ABOUTSCREEN)
     }
     const contentAboutApp = <ActionButton icon="information-outline" text="Über diese App" onPress={aboutAppHandler} />
     const contentMail = <ActionButton icon="email-outline" text="Jetzt E-Mail verfassen" onPress={contactMailHandler} />
     const contentPhone = <ActionButton icon="phone" text="Jetzt anrufen" onPress={contactPhoneHandler} />
-    const contentFeedback = <ActionButton icon="file-document-outline" text="Zum Feedback" onPress={contactFeedbackHandler} />
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
         <RootView>
@@ -66,9 +61,6 @@ const ContactScreen = (props) => {
                     <InformationCard title="Telefonisch" style={cardStyle} contentView={contentPhone}>
                         <InformationText>{"Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.\n\n"}</InformationText>
                         <InformationHighlight>{"Nikolas Neddermann\nTel: 0541-969-5017\n"}</InformationHighlight>
-                    </InformationCard>
-                    <InformationCard title="App-Feedback" style={cardStyle} contentView={contentFeedback}>
-                        <InformationText>{"Bei Fragen zur App oder Problemen können Sie auch hier ein Formular ausfüllen.\n"}</InformationText>
                     </InformationCard>
                 </View>
             </ScrollView>
