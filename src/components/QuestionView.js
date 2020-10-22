@@ -29,7 +29,7 @@ const QuestionView = props => {
 
     //TODO: Clear form (atm via form)
 
-    //The base function for input handlingm that calculates the validation
+    //The base function for input handling that calculates the validation
     //and updates the state (input, message, validity).
     //It also stores or removes the input for prefill usage if needed
     async function inputHandler(s_input) {
@@ -70,7 +70,7 @@ const QuestionView = props => {
 
     return (
         <View style={{ ...styles.question, backgroundColor: colorTheme.componentBackground }}>
-            <View style={{ ...styles.numberWrapper, borderColor: colorTheme.textPrimary }}>
+            <View style={{ ...styles.numberWrapper, borderColor: colorTheme.textPrimary, backgroundColor: colorTheme.background }}>
                 <Text style={{ ...styles.questionNumber, color: colorTheme.textPrimary }}>{props.index}</Text>
             </View>
             <View style={styles.questionInputColumn}>
