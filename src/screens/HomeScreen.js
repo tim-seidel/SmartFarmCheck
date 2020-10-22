@@ -5,12 +5,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import EventScreen from './EventScreen'
 import MeasureScreen from './MeasureScreen'
 import ContactScreen from "./ContactScreen"
+import MediaLibraryScreen from "./MediaLibraryScreen"
+
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import ToolbarButton from '../components/ToolbarButton'
 import TabBarIcon from '../components/TabBarIcon'
-import { SETTINGSSCREEN, EVENTSCREEN, MEASURESCREEN, CONTACTSCREEN } from '../constants/Paths'
+import { SETTINGSSCREEN, EVENTSCREEN, MEASURESCREEN, CONTACTSCREEN, MEDIALIBRARYSCREEN} from '../constants/Paths'
 
 const BottomTab = createBottomTabNavigator()
 
@@ -51,6 +53,14 @@ export default function HomeScreen({ navigation, route }) {
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="calendar" />,
         }}
       />
+       <BottomTab.Screen
+        name={MEDIALIBRARYSCREEN}
+        component={MediaLibraryScreen}
+        options={{
+          tabBarLabel: 'Mediathek',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="video" />,
+        }}
+      />
       <BottomTab.Screen
         name={CONTACTSCREEN}
         component={ContactScreen}
@@ -71,6 +81,8 @@ function getHeaderTitle(route) {
       return 'Maßnahmenübersicht'
     case 'Events':
       return 'Smartfarmcheck'
+    case 'MediaLibrary': 
+    return 'Mediathek'
     case 'Contact':
       return "Kontakt"
     default:
