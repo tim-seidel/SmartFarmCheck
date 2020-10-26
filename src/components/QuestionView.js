@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         borderRadius: Layout.borderRadius,
         borderWidth: 1,
         borderColor: Layout.borderColor,
-        fontSize: 17,
+        fontSize: 16,
     },
     inputWithUnit: {
         flex: 1,
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         borderEndWidth: 0,
         borderTopEndRadius: 0,
         borderBottomRightRadius: 0,
-        fontSize: 17
+        fontSize: 16
     },
     buttonRow: {
         flexDirection: "row",
