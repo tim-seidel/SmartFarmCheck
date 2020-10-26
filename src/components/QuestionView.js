@@ -27,7 +27,9 @@ const QuestionView = props => {
         setErrorMessage(message)
     }, [input])
 
-    //TODO: Clear form (atm via form)
+    useEffect(() => {
+        setInput(props.prefill)
+    }, [questionId])
 
     //The base function for input handling that calculates the validation
     //and updates the state (input, message, validity).
@@ -38,7 +40,7 @@ const QuestionView = props => {
 
         setInput(s_input)
 
-        if (s_input != null && input.trim() != '') {
+        if (s_input != null && s_input.trim() !== '') {
             await AsyncStorage.setItem(Keys.PREFILL_PREFIX + questionId, s_input)
         } else {
             await AsyncStorage.removeItem(Keys.PREFILL_PREFIX + questionId)
@@ -76,7 +78,12 @@ const QuestionView = props => {
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
                     <HeadingText weight="normal" style={{ flex: 1 }}>{props.text}</HeadingText>
-                    {props.description && (<Icon style={{ ...styles.infoIcon, color: colorTheme.textPrimary }} onPress={questionInfoHandler} name="information-outline" size={24}></Icon>)}
+                    {props.description && (<Icon
+                        style={{ ...styles.infoIcon, color: colorTheme.textPrimary }}
+                        onPress={questionInfoHandler}
+                        name="information-outline"
+                        size={24}
+                    />)}
                 </View>
                 <View style={styles.errorRow}>
                     <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary}></Icon>
@@ -85,7 +92,6 @@ const QuestionView = props => {
                     </View>
                 </View>
                 {inputView}
-
             </View>
         </View>
     )
@@ -118,7 +124,7 @@ const NumberInput = (props) => {
                     ...(props.unit ? styles.inputWithUnit : styles.input),
                     color: colorTheme.textPrimary,
                     backgroundColor: colorTheme.background
-                }}/>
+                }} />
             {props.unit && <View style={{ ...styles.unitTextWrapper, backgroundColor: colorTheme.background }}>
                 <ContentText>in [{props.unit}]</ContentText>
             </View>}
@@ -138,7 +144,7 @@ const StringInput = (props) => {
             style={{
                 ...styles.input,
                 backgroundColor: colorTheme.background
-            }}/>
+            }} />
     )
 }
 
