@@ -73,7 +73,7 @@ const FormScreen = props => {
             qNext = 0
         }
 
-        const max = questionState.questions.length - 1
+        const max = questions.length - 1
         if (qNext > max) {
             qNext = max
         }
