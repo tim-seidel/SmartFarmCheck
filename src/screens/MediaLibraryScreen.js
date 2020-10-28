@@ -1,4 +1,4 @@
-import React, { useCallback, useDebugValue, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,7 @@ import Strings from '../constants/Strings'
 import MediaLibraryListViewItem from '../components/MediaLibraryListViewItem'
 import InformationCard, { InformationText } from '../components/InformationCard'
 import { HeadingText } from '../components/Text'
+import Keys from '../constants/Keys'
 
 const MediaLibraryScreen = (props) => {
     const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const MediaLibraryScreen = (props) => {
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
     const [errorCode, setErrorCode] = useState(0)
 
-    useDebugValue(() => {
+    useEffect(() => {
         checkAndLoadVideoList()
     }, [checkAndLoadVideoList])
 
@@ -67,7 +68,12 @@ const MediaLibraryScreen = (props) => {
                 data={mediaLibrary}
                 ListHeaderComponent={
                     <View>
-                        <InformationCard title={Strings.medialibrary_card_title} style={styles.card}>
+                        <InformationCard
+                            toggleInformationEnabled
+                            toggleStoreKey={Keys.INFORMATION_TOGGLE_MEDIALIBRARY_SCREEN}
+                            title={Strings.medialibrary_card_title}
+                            style={styles.card}
+                        >
                             <InformationText>{Strings.medialibrary_card_description}</InformationText>
                         </InformationCard>
                         <HeadingText large weight="bold" style={styles.heading}>{Strings.medialibrary_heading}</HeadingText>
