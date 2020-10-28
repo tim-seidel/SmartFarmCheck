@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 8,
-        borderRadius: 8,
         marginTop: 8,
         borderColor: Layout.borderColor,
         borderRadius: Layout.borderRadius,
@@ -114,7 +113,6 @@ const styles = StyleSheet.create({
     },
     outerWrapper: {
         overflow: 'hidden',
-        borderRadius: 8,
         marginTop: 8,
         borderColor: Layout.borderColor,
         borderRadius: Layout.borderRadius,
