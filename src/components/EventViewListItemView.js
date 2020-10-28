@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import moment from 'moment'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import IconButton from './IconButton'
 import { HeadingText, ContentText } from './Text'
@@ -13,9 +14,12 @@ function EventListItemView(props) {
 
     return (
         <View style={{ ...styles.event, backgroundColor: colorTheme.componentBackground }}>
-            <HeadingText weight={'bold'}>{formatDate(moment(event.startDate), moment(event.endDate))}</HeadingText>
-            <View style={styles.separator}></View>
             <HeadingText>{event.title}</HeadingText>
+            <View style={styles.separator}></View>
+            <View style={styles.dateRow}>
+                <Icon style={styles.dateIcon} name="calendar-outline" size={24}></Icon>
+                <ContentText large>{formatDate(moment(event.startDate), moment(event.endDate))}</ContentText>
+            </View>
             <ContentText light numberOfLines={3} style={{ paddingTop: 4, paddingBottom: 8 }}>{event.short}</ContentText>
             <View style={styles.eventButtonRow}>
                 <View style={styles.eventButtonWrapper}>
@@ -57,6 +61,13 @@ const styles = StyleSheet.create({
         backgroundColor: Layout.borderColor,
         height: Layout.borderWidth,
         marginVertical: 8
+    },
+    dateRow: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
+    dateIcon: {
+        marginEnd: 4,
     },
     eventButtonRow: {
         flexDirection: "row",

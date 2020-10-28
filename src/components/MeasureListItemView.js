@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
@@ -16,7 +16,7 @@ function MeasureListItemView(props) {
             <TouchableHighlight underlayColor={ConstantColors.lightgrey} onPress={props.measureSelected}>
                 <View style={styles.innerWrapper}>
                     <View style={styles.measureContent}>
-                        <HeadingText large>{props.title}</HeadingText>
+                        <HeadingText>{props.title}</HeadingText>
                         <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.short}</ContentText>
                     </View>
                     <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32}></Icon>
