@@ -16,12 +16,14 @@ import measureReducer from './src/store/reducers/measures'
 import questionsReducer from './src/store/reducers/questions'
 import eventReducer from './src/store/reducers/events'
 import feedbackReducer from './src/store/reducers/feedback'
+import mediaLibraryReducer from './src/store/reducers/mediaLibrary'
 
 const rootReducer = combineReducers({
   measures: measureReducer,
   questions: questionsReducer,
   events: eventReducer,
-  feedback: feedbackReducer
+  feedback: feedbackReducer,
+  mediaLibrary: mediaLibraryReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))

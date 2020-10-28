@@ -62,6 +62,16 @@ const Strings = {
     evaluation_detail_loading_error: "Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     evaluation_detail_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Details zur Maßnahme können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
 
+    medialibrary: "Erklärvideos",
+    medialibrary_loading: "Laden der verfügbaren Erklärvideos...",
+    medialibrary_loading_error: "Aktuell können keine Videos geladen werden. Bitte überprüfen Sie Ihre Internetverbindungoder versuchen Sie es später erneut.",
+    medialibrary_loading_empty: "Erklärvideos des Kompetenzzentrums werden hier angezeigt. Aktuell wurden keine Videos gefunden. Bitte versuchen Sie es später erneut.",
+    medialibrary_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Videos können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
+    medialibrary_watch_now: "Jetzt ansehen",
+    medialibrary_card_title: "Zur SmartFarmCheck-Mediathek",
+    medialibrary_card_description: "Hier finden Sie unseren allgemeinen Erklärvideos, die Sie sich auch gerne unabhängig von konkreten Digialisierungsmaßnahmen anschauen können.",
+    medialibrary_heading: "Alle Erklärvideos:",
+
     event_calendar: "Veranstaltungskalendar",
     event_list_heading: "Kommende Veranstaltungen",
     event_loading: "Laden der kommenden Veranstaltungen...",

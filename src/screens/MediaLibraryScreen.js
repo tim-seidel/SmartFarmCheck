@@ -1,69 +1,77 @@
-import React from 'react'
-import { StyleSheet, FlatList, Image } from 'react-native'
+import React, { useCallback, useDebugValue, useState } from 'react'
+import { View, StyleSheet, FlatList } from 'react-native'
+import NetInfo from '@react-native-community/netinfo'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { ContentText, HeadingText } from '../components/Text'
 import RootView from '../components/RootView'
-import { View } from 'react-native-animatable'
-import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext'
-import IconButton from '../components/IconButton'
 import { VIDEOSCREEN } from '../constants/Paths'
-
-const videos = [
-    {
-        uuid: "1",
-        title: "Video 1",
-        description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-    },
-    {
-        uuid: "2",
-        title: "Video 2",
-        description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-    },
-    {
-        uuid: "3",
-        title: "Video 3",
-        description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-    }
-]
-
-const MediaLibraryListViewItem = (props) => {
-    const { colorTheme } = useThemeProvider()
-
-    return (
-        <View style={{ ...styles.border, backgroundColor: colorTheme.componentBackground }}>
-            <View style={{ ...styles.title, backgroundColor: colorTheme.primary }}>
-                <HeadingText style={{ color: colorTheme.textPrimaryContrast }}>{props.title}</HeadingText>
-            </View>
-            <View style={styles.description}>
-                <ContentText light numberOfLines={3}>{props.description}</ContentText>
-            </View>
-            <View style={styles.imageWrapper}>
-                <Image source={require("../../assets/images/logo_mittelstand4.png")} style={styles.image} resizeMode="contain" />
-
-            </View>
-            <View style={styles.action}>
-                <IconButton icon="video" text="Jetzt ansehen" onPress={props.onShowVideo} />
-            </View>
-
-        </View>
-    )
-}
+import { fetchMediaLibrary } from '../store/actions/mediaLibrary'
+import NoContentView from '../components/NoContentView'
+import Strings from '../constants/Strings'
+import MediaLibraryListViewItem from '../components/MediaLibraryListViewItem'
+import InformationCard, { InformationText } from '../components/InformationCard'
+import { HeadingText } from '../components/Text'
 
 const MediaLibraryScreen = (props) => {
+    const dispatch = useDispatch()
+    const mediaLibrary = useSelector(state => state.mediaLibrary.all)
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [hasNoNetwork, setHasNoNetwork] = useState(false)
+    const [errorCode, setErrorCode] = useState(0)
+
+    useDebugValue(() => {
+        checkAndLoadVideoList()
+    }, [checkAndLoadVideoList])
+
+    const checkAndLoadVideoList = useCallback(async () => {
+        const netinfo = await NetInfo.fetch()
+        if (netinfo.isConnected) {
+            setIsLoading(true)
+            try {
+                await dispatch(fetchMediaLibrary())
+            } catch (err) {
+                console.log(err)
+                setErrorCode(err.status ?? -1)
+            }
+            setIsLoading(false)
+        } else {
+            setHasNoNetwork(true)
+        }
+    }, [dispatch])
+
+    function retryHandler() {
+        setErrorCode(0)
+        setHasNoNetwork(false)
+        checkAndLoadVideoList()
+    }
 
     const showVideoHandler = (url) => {
         props.navigation.navigate(VIDEOSCREEN, url)
     }
 
-    return (
-        <RootView>
+    let contentView = null
+
+    if (errorCode !== 0) {
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.medialibrary_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+    } else if (isLoading) {
+        contentView = <NoContentView icon="cloud-download" loading title={Strings.medialibrary_loading}></NoContentView>
+    } else if (hasNoNetwork && mediaLibrary.length === 0) {
+        contentView = <NoContentView icon="cloud-off-outline" title={Strings.measure_loading_no_network} onRetry={retryHandler}></NoContentView>
+    } else if (!mediaLibrary || mediaLibrary.length === 0) {
+        contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.medialibrary_loading_empty}></NoContentView>
+    } else {
+        contentView =
             <FlatList
                 style={styles.list}
-                data={videos}
+                data={mediaLibrary}
+                ListHeaderComponent={
+                    <View>
+                        <InformationCard title={Strings.medialibrary_card_title} style={styles.card}>
+                            <InformationText>{Strings.medialibrary_card_description}</InformationText>
+                        </InformationCard>
+                        <HeadingText large weight="bold" style={styles.heading}>{Strings.medialibrary_heading}</HeadingText>
+                    </View>}
                 renderItem={({ item }) => (
                     <MediaLibraryListViewItem
                         title={item.title}
@@ -73,45 +81,26 @@ const MediaLibraryScreen = (props) => {
                 )}
                 keyExtractor={item => item.uuid}
             />
+    }
+    return (
+        <RootView>
+            {contentView}
         </RootView>
     )
 }
 
 const styles = StyleSheet.create({
-    border: {
-        borderRadius: Layout.borderRadius,
-        borderColor: Layout.borderColor,
-        borderWidth: Layout.borderWidth,
-        overflow: "hidden",
-        marginVertical: 4
-    },
-    title: {
-        borderBottomColor: Layout.borderColor,
-        borderBottomWidth: Layout.borderWidth,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-    },
-    description: {
-        paddingHorizontal: 8,
-        paddingTop: 4
-    },
     list: {
         marginHorizontal: 8,
         marginVertical: 4
     },
-    image: {
-        width: "100%",
-        height: 120,
-        backgroundColor: "white",
-    },
-    imageWrapper: {
-        margin: 8,
-        borderRadius: Layout.borderRadius,
-        overflow: "hidden"
-    },
-    action: {
+    heading: {
+        marginTop: 16,
         marginBottom: 8,
-        marginHorizontal: 8
+        marginStart: 2
+    },
+    card: {
+        marginTop: 4
     }
 })
 
