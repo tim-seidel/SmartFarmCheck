@@ -123,6 +123,8 @@ const FormScreen = props => {
             const canNavigatePrevious = pagingIndex > 0
             const canNavigateNext = (pagingIndex < (questions.length - 1))
 
+            const pageInfoText = { color: colorTheme.textPrimaryContrast }
+
             questionContent = (
                 <View style={styles.singleQuestionLayoutContainer}>
                     <QuestionView
@@ -135,7 +137,7 @@ const FormScreen = props => {
                         index={pagingIndex + 1}
                     />
                     <View style={styles.questionPagingRow}>
-                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={canNavigatePrevious ? { ...styles.pagingButton, backgroundColor: colorTheme.primary } : styles.pagingButtonDisabled}>
+                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={{ ...styles.pagingButtonBack, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey, }}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                                 <Icon
                                     name="chevron-left"
@@ -146,19 +148,23 @@ const FormScreen = props => {
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ color: colorTheme.textPrimaryContrast }}>
+                                    style={pageInfoText}>
                                     {Strings.form_paging_backwards}
                                 </ContentText>
                             </View>
                         </TouchableOpacity>
-                        <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}><ContentText style={{ color: colorTheme.textPrimaryContrast }}>{pagingIndex + 1}/{questions.length}</ContentText></View>
-                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={canNavigateNext ? { ...styles.pagingButton, backgroundColor: colorTheme.primary } : styles.pagingButtonDisabled}>
+                        <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}>
+                            <ContentText weight="bold" style={pageInfoText}>{pagingIndex + 1}</ContentText>
+                            <ContentText small style={pageInfoText}> von </ContentText>
+                            <ContentText style={pageInfoText}>{questions.length}</ContentText>
+                        </View>
+                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={{ ...styles.pagingButtonNext, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
                                 <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={{ color: colorTheme.textPrimaryContrast }}>
+                                    style={pageInfoText}>
                                     {Strings.form_paging_forwards}
                                 </ContentText>
                                 <Icon
@@ -193,7 +199,7 @@ const FormScreen = props => {
     function resetHandler() {
         Alert.alert(Strings.form_dialog_confirm_reset_title, Strings.form_dialog_confirm_reset_content, [
             { text: Strings.cancel, style: "default" },
-            { text: Strings.form_reset, onPress: () => {}, style: "destructive" }
+            { text: Strings.form_reset, onPress: () => { }, style: "destructive" }
         ],
             { cancelable: false })
         return
@@ -274,23 +280,28 @@ styles = StyleSheet.create({
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6
     },
-    pagingButton: {
-        borderRadius: Layout.borderRadius,
+    pagingButtonBack: {
+        flex: 1,
         padding: 8,
-        flex: 1
+        borderTopLeftRadius: Layout.borderRadius,
+        borderBottomLeftRadius: Layout.borderRadius,
     },
-    pagingButtonDisabled: {
-        backgroundColor: ConstantColors.grey,
-        borderRadius: Layout.borderRadius,
+    pagingButtonNext: {
+        flex: 1,
         padding: 8,
-        flex: 1
+        borderTopRightRadius: Layout.borderRadius,
+        borderBottomRightRadius: Layout.borderRadius,
     },
     pageInfo: {
-        borderRadius: Layout.borderRadius,
+        flex: 1,
+        flexDirection: "row",
         paddingVertical: 8,
         paddingHorizontal: 16,
-        marginHorizontal: 4,
-        justifyContent: "center"
+        alignItems: "center",
+        justifyContent: "center",
+        borderColor: ConstantColors.white,
+        borderLeftWidth: Layout.borderWidth,
+        borderRightWidth: Layout.borderWidth,
     },
     optionsRow: {
         flexDirection: "row",
