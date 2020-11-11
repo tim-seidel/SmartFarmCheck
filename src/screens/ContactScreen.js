@@ -10,7 +10,7 @@ import { ABOUTSCREEN } from '../constants/Paths'
 
 const ActionButton = (props) => {
     return (<View style={styles.action}>
-        <IconButton type={Platform.OS === 'ios' ? 'light' : 'outline'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
+        <IconButton type={Platform.OS === 'ios' ? 'light' : 'solid'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
     </View>)
 }
 
