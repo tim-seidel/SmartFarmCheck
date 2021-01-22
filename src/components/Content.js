@@ -19,7 +19,8 @@ import HomeScreen from '../screens/HomeScreen'
 import FormSelectScreen from '../screens/FormSelectScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import LicenseScreen from '../screens/LicenseScreen'
-import { ABOUTSCREEN, AUDIOSCREEN, EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, EVENTDETAILSCREEN, FEEDBACKSCREEN, FORMSCREEN, FORMSELECTSCREEN, HOMESCREEM, IMPRINTSCREEN, LICENSESCREEN, MEASUREDETAILSCREEN, PRIVACYSCREEN, SETTINGSSCREEN, VIDEOSCREEN } from '../constants/Paths'
+import FormHelpScreen from '../screens/FormHelpScreen'
+import { ABOUTSCREEN, AUDIOSCREEN, EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, EVENTDETAILSCREEN, FEEDBACKSCREEN, FORMHELPSCREEN, FORMSCREEN, FORMSELECTSCREEN, HOMESCREEM, IMPRINTSCREEN, LICENSESCREEN, MEASUREDETAILSCREEN, PRIVACYSCREEN, SETTINGSSCREEN, VIDEOSCREEN } from '../constants/Paths'
 
 const Stack = createStackNavigator()
 
@@ -161,6 +162,16 @@ const Content = (props) => {
                         }}
                         name={FORMSELECTSCREEN}
                         component={FormSelectScreen} />
+                    <Stack.Screen
+                        options={{
+                            title: "Hilfe zum Fragebogen",
+                            headerTintColor: colorTheme.textPrimaryContrast,
+                            headerStyle: {
+                                backgroundColor: colorTheme.primary
+                            }
+                        }}
+                        name={FORMHELPSCREEN}
+                        component={FormHelpScreen} />
                     <Stack.Screen
                         options={{
                             title: "Einstellungen",

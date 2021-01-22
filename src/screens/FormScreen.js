@@ -16,7 +16,7 @@ import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import RootView from '../components/RootView'
 import { fetchQuestions } from '../store/actions/questions'
-import { EVALUATIONSCREEN } from '../constants/Paths'
+import { EVALUATIONSCREEN, FORMHELPSCREEN } from '../constants/Paths'
 
 const FormScreen = props => {
     const { colorTheme } = useThemeProvider()
@@ -67,6 +67,10 @@ const FormScreen = props => {
         setMode(mode => mode === 'list' ? 'single' : 'list')
     }
 
+    function helpPressedHandler(){
+        props.navigation.navigate(FORMHELPSCREEN)
+    }
+
     function questionPagingHandler(toNext) {
         var qNext = toNext ? pagingIndex + 1 : pagingIndex - 1
         if (qNext < 0) {
@@ -95,6 +99,7 @@ const FormScreen = props => {
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={ToolbarButton}>
                     <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
+                    <Item key="option-info" iconName="help-circle-outline" title={Strings.form_help} onPress={helpPressedHandler}/>
                 </HeaderButtons>
             )
         })
