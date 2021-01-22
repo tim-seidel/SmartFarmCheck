@@ -1,23 +1,39 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Linking, Platform, Alert, AsyncStorage, Modal, Picker } from 'react-native';
+import { StyleSheet, View, Linking, Platform, Alert, Modal } from 'react-native';
+import {Picker} from "@react-native-community/picker"
+import AsyncStorage from "@react-native-community/async-storage"
+import NetInfo from '@react-native-community/netinfo';
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import * as Calendar from 'expo-calendar'
 import moment from 'moment'
-import NetInfo from '@react-native-community/netinfo';
 
 import NoContentView from '../components/NoContentView';
 import EventListItemView from '../components/EventViewListItemView';
 import InformationCard, { InformationText } from '../components/InformationCard';
-import { HeadingText } from '../components/Text';
+import { ContentText, HeadingText } from '../components/Text';
 import Strings from '../constants/Strings';
 import IconButton from '../components/IconButton';
 import { useThemeProvider } from '../ThemeContext';
 import Keys from '../constants/Keys';
 import RootView from '../components/RootView';
 import { fetchEvents } from '../store/actions/events';
+import Layout from '../constants/Layout';
 
 const name_default_calendar = 'smartfarmcheck_event_calendar'
+
+const Competence = (props) => {
+  const { colorTheme } = useThemeProvider()
+
+  return <View style={{backgroundColor: colorTheme.componentBackground, ...props.style, ...styles.competence }}>
+    <Icon name={props.icon} color={colorTheme.textPrimary} size={36}></Icon>
+    <View style={{ marginHorizontal: 8, flex: 1 }}>
+      <HeadingText weight="bold">{props.heading}</HeadingText>
+      {props.children}
+    </View>
+  </View>
+}
 
 const EventScreen = (props) => {
   const { colorTheme } = useThemeProvider()
@@ -133,6 +149,12 @@ const EventScreen = (props) => {
               <InformationCard title={Strings.main_greeting_title} style={styles.welcomeCard}>
                 <InformationText>{Strings.main_greeting_content}</InformationText>
               </InformationCard>
+              <View>
+                <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
+                <Competence heading="Angebot 1" icon="lightbulb-on-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
+                <Competence heading="Angebot 2" icon="account-group-outline" style={{ marginVertical: 8 }}><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
+                <Competence heading="Angebot 3" icon="forum-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. </ContentText></Competence>
+              </View>
               <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
             </View>}
           renderItem={({ item }) => (
@@ -371,6 +393,14 @@ const styles = StyleSheet.create({
   },
   welcomeCard: {
     marginTop: 8
+  },
+  competence: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 8,
+    borderColor: Layout.borderColor,
+    borderWidth: Layout.borderWidth,
+    borderRadius: Layout.borderRadius
   }
 });
 

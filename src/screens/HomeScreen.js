@@ -49,7 +49,7 @@ export default function HomeScreen({ navigation, route }) {
         name={EVENTSCREEN}
         component={EventScreen}
         options={{
-          tabBarLabel: 'Veranstaltungen',
+          tabBarLabel: 'Angebote',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="calendar" />,
         }}
       />
