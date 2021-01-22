@@ -258,7 +258,7 @@ const FormScreen = props => {
     }
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
         width: "100%",
