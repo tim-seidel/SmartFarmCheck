@@ -6,7 +6,6 @@ import { ContentText } from './Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 const picker_placeholder = "[Keine Auswahl]"
 
