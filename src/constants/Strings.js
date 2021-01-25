@@ -70,7 +70,7 @@ const Strings = {
     medialibrary_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Videos können daher nicht geladen werden. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.",
     medialibrary_watch_now: "Jetzt ansehen",
     medialibrary_card_title: "Zur SmartFarmCheck-Mediathek",
-    medialibrary_card_description: "Hier finden Sie unseren allgemeinen Erklärvideos, die Sie sich auch gerne unabhängig von konkreten Digialisierungsmaßnahmen anschauen können.",
+    medialibrary_card_description: "Hier finden Sie unseren allgemeinen Erklär- und Infovideos, die unabhängig von konkreten Digialisierungsmaßnahmen verschiedene interessante Themen behandeln.",
     medialibrary_heading: "Alle Erklärvideos:",
 
     event_calendar: "Veranstaltungskalendar",
