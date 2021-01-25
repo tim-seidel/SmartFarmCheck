@@ -50,6 +50,7 @@ const InformationCard = (props) => {
     return (
         <View style={{ ...styles.card, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <View style={{ ...styles.titleRow, backgroundColor: colorTheme.primary }}>
+                {props.icon && <Icon name={props.icon} size={24} style={{ marginStart: 8, color: colorTheme.textPrimaryContrast }}/>}
                 <View style={styles.titleWrapper}>
                     <HeadingText style={{ color: colorTheme.textPrimaryContrast }}>{props.title ?? 'Information'}</HeadingText>
                 </View>
