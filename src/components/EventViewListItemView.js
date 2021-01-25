@@ -17,7 +17,7 @@ function EventListItemView(props) {
             <HeadingText>{event.title}</HeadingText>
             <View style={styles.separator}></View>
             <View style={styles.dateRow}>
-                <Icon style={styles.dateIcon} name="calendar-outline" size={24}></Icon>
+                <Icon style={{...styles.dateIcon, color: colorTheme.textPrimary}} name="calendar-outline" size={24}></Icon>
                 <ContentText large>{formatDate(moment(event.startDate), moment(event.endDate))}</ContentText>
             </View>
             <ContentText light numberOfLines={3} style={{ paddingTop: 4, paddingBottom: 8 }}>{event.short}</ContentText>
