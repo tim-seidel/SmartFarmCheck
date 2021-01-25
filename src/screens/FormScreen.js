@@ -32,6 +32,19 @@ const FormScreen = props => {
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questions.questions)
 
+    const { navigation } = props
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <HeaderButtons HeaderButtonComponent={ToolbarButton}>
+                    <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
+                    <Item key="option-info" iconName="help-circle-outline" title={Strings.form_help} onPress={helpPressedHandler}/>
+                </HeaderButtons>
+            )
+        })
+ 
+    }, [ navigation ])
+
     useEffect(() => {
         checkAndLoadQuestions()
     }, [checkAndLoadQuestions])
@@ -68,7 +81,9 @@ const FormScreen = props => {
     }
 
     function helpPressedHandler(){
-        props.navigation.navigate(FORMHELPSCREEN)
+        if(!isLoading){
+            props.navigation.navigate(FORMHELPSCREEN)
+        }
     }
 
     function questionPagingHandler(toNext) {
@@ -95,15 +110,6 @@ const FormScreen = props => {
     } else if (questions.length === 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty} />
     } else {
-        props.navigation.setOptions({
-            headerRight: () => (
-                <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-                    <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
-                    <Item key="option-info" iconName="help-circle-outline" title={Strings.form_help} onPress={helpPressedHandler}/>
-                </HeaderButtons>
-            )
-        })
-
         var questionContent = null
         if (mode === 'list') {
             questionContent = (
