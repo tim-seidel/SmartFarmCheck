@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Switch, Alert } from 'react-native'
+import React from 'react'
+import { View, StyleSheet, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -12,37 +12,7 @@ import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
 import RootView from '../components/RootView'
 import { LICENSESCREEN } from '../constants/Paths'
-
-const SettingsToggleView = (props) => {
-    const [isEnabled, setIsEnabled] = useState(props.initalValue ?? false)
-    const { colorTheme } = useThemeProvider()
-
-    useEffect(() => {
-        AsyncStorage.getItem(props.storeKey, (error, value) => {
-            if (!error && value != null) {
-                setIsEnabled(JSON.parse(value))
-            }
-        })
-    }, [])
-
-    const toggleSwitch = (value) => {
-        setIsEnabled(value)
-        props.onValueChanged(value)
-        AsyncStorage.setItem(props.storeKey, JSON.stringify(value))
-    }
-
-    return (
-        <View style={{ ...styles.switchSetting, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-            <Icon style={{ color: colorTheme.textPrimary }} name={props.icon} size={24}></Icon>
-            <View style={styles.nameWrapper}>
-                <ContentText>{props.name}</ContentText>
-            </View>
-            <Switch onValueChange={toggleSwitch} value={isEnabled}
-                thumbColor={isEnabled ? colorTheme.accent : ConstantColors.accent}
-                trackColor={{ false: "#767577", true: colorTheme.primary }} />
-        </View>
-    )
-}
+import SettingsToggleView from '../components/SettingsToggleView'
 
 const SettingsClickView = (props) => {
     const { colorTheme } = useThemeProvider()
@@ -98,18 +68,8 @@ const SettingsScreen = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingStart: 8,
-        paddingEnd: 8
-    },
-    switchSetting: {
-        flexDirection: 'row',
-        alignItems: 'center',
         paddingHorizontal: 8,
-        marginTop: 8,
-        borderColor: Layout.borderColor,
-        borderRadius: Layout.borderRadius,
-        borderWidth: Layout.borderWidth
-
+        paddingTop: 8
     },
     outerWrapper: {
         overflow: 'hidden',
