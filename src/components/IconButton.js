@@ -6,6 +6,7 @@ import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import { ContentText } from './Text'
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
+import Layout from '../constants/Layout'
 
 /**
  * A default button layout, that can be customized. 
@@ -55,10 +56,12 @@ IconButton.defaultProps = {
 const styles = StyleSheet.create({
     button: {
         justifyContent: "center",
+        borderRadius: Layout.borderRadius,
     },
     buttonOutlined: {
         borderWidth: 1.5,
-        justifyContent: "center"
+        justifyContent: "center",
+        borderRadius: Layout.borderRadius,
     }
 })
 

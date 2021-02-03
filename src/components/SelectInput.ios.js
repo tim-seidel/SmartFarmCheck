@@ -31,7 +31,7 @@ const SelectInput = (props) => {
     }
 
     return (
-        <View style={{...styles.pickerRow}}>
+        <View style={{...styles.pickerRow, backgroundColor: colorTheme.background}}>
             <TouchableOpacity style={styles.pickerTouchWrapper} onPress={showIosPickerHandler}>
                 <ContentText style={{ color: props.input ? colorTheme.textPrimary : ConstantColors.lightgrey }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
             </TouchableOpacity>

@@ -10,7 +10,7 @@ const SponsorView = (props) => {
     <View style={{ ...styles.container, ...props.style }}>
       <Image style={styles.image} source={props.localPath}></Image>
       <View style={styles.buttonWrapper}>
-        <IconButton type="outline" icon="web" text={props.name} onPress={props.onPress}></IconButton>
+        <IconButton  icon="web" text={props.name} onPress={props.onPress}></IconButton>
       </View>
     </View>)
 }

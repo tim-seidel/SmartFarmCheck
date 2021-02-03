@@ -10,22 +10,23 @@ import { HeadingText } from '../components/Text'
 import { FlatList } from 'react-native-gesture-handler'
 import Keys from '../constants/Keys'
 import RootView from '../components/RootView'
+import { FORMSCREEN } from '../constants/Paths'
 
 const formsMock = [
     {
         uuid: '1',
-        title: 'Ackerbau',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär dem Ackerbau zugeordnet sind.'
+        title: 'Spezialisierung A',
+        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung A zugeordnet sind.'
     },
     {
         uuid: '2',
-        title: 'Viehzucht',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Zucht von Tieren zugeordnet sind.'
+        title: 'Spezialisierung B',
+        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung B zugeordnet sind.'
     },
     {
         uuid: '3',
-        title: 'Forstwirtschaft',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Forstwirtschaft zugeordnet sind.'
+        title: 'Spezialisierung C',
+        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung C zugeordnet sind.'
     }
 ]
 
@@ -88,7 +89,7 @@ const FormSelectScreen = (props) => {
     }
 
     function formSelectedHandler(formUuid) {
-        props.navigation.navigate('Form', formUuid)
+        props.navigation.navigate(FORMSCREEN, formUuid)
     }
 
     const { error, errorCode, hasNetwork, isLoaded, forms } = formsState
@@ -107,7 +108,7 @@ const FormSelectScreen = (props) => {
                 <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN} style={styles.card} title={Strings.select_form_information_title}>
                     <InformationText>{Strings.select_form_information_text}</InformationText>
                 </InformationCard>
-                <HeadingText large weight="bold" style={styles.heading}>Verfübare Fragebögen:</HeadingText>
+                <HeadingText large weight="bold" style={styles.heading}>Verfügbare Fragebögen:</HeadingText>
             </View>
 
         contentView = (

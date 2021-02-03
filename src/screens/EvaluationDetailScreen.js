@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo'
 
 import NoContentView from '../components/NoContentView'
@@ -7,67 +8,57 @@ import { useThemeProvider } from '../ThemeContext'
 import Strings from '../constants/Strings'
 import { ConstantColors } from '../constants/Colors'
 import RootView from '../components/RootView'
+import { fetchMeasure } from '../store/actions/measures'
+import { VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths'
 
 const EvaluationDetailScreen = (props) => {
+    const measureId = props.route.params
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [hasNoNetwork, setHasNoNetwork] = useState(false)
+    const [errorCode, setErrorCode] = useState(0)
+
     const { colorTheme } = useThemeProvider()
-    const [measureState, setMeasureState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, measure: null })
+
+    const dispatch = useDispatch()
+    const localMeasures = useSelector(state => state.measures.measures)
+    const measure = localMeasures.find(m => m.uuid === measureId)
 
     useEffect(() => {
-        if (!measureState.isLoaded) {
-            checkAndLoadMeasure()
+        checkAndLoadMeasure()
+    }, [checkAndLoadMeasure])
+
+    const checkAndLoadMeasure = useCallback(async () => {
+        if (measure != null) {
+            return
         }
-    }, [measureState.isLoaded])
 
-    function checkAndLoadMeasure() {
-        if (!measureState.isLoaded) {
-
-            NetInfo.fetch().then(state => {
-                if (state.isConnected) {
-                    loadMeasure()
-                } else {
-                    setMeasureState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, measure: null })
-                }
-            })
-        }
-    }
-
-    function loadMeasure() {
-        const measureId = props.route.params
-
-        fetch('https://pas.coala.digital/v1/measures/' + measureId, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
+        const netinfo = await NetInfo.fetch()
+        if (netinfo.isConnected) {
+            setIsLoading(true)
+            try {
+                await dispatch(fetchMeasure(measureId))
+            } catch (err) {
+                setErrorCode(err.status ?? -1)
             }
-        })
-            .then(response => response.json())
-            .then(json => {
-                //Check for request errors
-                if (json.status && json.status != 200) {
-                    setMeasureState({ isLoaded: true, hasNetwork: true, error: json, errorCode: json.status ?? -1, measure: null })
-                } else {
-                    //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-                    setMeasureState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, measure: json })
-                }
-            })
-            .catch(error => {
-                console.log("Error", error)
-                setMeasureState({ isLoaded: true, hasNetwork: true, error: error, errorCode: -1, measure: null })
-            })
-    }
+            setIsLoading(false)
+        } else {
+            setHasNoNetwork(true)
+        }
+    }, [dispatch])
 
     function retryHandler() {
-        setMeasureState({ isLoaded: false, hasNetwork: true, error: false, errorCode: 0, measure: null })
+        setErrorCode(0)
+        setHasNoNetwork(false)
+        checkAndLoadMeasure()
     }
 
-    const { isLoaded, hasNetwork, error, errorCode, measure } = measureState
     var contentView = null
-    if (error) {
+    if (errorCode !== 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network + " (Fehlercode: " + errorCode + ")"} />
-    } else if (!isLoaded) {
+    } else if (isLoading) {
         contentView = <NoContentView icon="cloud-download" loading title={Strings.evaluation_detail_loading} />
-    } else if (!hasNetwork) {
+    } else if (hasNoNetwork && measure === null) {
         contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_detail_loading_no_network} />
     } else {
         const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color:  ' + colorTheme.textPrimary + '} p{text-align: justify; hyphens: auto; }</style></head>'
@@ -89,9 +80,9 @@ const EvaluationDetailScreen = (props) => {
         const navigation = props.navigation
         function onURLHandler(url) {
             if (url.includes('.mp4') || url.includes('.avi')) {
-                navigation.navigate('Video', url)
+                navigation.navigate(VIDEOSCREEN, url)
             } else if (url.includes('.mp3')) {
-                navigation.navigate('Audio', url)
+                navigation.navigate(AUDIOSCREEN, url)
             }
             else {
                 Linking.openURL(url)

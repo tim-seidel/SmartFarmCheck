@@ -1,32 +1,41 @@
 
-import React from 'react'
+import React, {useEffect} from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import EventScreen from './EventScreen'
 import MeasureScreen from './MeasureScreen'
 import ContactScreen from "./ContactScreen"
+import MediaLibraryScreen from "./MediaLibraryScreen"
+
 import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import ToolbarButton from '../components/ToolbarButton'
 import TabBarIcon from '../components/TabBarIcon'
+import { SETTINGSSCREEN, EVENTSCREEN, MEASURESCREEN, CONTACTSCREEN, MEDIALIBRARYSCREEN} from '../constants/Paths'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 
 const BottomTab = createBottomTabNavigator()
 
 export default function HomeScreen({ navigation, route }) {
   const { colorTheme } = useThemeProvider()
 
-  navigation.setOptions({
-    headerTitle: getHeaderTitle(route),
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-        <Item key="option-settings" iconName="settings" title={"Dunkelmodus toggeln"} onPress={() => navigation.navigate('Settings')} />
-      </HeaderButtons>
-    )
-  })
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: getHeaderTitle(route),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={ToolbarButton}>
+          <Item key="option-settings" iconName="more" title={"Einstellungen"} onPress={() => navigation.navigate(SETTINGSSCREEN)} />
+        </HeaderButtons>
+      )
+    })
+  }, [navigation, route])
+
+  
+  
   return (
     <BottomTab.Navigator
-      initialRouteName="Events"
+      initialRouteName={EVENTSCREEN}
       tabBarOptions={{
         style: {
           backgroundColor: colorTheme.componentBackground
@@ -35,7 +44,7 @@ export default function HomeScreen({ navigation, route }) {
         activeTintColor: colorTheme.secondary,
       }}>
       <BottomTab.Screen
-        name="Measures"
+        name={MEASURESCREEN}
         component={MeasureScreen}
         options={{
           tabBarLabel: 'Maßnahmen',
@@ -43,19 +52,27 @@ export default function HomeScreen({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Events"
+        name={EVENTSCREEN}
         component={EventScreen}
         options={{
-          tabBarLabel: 'Veranstaltungen',
+          tabBarLabel: 'Angebote',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="calendar" />,
         }}
       />
+       <BottomTab.Screen
+        name={MEDIALIBRARYSCREEN}
+        component={MediaLibraryScreen}
+        options={{
+          tabBarLabel: 'Mediathek',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="video" />,
+        }}
+      />
       <BottomTab.Screen
-        name="Contact"
+        name={CONTACTSCREEN}
         component={ContactScreen}
         options={{
           tabBarLabel: 'Kontakt',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="contact-mail-outline" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="card-account-mail-outline" />,
         }}
       />
     </BottomTab.Navigator>
@@ -63,14 +80,17 @@ export default function HomeScreen({ navigation, route }) {
 }
 
 function getHeaderTitle(route) {
-  const routeName = route.state?.routes[route.state.index]?.name
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'SmartFarmCheck';
+
 
   switch (routeName) {
-    case 'Measures':
+    case MEASURESCREEN:
       return 'Maßnahmenübersicht'
-    case 'Events':
-      return 'Smartfarmcheck'
-    case 'Contact':
+    case EVENTSCREEN:
+      return 'SmartFarmCheck'
+    case MEDIALIBRARYSCREEN: 
+      return 'Mediathek'
+    case CONTACTSCREEN:
       return "Kontakt"
     default:
       return "SmartFarmCheck"
