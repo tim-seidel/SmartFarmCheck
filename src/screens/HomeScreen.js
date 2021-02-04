@@ -25,7 +25,7 @@ export default function HomeScreen({ navigation, route }) {
       headerTitle: getHeaderTitle(route),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-          <Item key="option-settings" iconName="more" title={"Einstellungen"} onPress={() => navigation.navigate(SETTINGSSCREEN)} />
+          <Item key="option-settings" iconName="menu" title={"Einstellungen"} onPress={() => navigation.navigate(SETTINGSSCREEN)} />
         </HeaderButtons>
       )
     })
