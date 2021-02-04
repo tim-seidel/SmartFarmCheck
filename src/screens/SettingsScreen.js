@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { useThemeProvider } from '../ThemeContext'
 import { ContentText } from '../components/Text'

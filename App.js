@@ -5,11 +5,11 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 import * as SplashScreen from 'expo-splash-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { lightTheme, darkTheme } from './src/constants/Colors'
 import { ThemeContext } from './src/ThemeContext'
 import Content from './src/components/Content'
-import AsyncStorage from '@react-native-community/async-storage'
 import Keys from './src/constants/Keys'
 
 import measureReducer from './src/store/reducers/measures'
@@ -17,6 +17,7 @@ import questionsReducer from './src/store/reducers/questions'
 import eventReducer from './src/store/reducers/events'
 import feedbackReducer from './src/store/reducers/feedback'
 import mediaLibraryReducer from './src/store/reducers/mediaLibrary'
+
 
 const rootReducer = combineReducers({
   measures: measureReducer,
