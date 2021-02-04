@@ -33,7 +33,6 @@ export const fetchEvents = () => {
         */
 
         const events = eventMock
-        console.log(events)
 
         events.sort(function (e1, e2) {
             return e1 - e2
