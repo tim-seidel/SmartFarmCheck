@@ -2,6 +2,8 @@ const defaultPrimary = "#B50900"
 const defaultSecondary = "#7e0000"
 
 export const lightTheme = {
+  name: 'light',
+
   primary: defaultPrimary,
   secondary: defaultSecondary,
   accent: "#ef4c2d",
@@ -18,6 +20,8 @@ export const lightTheme = {
 }
 
 export const darkTheme = {
+  name: 'dark',
+
   primary: defaultPrimary,
   secondary: defaultSecondary,
   accent: "#ef4c2d",

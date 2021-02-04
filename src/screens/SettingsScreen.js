@@ -56,7 +56,7 @@ const SettingsScreen = (props) => {
         props.navigation.navigate(LICENSESCREEN)
     }
 
-    const isDark = colorTheme === darkTheme
+    const isDark = colorTheme.name === 'dark'
     return (
         <RootView style={styles.container}>
             <SettingsToggleView storeKey={Keys.SETTING_DARKMODE} name={Strings.settings_darkmode_title} icon="brightness-6" initalValue={isDark} onValueChanged={toggleTheme}></SettingsToggleView>
