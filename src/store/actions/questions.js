@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Keys from "../../constants/Keys"
 import Question from "../../models/Question"
+import { getValidation } from '../../models/Validation'
 import Validator from "../../models/Validator"
 
 export const SET_QUESTIONS = "SET_QUESTIONS"
@@ -50,6 +51,12 @@ export const fetchQuestions = () => {
             const q = questions[i]
             const value = await AsyncStorage.getItem(Keys.PREFILL_PREFIX + q.uuid)
             q.input = value ?? ''
+
+            if(value){
+                const validation = getValidation(q.validator)
+                const { validity } = validation(q.validator, q.input)
+                q.validity = validity
+            }
         }
 
         dispatch({
