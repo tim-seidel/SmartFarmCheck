@@ -57,7 +57,7 @@ const InformationCard = (props) => {
                 {toggleInformationEnabled && <Icon name={isInformationInvisible ? "chevron-up" : "chevron-down"} size={24} style={{ ...styles.minimizeIcon, color: colorTheme.textPrimaryContrast }} onPress={toggleInformationVisibility}></Icon>}
             </View>
             <View style={styles.textWrapper}>
-                <Text style={styles.text} >
+                <Text style={{textAlign: props.textAlign ?? 'center'}} >
                     {isInformationInvisible ? props.children : <ContentText small light>Ausklappen für weitere Infos.</ContentText>}
                 </Text>
             </View>
@@ -85,9 +85,6 @@ const styles = StyleSheet.create({
     },
     textWrapper: {
         margin: 8
-    },
-    text: {
-        textAlign: 'center'
     },
     minimizeIcon: {
         marginEnd: 8
