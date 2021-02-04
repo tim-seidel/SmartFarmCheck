@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, View, Alert } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { StringValidation, NumberValidation, SelectValidation } from "../models/Validation"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
