@@ -26,7 +26,7 @@ const IconButton = (props) => {
             size={24}
             color={type === 'solid' ? colorTheme.textPrimaryContrast : colorTheme.primary}
             backgroundColor={type === 'solid' ? colorTheme.primary : ConstantColors.transparent}
-            underlayColor={ConstantColors.grey}
+            underlayColor={colorTheme.accent}
             onPress={props.onPress}>
             <ContentText
                 numberOfLines={1}

@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
 
 const zeroPad = (value, places) => String(value).padStart(places, ' ')
 
@@ -15,7 +14,7 @@ function EvaluationListItemView(props) {
 
     return (
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground }}>
-            <TouchableHighlight underlayColor={ConstantColors.grey} onPress={props.measureSelected}>
+            <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.measureSelected}>
                 <View style={styles.innerWrapper}>
                     <Text style={styles.rating}>{zeroPad(props.rating, 2)}%</Text>
                     <View style={{ ...styles.divider, backgroundColor: colorTheme.textPrimary }}></View>

@@ -8,11 +8,13 @@ export const lightTheme = {
 
   background: 'transparent',
   componentBackground: '#fff',
+  componentPressed: '#ccc',
 
-  error: "#f00",
   textPrimary: '#000',
   textPrimaryContrast: '#fff',
   textSecondary: '#505050',
+
+  error: "#f00",
 }
 
 export const darkTheme = {
@@ -22,11 +24,13 @@ export const darkTheme = {
 
   background: '#000',
   componentBackground: '#222',
+  componentPressed: '#666',
 
-  error: "#f00",
   textPrimary: '#fff',
   textPrimaryContrast: '#fff',
   textSecondary: '#ccc',
+
+  error: "#f00",
 }
 
 export const ConstantColors = {

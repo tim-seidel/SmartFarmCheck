@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useThemeProvider } from '../ThemeContext'
 import { ContentText } from '../components/Text'
 import Keys from '../constants/Keys'
-import { darkTheme, ConstantColors } from '../constants/Colors'
+import { darkTheme } from '../constants/Colors'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
@@ -19,7 +19,7 @@ const SettingsClickView = (props) => {
 
     return (
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-            <TouchableHighlight underlayColor={ConstantColors.grey} onPress={props.onPress}>
+            <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.onPress}>
                 <View style={styles.innerWrapper}>
                     <Icon style={{ color: colorTheme.textPrimary, marginStart: 8 }} name={props.icon} size={24}></Icon>
                     <View style={styles.nameWrapper}>
