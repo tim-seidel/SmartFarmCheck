@@ -15,6 +15,7 @@ export const lightTheme = {
   textPrimary: '#000',
   textPrimaryContrast: '#fff',
   textSecondary: '#505050',
+  textHint: '#aaa',
 
   error: "#f00",
 }
@@ -23,7 +24,7 @@ export const darkTheme = {
   name: 'dark',
 
   primary: defaultPrimary,
-  secondary: defaultSecondary,
+  secondary: '#e00',
   accent: "#ef4c2d",
 
   background: '#000',
@@ -33,6 +34,7 @@ export const darkTheme = {
   textPrimary: '#fff',
   textPrimaryContrast: '#fff',
   textSecondary: '#ccc',
+  textHint: '#aaa',
 
   error: "#f00",
 }

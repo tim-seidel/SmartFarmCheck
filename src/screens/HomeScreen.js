@@ -8,7 +8,6 @@ import ContactScreen from "./ContactScreen"
 import MediaLibraryScreen from "./MediaLibraryScreen"
 
 import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import ToolbarButton from '../components/ToolbarButton'
 import TabBarIcon from '../components/TabBarIcon'
@@ -40,7 +39,7 @@ export default function HomeScreen({ navigation, route }) {
         style: {
           backgroundColor: colorTheme.componentBackground
         },
-        inactiveTintColor: ConstantColors.grey,
+        inactiveTintColor: colorTheme.textHint,
         activeTintColor: colorTheme.secondary,
       }}>
       <BottomTab.Screen

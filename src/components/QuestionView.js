@@ -8,7 +8,6 @@ import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
 import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
 
@@ -118,7 +117,7 @@ const NumberInput = (props) => {
             <TextInput
                 value={props.input}
                 placeholder={Strings.form_input_placeholder}
-                placeholderTextColor={ConstantColors.lightgrey}
+                placeholderTextColor={colorTheme.textHint}
                 onChangeText={props.numberChanged} keyboardType="numeric"
                 style={{
                     ...(props.unit ? styles.inputWithUnit : styles.input),
@@ -139,7 +138,7 @@ const StringInput = (props) => {
         <TextInput
             value={props.input}
             placeholder={Strings.form_input_placeholder}
-            placeholderTextColor={ConstantColors.lightgrey}
+            placeholderTextColor={colorTheme.textHint}
             onChangeText={props.textChanged}
             style={{
                 ...styles.input,

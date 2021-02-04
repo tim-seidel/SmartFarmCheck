@@ -148,7 +148,7 @@ const FormScreen = props => {
                         index={pagingIndex + 1}
                     />
                     <View style={styles.questionPagingRow}>
-                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={{ ...styles.pagingButtonBack, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey, }}>
+                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={{ ...styles.pagingButtonBack, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                                 <Icon
                                     name="chevron-left"
