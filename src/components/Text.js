@@ -3,7 +3,6 @@ import { Text, Platform, TextInput, StyleSheet } from 'react-native'
 
 import { useThemeProvider } from '../ThemeContext'
 import Layout from '../constants/Layout'
-import { ConstantColors } from '../constants/Colors'
 
 /**
  * This file contains the default text formats for the application.
@@ -64,7 +63,7 @@ export const Input = (props) => {
             value={props.value}
             onChangeText={props.onChangeText}
             placeholder={props.placeholder}
-            placeholderTextColor={ConstantColors.lightgrey}
+            placeholderTextColor={colorTheme.textHint}
             textAlignVertical="top"
             {...props}
             style={{

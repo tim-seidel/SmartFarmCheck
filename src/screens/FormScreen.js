@@ -148,7 +148,7 @@ const FormScreen = props => {
                         index={pagingIndex + 1}
                     />
                     <View style={styles.questionPagingRow}>
-                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={{ ...styles.pagingButtonBack, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey, }}>
+                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={{ ...styles.pagingButtonBack, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                                 <Icon
                                     name="chevron-left"
@@ -207,15 +207,6 @@ const FormScreen = props => {
         </RootView>
     )
 
-    function resetHandler() {
-        Alert.alert(Strings.form_dialog_confirm_reset_title, Strings.form_dialog_confirm_reset_content, [
-            { text: Strings.cancel, style: "default" },
-            { text: Strings.form_reset, onPress: () => { }, style: "destructive" }
-        ],
-            { cancelable: false })
-        return
-    }
-
     function calculateHandler() {
         const indiciesError = []
         const indiciesEmpty = []
@@ -230,25 +221,25 @@ const FormScreen = props => {
         })
 
         //Check first if no input was given. 
-        if (indiciesEmpty.length == questions.length) {
+        if (indiciesEmpty.length === questions.length) {
             Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content, [
-                { text: Strings.okay, onPress: () => console.log("Canceled sending"), style: "cancel" },
+                { text: Strings.okay, style: "cancel" },
             ],
                 { cancelable: false })
             return
         }
 
         if (indiciesError.length > 0) {
-            Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhaft: (' + indiciesError.join(', ') + ')', [
-                { text: Strings.okay, onPress: () => console.log("Canceled sending"), style: "cancel" },
+            Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')', [
+                { text: Strings.okay, style: "cancel" },
             ],
                 { cancelable: false })
             return
         }
 
         if (indiciesEmpty.length > 0) {
-            Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortet: (' + indiciesEmpty.join(', ') + ')', [
-                { text: Strings.cancel, onPress: () => console.log("Canceled sending"), style: "cancel" },
+            Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')', [
+                { text: Strings.cancel, style: "cancel" },
                 { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
             ],
                 { cancelable: false })

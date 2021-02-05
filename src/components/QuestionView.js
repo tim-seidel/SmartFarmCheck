@@ -1,54 +1,91 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Alert, AsyncStorage } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
+import { StyleSheet, Text, View, Alert } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { StringValidation, NumberValidation, SelectValidation } from "../models/Validation"
-import SelectInput from "./SelectInput"
 import { HeadingText, ContentText } from './Text'
-import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
-import Strings from '../constants/Strings'
-import Keys from '../constants/Keys'
+import NumberInput from './NumberInput'
+import SelectInput from "./SelectInput"
+import StringInput from './StringInput'
 
+import { getValidation } from "../models/Validation"
+import { useThemeProvider } from '../ThemeContext'
+
+import Keys from '../constants/Keys'
+import Layout from '../constants/Layout'
+import Strings from '../constants/Strings'
+
+/**
+ * Converts the vailidy state into the corresponding icon name/code.
+ */
+const validityToIcon = (validity) => {
+    switch (validity) {
+        case 'valid':
+            return "check"
+        case 'invalid':
+            return "alert-outline"
+        case 'unedited':
+        default:
+            return "chevron-double-right"
+    }
+}
+
+/**
+ * Stores or deletes the persisted autofill input accordingly.
+ */
+const persistInputAsync = async (questionId, s_input) =>{
+    if (s_input != null && s_input.trim() !== '') {
+        await AsyncStorage.setItem(Keys.PREFILL_PREFIX + questionId, s_input)
+    } else {
+        await AsyncStorage.removeItem(Keys.PREFILL_PREFIX + questionId)
+    }
+}
+
+
+/** 
+ * UI component for all form questions. Handles all the different input types like Number, Select, String
+*/
 const QuestionView = props => {
     const { colorTheme } = useThemeProvider()
-    const { questionId, validator } = props
+    const { questionId, validator, prefill } = props
 
     const [input, setInput] = useState(props.prefill ?? '')
     const [validity, setValidity] = useState('unedited')
     const [errorMessage, setErrorMessage] = useState('Bitte einen Wert eingeben')
-    const validation = validator.inputType === "NUMBER" ? NumberValidation : validator.inputType === "SELECT" ? SelectValidation : StringValidation
+    const validation = getValidation(validator)
 
     useEffect(() => {
         const { validity, message } = validation(validator, input)
+
         setValidity(validity)
         setErrorMessage(message)
     }, [input])
 
     useEffect(() => {
-        setInput(props.prefill)
+        setInput(prefill)
     }, [questionId])
 
-    //The base function for input handling that calculates the validation
-    //and updates the state (input, message, validity).
-    //It also stores or removes the input for prefill usage if needed
-    async function inputHandler(s_input) {
+    /**
+     * Base function for input changes. It handles
+     * - quick validation
+     * - persisitence
+     * - update to parent component.
+     */
+    const inputHandler = (s_input) => {
         s_input = s_input.trim()
         if (s_input === input) return
 
+        const { validity } = validation(validator, s_input)
         setInput(s_input)
 
-        if (s_input != null && s_input.trim() !== '') {
-            await AsyncStorage.setItem(Keys.PREFILL_PREFIX + questionId, s_input)
-        } else {
-            await AsyncStorage.removeItem(Keys.PREFILL_PREFIX + questionId)
-        }
+        persistInputAsync(s_input, questionId)
 
         props.onInputChanged(s_input, validity)
     }
 
+    /**
+     * Method that handles the click on a question info and shows the dialog.
+     */
     const questionInfoHandler = () => {
         Alert.alert(
             props.text,
@@ -57,7 +94,8 @@ const QuestionView = props => {
         )
     }
 
-    let inputView
+    //Create the input view based on the required type.
+    let inputView = null
     switch (validator.inputType.toLowerCase()) {
         case "number":
             inputView = <NumberInput input={input} unit={validator.unit} numberChanged={inputHandler} />
@@ -66,10 +104,11 @@ const QuestionView = props => {
             inputView = <StringInput input={input} textChanged={inputHandler} />
             break
         case "select":
-            inputView = <SelectInput options={validator.options} input={input} selectionChanged={inputHandler} />
+            inputView = <SelectInput input={input} options={validator.options}  selectionChanged={inputHandler} />
             break
     }
 
+    //Construct the layout that wraps the input with container, number, status message and icon.
     return (
         <View style={{ ...styles.question, backgroundColor: colorTheme.componentBackground }}>
             <View style={{ ...styles.numberWrapper, borderColor: colorTheme.textPrimary, backgroundColor: colorTheme.background }}>
@@ -78,7 +117,8 @@ const QuestionView = props => {
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
                     <HeadingText weight="normal" style={{ flex: 1 }}>{props.text}</HeadingText>
-                    {props.description && (<Icon
+                    {props.description && (
+                    <Icon
                         style={{ ...styles.infoIcon, color: colorTheme.textPrimary }}
                         onPress={questionInfoHandler}
                         name="information-outline"
@@ -94,57 +134,6 @@ const QuestionView = props => {
                 {inputView}
             </View>
         </View>
-    )
-}
-
-//Converts the validity state (string) to the corresponding icon code.
-function validityToIcon(validity) {
-    switch (validity) {
-        case 'valid':
-            return "check"
-        case 'invalid':
-            return "alert-outline"
-        case 'unedited':
-        default:
-            return "chevron-double-right"
-    }
-}
-
-const NumberInput = (props) => {
-    const { colorTheme } = useThemeProvider()
-
-    return (
-        <View style={styles.numberRow}>
-            <TextInput
-                value={props.input}
-                placeholder={Strings.form_input_placeholder}
-                placeholderTextColor={ConstantColors.lightgrey}
-                onChangeText={props.numberChanged} keyboardType="numeric"
-                style={{
-                    ...(props.unit ? styles.inputWithUnit : styles.input),
-                    color: colorTheme.textPrimary,
-                    backgroundColor: colorTheme.background
-                }} />
-            {props.unit && <View style={{ ...styles.unitTextWrapper, backgroundColor: colorTheme.background }}>
-                <ContentText>in [{props.unit}]</ContentText>
-            </View>}
-        </View>
-    )
-}
-
-const StringInput = (props) => {
-    const { colorTheme } = useThemeProvider()
-
-    return (
-        <TextInput
-            value={props.input}
-            placeholder={Strings.form_input_placeholder}
-            placeholderTextColor={ConstantColors.lightgrey}
-            onChangeText={props.textChanged}
-            style={{
-                ...styles.input,
-                backgroundColor: colorTheme.background
-            }} />
     )
 }
 
@@ -189,47 +178,6 @@ const styles = StyleSheet.create({
     errorTextWrapper: {
         flex: 1,
         marginStart: 8
-    },
-    numberRow: {
-        flexDirection: 'row'
-    },
-    unitTextWrapper: {
-        marginTop: 4,
-        paddingHorizontal: 4,
-        borderRadius: Layout.borderRadius,
-        borderWidth: 1,
-        borderColor: Layout.borderColor,
-        borderLeftWidth: 0,
-        borderBottomLeftRadius: 0,
-        borderTopLeftRadius: 0,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    input: {
-        flex: 1,
-        marginTop: 4,
-        paddingHorizontal: 8,
-        paddingVertical: 10,
-        borderRadius: Layout.borderRadius,
-        borderWidth: 1,
-        borderColor: Layout.borderColor,
-        fontSize: 16,
-    },
-    inputWithUnit: {
-        flex: 1,
-        marginTop: 4,
-        paddingHorizontal: 8,
-        paddingVertical: 10,
-        borderTopWidth: 1,
-        borderLeftWidth: 1,
-        borderBottomWidth: 1,
-        borderTopLeftRadius: Layout.borderRadius,
-        borderBottomLeftRadius: Layout.borderRadius,
-        borderColor: Layout.borderColor,
-        borderEndWidth: 0,
-        borderTopEndRadius: 0,
-        borderBottomRightRadius: 0,
-        fontSize: 16
     },
     buttonRow: {
         flexDirection: "row",

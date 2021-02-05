@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Switch } from 'react-native'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { useThemeProvider } from '../ThemeContext'
 import { ContentText } from '../components/Text'

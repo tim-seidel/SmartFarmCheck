@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Linking, Platform, Alert, Modal } from 'react-native';
 import {Picker} from "@react-native-picker/picker"
-import AsyncStorage from "@react-native-community/async-storage"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo';
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler';

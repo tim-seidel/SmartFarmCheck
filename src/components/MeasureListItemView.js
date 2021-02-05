@@ -6,14 +6,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
 
 function MeasureListItemView(props) {
     const { colorTheme } = useThemeProvider()
 
     return (
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-            <TouchableHighlight underlayColor={ConstantColors.lightgrey} onPress={props.measureSelected}>
+            <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.measureSelected}>
                 <View style={styles.innerWrapper}>
                     <View style={styles.measureContent}>
                         <HeadingText>{props.title}</HeadingText>

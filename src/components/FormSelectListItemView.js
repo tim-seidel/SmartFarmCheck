@@ -6,14 +6,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { HeadingText, ContentText } from './Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
 
 const FormSelectListItemView = (props) => {
     const { colorTheme } = useThemeProvider()
 
     return (
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-            <TouchableHighlight underlayColor={ConstantColors.grey} onPress={props.onSelected}>
+            <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.onSelected}>
                 <View style={styles.innerWrapper}>
                     <View style={styles.content}>
                         <HeadingText large>{props.title}</HeadingText>

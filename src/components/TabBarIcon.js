@@ -11,7 +11,7 @@ const TabBarIcon = (props) => {
     <Icon
       name={props.name}
       size={24}
-      color={props.focused ? colorTheme.primary : ConstantColors.grey}
+      color={props.focused ? colorTheme.primary : colorTheme.textHint}
     />
   )
 }

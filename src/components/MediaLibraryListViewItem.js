@@ -14,7 +14,7 @@ const MediaLibraryListViewItem = (props) => {
     return (
         <View style={{ ...styles.border, backgroundColor: colorTheme.componentBackground }}>
             <View style={styles.titleRow}>
-                <Icon style={styles.titleIcon} name="video-outline" size={24}></Icon>
+                <Icon style={styles.titleIcon} name="video-outline" size={24} color={colorTheme.textPrimary}></Icon>
                 <HeadingText>{props.title}</HeadingText>
             </View>
             <View style={styles.separator}></View>
