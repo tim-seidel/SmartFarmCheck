@@ -51,17 +51,23 @@ const ContactScreen = (props) => {
         <RootView>
             <ScrollView>
                 <View style={styles.contactGrid}>
-                    <InformationCard title="Informationen zur App" style={cardStyle} contentView={contentAboutApp}>
-                        <InformationText>{"Informationen über Förderer, Impressum und Datenschutz.\n"}</InformationText>
-                    </InformationCard>
-                    <InformationCard title="Per Mail" style={cardStyle} contentView={contentMail}>
-                        <InformationText>{"Bei allgemeinen Fragen können Sie uns jederzeit per Mail erreichen. Wir werden uns dann entsprechend bei Ihnen zurückmelden.\n\n"}</InformationText>
-                        <InformationHighlight>{Strings.mail + "\n"}</InformationHighlight>
-                    </InformationCard>
-                    <InformationCard title="Telefonisch" style={cardStyle} contentView={contentPhone}>
-                        <InformationText>{"Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.\n\n"}</InformationText>
-                        <InformationHighlight>{"Nikolas Neddermann\nTel: 0541-969-5017\n"}</InformationHighlight>
-                    </InformationCard>
+                    <View style={cardStyle}>
+                        <InformationCard style={styles.equalHeightInRow} title="Per Mail" contentView={contentMail}>
+                            <InformationText>{"Bei allgemeinen Fragen können Sie uns jederzeit per Mail erreichen. Wir werden uns dann entsprechend bei Ihnen zurückmelden.\n\n"}</InformationText>
+                            <InformationHighlight>{Strings.mail + "\n"}</InformationHighlight>
+                        </InformationCard>
+                    </View>
+                    <View style={cardStyle}>
+                        <InformationCard style={styles.equalHeightInRow} title="Telefonisch" contentView={contentPhone}>
+                            <InformationText>{"Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.\n\n"}</InformationText>
+                            <InformationHighlight>{"Nikolas Neddermann\nTel: 0541-969-5017\n"}</InformationHighlight>
+                        </InformationCard>
+                    </View>
+                    <View style={cardStyle}>
+                        <InformationCard style={styles.equalHeightInRow} title="Informationen zur App"  contentView={contentAboutApp}>
+                            <InformationText>{"Informationen über Förderer, Impressum und Datenschutz.\n"}</InformationText>
+                        </InformationCard>
+                    </View>        
                 </View>
             </ScrollView>
             </RootView>
@@ -70,19 +76,23 @@ const ContactScreen = (props) => {
 
 const styles = StyleSheet.create({
     contactGrid: {
+        flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        paddingVertical: 4,
-        paddingHorizontal: 8,
+        padding: 4,
     },
     contactCardSingle: {
-        marginVertical: 4,
+        padding: 4,
         width: '100%'
     },
     contactCardGrid: {
-        marginVertical: 4,
-        width: '45%'
+        width: '50%',
+        paddingHorizontal: 4,
+        paddingVertical: 4,
+    },
+    equalHeightInRow:{
+        flex: 1
     },
     action: {
         marginHorizontal: 8,
