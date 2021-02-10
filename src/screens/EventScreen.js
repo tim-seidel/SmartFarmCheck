@@ -66,7 +66,7 @@ const EventScreen = (props) => {
       setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
     }
     const checkTablet = async () => {
-      const type = Device.getDeviceTypeAsync()
+      const type = await Device.getDeviceTypeAsync()
       setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
     }
     checkTablet()
