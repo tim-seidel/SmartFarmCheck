@@ -63,7 +63,7 @@ const ContactScreen = (props) => {
                             <InformationHighlight>{"Nikolas Neddermann\nTel: 0541-969-5017\n"}</InformationHighlight>
                         </InformationCard>
                     </View>
-                    <View style={cardStyle}>
+                    <View style={styles.contactCardSingle}>
                         <InformationCard style={styles.equalHeightInRow} title="Informationen zur App"  contentView={contentAboutApp}>
                             <InformationText>{"Informationen über Förderer, Impressum und Datenschutz.\n"}</InformationText>
                         </InformationCard>
