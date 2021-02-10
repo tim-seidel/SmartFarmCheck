@@ -13,7 +13,7 @@ function EventListItemView(props) {
     const { colorTheme } = useThemeProvider()
 
     return (
-        <View style={{ ...styles.event, backgroundColor: colorTheme.componentBackground }}>
+        <View style={{ ...styles.event, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <HeadingText>{event.title}</HeadingText>
             <View style={styles.separator}></View>
             <View style={styles.dateRow}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Linking, Platform, Alert, Modal } from 'react-native';
+import { StyleSheet, View, Linking, Platform, Alert, Modal, Dimensions } from 'react-native';
 import {Picker} from "@react-native-picker/picker"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo';
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import * as Calendar from 'expo-calendar'
+import * as Device from 'expo-device'
 import moment from 'moment'
 
 import NoContentView from '../components/NoContentView';
@@ -26,29 +27,55 @@ const name_default_calendar = 'smartfarmcheck_event_calendar'
 const Competence = (props) => {
   const { colorTheme } = useThemeProvider()
 
-  return <View style={{backgroundColor: colorTheme.componentBackground, ...props.style, ...styles.competence }}>
-    <Icon name={props.icon} color={colorTheme.textPrimary} size={36}></Icon>
-    <View style={{ marginHorizontal: 8, flex: 1 }}>
-      <HeadingText weight="bold">{props.heading}</HeadingText>
-      {props.children}
+  return (
+    <View style={{backgroundColor: colorTheme.componentBackground, ...styles.competence, ...props.style }}>
+      <Icon name={props.icon} color={colorTheme.textPrimary} size={36}></Icon>
+      <View style={{ marginHorizontal: 8, flex: 1 }}>
+        <HeadingText weight="bold">{props.heading}</HeadingText>
+        {props.children}
+      </View>
     </View>
-  </View>
+  )
 }
+
+const isPortrait = () => {
+  const dim = Dimensions.get('screen');
+  return dim.height >= dim.width;
+};
 
 const EventScreen = (props) => {
   const { colorTheme } = useThemeProvider()
-
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasNoNetwork, setHasNoNetwork] = useState(false)
-  const [errorCode, setErrorCode] = useState(0)
 
   const [calendarOptions, setCalendarOptions] = useState([])
   const [selectedCalendarOption, setSelectedCalendarOption] = useState('')
   const [showCalendarModal, setShowCalendarModal] = useState(false)
   const [selectedCalendarOptionId, setSelectedCalendarOptionId] = useState()
 
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasNoNetwork, setHasNoNetwork] = useState(false)
+  const [errorCode, setErrorCode] = useState(0)
+
+  const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
+  const [isTablet, setIsTablet] = useState(Platform.isPad)
+
   const dispatch = useDispatch()
   const events = useSelector(state => state.events.comming)
+
+  useEffect(() => {
+    const callback = ({ screen }) => {
+      setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
+    }
+    const checkTablet = async () => {
+      const type = Device.getDeviceTypeAsync()
+      setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
+    }
+    checkTablet()
+
+    Dimensions.addEventListener('change', callback);
+    return () => {
+      Dimensions.removeEventListener('change', callback);
+    };
+  }, []);
 
   useEffect(() => {
     checkAndLoadEvents()
@@ -124,6 +151,8 @@ const EventScreen = (props) => {
   } else if (!events || events.length === 0) {
     contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
   } else {
+    const competenceStyle = orientation === 'portrait' ? styles.competenceSingleItem : styles.competenceGridItem
+
     contentView = (
       <>
         <Modal transparent visible={showCalendarModal}>
@@ -144,21 +173,31 @@ const EventScreen = (props) => {
         </Modal>
         <FlatList
           data={events}
+          key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
+          numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
           ListHeaderComponent={
             <View>
               <InformationCard title={Strings.main_greeting_title} style={styles.welcomeCard}>
                 <InformationText>{Strings.main_greeting_content}</InformationText>
               </InformationCard>
-              <View>
-                <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
-                <Competence heading="Angebot 1" icon="lightbulb-on-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
-                <Competence heading="Angebot 2" icon="account-group-outline" style={{ marginVertical: 8 }}><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
-                <Competence heading="Angebot 3" icon="forum-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. </ContentText></Competence>
-              </View>
+              <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
+                <View style={styles.competenceGrid}>
+                  <View style={competenceStyle}>
+                    <Competence style={styles.equalHeightInRow} heading="Angebot 1" icon="lightbulb-on-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
+                  </View>
+                  <View style={competenceStyle}>
+                    <Competence style={styles.equalHeightInRow} heading="Angebot 2" icon="account-group-outline" ><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
+                  </View>
+                  <View style={styles.competenceSingleItem}>
+                    <Competence style={styles.equalHeightInRow} heading="Angebot 3" icon="forum-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. </ContentText></Competence>
+                  </View>
+                </View>
               <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
-            </View>}
+            </View>
+          }
           renderItem={({ item }) => (
             <EventListItemView
+              style={styles.event}
               event={item}
               onDetailPress={() => showDetailHandler(item)}
               onRegisterPress={() => showRegisterHandler(item)}
@@ -376,13 +415,12 @@ const EventScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingStart: 8,
-    paddingEnd: 8
+    paddingHorizontal: 4,
+    paddingTop: 8
   },
   heading: {
-    marginTop: 16,
-    marginBottom: 8,
-    marginStart: 2
+    marginTop: 12,
+    marginHorizontal: (4+2)
   },
   modalView: {
     margin: 24,
@@ -392,7 +430,7 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   welcomeCard: {
-    marginTop: 8
+    marginHorizontal: 4
   },
   competence: {
     flexDirection: "row",
@@ -401,6 +439,27 @@ const styles = StyleSheet.create({
     borderColor: Layout.borderColor,
     borderWidth: Layout.borderWidth,
     borderRadius: Layout.borderRadius
+  },
+  competenceGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+
+  },
+  competenceSingleItem: {
+    padding: 4,
+    width: '100%'
+  },
+  competenceGridItem: {
+    width: '50%',
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+  },
+  equalHeightInRow:{
+    flex: 1
+  },
+  event:{
+    marginHorizontal: 4
   }
 });
 
