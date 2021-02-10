@@ -18,7 +18,6 @@ import Keys from '../constants/Keys';
 import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths';
 import { fetchMeasures } from '../store/actions/measures';
 
-
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
   return dim.height >= dim.width;
@@ -56,13 +55,17 @@ const MeasureScreen = props => {
     checkAndLoadMeasures()
   }, [checkAndLoadMeasures])
 
-  function measureSelectedHandler(measure){
-    console.log(measure.name)
-    props.navigation.setOptions({title: measure.name ? "Maßnahmendetails: " + measure.name : "Maßnahmenübersicht"})
+  function measureSelectedHandlerSplit(measure) {
+    props.navigation.setOptions({ title: measure.name ? "Maßnahmendetails: " + measure.name : "Maßnahmenübersicht" })
+  }
+
+  function measureSelectedHandlerList(measure) {
+    props.navigation.navigate(MEASUREDETAILSCREEN, measure)
     setSelectedMeasure(measure)
   }
 
-  function urlClickHandler(url){
+
+  function urlClickHandler(url) {
     if (url.includes('.mp4') || url.includes('.avi')) {
       props.navigation.navigate(VIDEOSCREEN, url)
     } else if (url.includes('.mp3')) {
@@ -113,49 +116,43 @@ const MeasureScreen = props => {
     </View>
 
     if (isTablet) {
-
-      console.log("THIS IS A TABLET",)
-
       let measureContent = null;
-      if(selectedMeasure){
-        measureContent = <MeasureView measure={selectedMeasure} onURLClicked={urlClickHandler}/>
-      }else{
+      if (selectedMeasure) {
+        measureContent = <MeasureView measure={selectedMeasure} onURLClicked={urlClickHandler} />
+      } else {
         measureContent = <NoContentView icon="gesture-tap" title={"Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen."} />
       }
 
       contentView =
-      <View style={styles.mainColumn}>
-        <View style={styles.splitViewRow}>
-          <MeasureListView
-            columns={1}
-            style={styles.measureListSplit}
-            measures={measures}
-            measureSelected={measureSelectedHandler}
-          >
-            {informationHeader}
-          </MeasureListView>
-          <View style={styles.measureViewSplit}>
-            {measureContent}
+        <View style={styles.mainColumn}>
+          <View style={styles.splitViewRow}>
+            <MeasureListView
+              columns={1}
+              style={styles.measureListSplit}
+              measures={measures}
+              measureSelected={measureSelectedHandlerSplit}
+            >
+              {informationHeader}
+            </MeasureListView>
+            <View style={styles.measureViewSplit}>
+              {measureContent}
+            </View>
           </View>
-        </View>
-        <View style={styles.calculateButtonWrapper}>
+          <View style={styles.calculateButtonWrapper}>
             <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
           </View>
         </View>
     } else {
-      console.log("THIS IS A PHONE", Platform.isPad)
-
       contentView =
-        <View>
+        <View style={styles.mainColumn}>
           <MeasureListView
             columns={orientation === 'landscape' ? 2 : 1}
             style={styles.measureList}
             measures={measures}
-            measureSelected={() => { props.navigation.navigate(MEASUREDETAILSCREEN, measure) }}
+            measureSelected={measureSelectedHandlerList}
           >
             {informationHeader}
           </MeasureListView>
-
           <View style={styles.calculateButtonWrapper}>
             <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
           </View>
@@ -180,9 +177,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginStart: 6
   },
-  measureList: {
-    marginHorizontal: 4,
-  },
   calculateButtonWrapper: {
     marginHorizontal: 8,
     marginTop: 4,
@@ -195,6 +189,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row'
   },
+  measureList: {
+    flex: 1,
+    marginHorizontal: 4,
+  },
   measureListSplit: {
     flex: 1,
     marginHorizontal: 4,
@@ -203,7 +201,7 @@ const styles = StyleSheet.create({
     flex: 2,
     marginHorizontal: 4
   },
-  mainColumn:{
+  mainColumn: {
     flex: 1,
     flexDirection: 'column'
   }
