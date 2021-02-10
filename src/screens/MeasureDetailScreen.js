@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Linking} from 'react-native'
 
 import URLInterceptingWebview from '../components/URLInterceptingWebview'
@@ -10,6 +10,10 @@ import { VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths'
 export default function MeasureScreen({ route, navigation }) {
   const { colorTheme } = useThemeProvider()
   const measure = route.params
+
+  useEffect(() => {
+    navigation.setOptions({title: measure.name ? "Maßnahmendetails: " + measure.name : "Maßnahmendetails"})
+  }, [measure])
 
   function onURLHandler(url) {
     if (url.includes('.mp4') || url.includes('.avi')) {
