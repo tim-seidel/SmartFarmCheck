@@ -148,7 +148,7 @@ const MeasureScreen = props => {
       contentView =
         <View>
           <MeasureListView
-            columns={isTablet && orientation === 'landscape' ? 2 : 1}
+            columns={orientation === 'landscape' ? 2 : 1}
             style={styles.measureList}
             measures={measures}
             measureSelected={() => { props.navigation.navigate(MEASUREDETAILSCREEN, measure) }}
