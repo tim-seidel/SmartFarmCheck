@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Linking, Platform, Alert, Modal, Dimensions } from 'react-native';
-import {Picker} from "@react-native-picker/picker"
+import { Picker } from "@react-native-picker/picker"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo';
 import { useSelector, useDispatch } from 'react-redux'
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import * as Calendar from 'expo-calendar'
 import * as Device from 'expo-device'
@@ -28,7 +28,7 @@ const Competence = (props) => {
   const { colorTheme } = useThemeProvider()
 
   return (
-    <View style={{backgroundColor: colorTheme.componentBackground, ...styles.competence, ...props.style }}>
+    <View style={{ backgroundColor: colorTheme.componentBackground, ...styles.competence, ...props.style }}>
       <Icon name={props.icon} color={colorTheme.textPrimary} size={36}></Icon>
       <View style={{ marginHorizontal: 8, flex: 1 }}>
         <HeadingText weight="bold">{props.heading}</HeadingText>
@@ -137,11 +137,34 @@ const EventScreen = (props) => {
     return AsyncStorage.setItem(Keys.DEFAULT_CALENDAR_ID, id)
   }
 
+  const competenceStyle = orientation === 'portrait' ? styles.competenceSingleItem : styles.competenceGridItem
+
   let contentView = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
     return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
   });
 
+  const headerContent = (<View>
+    <InformationCard title={Strings.main_greeting_title} style={styles.welcomeCard}>
+      <InformationText>{Strings.main_greeting_content}</InformationText>
+    </InformationCard>
+    <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
+    <View style={styles.competenceGrid}>
+      <View style={competenceStyle}>
+        <Competence style={styles.equalHeightInRow} heading="Angebot 1" icon="lightbulb-on-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
+      </View>
+      <View style={competenceStyle}>
+        <Competence style={styles.equalHeightInRow} heading="Angebot 2" icon="account-group-outline" ><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
+      </View>
+      <View style={styles.competenceSingleItem}>
+        <Competence style={styles.equalHeightInRow} heading="Angebot 3" icon="forum-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. </ContentText></Competence>
+      </View>
+    </View>
+    <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
+  </View>
+  )
+
+  let displayHeaderWithScroll = true
   if (errorCode !== 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
   } else if (isLoading) {
@@ -151,8 +174,7 @@ const EventScreen = (props) => {
   } else if (!events || events.length === 0) {
     contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
   } else {
-    const competenceStyle = orientation === 'portrait' ? styles.competenceSingleItem : styles.competenceGridItem
-
+    displayHeaderWithScroll = false
     contentView = (
       <>
         <Modal transparent visible={showCalendarModal}>
@@ -172,29 +194,11 @@ const EventScreen = (props) => {
           </View>
         </Modal>
         <FlatList
+          nestedScrollEnabled
+          ListHeaderComponent={headerContent}
           data={events}
           key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
           numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
-          ListHeaderComponent={
-            <View>
-              <InformationCard title={Strings.main_greeting_title} style={styles.welcomeCard}>
-                <InformationText>{Strings.main_greeting_content}</InformationText>
-              </InformationCard>
-              <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
-                <View style={styles.competenceGrid}>
-                  <View style={competenceStyle}>
-                    <Competence style={styles.equalHeightInRow} heading="Angebot 1" icon="lightbulb-on-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
-                  </View>
-                  <View style={competenceStyle}>
-                    <Competence style={styles.equalHeightInRow} heading="Angebot 2" icon="account-group-outline" ><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
-                  </View>
-                  <View style={styles.competenceSingleItem}>
-                    <Competence style={styles.equalHeightInRow} heading="Angebot 3" icon="forum-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. </ContentText></Competence>
-                  </View>
-                </View>
-              <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
-            </View>
-          }
           renderItem={({ item }) => (
             <EventListItemView
               style={styles.event}
@@ -209,6 +213,13 @@ const EventScreen = (props) => {
       </>)
   }
 
+  if (displayHeaderWithScroll) {
+    contentView = <ScrollView>
+      {headerContent}
+      {contentView}
+    </ScrollView>
+  }
+
   return (
     <RootView style={styles.container}>
       {contentView}
@@ -216,7 +227,6 @@ const EventScreen = (props) => {
   );
 
   async function exportToCalendarWithPermissionInformationHandler(event) {
-
     var status = 'denied'
     var canAskAgain = true
     if (Platform.OS === "android") {
@@ -418,9 +428,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     paddingTop: 8
   },
+  competenceGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+  },
   heading: {
     marginTop: 12,
-    marginHorizontal: (4+2)
+    marginHorizontal: (4 + 2)
   },
   modalView: {
     margin: 24,
@@ -440,12 +455,6 @@ const styles = StyleSheet.create({
     borderWidth: Layout.borderWidth,
     borderRadius: Layout.borderRadius
   },
-  competenceGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-
-  },
   competenceSingleItem: {
     padding: 4,
     width: '100%'
@@ -455,10 +464,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     paddingVertical: 4,
   },
-  equalHeightInRow:{
+  equalHeightInRow: {
     flex: 1
   },
-  event:{
+  event: {
     marginHorizontal: 4
   }
 });
