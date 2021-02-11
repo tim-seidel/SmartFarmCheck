@@ -57,6 +57,7 @@ const MeasureScreen = props => {
 
   function measureSelectedHandlerSplit(measure) {
     props.navigation.setOptions({ title: measure.name ? "Maßnahmendetails: " + measure.name : "Maßnahmenübersicht" })
+    setSelectedMeasure(measure)
   }
 
   function measureSelectedHandlerList(measure) {
