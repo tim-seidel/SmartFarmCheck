@@ -58,6 +58,7 @@ const Strings = {
     evaluation_loading_error: "Aktuell kann die Bewertung nicht durchgefürt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     evaluation_loading_empty: "Die Auswertung konnte aktuell keine Maßnahmen finden. Bitte überprüfen Sie Ihre Eingaben oder versuchen Sie es später erneut.",
     evaluation_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Auswertung kann daher nicht durchgeführt werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    evaluation_help: "Hilfe",
 
     evaluation_detail_loading: "Die Maßnahme wird geladen...",
     evaluation_detail_loading_error: "Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",

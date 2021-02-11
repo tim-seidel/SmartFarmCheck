@@ -61,10 +61,9 @@ const MeasureScreen = props => {
   }
 
   function measureSelectedHandlerList(measure) {
-    props.navigation.navigate(MEASUREDETAILSCREEN, measure)
+    props.navigation.navigate(MEASUREDETAILSCREEN, measure.uuid)
     setSelectedMeasure(measure)
   }
-
 
   function urlClickHandler(url) {
     if (url.includes('.mp4') || url.includes('.avi')) {
@@ -119,7 +118,7 @@ const MeasureScreen = props => {
     if (isTablet) {
       let measureContent = null;
       if (selectedMeasure) {
-        measureContent = <MeasureView measure={selectedMeasure} onURLClicked={urlClickHandler} />
+        measureContent = <MeasureView measureId={selectedMeasure.uuid} onURLClicked={urlClickHandler} />
       } else {
         measureContent = <NoContentView icon="gesture-tap" title={"Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen."} />
       }
