@@ -58,6 +58,7 @@ const Strings = {
     evaluation_loading_error: "Aktuell kann die Bewertung nicht durchgefürt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     evaluation_loading_empty: "Die Auswertung konnte aktuell keine Maßnahmen finden. Bitte überprüfen Sie Ihre Eingaben oder versuchen Sie es später erneut.",
     evaluation_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Auswertung kann daher nicht durchgeführt werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    evaluation_help: "Hilfe",
 
     evaluation_detail_loading: "Die Maßnahme wird geladen...",
     evaluation_detail_loading_error: "Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -95,22 +96,6 @@ const Strings = {
     settings_reset_form_dialog_title : "Alle Formulare zurücksetzen?",
     settings_reset_form_dialog_content : "Sind Sie sicher, dass sie alle Formulare zurücksetzen möchten? Ihre bisherigen Eingaben werden dann unwiderruflich gelöscht.",
     settings_licenses_title: "Lizenzen",
-    
-    feedback_information_title : "Feedback/Hilfe zur App",
-    feedback_information_text : "Falls Sie eine Fragen oder Probleme mit der App haben, oder Feedback geben möchten, können Sie dieses Formular verwenden. Geben Sie gerne auch Kontaktdaten an, damit wir uns bei Ihnen zurückmelden können.",
-    feedback_contact_title : "Wie können wir Sie erreichen? (optional)",
-    feedback_contact_placeholder: "z.B. Name, Mail, Telefon, ...",
-    feedback_content_title: "Was möchten Sie uns mitteilen?",
-    feedback_content_placeholder: "Ihr Anliegen...",
-    feedback_sending: "Anfrage wird versendet...",
-    feedback_sending_competed: "Erfolgreich versendet.",
-    feedback_contact_soon : "Wir werden uns nach Möglichkeit bald bei Ihnen melden.",
-    feedback_no_contact_soon: "Wir werden versuchen Ihr Feedback zu berücksichtigen.",
-    feedback_submit: "Absenden",
-    feedback_content_missing_input: "Fehlender Input",
-    feedback_content_mimimum_input_length_message: "Die Nachricht sollte mindestens 10 Zeichen lang sein.",
-    feedback_submitting_no_network: "Aktuell besteht keine Internetverbindung. Daher kann das Feedback nicht gesendet werden. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
-    feedback_sumitting_error: "Beim Senden des Feedbacks ist ein Fehler aufgereten. Bitte Überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut."
 }
 
 export default Strings

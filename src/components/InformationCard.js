@@ -25,6 +25,14 @@ export function InformationText(props) {
     return <ContentText light>{props.children}</ContentText>
 }
 
+export function LineBreak(props) {
+    const numOfBreaks = Math.max(props.numOfBreaks ?? 1, 1)
+    let breaks = "\n"
+    for(let i=1; i<numOfBreaks; ++i) breaks += "\n"
+    
+    return <ContentText>{breaks}</ContentText>
+}
+
 const InformationCard = (props) => {
     const { colorTheme } = useThemeProvider()
     const [isInformationInvisible, setInformationVisible] = useState(true)

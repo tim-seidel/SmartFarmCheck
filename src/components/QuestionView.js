@@ -78,7 +78,7 @@ const QuestionView = props => {
         const { validity } = validation(validator, s_input)
         setInput(s_input)
 
-        persistInputAsync(s_input, questionId)
+        persistInputAsync(questionId, s_input)
 
         props.onInputChanged(s_input, validity)
     }

@@ -16,7 +16,7 @@ import { useThemeProvider } from '../ThemeContext'
 import { ConstantColors } from '../constants/Colors'
 import RootView from '../components/RootView'
 import { fetchQuestions } from '../store/actions/questions'
-import { EVALUATIONSCREEN, FORMHELPSCREEN } from '../constants/Paths'
+import { EVALUATIONSCREEN, FORMHELPSCREEN, FORMSCREEN } from '../constants/Paths'
 
 const FormScreen = props => {
     const { colorTheme } = useThemeProvider()
@@ -82,7 +82,7 @@ const FormScreen = props => {
 
     function helpPressedHandler(){
         if(!isLoading){
-            props.navigation.navigate(FORMHELPSCREEN)
+            props.navigation.navigate(FORMHELPSCREEN, FORMSCREEN)
         }
     }
 

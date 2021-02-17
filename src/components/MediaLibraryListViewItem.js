@@ -12,7 +12,7 @@ const MediaLibraryListViewItem = (props) => {
     const { colorTheme } = useThemeProvider()
 
     return (
-        <View style={{ ...styles.border, backgroundColor: colorTheme.componentBackground }}>
+        <View style={{ ...styles.border, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <View style={styles.titleRow}>
                 <Icon style={styles.titleIcon} name="video-outline" size={24} color={colorTheme.textPrimary}></Icon>
                 <HeadingText>{props.title}</HeadingText>
@@ -37,12 +37,10 @@ const styles = StyleSheet.create({
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
         overflow: "hidden",
-        marginVertical: 4,
-        paddingTop: 4,
     },
     titleRow: {
         marginHorizontal: 8,
-        marginTop: 4,
+        marginTop: 8,
         flexDirection: "row",
         alignItems: "center",
     },
@@ -65,7 +63,10 @@ const styles = StyleSheet.create({
     },
     imageWrapper: {
         margin: 8,
+        padding: 8,
         borderRadius: Layout.borderRadius,
+        borderColor: Layout.borderColor,
+        borderWidth: Layout.borderWidth,
         overflow: "hidden"
     },
     action: {

@@ -12,7 +12,6 @@ import FormScreen from "../screens/FormScreen"
 import EvaluationScreen from '../screens/EvaluationScreen'
 import EvaluationDetailScreen from '../screens/EvaluationDetailScreen'
 import EventDetailScreen from '../screens/EventDetailScreen'
-import FeedbackScreen from '../screens/FeedbackScreen'
 import VideoScreen from '../screens/VideoScreen'
 import AudioScreen from '../screens/AudioScreen'
 import HomeScreen from '../screens/HomeScreen'
@@ -122,16 +121,6 @@ const Content = (props) => {
                         }}
                         name={EVENTDETAILSCREEN}
                         component={EventDetailScreen} />
-                    <Stack.Screen
-                        options={{
-                            title: "Feedback/Hilfe",
-                            headerTintColor: colorTheme.textPrimaryContrast,
-                            headerStyle: {
-                                backgroundColor: colorTheme.primary
-                            }
-                        }}
-                        name={FEEDBACKSCREEN}
-                        component={FeedbackScreen} />
                     <Stack.Screen
                         options={{
                             title: "Video-Player",

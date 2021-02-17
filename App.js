@@ -17,11 +17,13 @@ import questionsReducer from './src/store/reducers/questions'
 import eventReducer from './src/store/reducers/events'
 import feedbackReducer from './src/store/reducers/feedback'
 import mediaLibraryReducer from './src/store/reducers/mediaLibrary'
+import evaluationReducer from './src/store/reducers/evaluation'
 
 
 const rootReducer = combineReducers({
   measures: measureReducer,
   questions: questionsReducer,
+  evaluation: evaluationReducer,
   events: eventReducer,
   feedback: feedbackReducer,
   mediaLibrary: mediaLibraryReducer

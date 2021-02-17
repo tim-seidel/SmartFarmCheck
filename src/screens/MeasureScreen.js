@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Platform, Dimensions } from 'react-native';
+import { StyleSheet, View, Platform, Dimensions, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { FlatList } from 'react-native-gesture-handler';
+
 import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
 
+import RootView from '../components/RootView';
 import NoContentView from '../components/NoContentView';
-import MeasureListItemView from '../components/MeasureListItemView';
+import MeasureListView from '../components/MeasureListView';
+import MeasureView from '../components/MeasureView';
 import IconButton from '../components/IconButton';
 import InformationCard, { InformationText } from "../components//InformationCard";
-import Strings from '../constants/Strings';
 import { HeadingText } from '../components/Text';
+
+import Strings from '../constants/Strings';
 import Keys from '../constants/Keys';
-import RootView from '../components/RootView';
+import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths';
 import { fetchMeasures } from '../store/actions/measures';
-import { MEASUREDETAILSCREEN, FORMSELECTSCREEN } from '../constants/Paths';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -31,13 +33,14 @@ const MeasureScreen = props => {
 
   const dispatch = useDispatch()
   const measures = useSelector(state => state.measures.measures)
+  const [selectedMeasure, setSelectedMeasure] = useState(undefined)
 
   useEffect(() => {
     const callback = ({ screen }) => {
       setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
     }
     const checkTablet = async () => {
-      const type = Device.getDeviceTypeAsync()
+      const type = await Device.getDeviceTypeAsync()
       setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
     }
     checkTablet()
@@ -51,6 +54,27 @@ const MeasureScreen = props => {
   useEffect(() => {
     checkAndLoadMeasures()
   }, [checkAndLoadMeasures])
+
+  function measureSelectedHandlerSplit(measure) {
+    props.navigation.setOptions({ title: measure.name ? "Maßnahmendetails: " + measure.name : "Maßnahmenübersicht" })
+    setSelectedMeasure(measure)
+  }
+
+  function measureSelectedHandlerList(measure) {
+    props.navigation.navigate(MEASUREDETAILSCREEN, measure.uuid)
+    setSelectedMeasure(measure)
+  }
+
+  function urlClickHandler(url) {
+    if (url.includes('.mp4') || url.includes('.avi')) {
+      props.navigation.navigate(VIDEOSCREEN, url)
+    } else if (url.includes('.mp3')) {
+      props.navigation.navigate(AUDIOSCREEN, url)
+    }
+    else {
+      Linking.openURL(url)
+    }
+  }
 
   const checkAndLoadMeasures = useCallback(async () => {
     const netinfo = await NetInfo.fetch()
@@ -83,37 +107,57 @@ const MeasureScreen = props => {
   } else if (measures.length === 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty} />
   } else {
-    contentView = (
-      <>
-        <FlatList
-          key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
-          numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
-          style={styles.measureList}
-          ListHeaderComponent={
-            <View>
-              <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_MEASURE_SCREEN} style={styles.informationCard}
-                title={Strings.measure_information_title}>
-                <InformationText>{Strings.measure_information_text} </InformationText>
-              </InformationCard>
-              <HeadingText large weight="bold" style={styles.heading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
-            </View>}
-          data={measures}
-          renderItem={({ item }) => (
-            <MeasureListItemView
-              style={styles.measureColumn}
-              key={item.uuid}
-              title={item.name}
-              short={item.excerpt}
-              measureSelected={() => { props.navigation.navigate(MEASUREDETAILSCREEN, item) }}
-            />
-          )}
-          keyExtractor={item => item.uuid}
-        />
-        <View style={styles.calculateButtonWrapper}>
-          <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
+    const informationHeader = <View>
+      <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_MEASURE_SCREEN} style={styles.informationCard}
+        title={Strings.measure_information_title}>
+        <InformationText>{Strings.measure_information_text} </InformationText>
+      </InformationCard>
+      <HeadingText large weight="bold" style={styles.heading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
+    </View>
+
+    if (isTablet) {
+      let measureContent = null;
+      if (selectedMeasure) {
+        measureContent = <MeasureView measureId={selectedMeasure.uuid} onURLClicked={urlClickHandler} />
+      } else {
+        measureContent = <NoContentView icon="gesture-tap" title={"Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen."} />
+      }
+
+      contentView =
+        <View style={styles.mainColumn}>
+          <View style={styles.splitViewRow}>
+            <MeasureListView
+              columns={1}
+              style={styles.measureListSplit}
+              measures={measures}
+              measureSelected={measureSelectedHandlerSplit}
+            >
+              {informationHeader}
+            </MeasureListView>
+            <View style={styles.measureViewSplit}>
+              {measureContent}
+            </View>
+          </View>
+          <View style={styles.calculateButtonWrapper}>
+            <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
+          </View>
         </View>
-      </>
-    )
+    } else {
+      contentView =
+        <View style={styles.mainColumn}>
+          <MeasureListView
+            columns={orientation === 'landscape' ? 2 : 1}
+            style={styles.measureList}
+            measures={measures}
+            measureSelected={measureSelectedHandlerList}
+          >
+            {informationHeader}
+          </MeasureListView>
+          <View style={styles.calculateButtonWrapper}>
+            <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
+          </View>
+        </View>
+    }
   }
 
   return (
@@ -133,20 +177,34 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginStart: 6
   },
-  measureList: {
-    marginHorizontal: 4,
-  },
-  measureColumn: {
-    flex: 1,
-    margin: 4
-  },
   calculateButtonWrapper: {
-    margin: 8
+    marginHorizontal: 8,
+    marginTop: 4,
+    marginBottom: 8
   },
   calculateButton: {
     justifyContent: "center"
+  },
+  splitViewRow: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  measureList: {
+    flex: 1,
+    marginHorizontal: 4,
+  },
+  measureListSplit: {
+    flex: 1,
+    marginHorizontal: 4,
+  },
+  measureViewSplit: {
+    flex: 2,
+    marginHorizontal: 4
+  },
+  mainColumn: {
+    flex: 1,
+    flexDirection: 'column'
   }
-}
-);
+});
 
 export default MeasureScreen

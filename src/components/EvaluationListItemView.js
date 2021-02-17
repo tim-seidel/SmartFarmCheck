@@ -13,8 +13,8 @@ function EvaluationListItemView(props) {
     const { colorTheme } = useThemeProvider()
 
     return (
-        <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground }}>
-            <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.measureSelected}>
+        <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
+            <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.ratingSelected}>
                 <View style={styles.innerWrapper}>
                     <Text style={styles.rating}>{zeroPad(props.rating, 2)}%</Text>
                     <View style={{ ...styles.divider, backgroundColor: colorTheme.textPrimary }}></View>

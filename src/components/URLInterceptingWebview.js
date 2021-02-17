@@ -2,7 +2,6 @@ import React from 'react'
 import { WebView } from "react-native-webview"
 
 export default function URLInterceptingWebview(props) {
-    const webview = React.useRef(null)
 
     const navigationStateChangeHandler = request => {
         const { url } = request
@@ -16,6 +15,6 @@ export default function URLInterceptingWebview(props) {
     }
 
     return (
-        <WebView ref={webview} onShouldStartLoadWithRequest={navigationStateChangeHandler} {...props} />
+        <WebView onShouldStartLoadWithRequest={navigationStateChangeHandler} {...props} />
     )
 }
