@@ -16,7 +16,7 @@ import ToolbarButton from '../components/ToolbarButton'
 
 import Strings from '../constants/Strings'
 import fetchEvaluation from '../store/actions/evaluation'
-import { EVALUATIONDETAILSCREEN, FORMHELPSCREEN } from '../constants/Paths';
+import { EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, FORMHELPSCREEN } from '../constants/Paths';
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen');
@@ -92,7 +92,8 @@ const EvaluationScreen = (props) => {
 
     function helpPressedHandler(){
         if(!isLoading){
-            props.navigation.navigate(FORMHELPSCREEN)
+            props.navigation.navigate(FORMHELPSCREEN, EVALUATIONSCREEN
+                )
         }
     }
 
