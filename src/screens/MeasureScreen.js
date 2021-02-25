@@ -136,10 +136,10 @@ const MeasureScreen = props => {
             </MeasureListView>
             <View style={styles.measureViewSplit}>
               {measureContent}
+              <View style={styles.calculateButtonWrapper}>
+                <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSCREEN) }} />
+              </View>
             </View>
-          </View>
-          <View style={styles.calculateButtonWrapper}>
-            <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
           </View>
         </View>
     } else {
