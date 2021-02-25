@@ -445,7 +445,8 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   welcomeCard: {
-    marginHorizontal: 4
+    marginHorizontal: 4,
+    marginTop: 8
   },
   competence: {
     flexDirection: "row",
