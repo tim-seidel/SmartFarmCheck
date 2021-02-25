@@ -1,9 +1,10 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Dimensions, Platform, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import InformationCard, { InformationText, LineBreak } from '../components/InformationCard'
+import * as Device from 'expo-device'
 
 import RootView from '../components/RootView'
+import InformationCard, { InformationText, LineBreak } from '../components/InformationCard'
 import { ContentText, HeadingText } from '../components/Text'
 import Layout from '../constants/Layout'
 import { useThemeProvider } from '../ThemeContext'
@@ -225,10 +226,38 @@ const LicenseListViewItem = (props) => {
     )
 }
 
+const isPortrait = () => {
+    const dim = Dimensions.get('screen');
+    return dim.height >= dim.width;
+  };
+
 const LicenseScreen = (props) => {
+    const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
+    const [isTablet, setIsTablet] = useState(Platform.isPad)
+
+    useEffect(() => {
+        const callback = ({ screen }) => {
+          setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
+        }
+        const checkTablet = async () => {
+          const type = await Device.getDeviceTypeAsync()
+          setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
+        }
+        checkTablet()
+    
+        Dimensions.addEventListener('change', callback);
+        return () => {
+          Dimensions.removeEventListener('change', callback);
+        };
+    }, []);
+
+    const numCols = (isTablet || orientation == 'landscape') ? 2 : 1
+
     return (
         <RootView style={styles.container}>
             <FlatList
+              key={'cols_' + numCols} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
+              numColumns={numCols}
                 ListHeaderComponent={
                     <InformationCard title="Unter der MIT Lizenz">
                         <InformationText>
@@ -275,6 +304,7 @@ const styles = StyleSheet.create({
         padding: 4
     },
     license: {
+        flex: 1,
         paddingHorizontal: 8,
         paddingTop: 4,
         paddingBottom: 8,
