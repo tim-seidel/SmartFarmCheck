@@ -120,7 +120,7 @@ const MeasureScreen = props => {
       if (selectedMeasure) {
         measureContent = <MeasureView measureId={selectedMeasure.uuid} onURLClicked={urlClickHandler} />
       } else {
-        measureContent = <NoContentView icon="gesture-tap" title={"Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen."} />
+        measureContent = <NoContentView icon="gesture-tap" title={Strings.measure_split_content_placeholder}/>
       }
 
       contentView =

@@ -24,6 +24,7 @@ const Strings = {
     measure_loading_empty: "Aktuell konnten keine Maßnahmen gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Maßnahmen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
     measure_navigate_evaluation: "Jetzt Empfehlungen berechnen",
+    measure_split_content_placeholder : "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button unten, um Empfehlungen berechnen zu lassen.",
 
     select_form_information_title: "Zur Auswahl des Fragebogens",
     select_form_information_text: "Nachfolgend haben wir für Sie verschiedene, an Branchen und Bereiche angepasste Fragebögen vorbereitet, anhand derer wir Ihnen angepasste Empfehlungen berechnen können.",
