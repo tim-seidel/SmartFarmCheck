@@ -40,12 +40,12 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 8,
     width: '90%',
-    maxWidth: 500,
+    maxWidth: 700,
     alignSelf: 'center'
   },
   sponsor: {
     width: "90%",
-    maxWidth: 500,
+    maxWidth: 700,
     marginVertical: 8,
     alignSelf: 'center',
   },

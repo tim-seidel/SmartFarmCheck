@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: "center",
     paddingHorizontal: 8,
-    maxWidth: 600,
+    maxWidth: 700,
     alignSelf: 'center'
   },
   textStyle: {
