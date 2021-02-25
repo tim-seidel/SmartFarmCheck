@@ -178,9 +178,8 @@ const styles = StyleSheet.create({
     marginStart: 6
   },
   calculateButtonWrapper: {
-    marginHorizontal: 8,
-    marginTop: 4,
-    marginBottom: 8
+    marginVertical: 8,
+    marginEnd: 4
   },
   calculateButton: {
     justifyContent: "center"
