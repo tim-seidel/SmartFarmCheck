@@ -24,7 +24,7 @@ export const darkTheme = {
   name: 'dark',
 
   primary: defaultPrimary,
-  secondary: '#e00',
+  secondary: defaultSecondary,
   accent: "#ef4c2d",
 
   background: '#000',
