@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet } from 'react-native'
-import NetInfo from '@react-native-community/netinfo'
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Platform, Dimensions } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux'
+import * as Device from 'expo-device'
+import NetInfo from '@react-native-community/netinfo';
 
-import InformationCard, { InformationText } from '../components/InformationCard'
+import RootView from '../components/common/RootView'
+import NoContentView from '../components/common/NoContentView'
 import FormSelectListItemView from '../components/FormSelectListItemView'
+import InformationCard, { InformationText } from '../components/common/InformationCard'
+import { HeadingText } from '../components/common/Text'
+
 import Strings from '../constants/Strings'
-import NoContentView from '../components/NoContentView'
-import { HeadingText } from '../components/Text'
-import { FlatList } from 'react-native-gesture-handler'
 import Keys from '../constants/Keys'
-import RootView from '../components/RootView'
 import { FORMSCREEN } from '../constants/Paths'
+import { fetchForms } from '../store/actions/forms';
+import { FlatList } from 'react-native-gesture-handler';
 
 const formsMock = [
     {
@@ -30,75 +34,75 @@ const formsMock = [
     }
 ]
 
+const isPortrait = () => {
+    const dim = Dimensions.get('screen');
+    return dim.height >= dim.width;
+};
+
 const FormSelectScreen = (props) => {
-    const [formsState, setFormsState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, forms: [] })
+    const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
+    const [isTablet, setIsTablet] = useState(Platform.isPad)
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [hasNoNetwork, setHasNoNetwork] = useState(false)
+    const [errorCode, setErrorCode] = useState(0)
+
+    const dispatch = useDispatch()
+    const forms = useSelector(state => state.forms.forms)
+    const [selectedForm, setSelectedForm] = useState(undefined)
 
     useEffect(() => {
-        if (!formsState.isLoaded) {
-            checkAndLoadForms()
+        const callback = ({ screen }) => {
+            setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
         }
-    }, [formsState.isLoaded])
-
-    function checkAndLoadForms() {
-        if (!formsState.isLoaded) {
-
-            NetInfo.fetch().then(state => {
-                if (state.isConnected) {
-                    loadForms()
-                } else {
-                    setFormsState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, forms: [] })
-                }
-            })
+        const checkTablet = async () => {
+            const type = await Device.getDeviceTypeAsync()
+            setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
         }
-    }
+        checkTablet()
 
-    function loadForms() {
-        /*
-        fetch('https://pas.coala.digital/v1/forms', {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            },
-        })
-            .then(response => response.json())
-            .then(json => {
-                //Check for request errors
-                if (json.status && json.status != 200) {
-                    setFormsState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, forms: [] })
-                } else {
-                    //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-                    json.sort(function (l, r) {
-                        if (l.name < r.name) return -1
-                        else if (l.name > r.name) return 1
-                        else return 0
-                    })
-                    setFormsState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, forms: json })
-                }
+        Dimensions.addEventListener('change', callback);
+        return () => {
+            Dimensions.removeEventListener('change', callback);
+        };
+    }, []);
 
-            })
-            .catch(error => {
-                console.log("Error", error)
-                setFormsState({ isLoaded: true, hasNetowrk: true, error: error, errorCode: -1, forms: [] })
-            })
-            */
-        setFormsState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, forms: formsMock })
-    }
+    useEffect(() => {
+        checkAndLoadForms()
+    }, [checkAndLoadForms])
+
+
+    const checkAndLoadForms = useCallback(async () => {
+        const netinfo = await NetInfo.fetch()
+        if (netinfo.isConnected) {
+            setIsLoading(true)
+            try {
+                await dispatch(fetchForms())
+            } catch (err) {
+                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
+            }
+            setIsLoading(false)
+        } else {
+            setHasNoNetwork(true)
+        }
+    }, [dispatch])
 
     function retryHandler() {
-        setFormsState({ isLoaded: false, error: false, errorCode: 0, forms: [] })
+        setErrorCode(0)
+        setHasNoNetwork(false)
+        checkAndLoadForms()
     }
 
     function formSelectedHandler(formUuid) {
         props.navigation.navigate(FORMSCREEN, formUuid)
     }
 
-    const { error, errorCode, hasNetwork, isLoaded, forms } = formsState
     var contentView = null
-    if (error) {
+    if (errorCode !== 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_error + "(Fehlercode: " + errorCode + ")"} />
-    } else if (!isLoaded) {
+    } else if (isLoading) {
         contentView = <NoContentView icon="cloud-download" loading title={Strings.select_form_loading} />
-    } else if (!hasNetwork) {
+    } else if (hasNoNetwork && forms.length === 0) {
         contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.select_form_loading_no_network} />
     } else if (forms.length === 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_empty} />

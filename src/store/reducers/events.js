@@ -2,7 +2,9 @@ import { SET_EVENTS } from "../actions/events";
 
 const initialState = {
     events : [],
-    comming: []
+    comming: [],
+    previous: []
+
 }
 
 const eventReducer = (state = initialState, action) => {
@@ -10,15 +12,19 @@ const eventReducer = (state = initialState, action) => {
         case SET_EVENTS: {
             const now = Date.now()
             const cmg = []
+            const prv = []
             action.events.forEach(e => {
                 if(now < e.endDate.getTime()){
                     cmg.push(e)
+                }else{
+                    prv.push(e)
                 }
             });
             return {
                 ...state,
                 events: action.events,
-                comming: cmg
+                comming: cmg,
+                previous: prv
             }
         }
         default: {

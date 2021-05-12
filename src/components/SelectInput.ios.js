@@ -2,15 +2,15 @@ import React from 'react'
 import { StyleSheet, ActionSheetIOS, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { ContentText } from './Text'
+import { ContentText } from './common/Text'
 import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     function showIosPickerHandler() {
         const pickerOptions = [picker_placeholder, ...props.options ?? []]

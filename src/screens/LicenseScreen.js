@@ -3,11 +3,13 @@ import { Dimensions, Platform, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import * as Device from 'expo-device'
 
-import RootView from '../components/RootView'
-import InformationCard, { InformationText, LineBreak } from '../components/InformationCard'
-import { ContentText, HeadingText } from '../components/Text'
+import RootView from '../components/common/RootView'
+import InformationCard, { InformationText, InformationLineBreak } from '../components/common/InformationCard'
+import { ContentText, HeadingText } from '../components/common/Text'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
+
 import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext'
 
 const licenses = [
     {
@@ -212,14 +214,14 @@ const licenses = [
 ]
 
 const LicenseListViewItem = (props) => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     return (
         <View style={{ ...styles.license, backgroundColor: colorTheme.componentBackground }}>
             <View>
                 <HeadingText style={styles.name}>{props.name}</HeadingText>
                 {(props?.copyrigths ?? []).map((c) => {
-                    return <ContentText>{c}</ContentText>
+                    return <ContentText light>{c}</ContentText>
                 })}
             </View>
         </View >
@@ -229,7 +231,7 @@ const LicenseListViewItem = (props) => {
 const isPortrait = () => {
     const dim = Dimensions.get('screen');
     return dim.height >= dim.width;
-  };
+};
 
 const LicenseScreen = (props) => {
     const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
@@ -237,17 +239,17 @@ const LicenseScreen = (props) => {
 
     useEffect(() => {
         const callback = ({ screen }) => {
-          setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
+            setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
         }
         const checkTablet = async () => {
-          const type = await Device.getDeviceTypeAsync()
-          setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
+            const type = await Device.getDeviceTypeAsync()
+            setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
         }
         checkTablet()
-    
+
         Dimensions.addEventListener('change', callback);
         return () => {
-          Dimensions.removeEventListener('change', callback);
+            Dimensions.removeEventListener('change', callback);
         };
     }, []);
 
@@ -256,8 +258,8 @@ const LicenseScreen = (props) => {
     return (
         <RootView style={styles.container}>
             <FlatList
-              key={'cols_' + numCols} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
-              numColumns={numCols}
+                key={'cols_' + numCols} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
+                numColumns={numCols}
                 ListHeaderComponent={
                     <InformationCard title="Unter der MIT Lizenz">
                         <InformationText>
@@ -268,12 +270,12 @@ const LicenseScreen = (props) => {
                             copies of the Software, and to permit persons to whom the Software is
                             furnished to do so, subject to the following conditions:
                             </InformationText>
-                        <LineBreak numOfBreaks={2} />
+                        <InformationLineBreak numOfBreaks={2} />
                         <InformationText>
                             The above copyright notice and this permission notice shall be included in all
                             copies or substantial portions of the Software.
                             </InformationText>
-                        <LineBreak numOfBreaks={2} />
+                        <InformationLineBreak numOfBreaks={2} />
                         <InformationText>
                             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
                             IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, TextInput } from 'react-native'
 
-import { useThemeProvider } from '../ThemeContext'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'
@@ -10,7 +11,7 @@ import Strings from '../constants/Strings'
  * View that represents a input field for strings.
  */
 const StringInput = (props) => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
     const { input, textChanged } = props
 
     return (

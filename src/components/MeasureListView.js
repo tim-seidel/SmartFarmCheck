@@ -32,7 +32,7 @@ function MeasureListView(props) {
 const styles = StyleSheet.create({
     measureColumn: {
         flex: 1,
-        margin: 4
+        marginTop: 8
     },
 })
 

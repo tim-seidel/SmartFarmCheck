@@ -2,8 +2,8 @@ import React from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
-import { useThemeProvider } from '../ThemeContext'
 import MeasureDetailScreen from "../screens/MeasureDetailScreen"
 import AboutScreen from "../screens/AboutScreen"
 import ImprintScreen from "../screens/ImprintScreen"
@@ -20,15 +20,16 @@ import SettingsScreen from '../screens/SettingsScreen'
 import LicenseScreen from '../screens/LicenseScreen'
 import FormHelpScreen from '../screens/FormHelpScreen'
 import { ABOUTSCREEN, AUDIOSCREEN, EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, EVENTDETAILSCREEN, FEEDBACKSCREEN, FORMHELPSCREEN, FORMSCREEN, FORMSELECTSCREEN, HOMESCREEM, IMPRINTSCREEN, LICENSESCREEN, MEASUREDETAILSCREEN, PRIVACYSCREEN, SETTINGSSCREEN, VIDEOSCREEN } from '../constants/Paths'
+import { darkTheme, lightTheme } from '../constants/Colors'
+import Strings from '../constants/Strings'
 
 const Stack = createStackNavigator()
 
 const Content = (props) => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     return (
         <View style={{ ...styles.container, backgroundColor: colorTheme.background }}>
-            {<StatusBar backgroundColor={colorTheme.secondary} barStyle="default" />}
             <NavigationContainer>
                 <Stack.Navigator >
                     <Stack.Screen
@@ -43,7 +44,7 @@ const Content = (props) => {
                     />
                     <Stack.Screen
                         options={{
-                            title: "Maßnahmeninformation",
+                            title: Strings.screen_title_measure_detail,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -53,7 +54,7 @@ const Content = (props) => {
                         component={MeasureDetailScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Angaben zum Betrieb",
+                            title: Strings.screen_title_form,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -63,7 +64,7 @@ const Content = (props) => {
                         component={FormScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Maßnahmeninformation",
+                            title: Strings.screen_title_evaluation_detail,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -73,7 +74,7 @@ const Content = (props) => {
                         component={EvaluationDetailScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Maßnahmenbewertung",
+                            title: Strings.screen_title_evaluation,
                             headerTintColor: "#fff",
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -83,7 +84,7 @@ const Content = (props) => {
                         component={EvaluationScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Über diese App",
+                            title: Strings.screen_title_about,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -93,7 +94,7 @@ const Content = (props) => {
                         component={AboutScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Impressum",
+                            title: Strings.screen_title_imprint,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -103,7 +104,7 @@ const Content = (props) => {
                         component={ImprintScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Datenschutz",
+                            title: Strings.screen_title_privacy,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -113,7 +114,7 @@ const Content = (props) => {
                         component={PrivacyScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Eventdetails",
+                            title: Strings.screen_title_event_detail,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -123,7 +124,7 @@ const Content = (props) => {
                         component={EventDetailScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Video-Player",
+                            title: Strings.screen_title_video_player,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -133,7 +134,7 @@ const Content = (props) => {
                         component={VideoScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Audio-Player",
+                            title: Strings.screen_title_audio_player,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -143,7 +144,7 @@ const Content = (props) => {
                         component={AudioScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Fragebogenauswahl",
+                            title: Strings.screen_title_form_list,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -153,7 +154,7 @@ const Content = (props) => {
                         component={FormSelectScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Hilfe zum Fragebogen",
+                            title: Strings.screen_title_form_help,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -163,7 +164,7 @@ const Content = (props) => {
                         component={FormHelpScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Einstellungen",
+                            title: Strings.screen_title_settings,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary
@@ -173,7 +174,7 @@ const Content = (props) => {
                         component={SettingsScreen} />
                     <Stack.Screen
                         options={{
-                            title: "Lizenzen",
+                            title: Strings.screen_title_license,
                             headerTintColor: colorTheme.textPrimaryContrast,
                             headerStyle: {
                                 backgroundColor: colorTheme.primary

@@ -1,8 +1,9 @@
 import React from 'react'
 import { StyleSheet,  View, TextInput} from 'react-native'
 
-import { useThemeProvider } from '../ThemeContext'
-import { ContentText } from './Text'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
+import { ContentText } from './common/Text'
 
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'
@@ -11,7 +12,7 @@ import Strings from '../constants/Strings'
  * View that represents a input field for numbers.
  */
 const NumberInput = (props) => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
     const {input, unit, numberChanged} = props
 
     return (

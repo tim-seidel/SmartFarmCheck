@@ -1,16 +1,19 @@
 import Evaluation from "../../models/Evaluation"
 import Rating from "../../models/Rating"
+import { fetchWithTimeout } from "../../network/network"
+import API from "../../constants/API"
+import Network from "../../constants/Network"
 
 export const SET_EVALUATION = 'SET_EVALUATION'
 
-export const fetchEvaluation = (input) => {
+export const fetchEvaluation = (input, formUuid) => {
     return async dispatch => {
-
-        const response = await fetch('https://pas.coala.digital/v1/evaluate', {
+        console.log("PDF", `${API.URL}/${API.VERSION}/evaluate/pdf/${formUuid}`, input)
+        const response = await fetchWithTimeout(`https://pas.sei-farbenfroh.de/v1/evaluate`, Network.requestTimeout, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json'
+                'accept': 'application/json'
             },
             body: input
         })
@@ -18,7 +21,7 @@ export const fetchEvaluation = (input) => {
         if (!response.ok) {
             throw { status: response.status, statusText: response.statusText }
         }
-            
+
         const json = await response.json()
 
         let maxRating = 0;
@@ -33,10 +36,12 @@ export const fetchEvaluation = (input) => {
             ))
         });
 
+        //Norm the ratings and format them in percent
         ratings.forEach(r => {
-            r.weighted = Math.round((r.rating/maxRating + Number.EPSILON) * 100)
+            r.weighted = Math.round((r.rating / maxRating + Number.EPSILON) * 100)
         })
 
+        //Sort the ratings (descending)
         ratings.sort(function (l, r) {
             return l - r
         })

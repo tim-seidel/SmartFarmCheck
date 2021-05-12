@@ -1,12 +1,11 @@
 import Video from "../../models/Video"
-import mediaLibrary from "../../data/MediaLibrary"
+import API from "../../constants/API"
 
 export const SET_MEDIALIBRARY = "SET_MEDIALIBRARY"
 
 export const fetchMediaLibrary = () => {
     return async dispatch => {
-        /*
-        const response = await fetch('https://pas.coala.digital/v1/mediaLibrary', {
+        const response = await fetch(`${API.URL}/${API.VERSION}/videos/info`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -19,18 +18,20 @@ export const fetchMediaLibrary = () => {
 
         const json = await response.json()
         const mediaLibrary = []
-        
+
         json.forEach(e => {
             mediaLibrary.push(new Video(
-                e.uuid, 
+                e.uuid,
                 e.title,
                 e.description,
-                new Date(e.releaseDate)
-                e.thumbnailUrl,
-                e.url
+                new Date(e.publishingDate),
+                undefined,//    e.thumbnail,
+                e.videoLink
             ))
         })
-        */
+
+        console.log(mediaLibrary)
+
 
         dispatch({
             type: SET_MEDIALIBRARY,

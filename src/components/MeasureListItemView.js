@@ -3,22 +3,23 @@ import { StyleSheet, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { HeadingText, ContentText } from './Text'
+import { HeadingText, ContentText } from './common/Text'
 import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 function MeasureListItemView(props) {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     return (
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.measureSelected}>
                 <View style={styles.innerWrapper}>
                     <View style={styles.measureContent}>
-                        <HeadingText>{props.title}</HeadingText>
+                        <HeadingText weight="bold">{props.title}</HeadingText>
                         <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.short}</ContentText>
                     </View>
-                    <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32}></Icon>
+                    <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32}/>
                 </View>
             </TouchableHighlight>
         </View>

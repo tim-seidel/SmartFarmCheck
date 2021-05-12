@@ -3,13 +3,14 @@ import { StyleSheet, Text, View, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { HeadingText, ContentText } from './Text'
+import { HeadingText, ContentText } from './common/Text'
 import NumberInput from './NumberInput'
 import SelectInput from "./SelectInput"
 import StringInput from './StringInput'
 
 import { getValidation } from "../models/Validation"
-import { useThemeProvider } from '../ThemeContext'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 import Keys from '../constants/Keys'
 import Layout from '../constants/Layout'
@@ -41,12 +42,11 @@ const persistInputAsync = async (questionId, s_input) =>{
     }
 }
 
-
 /** 
  * UI component for all form questions. Handles all the different input types like Number, Select, String
 */
 const QuestionView = props => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
     const { questionId, validator, prefill } = props
 
     const [input, setInput] = useState(props.prefill ?? '')
@@ -126,7 +126,7 @@ const QuestionView = props => {
                     />)}
                 </View>
                 <View style={styles.errorRow}>
-                    <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary}></Icon>
+                    <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary}/>
                     <View style={styles.errorTextWrapper}>
                         <ContentText small error={validity === 'invalid'} light={validity === 'valid'}>{errorMessage}</ContentText>
                     </View>

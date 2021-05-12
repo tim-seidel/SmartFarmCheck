@@ -1,22 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Platform, Dimensions, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-
 import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
 
-import RootView from '../components/RootView';
-import NoContentView from '../components/NoContentView';
+import RootView from '../components/common/RootView';
+import NoContentView from '../components/common/NoContentView';
 import MeasureListView from '../components/MeasureListView';
 import MeasureView from '../components/MeasureView';
-import IconButton from '../components/IconButton';
-import InformationCard, { InformationText } from "../components//InformationCard";
-import { HeadingText } from '../components/Text';
+import IconButton from '../components/common/IconButton';
+import InformationCard, { InformationText } from "../components/common/InformationCard";
+import { HeadingText } from '../components/common/Text';
 
+import { fetchMeasures } from '../store/actions/measures';
 import Strings from '../constants/Strings';
 import Keys from '../constants/Keys';
-import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths';
-import { fetchMeasures } from '../store/actions/measures';
+import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN, FORMSCREEN } from '../constants/Paths';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -65,6 +64,10 @@ const MeasureScreen = props => {
     setSelectedMeasure(measure)
   }
 
+  function gotoFormSelectHandler() {
+    props.navigation.navigate(FORMSELECTSCREEN)
+  }
+
   function urlClickHandler(url) {
     if (url.includes('.mp4') || url.includes('.avi')) {
       props.navigation.navigate(VIDEOSCREEN, url)
@@ -83,7 +86,8 @@ const MeasureScreen = props => {
       try {
         await dispatch(fetchMeasures())
       } catch (err) {
-        setErrorCode(err.status ?? -1)
+        console.log(err)
+        setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
       }
       setIsLoading(false)
     } else {
@@ -99,7 +103,7 @@ const MeasureScreen = props => {
 
   var contentView = null
   if (errorCode !== 0) {
-    contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + "(Fehlercode: " + errorCode + ")"} />
+    contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + " (Fehlercode: " + errorCode + ")"} />
   } else if (isLoading) {
     contentView = <NoContentView icon="cloud-download" loading title={Strings.measure_loading} />
   } else if (hasNoNetwork && measures.length === 0) {
@@ -120,7 +124,7 @@ const MeasureScreen = props => {
       if (selectedMeasure) {
         measureContent = <MeasureView measureId={selectedMeasure.uuid} onURLClicked={urlClickHandler} />
       } else {
-        measureContent = <NoContentView icon="gesture-tap" title={Strings.measure_split_content_placeholder}/>
+        measureContent = <NoContentView icon="gesture-tap" title={Strings.measure_split_content_placeholder} />
       }
 
       contentView =
@@ -136,8 +140,8 @@ const MeasureScreen = props => {
             </MeasureListView>
             <View style={styles.measureViewSplit}>
               {measureContent}
-              <View style={styles.calculateButtonWrapper}>
-                <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSCREEN) }} />
+              <View style={styles.calculateButtonWrapperSplit}>
+                <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
               </View>
             </View>
           </View>
@@ -154,7 +158,7 @@ const MeasureScreen = props => {
             {informationHeader}
           </MeasureListView>
           <View style={styles.calculateButtonWrapper}>
-            <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={() => { props.navigation.navigate(FORMSELECTSCREEN) }} />
+            <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
           </View>
         </View>
     }
@@ -169,17 +173,18 @@ const MeasureScreen = props => {
 
 const styles = StyleSheet.create({
   informationCard: {
-    marginTop: 8,
-    marginHorizontal: 4
+    marginVertical: 8
   },
   heading: {
-    marginTop: 16,
-    marginBottom: 8,
-    marginStart: 6
+    marginTop: 8,
+    marginHorizontal: 8
   },
   calculateButtonWrapper: {
+    margin: 8
+  },
+  calculateButtonWrapperSplit: {
     marginVertical: 8,
-    marginEnd: 4
+    marginEnd: 8
   },
   calculateButton: {
     justifyContent: "center"
@@ -190,15 +195,15 @@ const styles = StyleSheet.create({
   },
   measureList: {
     flex: 1,
-    marginHorizontal: 4,
+    marginHorizontal: 8
   },
   measureListSplit: {
     flex: 1,
-    marginHorizontal: 4,
+    marginHorizontal: 8,
+    marginBottom: 8
   },
   measureViewSplit: {
     flex: 2,
-    marginHorizontal: 4
   },
   mainColumn: {
     flex: 1,

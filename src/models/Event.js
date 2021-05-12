@@ -1,10 +1,12 @@
-export default class Event{
-    constructor(uuid, name, excerpt, startDate, endDate, url){
+export default class Event {
+    constructor(uuid, title, description, startDate, endDate, link, image, maxParticipantCount = 0){
         this.uuid = uuid
-        this.name = name
-        this.excerpt = excerpt
+        this.title = title
+        this.description = description
         this.startDate = startDate
         this.endDate = endDate
-        this.url = url
+        this.link = link
+        this.image = image
+        this.maxParticipantCount = maxParticipantCount
     }
 }

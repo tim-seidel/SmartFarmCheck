@@ -8,8 +8,10 @@ const Strings = {
     refresh: "Aktualisieren",
     reset: "Zurücksetzen",
     back: "Zurück",
+    settings: "Einstellungen",
 
     mail: "mittelstand40@hs-osnabrueck.de",
+    phone: "0541-969-5017",
 
     main_greeting_title: "Herzlich Willkommen",
     main_greeting_content: "...in der Smartfarmcheck-App! Hier finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb.",
@@ -17,20 +19,42 @@ const Strings = {
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
 
+    screen_title_media_library: "Mediathek",
+    screen_title_events: "Angebote",
+    screen_title_measure_list: "Maßnahmen",
+    screen_title_measure_detail: "Maßnahmeninformation",
+    screen_title_form_list: "Fragebogenauswahl",
+    screen_title_form: "Angaben zum Betrieb",
+    screen_title_form_help: "Hilfe zum Fragebogen",
+    screen_title_evaluation: "Ihre Maßnahmenbewertung",
+    screen_title_evaluation_detail: "Maßnahmeninformation",
+    screen_title_event_detail: "Eventdetails",
+    screen_title_video_player: "Videoplayer",
+    screen_title_audio_player: "Audioplayer",
+    screen_title_settings: "Einstellungen",
+    screen_title_about: "Über diese App",
+    screen_title_imprint: "Impressum",
+    screen_title_privacy: "Datenschutz",
+    screen_title_license: "Lizenzen",
+    screen_title_contact: "Kontakt",
+
+    information_card_default_title: "Zu Ihrer Information",
+    information_card_advice_expand: "Ausklappen für weitere Informationen.",
+
     measure_information_title: "Über die Maßnahmen",
     measure_information_text: "Hier sehen Sie verschiedene Maßnahmen zur Digitalisierung, die sich für mittelständische Landwirtschaftsbetriebe eignen. Gerne können Sie sich über unser Formular persönliche Empfehlungen berechnen lassen oder uns jederzeit kontaktieren.",
     measure_loading: "Laden der aktuellsten Maßnahmen...",
     measure_loading_error: "Aktuell können die Maßnahmen nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
-    measure_loading_empty: "Aktuell konnten keine Maßnahmen gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
+    measure_loading_empty: "Aktuell wurden keine Maßnahmen gefunden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Maßnahmen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
     measure_navigate_evaluation: "Jetzt Empfehlungen berechnen",
-    measure_split_content_placeholder : "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button unten, um Empfehlungen berechnen zu lassen.",
+    measure_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button unten, um Empfehlungen berechnen zu lassen.",
 
     select_form_information_title: "Zur Auswahl des Fragebogens",
-    select_form_information_text: "Nachfolgend haben wir für Sie verschiedene, an Branchen und Bereiche angepasste Fragebögen vorbereitet, anhand derer wir Ihnen angepasste Empfehlungen berechnen können.",
+    select_form_information_text: "Nachfolgend haben wir für Sie verschiedene, an Branchen und Bereiche angepasste, Fragebögen vorbereitet, anhand derer wir Ihnen angepasste Empfehlungen berechnen können.",
     select_form_loading: "Laden der verfügbaren Formulare...",
     select_form_loading_error: "Aktuell können die Formulare nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
-    select_form_loading_empty: "Aktuell konnten keine Formulare gefunden werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
+    select_form_loading_empty: "Aktuell wurden keine Formulare gefunden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     select_form_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Formulare können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
 
     form_loading: "Laden des aktuellsten Fragebogens...",
@@ -46,7 +70,7 @@ const Strings = {
     form_dialog_empty_title: "Leeres Formular",
     form_dialog_empty_content: "Bein einem gänzlich unausgefülltem Formular können wir Ihnen leider keine Empfehlungen berechnen. Füllen Sie dazu zunächst einige Fragen aus.\n\nFalls Sie sich nur allgemein informieren möchten, können Sie sich auf dem vorherigen Reiter alle Maßnahmen auswählen.",
     form_dialog_errors_title: "Ungültige Eingaben",
-    form_dialog_errors_content: "Bitte berichtigen Sie zuerst die ungültigen Eingaben, bevor Sie das Formular absenden.",
+    form_dialog_errors_content: "Bitte berichtigen Sie zuerst die ungültigen Eingaben, bevor Sie das Formular absenden. Ansonsten kann keine korrekte Berechnung erfolgen.",
     form_dialog_send_unfinished_title: "Formular absenden?",
     form_dialog_send_unfinished_content: "Sie haben das Formular noch nicht vollständig ausgfüllt, möchten Sie es trotzdem absenden? Je mehr Fragen Sie beantworten, desto individueller können die Empfehlungen berechnet werden.",
     form_send: "Absenden",
@@ -54,12 +78,20 @@ const Strings = {
     form_help: "Hilfe",
     form_input_placeholder: "Hier eingeben...",
 
+    evaluation_information: [
+        "Hier sehen Sie die auf der Basis Ihrer Anworten",
+        " gewichteten Maßnahmen. ", //highlighted
+        "Möchten Sie sich über eine dieser Maßnahmen informieren, so",
+        " tippen ", //highlighted
+        "Sie diese einfach an."
+    ],
     evaluation_list_heading: "Die Bewertung:",
     evaluation_loading: "Die Bewertung wird durchgeführt...",
     evaluation_loading_error: "Aktuell kann die Bewertung nicht durchgefürt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     evaluation_loading_empty: "Die Auswertung konnte aktuell keine Maßnahmen finden. Bitte überprüfen Sie Ihre Eingaben oder versuchen Sie es später erneut.",
     evaluation_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Auswertung kann daher nicht durchgeführt werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
     evaluation_help: "Hilfe",
+    evaluation_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen.",
 
     evaluation_detail_loading: "Die Maßnahme wird geladen...",
     evaluation_detail_loading_error: "Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -85,18 +117,32 @@ const Strings = {
     event_already_in_calendar_title: "Veranstaltung bereits eingetragen",
     event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
 
+    calendar_create_new: "[Neuen Kalender erstellen]",
     permission_calendar: "Kalenderberechtigung",
     permission_calendar_denied: "Fehlende Kalenderberechtigung",
     permission_calendar_information_before: "Nachfolgend wird die Systemberechtigung zum Bearbeiten der Kalender abgefragt. Diese wird benötigt, um automatisch Termine in Ihren Kalender einzutragen.",
-    permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine in Ihren Kalender eintragen können. Sie können diese manuell in den Systemeinstellungen erteilen.",
+    permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine automatisch in Ihren Kalender eintragen dürfen. Sie können diese manuell in den Systemeinstellungen erteilen.",
     permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alternativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
     permission_calendar_information_after_denied_permanent: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Wenn Sie sich dennoch umentscheiden können Sie die Berechtigung in den Berechtigungseinstellung Ihres System ändern.",
-
-    settings_darkmode_title : "Dunkelmodus",
-    settings_reset_form_title : "Formulare zurücksetzen",
-    settings_reset_form_dialog_title : "Alle Formulare zurücksetzen?",
-    settings_reset_form_dialog_content : "Sind Sie sicher, dass sie alle Formulare zurücksetzen möchten? Ihre bisherigen Eingaben werden dann unwiderruflich gelöscht.",
+    settings_appearance_title: "Helles/dunkels Design",
+    settings_appearance_description: "Das Design der App passt sich automatisch den eingestellten Präferenzen Ihres Gerätes an.",
+    settings_reset_form_title: "Formulare zurücksetzen",
+    settings_reset_form_description: "Setzen Sie Ihre Eingaben in allen Formularen zurück.",
+    settings_reset_form_dialog_title: "Alle Formulare zurücksetzen?",
+    settings_reset_form_dialog_content: "Sind Sie sicher, dass Sie alle Formulare zurücksetzen möchten?",
     settings_licenses_title: "Lizenzen",
+    settings_licenses_description: "Eine Übersicht der verwendeten Open-Source-Bibliothken.",
+
+    contact_mail_title: "Per Mail",
+    contact_mail_description: "Bei allgemeinen Fragen können Sie uns jederzeit per Mail erreichen. Wir werden uns dann entsprechend bei Ihnen zurückmelden.",
+    contact_mail_action: "Jetzt E-Mail verfassen",
+    contact_phone_title: "Telefonisch",
+    contact_phone_description: "Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.",
+    contact_mail_contact: "Nikolas Neddermann\nTel: 0541-969-5017",
+    contact_phone_action: "Jetzt anrufen",
+    contact_information_title: "Informationen zur App",
+    contact_information_description: "Informationen über Förderer, Impressum und Datenschutz.",
+    contact_information_action: "Anzeigen"
 }
 
 export default Strings

@@ -1,5 +1,7 @@
 const defaultPrimary = "#B50900"
-const defaultSecondary = "#7e0000"
+const defaultSecondary = "#8f0700"
+const defaultSuccess = "#86AD34"
+const defaultError = "#f50c00"
 
 export const lightTheme = {
   name: 'light',
@@ -17,7 +19,8 @@ export const lightTheme = {
   textSecondary: '#505050',
   textHint: '#aaa',
 
-  error: "#f00",
+  success: defaultSuccess,
+  error: defaultError
 }
 
 export const darkTheme = {
@@ -36,12 +39,13 @@ export const darkTheme = {
   textSecondary: '#ccc',
   textHint: '#aaa',
 
-  error: "#f00",
+  success: defaultSuccess,
+  error: defaultError
 }
 
 export const ConstantColors = {
   grey: "#aaa",
   lightgrey: "#ccc",
   transparent: 'transparent',
-  white: '#fff'
+  white: '#fff',
 }

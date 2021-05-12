@@ -1,50 +1,31 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Linking, Platform, Alert, Modal, Dimensions } from 'react-native';
+import { StyleSheet, View, Platform, Alert, Modal } from 'react-native';
 import { Picker } from "@react-native-picker/picker"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo';
 import { useSelector, useDispatch } from 'react-redux'
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import { ScrollView } from 'react-native-gesture-handler';
 import * as Calendar from 'expo-calendar'
-import * as Device from 'expo-device'
 import moment from 'moment'
 
-import NoContentView from '../components/NoContentView';
-import EventListItemView from '../components/EventViewListItemView';
-import InformationCard, { InformationText } from '../components/InformationCard';
-import { ContentText, HeadingText } from '../components/Text';
-import Strings from '../constants/Strings';
-import IconButton from '../components/IconButton';
-import { useThemeProvider } from '../ThemeContext';
+import RootView from '../components/common/RootView';
+import NoContentView from '../components/common/NoContentView';
+import Competences from '../components/Competences';
 import Keys from '../constants/Keys';
-import RootView from '../components/RootView';
+import InformationCard, { InformationText } from '../components/common/InformationCard';
+import { HeadingText } from '../components/common/Text';
+import IconButton from '../components/common/IconButton';
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors';
+
 import { fetchEvents } from '../store/actions/events';
-import Layout from '../constants/Layout';
+import Strings from '../constants/Strings';
+import EventListView from '../components/EventListView';
 
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
-const Competence = (props) => {
-  const { colorTheme } = useThemeProvider()
-
-  return (
-    <View style={{ backgroundColor: colorTheme.componentBackground, ...styles.competence, ...props.style }}>
-      <Icon name={props.icon} color={colorTheme.textPrimary} size={36}></Icon>
-      <View style={{ marginHorizontal: 8, flex: 1 }}>
-        <HeadingText weight="bold">{props.heading}</HeadingText>
-        {props.children}
-      </View>
-    </View>
-  )
-}
-
-const isPortrait = () => {
-  const dim = Dimensions.get('screen');
-  return dim.height >= dim.width;
-};
-
 const EventScreen = (props) => {
-  const { colorTheme } = useThemeProvider()
+  const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
   const [calendarOptions, setCalendarOptions] = useState([])
   const [selectedCalendarOption, setSelectedCalendarOption] = useState('')
@@ -55,27 +36,8 @@ const EventScreen = (props) => {
   const [hasNoNetwork, setHasNoNetwork] = useState(false)
   const [errorCode, setErrorCode] = useState(0)
 
-  const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
-  const [isTablet, setIsTablet] = useState(Platform.isPad)
-
   const dispatch = useDispatch()
   const events = useSelector(state => state.events.comming)
-
-  useEffect(() => {
-    const callback = ({ screen }) => {
-      setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
-    }
-    const checkTablet = async () => {
-      const type = await Device.getDeviceTypeAsync()
-      setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
-    }
-    checkTablet()
-
-    Dimensions.addEventListener('change', callback);
-    return () => {
-      Dimensions.removeEventListener('change', callback);
-    };
-  }, []);
 
   useEffect(() => {
     checkAndLoadEvents()
@@ -88,10 +50,10 @@ const EventScreen = (props) => {
       try {
         await dispatch(fetchEvents())
       } catch (err) {
-        console.log(err)
-        setErrorCode(err.status ?? -1)
+        setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
       }
       setIsLoading(false)
+      setHasNoNetwork(false)
     } else {
       setHasNoNetwork(true)
     }
@@ -101,14 +63,6 @@ const EventScreen = (props) => {
     setErrorCode(0)
     setHasNoNetwork(false)
     checkAndLoadEvents()
-  }
-
-  function showDetailHandler(event) {
-    Linking.openURL(event.url)
-  }
-
-  function showRegisterHandler(event) {
-    Linking.openURL(event.url)
   }
 
   function calendarOptionChangeHandler(value, index) {
@@ -123,9 +77,14 @@ const EventScreen = (props) => {
 
   async function saveDefaultCalendarHandler() {
     if (selectedCalendarOptionId === "sfc_calendar_new") {
-      console.log("Creating new calendar...")
-      const id = await createLocalCalendarAsync()
-      await saveDefaultCalendarAsync(id)
+      try {
+        console.log("Creating new calendar...")
+        const id = await createLocalCalendarAsync()
+        console.log("EVENTSCREEN", "Created new calendar with id", id)
+        await saveDefaultCalendarAsync(id)
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       console.log("Use choise was: " + selectedCalendarOptionId)
       await saveDefaultCalendarAsync(selectedCalendarOptionId)
@@ -137,8 +96,6 @@ const EventScreen = (props) => {
     return AsyncStorage.setItem(Keys.DEFAULT_CALENDAR_ID, id)
   }
 
-  const competenceStyle = orientation === 'portrait' ? styles.competenceSingleItem : styles.competenceGridItem
-
   let contentView = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
     return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
@@ -149,67 +106,58 @@ const EventScreen = (props) => {
       <InformationText>{Strings.main_greeting_content}</InformationText>
     </InformationCard>
     <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
-    <View style={styles.competenceGrid}>
-      <View style={competenceStyle}>
-        <Competence style={styles.equalHeightInRow} heading="Angebot 1" icon="lightbulb-on-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
-      </View>
-      <View style={competenceStyle}>
-        <Competence style={styles.equalHeightInRow} heading="Angebot 2" icon="account-group-outline" ><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</ContentText></Competence>
-      </View>
-      <View style={styles.competenceSingleItem}>
-        <Competence style={styles.equalHeightInRow} heading="Angebot 3" icon="forum-outline"><ContentText light>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. </ContentText></Competence>
-      </View>
-    </View>
+    <Competences />
     <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
   </View>
   )
 
   let displayHeaderWithScroll = true
   if (errorCode !== 0) {
-    contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+    contentView = <NoContentView
+      icon="emoticon-sad-outline"
+      style={styles.noContent}
+      onRetry={retryHandler}
+      title={Strings.event_loading_error + "(Fehlercode: " + errorCode + ")"} />
   } else if (isLoading) {
-    contentView = <NoContentView icon="cloud-download" loading title={Strings.event_loading}></NoContentView>
+    contentView = <NoContentView
+      icon="cloud-download"
+      loading
+      style={styles.noContent}
+      title={Strings.event_loading} />
   } else if (hasNoNetwork && events.length === 0) {
-    contentView = <NoContentView icon="cloud-off-outline" title={Strings.event_loading_no_network} onRetry={retryHandler}></NoContentView>
+    contentView = <NoContentView
+      icon="cloud-off-outline"
+      style={styles.noContent}
+      title={Strings.event_loading_no_network}
+      onRetry={retryHandler} />
   } else if (!events || events.length === 0) {
-    contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.event_loading_empty}></NoContentView>
+    contentView = <NoContentView
+      icon="calendar-remove"
+      style={styles.noContent}
+      retryTitle={Strings.refresh}
+      onRetry={retryHandler}
+      title={Strings.event_loading_empty} />
   } else {
     displayHeaderWithScroll = false
     contentView = (
       <>
         <Modal transparent visible={showCalendarModal}>
-          <View style={{ ...styles.modalView, backgroundColor: colorTheme.background }}>
-            <HeadingText>Standardkalender auswählen</HeadingText>
+          <View style={{ ...styles.modalView, backgroundColor: colorTheme.componentBackground }}>
+            <HeadingText weight="bold">Standardkalender auswählen</HeadingText>
             <Picker selectedValue={selectedCalendarOption} onValueChange={calendarOptionChangeHandler}>
               {calendarOptionsContent}
             </Picker>
             <View style={{ flexDirection: 'row', marginTop: 8 }}>
               <View style={{ flex: 1, marginEnd: 2 }} >
-                <IconButton icon="check" text="Speichern" onPress={saveDefaultCalendarHandler}></IconButton>
+                <IconButton success icon="check" text="Speichern" onPress={saveDefaultCalendarHandler} />
               </View>
               <View style={{ flex: 1, marginStart: 2 }} >
-                <IconButton icon="close" text="Abbrechen" onPress={() => setShowCalendarModal(false)}></IconButton>
+                <IconButton error icon="close" text="Abbrechen" onPress={() => setShowCalendarModal(false)} />
               </View>
             </View>
           </View>
         </Modal>
-        <FlatList
-          nestedScrollEnabled
-          ListHeaderComponent={headerContent}
-          data={events}
-          key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
-          numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
-          renderItem={({ item }) => (
-            <EventListItemView
-              style={styles.event}
-              event={item}
-              onDetailPress={() => showDetailHandler(item)}
-              onRegisterPress={() => showRegisterHandler(item)}
-              onExportToCalendarPress={() => exportToCalendarWithPermissionInformationHandler(item)}
-            />
-          )}
-          keyExtractor={item => item.id}
-        />
+        <EventListView style={styles.eventList} events={events} headerContent={headerContent} onExportToCalendarPress={(e) => exportToCalendarWithPermissionInformationHandler(e)} />
       </>)
   }
 
@@ -391,7 +339,7 @@ const EventScreen = (props) => {
     calendars.forEach(c => {
       if (c.allowsModifications) list.push({ id: c.id, name: c.title })
     });
-    list.push({ id: 'sfc_calendar_new', name: '[Neuen Kalender erstellen]' })
+    list.push({ id: 'sfc_calendar_new', name: Strings.calendar_create_new })
     setCalendarOptions(list)
     calendarOptionChangeHandler(list[0], 0)
     setShowCalendarModal(true)
@@ -424,18 +372,11 @@ const EventScreen = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: 4,
-    paddingTop: 8
-  },
-  competenceGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
+    flex: 1
   },
   heading: {
-    marginTop: 12,
-    marginHorizontal: (4 + 2)
+    marginTop: 8,
+    marginHorizontal: 8
   },
   modalView: {
     margin: 24,
@@ -445,31 +386,17 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   welcomeCard: {
-    marginHorizontal: 4,
+    marginHorizontal: 8,
     marginTop: 8
-  },
-  competence: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 8,
-    borderColor: Layout.borderColor,
-    borderWidth: Layout.borderWidth,
-    borderRadius: Layout.borderRadius
-  },
-  competenceSingleItem: {
-    padding: 4,
-    width: '100%'
-  },
-  competenceGridItem: {
-    width: '50%',
-    paddingHorizontal: 4,
-    paddingVertical: 4,
   },
   equalHeightInRow: {
     flex: 1
   },
-  event: {
-    marginHorizontal: 4
+  eventList: {
+    marginBottom: 8
+  },
+  noContent: {
+    margin: 8
   }
 });
 

@@ -5,25 +5,29 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import NetInfo from '@react-native-community/netinfo'
 
-import NoContentView from "../components/NoContentView"
+import RootView from '../components/common/RootView'
+import NoContentView from "../components/common/NoContentView"
 import QuestionView from "../components/QuestionView"
-import IconButton from '../components/IconButton'
-import Strings from '../constants/Strings'
-import { ContentText } from '../components/Text'
-import Layout from '../constants/Layout'
+import IconButton from '../components/common/IconButton'
 import ToolbarButton from '../components/ToolbarButton'
-import { useThemeProvider } from '../ThemeContext'
+import { ContentText } from '../components/common/Text'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
+
+import {fetchQuestions} from '../store/actions/questions'
+import Strings from '../constants/Strings'
+import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
-import RootView from '../components/RootView'
-import { fetchQuestions } from '../store/actions/questions'
 import { EVALUATIONSCREEN, FORMHELPSCREEN, FORMSCREEN } from '../constants/Paths'
 
 const FormScreen = props => {
-    const { colorTheme } = useThemeProvider()
+    const { navigation, route } = props
+
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+    const formUuid = route.params
 
     const [mode, setMode] = useState('list')
     const [pagingIndex, setPagingIndex] = useState(0)
-    const [formId, setFormId] = useState(0)
 
     const [isLoading, setIsLoading] = useState(false)
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
@@ -31,19 +35,18 @@ const FormScreen = props => {
 
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questions.questions)
-
-    const { navigation } = props
+ 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={ToolbarButton}>
                     <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
-                    <Item key="option-info" iconName="help-circle-outline" title={Strings.form_help} onPress={helpPressedHandler}/>
+                    <Item key="option-info" iconName="help-circle-outline" title={Strings.form_help} onPress={helpPressedHandler} />
                 </HeaderButtons>
             )
         })
- 
-    }, [ navigation ])
+
+    }, [navigation])
 
     useEffect(() => {
         checkAndLoadQuestions()
@@ -54,10 +57,10 @@ const FormScreen = props => {
         if (netinfo.isConnected) {
             setIsLoading(true)
             try {
-                await dispatch(fetchQuestions())
+                await dispatch(fetchQuestions(formUuid))
             } catch (err) {
                 console.log(err)
-                setErrorCode(err.status ?? -1)
+                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
             }
             setIsLoading(false)
         } else {
@@ -80,8 +83,8 @@ const FormScreen = props => {
         setMode(mode => mode === 'list' ? 'single' : 'list')
     }
 
-    function helpPressedHandler(){
-        if(!isLoading){
+    function helpPressedHandler() {
+        if (!isLoading) {
             props.navigation.navigate(FORMHELPSCREEN, FORMSCREEN)
         }
     }
@@ -255,8 +258,8 @@ const FormScreen = props => {
                 send.push({ 'questionUUID': q.uuid, 'value': q.input })
             }
         })
-        const data = JSON.stringify(send)
-        props.navigation.navigate(EVALUATIONSCREEN, data)
+        const input = JSON.stringify(send)
+        props.navigation.navigate(EVALUATIONSCREEN, {input: input, formUuid: formUuid})
     }
 }
 

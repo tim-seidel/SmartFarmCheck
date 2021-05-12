@@ -1,31 +1,46 @@
 import React from 'react'
 import { StyleSheet, Platform } from 'react-native'
-import PropTypes from 'prop-types'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import PropTypes from 'prop-types'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { ContentText } from './Text'
-import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
-import Layout from '../constants/Layout'
+import { ConstantColors, darkTheme, lightTheme } from '../../constants/Colors'
+import Layout from '../../constants/Layout'
 
 /**
- * A default button layout, that can be customized. 
- * Default styles:
- * - outline
- * - solid (filled)  <- default (on iOS transparent)
- * - light: transparent
+ * @summary Basic UI button element that represents a button unified across the app. 
+ * @description There are a few customization options:
+ * - type:
+ *   - outline
+ *   - solid (filled)  <- default (on iOS transparent)
+ *   - light: transparent
+ * - icon: the mdi icon code
+ * - text
+ * - onPress: callback
+ * Has darkmode support.
+ * @param {Object} props The standard react native ui props.
  */
 const IconButton = (props) => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+    const { icon, text, type, disabled, success, error } = props
 
-    const { icon, text, type } = props
+    let backgroundColor = ConstantColors.transparent
+    if (type === 'solid') {
+        backgroundColor = colorTheme.primary
+        if (success) backgroundColor = colorTheme.success
+        if (error) backgroundColor = colorTheme.error
+        if (disabled) backgroundColor = ConstantColors.grey
+    }
+
     return (
         <Icon.Button
             style={type === 'outline' ? { ...styles.buttonOutlined, borderColor: colorTheme.primary } : styles.button}
             name={icon}
             size={24}
+            disabled={disabled ?? false}
             color={type === 'solid' ? colorTheme.textPrimaryContrast : colorTheme.primary}
-            backgroundColor={type === 'solid' ? colorTheme.primary : ConstantColors.transparent}
+            backgroundColor={backgroundColor}
             underlayColor={Platform.OS == 'ios' ? colorTheme.componentBackground : colorTheme.accent}
             onPress={props.onPress}>
             <ContentText
@@ -42,7 +57,10 @@ const IconButton = (props) => {
 IconButton.propTypes = {
     icon: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['solid', 'light', 'outline'])
+    type: PropTypes.oneOf(['solid', 'light', 'outline']),
+    disabled: PropTypes.bool,
+    success: PropTypes.bool,
+    error: PropTypes.bool
 }
 
 IconButton.defaultProps = {
@@ -50,7 +68,10 @@ IconButton.defaultProps = {
         ios: "light",
         android: "solid",
         default: "solid"
-    })
+    }),
+    disabled: false,
+    success: false,
+    error: false
 }
 
 const styles = StyleSheet.create({

@@ -5,13 +5,12 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import NetInfo from '@react-native-community/netinfo';
 import * as Device from 'expo-device'
 
-
-import RootView from '../components/RootView'
-import NoContentView from '../components/NoContentView'
+import RootView from '../components/common/RootView'
+import NoContentView from '../components/common/NoContentView'
 import EvaluationListView from '../components/EvaluationListView'
 import MeasureView from '../components/MeasureView';
-import { HeadingText } from '../components/Text'
-import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard'
+import { HeadingText } from '../components/common/Text'
+import InformationCard, { InformationHighlight, InformationText } from '../components/common/InformationCard'
 import ToolbarButton from '../components/ToolbarButton'
 
 import Strings from '../constants/Strings'
@@ -34,9 +33,9 @@ const EvaluationScreen = (props) => {
     const dispatch = useDispatch()
     const evaluation = useSelector(state => state.evaluation.evaluation)
     const [selectedRating, setSelectedRating] = useState(undefined)
-    const input = props.route.params
 
-    const { navigation } = props
+    const { navigation, route } = props
+    const {input, formUuid} = route.params
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -73,10 +72,10 @@ const EvaluationScreen = (props) => {
         if (netinfo.isConnected) {
             setIsLoading(true)
             try {
-                await dispatch(fetchEvaluation(input))
+                await dispatch(fetchEvaluation(input, formUuid))
             } catch (err) {
                 console.log(err)
-                setErrorCode(err.status ?? -1)
+                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
             }
             setIsLoading(false)
         } else {
@@ -90,10 +89,10 @@ const EvaluationScreen = (props) => {
         checkAndEvaluate()
     }
 
-    function helpPressedHandler(){
-        if(!isLoading){
+    function helpPressedHandler() {
+        if (!isLoading) {
             props.navigation.navigate(FORMHELPSCREEN, EVALUATIONSCREEN
-                )
+            )
         }
     }
 
@@ -130,11 +129,11 @@ const EvaluationScreen = (props) => {
     } else {
         const informationHeader = <View>
             <InformationCard style={styles.informationCard}>
-                <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
-                <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
-                <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
-                <InformationHighlight>tippen</InformationHighlight>
-                <InformationText> Sie diese einfach an.</InformationText>
+                <InformationText>{Strings.evaluation_information[0]}</InformationText>
+                <InformationHighlight style={styles.explanationHighlight}>{Strings.evaluation_information[1]}</InformationHighlight>
+                <InformationText>{Strings.evaluation_information[2]}</InformationText>
+                <InformationHighlight>{Strings.evaluation_information[3]}</InformationHighlight>
+                <InformationText>{Strings.evaluation_information[4]}</InformationText>
             </InformationCard>
             <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
         </View>
@@ -144,7 +143,7 @@ const EvaluationScreen = (props) => {
             if (selectedRating) {
                 measureContent = <MeasureView measureId={selectedRating.uuid} onURLClicked={urlClickHandler} />
             } else {
-                measureContent = <NoContentView icon="gesture-tap" title={"Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen."} />
+                measureContent = <NoContentView icon="gesture-tap" title={Strings.evaluation_split_content_placeholder} />
             }
 
             contentView =
