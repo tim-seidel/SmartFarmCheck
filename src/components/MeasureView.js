@@ -104,7 +104,7 @@ const MeasureView = props => {
 }
 
 function formatHTML(measure, colorTheme) {
-    const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; }</style></head>'
+    const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; } a {word-break: break-all;}</style></head>'
     var heading = '<h2>' + measure.name + '</h2>'
 
     let description = measure.description  ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</p>"
