@@ -10,11 +10,16 @@ import { darkTheme, lightTheme } from '../constants/Colors'
 
 const FormSelectListItemView = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+
     return (
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.onSelected}>
                 <View style={styles.innerWrapper}>
-                    {props.icon && <Image source={{ uri: props.icon }} style={styles.image} />}
+                    {
+                        props.icon ?
+                            <Image source={{ uri: props.icon }} style={styles.image} /> :
+                            <Image source={require("../../assets/images/ic_launcher.png")} style={styles.image} resizeMode="contain" />
+                    }
                     <View style={styles.content}>
                         <HeadingText weight="bold">{props.title}</HeadingText>
                         <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.description}</ContentText>

@@ -30,9 +30,6 @@ export const fetchMediaLibrary = () => {
             ))
         })
 
-        console.log(mediaLibrary)
-
-
         dispatch({
             type: SET_MEDIALIBRARY,
             mediaLibrary: mediaLibrary ?? []
