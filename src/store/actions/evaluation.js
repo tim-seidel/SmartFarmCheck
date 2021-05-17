@@ -9,7 +9,7 @@ export const SET_EVALUATION = 'SET_EVALUATION'
 export const fetchEvaluation = (input, formUuid) => {
     return async dispatch => {
         console.log("PDF", `${API.URL}/${API.VERSION}/evaluate/pdf/${formUuid}`, input)
-        const response = await fetchWithTimeout(`https://pas.sei-farbenfroh.de/v1/evaluate`, Network.requestTimeout, {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/evaluate`, Network.requestTimeout, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export const fetchEvaluation = (input, formUuid) => {
         }
 
         const json = await response.json()
-
+        
         let maxRating = 0;
         const ratings = []
         json.forEach(r => {

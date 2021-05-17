@@ -25,7 +25,7 @@ export const fetchMediaLibrary = () => {
                 e.title,
                 e.description,
                 new Date(e.publishingDate),
-                undefined,//    e.thumbnail,
+                e.thumbnail,
                 e.videoLink
             ))
         })

@@ -111,6 +111,7 @@ const MediaLibraryScreen = (props) => {
                         style={styles.mediaLibraryColumn}
                         title={item.title}
                         description={item.description}
+                        thumbnail={item.thumbnail}
                         onShowVideo={() => showVideoHandler(item.videoLink)}
                     />
                 )}
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
     },
     mediaLibraryColumn: {
         margin: 4,
-        flex: 1
+        flex: 1,
     }
 })
 

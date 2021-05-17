@@ -19,11 +19,16 @@ const MediaLibraryListViewItem = (props) => {
                 <HeadingText weight="bold">{props.title}</HeadingText>
             </View>
             <View style={styles.separator}></View>
-            <View style={styles.description}>
+            { props.description && <View style={styles.description}>
                 <ContentText light numberOfLines={3}>{props.description}</ContentText>
             </View>
+            }
             <View style={styles.imageWrapper}>
-                <Image source={require("../../assets/images/logo_mkl_1024px_300ppi.png")} style={styles.image} resizeMode="contain" />
+                {
+                    props.thumbnail ?
+                        <Image source={{ uri: props.thumbnail }} style={styles.image} /> :
+                        <Image source={require("../../assets/images/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} resizeMode="contain" />
+                }
             </View>
             <View style={styles.action}>
                 <IconButton icon="video" text={Strings.medialibrary_watch_now} onPress={props.onShowVideo} />
@@ -57,10 +62,15 @@ const styles = StyleSheet.create({
     description: {
         paddingHorizontal: 8,
     },
+    defaultImage: {
+        width: "100%",
+        height: 100,
+        resizeMode: "contain",
+        backgroundColor: "white",
+    },
     image: {
         width: "100%",
         height: 100,
-        backgroundColor: "white",
     },
     imageWrapper: {
         margin: 8,
