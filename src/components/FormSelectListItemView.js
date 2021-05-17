@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Image } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -10,16 +10,16 @@ import { darkTheme, lightTheme } from '../constants/Colors'
 
 const FormSelectListItemView = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
-
     return (
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.onSelected}>
                 <View style={styles.innerWrapper}>
+                    {props.icon && <Image source={{ uri: props.icon }} style={styles.image} />}
                     <View style={styles.content}>
                         <HeadingText weight="bold">{props.title}</HeadingText>
                         <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.description}</ContentText>
                     </View>
-                    <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32}/>
+                    <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32} />
                 </View>
             </TouchableHighlight>
         </View>
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
         overflow: "hidden"
-
     },
     innerWrapper: {
         flexDirection: "row",
@@ -47,6 +46,12 @@ const styles = StyleSheet.create({
     },
     detailIcon: {
         alignSelf: "center",
+    },
+    image: {
+        width: 64,
+        height: 64,
+        marginEnd: 8,
+        borderRadius: Layout.borderRadius
     }
 })
 
