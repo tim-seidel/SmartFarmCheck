@@ -125,6 +125,7 @@ const FormSelectScreen = (props) => {
                         key={item.uuid}
                         title={item.title}
                         description={item.description}
+                        icon={item.icon}
                         onSelected={() => formSelectedHandler(item.uuid)}
                     />
                 )}

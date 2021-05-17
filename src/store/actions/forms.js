@@ -27,6 +27,7 @@ export const fetchForms = () => {
                 f.uuid,
                 f.title,
                 f.description,
+                f.icon
             ))
         });
 
