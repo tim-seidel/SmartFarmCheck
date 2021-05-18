@@ -72,12 +72,10 @@ const QuestionView = props => {
      * - update to parent component.
      */
     const inputHandler = (s_input) => {
-        s_input = s_input.trim()
         if (s_input === input) return
-
-        const { validity } = validation(validator, s_input)
         setInput(s_input)
 
+        const { validity } = validation(validator, s_input)
         persistInputAsync(questionId, s_input)
 
         props.onInputChanged(s_input, validity)
