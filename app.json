@@ -24,12 +24,12 @@
     ],
     "ios": {
       "bundleIdentifier": "de.hsos.coala.coalapas",
-      "buildNumber": "1.9.0",
+      "buildNumber": "1.9.0.1",
       "supportsTablet": true
     },
     "android": {
       "package": "de.hsos.coala.coalapas",
-      "versionCode": 190
+      "versionCode": 1901
     }
   }
 }
