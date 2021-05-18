@@ -18,10 +18,14 @@ const StringInput = (props) => {
         <TextInput
             value={input}
             placeholder={Strings.form_input_placeholder}
+            multiline
+            numberOfLines={2}
+            textAlignVertical='top'
             placeholderTextColor={colorTheme.textHint}
             onChangeText={textChanged}
             style={{
                 ...styles.input,
+                color: colorTheme.textPrimary,
                 backgroundColor: colorTheme.background
             }} />
     )
