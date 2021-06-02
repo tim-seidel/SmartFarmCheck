@@ -91,11 +91,12 @@ const InformationCard = (props) => {
                 </View>
                 {toggleInformationEnabled && <Icon name={isInformationInvisible ? "chevron-up" : "chevron-down"} size={24} style={{ ...styles.minimizeIcon, color: colorTheme.textPrimaryContrast }} onPress={toggleInformationVisibility}></Icon>}
             </View>
-            <View style={styles.textWrapper}>
+            {props.children && <View style={styles.textWrapper}>
                 <Text style={{ textAlign: props.textAlign ?? 'center' }} >
                     {isInformationInvisible ? props.children : <ContentText small light>{Strings.information_card_advice_expand}</ContentText>}
                 </Text>
             </View>
+            }
             {props.contentView}
         </View>
     )
