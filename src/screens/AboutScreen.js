@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   sponsor: {
     width: "90%",
     maxWidth: 700,
-    marginVertical: 8,
+    marginTop: 8,
     alignSelf: 'center',
   },
   buttonRow: {
