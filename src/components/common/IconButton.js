@@ -35,7 +35,7 @@ const IconButton = (props) => {
 
     return (
         <Icon.Button
-            style={type === 'outline' ? { ...styles.buttonOutlined, borderColor: colorTheme.primary } : styles.button}
+            style={[type === 'outline' ? { ...styles.buttonOutlined, borderColor: colorTheme.primary } : styles.button, props.style]}
             name={icon}
             size={24}
             disabled={disabled ?? false}
