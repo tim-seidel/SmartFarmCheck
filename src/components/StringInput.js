@@ -12,12 +12,12 @@ import Strings from '../constants/Strings'
  */
 const StringInput = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
-    const { input, textChanged } = props
+    const { input, textChanged, placeholder } = props
 
     return (
         <TextInput
             value={input}
-            placeholder={Strings.form_input_placeholder}
+            placeholder={placeholder ?? Strings.form_input_placeholder}
             multiline
             numberOfLines={2}
             textAlignVertical='top'
