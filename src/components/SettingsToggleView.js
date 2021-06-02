@@ -33,18 +33,19 @@ const SettingsToggleView = (props) => {
         }
     }
 
-    const descriptionView = props.description ? (<ContentText light style={styles.description}>{props.description}</ContentText>) : null
+    //Wrapper view
+    const descriptionView = props.description ? (<View><ContentText light style={styles.descriptionWrapper}>{props.description}</ContentText></View>) : null
 
     return (
         <View style={{ ...styles.container, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <View style={styles.titleRow}>
                 <Icon style={{ color: colorTheme.textPrimary }} name={props.icon} size={24} />
                 <View>
-                    <HeadingText style={styles.name}>{props.name}</HeadingText>
+                    <HeadingText style={styles.headingWrapper}>{props.name}</HeadingText>
                     {descriptionView}
                 </View>
             </View>
-            <Switch onValueChange={toggleSwitch} value={isEnabled}
+            <Switch onValueChange={toggleSwitch} value={isEnabled} style={styles.switch}
                 thumbColor={isEnabled ? colorTheme.primary : ConstantColors.lightgrey}
                 trackColor={{ false: ConstantColors.grey, true: colorTheme.accent }} />
         </View>
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 8,
+        paddingHorizontal: 8,
         borderColor: Layout.borderColor,
         borderRadius: Layout.borderRadius,
         borderWidth: Layout.borderWidth
@@ -66,14 +67,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 8,
     },
-    name: {
+    headingWrapper: {
         marginHorizontal: 16
     },
-    description: {
-        marginHorizontal: 16,
+    descriptionWrapper: {
+        marginStart: 16,
+        marginEnd: 8,
         marginTop: 4
     },
-
+    switch: {
+        marginStart: 8
+    }
 })
 
 export default SettingsToggleView
