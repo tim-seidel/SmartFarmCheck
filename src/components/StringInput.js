@@ -19,7 +19,7 @@ const StringInput = (props) => {
             value={input}
             placeholder={placeholder ?? Strings.form_input_placeholder}
             multiline
-            numberOfLines={2}
+            numberOfLines={1}
             textAlignVertical='top'
             placeholderTextColor={colorTheme.textHint}
             onChangeText={textChanged}
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 4,
         paddingHorizontal: 8,
-        paddingVertical: 10,
+        paddingVertical: 8,
         borderRadius: Layout.borderRadius,
         borderWidth: 1,
         borderColor: Layout.borderColor,
