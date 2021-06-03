@@ -78,13 +78,8 @@ const Strings = {
     form_help: "Hilfe",
     form_input_placeholder: "Hier eingeben...",
 
-    evaluation_information: [
-        "Hier sehen Sie die auf der Basis Ihrer Anworten",
-        " gewichteten Maßnahmen. ", //highlighted
-        "Möchten Sie sich über eine dieser Maßnahmen informieren, so",
-        " tippen ", //highlighted
-        "Sie diese einfach an."
-    ],
+    evaluation_information_title: "Infos zur Bewertung",
+    evaluation_information_text: "Hier sehen Sie die auf der Basis Ihrer Anworten gewichteten Maßnahmen. Möchten Sie sich über eine dieser Maßnahmen informieren, so tippen Sie diese einfach an.",
     evaluation_list_heading: "Die Bewertung:",
     evaluation_loading: "Die Bewertung wird durchgeführt...",
     evaluation_loading_error: "Aktuell kann die Bewertung nicht durchgefürt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -92,6 +87,7 @@ const Strings = {
     evaluation_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Auswertung kann daher nicht durchgeführt werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
     evaluation_help: "Hilfe",
     evaluation_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen.",
+    evaluation_generate_pdf: "PDF erstellen",
 
     evaluation_detail_loading: "Die Maßnahme wird geladen...",
     evaluation_detail_loading_error: "Aktuell kann die Maßnahme leider nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -142,7 +138,12 @@ const Strings = {
     contact_phone_action: "Jetzt anrufen",
     contact_information_title: "Informationen zur App",
     contact_information_description: "Informationen über Förderer, Impressum und Datenschutz.",
-    contact_information_action: "Anzeigen"
+    contact_information_action: "Anzeigen",
+
+    contact_request_loading_error: "Fehler beim Erstellen einer Kontaktanfrage.",
+    contact_request_loading_no_network: "Aktuell besteht keine Internetverbindung.",
+    contact_request_loading: "Kontaktanfrage wird erstellt...",
+    contact_request_success: "Die Kontaktanfrage wurde erfolgreich erstellt. Sie können diese nun in Ihrem E-Mail-Postfach sehen. Das Versenden der Kontaktanfrage kann einige Minuten in Anspruch nehmen."
 }
 
 export default Strings

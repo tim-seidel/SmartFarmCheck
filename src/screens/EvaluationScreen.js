@@ -10,12 +10,13 @@ import NoContentView from '../components/common/NoContentView'
 import EvaluationListView from '../components/EvaluationListView'
 import MeasureView from '../components/MeasureView';
 import { HeadingText } from '../components/common/Text'
-import InformationCard, { InformationHighlight, InformationText } from '../components/common/InformationCard'
+import InformationCard, { InformationText } from '../components/common/InformationCard'
 import ToolbarButton from '../components/ToolbarButton'
 
 import Strings from '../constants/Strings'
-import fetchEvaluation from '../store/actions/evaluation'
-import { EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, FORMHELPSCREEN } from '../constants/Paths';
+import { fetchEvaluation, evaluationToPDF } from '../store/actions/evaluation'
+import { EVALUATIONDETAILSCREEN, FORMHELPSCREEN } from '../constants/Paths';
+import { WrappedIconButton } from '../components/common/IconButton';
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen');
@@ -35,7 +36,7 @@ const EvaluationScreen = (props) => {
     const [selectedRating, setSelectedRating] = useState(undefined)
 
     const { navigation, route } = props
-    const {input, formUuid} = route.params
+    const { answers, formUuid } = route.params
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -44,7 +45,6 @@ const EvaluationScreen = (props) => {
                 </HeaderButtons>
             )
         })
-
     }, [navigation])
 
     useEffect(() => {
@@ -65,14 +65,14 @@ const EvaluationScreen = (props) => {
 
     useEffect(() => {
         checkAndEvaluate()
-    }, [checkAndEvaluate, input])
+    }, [checkAndEvaluate, answers])
 
     const checkAndEvaluate = useCallback(async () => {
         const netinfo = await NetInfo.fetch()
         if (netinfo.isConnected) {
             setIsLoading(true)
             try {
-                await dispatch(fetchEvaluation(input, formUuid))
+                await dispatch(fetchEvaluation(formUuid, answers))
             } catch (err) {
                 console.log(err)
                 setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
@@ -81,7 +81,7 @@ const EvaluationScreen = (props) => {
         } else {
             setHasNoNetwork(true)
         }
-    }, [dispatch, input])
+    }, [dispatch, answers])
 
     function retryHandler() {
         setErrorCode(0)
@@ -91,8 +91,7 @@ const EvaluationScreen = (props) => {
 
     function helpPressedHandler() {
         if (!isLoading) {
-            props.navigation.navigate(FORMHELPSCREEN, EVALUATIONSCREEN
-            )
+            props.navigation.navigate(FORMHELPSCREEN, {  answers: answers, formUuid: formUuid})
         }
     }
 
@@ -128,12 +127,8 @@ const EvaluationScreen = (props) => {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty} />
     } else {
         const informationHeader = <View>
-            <InformationCard style={styles.informationCard}>
-                <InformationText>{Strings.evaluation_information[0]}</InformationText>
-                <InformationHighlight style={styles.explanationHighlight}>{Strings.evaluation_information[1]}</InformationHighlight>
-                <InformationText>{Strings.evaluation_information[2]}</InformationText>
-                <InformationHighlight>{Strings.evaluation_information[3]}</InformationHighlight>
-                <InformationText>{Strings.evaluation_information[4]}</InformationText>
+            <InformationCard title={Strings.evaluation_information_title} style={styles.informationCard}>
+                <InformationText>{Strings.evaluation_information_text}</InformationText>
             </InformationCard>
             <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
         </View>

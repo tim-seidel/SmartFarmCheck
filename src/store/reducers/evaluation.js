@@ -1,8 +1,9 @@
 import Evaluation from "../../models/Evaluation"
-import { SET_EVALUATION } from "../actions/evaluation"
+import { SET_EVALUATION, SET_EVALUATION_CONTACT_REQUEST } from "../actions/evaluation"
 
 const initialState = {
-    evaluation: new Evaluation()
+    evaluation: new Evaluation(),
+    contactRequest: undefined,
 }
 
 const evaluationReducer = (state = initialState, action) => {
@@ -12,6 +13,12 @@ const evaluationReducer = (state = initialState, action) => {
                 ...state,
                 evaluation: action.evaluation
             }
+        case SET_EVALUATION_CONTACT_REQUEST: {
+            return {
+                ...state,
+                contactRequest: action.contactRequest
+            }
+        }
         default:
             return state;
     }

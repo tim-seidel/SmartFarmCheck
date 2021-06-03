@@ -20,6 +20,16 @@ import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
 import { EVALUATIONSCREEN, FORMHELPSCREEN, FORMSCREEN } from '../constants/Paths'
 
+function getAnswers(questions){
+    const _answers = []
+    questions.forEach(q => {
+        if (q.input) {
+            _answers.push({ questionUUID: q.uuid, value: q.input })
+        }
+    })
+    return _answers
+}
+
 const FormScreen = props => {
     const { navigation, route } = props
 
@@ -85,7 +95,7 @@ const FormScreen = props => {
 
     function helpPressedHandler() {
         if (!isLoading) {
-            props.navigation.navigate(FORMHELPSCREEN, FORMSCREEN)
+            props.navigation.navigate(FORMHELPSCREEN, {formUuid: formUuid, answers: getAnswers(questions)})
         }
     }
 
@@ -100,6 +110,51 @@ const FormScreen = props => {
             qNext = max
         }
         setPagingIndex(qNext)
+    }
+
+    function calculateHandler() {
+        const indiciesError = []
+        const indiciesEmpty = []
+
+        questions.forEach((q, index) => {
+            if (q.validity === 'invalid') {
+                indiciesError.push(index + 1)
+            }
+            if (!q.input) {
+                indiciesEmpty.push(index + 1)
+            }
+        })
+
+        //Check first if no input was given. 
+        if (indiciesEmpty.length === questions.length) {
+            Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content, [
+                { text: Strings.okay, style: "cancel" },
+            ],
+                { cancelable: false })
+            return
+        }
+
+        if (indiciesError.length > 0) {
+            Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')', [
+                { text: Strings.okay, style: "cancel" },
+            ],
+                { cancelable: false })
+            return
+        }
+
+        if (indiciesEmpty.length > 0) {
+            Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')', [
+                { text: Strings.cancel, style: "cancel" },
+                { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
+            ],
+                { cancelable: false })
+        } else {
+            gotoEvaluation(questions)
+        }
+    }
+
+    function gotoEvaluation(questions) {
+        props.navigation.navigate(EVALUATIONSCREEN, {answers: getAnswers(questions), formUuid: formUuid})
     }
 
     console.log("FormScreen.render()", isLoading, hasNoNetwork, errorCode, questions.length)
@@ -209,58 +264,6 @@ const FormScreen = props => {
             {contentView}
         </RootView>
     )
-
-    function calculateHandler() {
-        const indiciesError = []
-        const indiciesEmpty = []
-
-        questions.forEach((q, index) => {
-            if (q.validity === 'invalid') {
-                indiciesError.push(index + 1)
-            }
-            if (!q.input) {
-                indiciesEmpty.push(index + 1)
-            }
-        })
-
-        //Check first if no input was given. 
-        if (indiciesEmpty.length === questions.length) {
-            Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content, [
-                { text: Strings.okay, style: "cancel" },
-            ],
-                { cancelable: false })
-            return
-        }
-
-        if (indiciesError.length > 0) {
-            Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')', [
-                { text: Strings.okay, style: "cancel" },
-            ],
-                { cancelable: false })
-            return
-        }
-
-        if (indiciesEmpty.length > 0) {
-            Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')', [
-                { text: Strings.cancel, style: "cancel" },
-                { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
-            ],
-                { cancelable: false })
-        } else {
-            gotoEvaluation(questions)
-        }
-    }
-
-    function gotoEvaluation(questions) {
-        const send = []
-        questions.forEach(q => {
-            if (q.input) {
-                send.push({ 'questionUUID': q.uuid, 'value': q.input })
-            }
-        })
-        const input = JSON.stringify(send)
-        props.navigation.navigate(EVALUATIONSCREEN, {input: input, formUuid: formUuid})
-    }
 }
 
 const styles = StyleSheet.create({

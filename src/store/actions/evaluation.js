@@ -1,21 +1,22 @@
-import Evaluation from "../../models/Evaluation"
-import Rating from "../../models/Rating"
 import { fetchWithTimeout } from "../../network/network"
 import API from "../../constants/API"
 import Network from "../../constants/Network"
+import Evaluation from "../../models/Evaluation"
+import Rating from "../../models/Rating"
+import ContactRequest from '../../models/ContactRequest';
 
 export const SET_EVALUATION = 'SET_EVALUATION'
+export const SET_EVALUATION_CONTACT_REQUEST = "SET_EVALUATION_CONTACT_REQUEST"
 
-export const fetchEvaluation = (input, formUuid) => {
+export const fetchEvaluation = (formUuid, answers) => {
     return async dispatch => {
-        console.log("PDF", `${API.URL}/${API.VERSION}/evaluate/pdf/${formUuid}`, input)
         const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/evaluate`, Network.requestTimeout, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'accept': 'application/json'
+                'accept': 'application/json',
             },
-            body: input
+            body: JSON.stringify(answers)
         })
 
         if (!response.ok) {
@@ -23,7 +24,7 @@ export const fetchEvaluation = (input, formUuid) => {
         }
 
         const json = await response.json()
-        
+
         let maxRating = 0;
         const ratings = []
         json.forEach(r => {
@@ -48,9 +49,36 @@ export const fetchEvaluation = (input, formUuid) => {
 
         dispatch({
             type: SET_EVALUATION,
-            evaluation: new Evaluation(input, ratings)
+            evaluation: new Evaluation(answers, ratings)
         })
     }
 }
 
-export default fetchEvaluation
+export const evaluationToContact = (formUuid, answers, email) => {
+    return async dispatch => {
+        console.log("Contact", `${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, answers)
+        
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, Network.requestTimeout, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': '*/*',
+            },
+            body: JSON.stringify({
+                answers:   answers,
+                email: "dev@timseidel.de"
+            })
+        })
+
+        console.log(response.status)
+        if (!response.ok) {
+            throw { status: response.status, statusText: response.statusText }
+        }
+
+        dispatch({
+            type: SET_EVALUATION_CONTACT_REQUEST,
+            contactRequest: new ContactRequest(formUuid, answers, email, response.status)
+        })
+        
+    }
+}
