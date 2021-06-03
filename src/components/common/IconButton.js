@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Platform } from 'react-native'
+import { StyleSheet, Platform, View } from 'react-native'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import PropTypes from 'prop-types'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
@@ -54,6 +54,16 @@ const IconButton = (props) => {
     )
 }
 
+/**
+ * @summary A IconButton wrapped in a view for better layout adjustability.
+ * @see IconButton
+ */
+export const WrappedIconButton = (props) => {
+    return (<View style={styles.wrapper}>
+        <IconButton type={Platform.OS === 'ios' ? 'light' : 'solid'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
+    </View>)
+}
+
 IconButton.propTypes = {
     icon: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
@@ -83,7 +93,13 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         justifyContent: "center",
         borderRadius: Layout.borderRadius,
-    }
+    },
+    wrapper: {
+        marginHorizontal: 8,
+        marginBottom: 8,
+        justifyContent: 'flex-end',
+        flex: 1
+    },
 })
 
 export default IconButton

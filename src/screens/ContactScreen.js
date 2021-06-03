@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Linking, Platform, Dimensions } from 'react-native'
+import { View, StyleSheet, Linking, Dimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 import RootView from '../components/common/RootView'
 import InformationCard, { InformationHighlight, InformationLineBreak, InformationText } from '../components/common/InformationCard'
-import IconButton from '../components/common/IconButton'
+import  { WrappedIconButton } from '../components/common/IconButton'
 
 import Strings from '../constants/Strings'
 import { ABOUTSCREEN } from '../constants/Paths'
-
-const ActionButton = (props) => {
-    return (<View style={styles.action}>
-        <IconButton type={Platform.OS === 'ios' ? 'light' : 'solid'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
-    </View>)
-}
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen')
@@ -44,9 +38,9 @@ const ContactScreen = (props) => {
     const aboutAppHandler = () => {
         props.navigation.navigate(ABOUTSCREEN)
     }
-    const contentMail = <ActionButton icon="email-outline" text={Strings.contact_mail_action} onPress={contactMailHandler} />
-    const contentPhone = <ActionButton icon="phone" text={Strings.contact_phone_action} onPress={contactPhoneHandler} />
-    const contentAboutApp = <ActionButton icon="information-outline" text={Strings.contact_information_action } onPress={aboutAppHandler} />
+    const contentMail = <WrappedIconButton icon="email-outline" text={Strings.contact_mail_action} onPress={contactMailHandler} />
+    const contentPhone = <WrappedIconButton icon="phone" text={Strings.contact_phone_action} onPress={contactPhoneHandler} />
+    const contentAboutApp = <WrappedIconButton icon="information-outline" text={Strings.contact_information_action } onPress={aboutAppHandler} />
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
         <RootView>
@@ -98,12 +92,6 @@ const styles = StyleSheet.create({
         paddingVertical: 4,
     },
     equalHeightInRow: {
-        flex: 1
-    },
-    action: {
-        marginHorizontal: 8,
-        marginBottom: 8,
-        justifyContent: 'flex-end',
         flex: 1
     },
     buttonRow: {
