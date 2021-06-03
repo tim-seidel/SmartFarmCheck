@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -84,13 +84,15 @@ const InformationCard = (props) => {
     //Layout
     return (
         <View style={{ ...styles.card, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-            <View style={{ ...styles.titleRow, backgroundColor: colorTheme.primary }}>
-                {props.icon && <Icon name={props.icon} size={24} style={{ marginStart: 8, color: colorTheme.textPrimaryContrast }} />}
-                <View style={styles.titleWrapper}>
-                    <HeadingText style={{ color: colorTheme.textPrimaryContrast }}>{props.title ?? Strings.information_card_default_title}</HeadingText>
+            <TouchableOpacity activeOpacity={0.7} disabled={!toggleInformationEnabled} onPress={toggleInformationVisibility}>
+                <View style={{ ...styles.titleRow, backgroundColor: colorTheme.primary }}>
+                    {props.icon && <Icon name={props.icon} size={24} style={{ marginStart: 8, color: colorTheme.textPrimaryContrast }} />}
+                    <View style={styles.titleWrapper}>
+                        <HeadingText style={{ color: colorTheme.textPrimaryContrast }}>{props.title ?? Strings.information_card_default_title}</HeadingText>
+                    </View>
+                    {toggleInformationEnabled && <Icon name={isInformationInvisible ? "chevron-up" : "chevron-down"} size={24} style={{ ...styles.minimizeIcon, color: colorTheme.textPrimaryContrast }} />}
                 </View>
-                {toggleInformationEnabled && <Icon name={isInformationInvisible ? "chevron-up" : "chevron-down"} size={24} style={{ ...styles.minimizeIcon, color: colorTheme.textPrimaryContrast }} onPress={toggleInformationVisibility}></Icon>}
-            </View>
+            </TouchableOpacity>
             {props.children && <View style={styles.textWrapper}>
                 <Text style={{ textAlign: props.textAlign ?? 'center' }} >
                     {isInformationInvisible ? props.children : <ContentText small light>{Strings.information_card_advice_expand}</ContentText>}
