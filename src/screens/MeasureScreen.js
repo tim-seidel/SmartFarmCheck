@@ -15,7 +15,7 @@ import { HeadingText } from '../components/common/Text';
 import { fetchMeasures } from '../store/actions/measures';
 import Strings from '../constants/Strings';
 import Keys from '../constants/Keys';
-import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN, FORMSCREEN } from '../constants/Paths';
+import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
