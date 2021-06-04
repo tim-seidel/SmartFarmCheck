@@ -1,8 +1,7 @@
-import Evaluation from "../../models/Evaluation"
 import { SET_EVALUATION, SET_EVALUATION_CONTACT_REQUEST } from "../actions/evaluation"
 
 const initialState = {
-    evaluation: new Evaluation(),
+    evaluation: undefined,
     contactRequest: undefined,
 }
 
