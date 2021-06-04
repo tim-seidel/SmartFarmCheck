@@ -38,9 +38,9 @@ const ContactScreen = (props) => {
     const aboutAppHandler = () => {
         props.navigation.navigate(ABOUTSCREEN)
     }
-    const contentMail = <WrappedIconButton icon="email-outline" text={Strings.contact_mail_action} onPress={contactMailHandler} />
-    const contentPhone = <WrappedIconButton icon="phone" text={Strings.contact_phone_action} onPress={contactPhoneHandler} />
-    const contentAboutApp = <WrappedIconButton icon="information-outline" text={Strings.contact_information_action } onPress={aboutAppHandler} />
+    const contentMail = <WrappedIconButton style={styles.button} icon="email-outline" text={Strings.contact_mail_action} onPress={contactMailHandler} />
+    const contentPhone = <WrappedIconButton style={styles.button} icon="phone" text={Strings.contact_phone_action} onPress={contactPhoneHandler} />
+    const contentAboutApp = <WrappedIconButton style={styles.button} icon="information-outline" text={Strings.contact_information_action } onPress={aboutAppHandler} />
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
         <RootView>
@@ -100,6 +100,10 @@ const styles = StyleSheet.create({
     buttonInRow: {
         margin: 4,
         flex: 1
+    },
+    button: {
+        marginBottom: 8,
+        marginHorizontal: 8
     }
 })
 

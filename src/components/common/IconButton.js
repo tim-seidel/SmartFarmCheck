@@ -59,7 +59,7 @@ const IconButton = (props) => {
  * @see IconButton
  */
 export const WrappedIconButton = (props) => {
-    return (<View style={styles.wrapper}>
+    return (<View style={[styles.wrapper, props.style]}>
         <IconButton type={Platform.OS === 'ios' ? 'light' : 'solid'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
     </View>)
 }
@@ -95,8 +95,6 @@ const styles = StyleSheet.create({
         borderRadius: Layout.borderRadius,
     },
     wrapper: {
-        marginHorizontal: 8,
-        marginBottom: 8,
         justifyContent: 'flex-end',
         flex: 1
     },
