@@ -83,9 +83,9 @@ const Strings = {
     evaluation_list_heading: "Die Bewertung:",
     evaluation_loading: "Die Bewertung wird durchgeführt...",
     evaluation_loading_error: "Aktuell kann die Bewertung nicht durchgefürt werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
-    evaluation_loading_empty: "Die Auswertung konnte aktuell keine Maßnahmen finden. Bitte überprüfen Sie Ihre Eingaben oder versuchen Sie es später erneut.",
+    evaluation_loading_empty: "Die Auswertung konnte aktuell keine Maßnahmen finden. Bitte überprüfen Sie Ihre Eingaben, beantworten Sie weitere Fragen oder versuchen Sie es später erneut.",
     evaluation_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Auswertung kann daher nicht durchgeführt werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
-    evaluation_help: "Hilfe",
+    evaluation_help: "Fragen? Jetzt Kontakt aufnehmen ",
     evaluation_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen.",
     evaluation_generate_pdf: "PDF erstellen",
 
@@ -143,7 +143,10 @@ const Strings = {
     contact_request_loading_error: "Fehler beim Erstellen einer Kontaktanfrage.",
     contact_request_loading_no_network: "Aktuell besteht keine Internetverbindung.",
     contact_request_loading: "Kontaktanfrage wird erstellt...",
-    contact_request_success: "Die Kontaktanfrage wurde erfolgreich erstellt. Sie können diese nun in Ihrem E-Mail-Postfach sehen. Das Versenden der Kontaktanfrage kann einige Minuten in Anspruch nehmen."
+    contact_request_success: "Die Kontaktanfrage wurde erfolgreich erstellt. Sie sehen diese dann in Ihrem E-Mail-Postfach sehen. Das Versenden der Kontaktanfrage kann einige Minuten in Anspruch nehmen.",
+    contact_request_dialog_empty_title: "Leeres Formular",
+    contact_request_dialog_empty_content: "Bein einem gänzlich unausgefülltem Fragebogen wählen Sie bitte den normalen Kontaktweg über die Kontaktoptionen auf dem Kontaktmenüpunkt der Startseite. Sobald Sie einige Fragen beantwortet haben, können Sie auch diesen Kontaktweg verwenden.",
+    
 }
 
 export default Strings

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, View, Dimensions, Platform, Linking } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import NetInfo from '@react-native-community/netinfo';
 import * as Device from 'expo-device'
 
@@ -11,10 +10,9 @@ import EvaluationListView from '../components/EvaluationListView'
 import MeasureView from '../components/MeasureView';
 import { HeadingText } from '../components/common/Text'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
-import ToolbarButton from '../components/ToolbarButton'
 
 import Strings from '../constants/Strings'
-import { fetchEvaluation, evaluationToPDF } from '../store/actions/evaluation'
+import { fetchEvaluation } from '../store/actions/evaluation'
 import { EVALUATIONDETAILSCREEN, FORMHELPSCREEN } from '../constants/Paths';
 import { WrappedIconButton } from '../components/common/IconButton';
 
@@ -35,17 +33,8 @@ const EvaluationScreen = (props) => {
     const evaluation = useSelector(state => state.evaluation.evaluation)
     const [selectedRating, setSelectedRating] = useState(undefined)
 
-    const { navigation, route } = props
+    const { route } = props
     const { answers, formUuid } = route.params
-    useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-                    <Item key="option-info" iconName="help-circle-outline" title={Strings.evaluation_help} onPress={helpPressedHandler} />
-                </HeaderButtons>
-            )
-        })
-    }, [navigation])
 
     useEffect(() => {
         const callback = ({ screen }) => {
@@ -89,7 +78,7 @@ const EvaluationScreen = (props) => {
         checkAndEvaluate()
     }
 
-    function helpPressedHandler() {
+    function contactRequestHandler() {
         if (!isLoading) {
             props.navigation.navigate(FORMHELPSCREEN, {  answers: answers, formUuid: formUuid})
         }
@@ -126,8 +115,10 @@ const EvaluationScreen = (props) => {
     } else if (!evaluation || evaluation.ratings.length === 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty} />
     } else {
+        const contactButton = <WrappedIconButton style={styles.helpButton} icon="email-outline" text={Strings.evaluation_help} onPress={contactRequestHandler} />
+
         const informationHeader = <View>
-            <InformationCard title={Strings.evaluation_information_title} style={styles.informationCard}>
+            <InformationCard title={Strings.evaluation_information_title} style={styles.informationCard} contentView={contactButton}>
                 <InformationText>{Strings.evaluation_information_text}</InformationText>
             </InformationCard>
             <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
@@ -212,6 +203,10 @@ const styles = StyleSheet.create({
     mainColumn: {
         flex: 1,
         flexDirection: 'column'
+    },
+    helpButton: {
+        marginBottom: 8,
+        marginHorizontal: 8
     }
 })
 
