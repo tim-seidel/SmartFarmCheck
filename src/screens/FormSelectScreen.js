@@ -46,10 +46,11 @@ const FormSelectScreen = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
     const [errorCode, setErrorCode] = useState(0)
+    const [selectedForm, setSelectedForm] = useState(undefined)
 
     const dispatch = useDispatch()
     const forms = useSelector(state => state.forms.forms)
-    const [selectedForm, setSelectedForm] = useState(undefined)
+    const visibleForms = forms.filter(f => !f.hidden)
 
     useEffect(() => {
         const callback = ({ screen }) => {
@@ -102,9 +103,9 @@ const FormSelectScreen = (props) => {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_error + "(Fehlercode: " + errorCode + ")"} />
     } else if (isLoading) {
         contentView = <NoContentView icon="cloud-download" loading title={Strings.select_form_loading} />
-    } else if (hasNoNetwork && forms.length === 0) {
+    } else if (hasNoNetwork && visibleForms.length === 0) {
         contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.select_form_loading_no_network} />
-    } else if (forms.length === 0) {
+    } else if (visibleForms.length === 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_empty} />
     } else {
         const informationHeader =
@@ -118,7 +119,7 @@ const FormSelectScreen = (props) => {
         contentView = (
             <FlatList
                 style={styles.list}
-                data={forms}
+                data={visibleForms}
                 ListHeaderComponent={informationHeader}
                 renderItem={({ item }) => (
                     <FormSelectListItemView
