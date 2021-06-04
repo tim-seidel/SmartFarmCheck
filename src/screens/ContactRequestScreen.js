@@ -12,7 +12,7 @@ import IconButton from '../components/common/IconButton'
 import Separator from '../components/common/Separator'
 import NoContentView from '../components/common/NoContentView'
 
-import { SET_EVALUATION_CONTACT_REQUEST } from '../store/actions/evaluation'
+import { evaluationToContact, SET_EVALUATION_CONTACT_REQUEST } from '../store/actions/evaluation'
 import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
 import Keys from '../constants/Keys'
@@ -29,7 +29,7 @@ const ContactRequestScreen = (props) => {
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
     const [errorCode, setErrorCode] = useState(0)
 
-    const [email, setEmail] = useState("dev@timseidel.de")
+    const [email, setEmail] = useState("")
     const [emailValidity, setEmailValidity] = useState("valid")
     //const [privacyConsent, setPrivacyConsent] = useState(false)
     const contactRequest = useSelector(state => state.evaluation.contactRequest)
@@ -53,8 +53,7 @@ const ContactRequestScreen = (props) => {
         if (netinfo.isConnected) {
             setIsLoading(true)
             try {
-                // await dispatch(evaluationToContact(formUuid, answers, email))
-                console.log("Sending disabled...")
+                await dispatch(evaluationToContact(formUuid, answers, email))
             } catch (err) {
                 console.log(err)
                 setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))

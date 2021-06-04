@@ -58,7 +58,7 @@ export const evaluationToContact = (formUuid, answers, email) => {
     return async dispatch => {
         console.log("Contact", `${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, answers)
         
-        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, Network.requestTimeout, {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, 30, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
