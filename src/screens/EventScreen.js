@@ -106,7 +106,7 @@ const EventScreen = (props) => {
       <InformationText>{Strings.main_greeting_content}</InformationText>
     </InformationCard>
     <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
-    <Competences />
+    <Competences navigation={props.navigation} />
     <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
   </View>
   )
