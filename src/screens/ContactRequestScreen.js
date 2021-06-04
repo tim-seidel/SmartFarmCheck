@@ -18,7 +18,7 @@ import Layout from '../constants/Layout'
 import Keys from '../constants/Keys'
 import { darkTheme, lightTheme } from '../constants/Colors'
 
-const FormHelpScreen = (props) => {
+const ContactRequestScreen = (props) => {
     const { navigation, route } = props
     const { formUuid, answers } = route.params
 
@@ -199,4 +199,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default FormHelpScreen
+export default ContactRequestScreen

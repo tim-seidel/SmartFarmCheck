@@ -13,7 +13,7 @@ import InformationCard, { InformationText } from '../components/common/Informati
 
 import Strings from '../constants/Strings'
 import { fetchEvaluation } from '../store/actions/evaluation'
-import { EVALUATIONDETAILSCREEN, FORMHELPSCREEN } from '../constants/Paths';
+import { EVALUATIONDETAILSCREEN, CONTACTREQUESTSCREEN } from '../constants/Paths';
 import { WrappedIconButton } from '../components/common/IconButton';
 
 const isPortrait = () => {
@@ -80,7 +80,7 @@ const EvaluationScreen = (props) => {
 
     function contactRequestHandler() {
         if (!isLoading) {
-            props.navigation.navigate(FORMHELPSCREEN, {  answers: answers, formUuid: formUuid})
+            props.navigation.navigate(CONTACTREQUESTSCREEN, { answers: answers, formUuid: formUuid })
         }
     }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
@@ -18,8 +18,8 @@ import HomeScreen from '../screens/HomeScreen'
 import FormSelectScreen from '../screens/FormSelectScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import LicenseScreen from '../screens/LicenseScreen'
-import FormHelpScreen from '../screens/FormHelpScreen'
-import { ABOUTSCREEN, AUDIOSCREEN, EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, EVENTDETAILSCREEN, FEEDBACKSCREEN, FORMHELPSCREEN, FORMSCREEN, FORMSELECTSCREEN, HOMESCREEM, IMPRINTSCREEN, LICENSESCREEN, MEASUREDETAILSCREEN, PRIVACYSCREEN, SETTINGSSCREEN, VIDEOSCREEN } from '../constants/Paths'
+import ContactRequestScreen from '../screens/ContactRequestScreen'
+import { ABOUTSCREEN, AUDIOSCREEN, EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, EVENTDETAILSCREEN, CONTACTREQUESTSCREEN, FORMSCREEN, FORMSELECTSCREEN, HOMESCREEM, IMPRINTSCREEN, LICENSESCREEN, MEASUREDETAILSCREEN, PRIVACYSCREEN, SETTINGSSCREEN, VIDEOSCREEN } from '../constants/Paths'
 import { darkTheme, lightTheme } from '../constants/Colors'
 import Strings from '../constants/Strings'
 
@@ -160,8 +160,8 @@ const Content = (props) => {
                                 backgroundColor: colorTheme.primary
                             }
                         }}
-                        name={FORMHELPSCREEN}
-                        component={FormHelpScreen} />
+                        name={CONTACTREQUESTSCREEN}
+                        component={ContactRequestScreen} />
                     <Stack.Screen
                         options={{
                             title: Strings.screen_title_settings,
