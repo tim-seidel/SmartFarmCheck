@@ -14,21 +14,13 @@ import { ContentText } from '../components/common/Text'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { darkTheme, lightTheme } from '../constants/Colors'
 
-import {fetchQuestions} from '../store/actions/questions'
+import { fetchQuestions } from '../store/actions/questions'
 import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
-import { EVALUATIONSCREEN, FORMHELPSCREEN, FORMSCREEN } from '../constants/Paths'
+import { EVALUATIONSCREEN } from '../constants/Paths'
+import { useLayoutEffect } from 'react'
 
-function getAnswers(questions){
-    const _answers = []
-    questions.forEach(q => {
-        if (q.input) {
-            _answers.push({ questionUUID: q.uuid, value: q.input })
-        }
-    })
-    return _answers
-}
 
 const FormScreen = props => {
     const { navigation, route } = props
@@ -45,17 +37,15 @@ const FormScreen = props => {
 
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questions.questions)
- 
-    useEffect(() => {
+
+    useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={ToolbarButton}>
                     <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
-                    <Item key="option-info" iconName="help-circle-outline" title={Strings.form_help} onPress={helpPressedHandler} />
                 </HeaderButtons>
             )
         })
-
     }, [navigation])
 
     useEffect(() => {
@@ -93,10 +83,14 @@ const FormScreen = props => {
         setMode(mode => mode === 'list' ? 'single' : 'list')
     }
 
-    function helpPressedHandler() {
-        if (!isLoading) {
-            props.navigation.navigate(FORMHELPSCREEN, {formUuid: formUuid, answers: getAnswers(questions)})
-        }
+    function getAnswers() {
+        const _answers = []
+        questions.forEach(q => {
+            if (q.input) {
+                _answers.push({ questionUUID: q.uuid, value: q.input })
+            }
+        })
+        return _answers
     }
 
     function questionPagingHandler(toNext) {
@@ -145,7 +139,7 @@ const FormScreen = props => {
         if (indiciesEmpty.length > 0) {
             Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')', [
                 { text: Strings.cancel, style: "cancel" },
-                { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
+                { text: Strings.form_send, onPress: () => gotoEvaluation(), style: "default" }
             ],
                 { cancelable: false })
         } else {
@@ -153,8 +147,10 @@ const FormScreen = props => {
         }
     }
 
-    function gotoEvaluation(questions) {
-        props.navigation.navigate(EVALUATIONSCREEN, {answers: getAnswers(questions), formUuid: formUuid})
+    function gotoEvaluation() {
+        if (!isLoading) {
+            props.navigation.navigate(EVALUATIONSCREEN, { formUuid: formUuid, answers: getAnswers() })
+        }
     }
 
     console.log("FormScreen.render()", isLoading, hasNoNetwork, errorCode, questions.length)
