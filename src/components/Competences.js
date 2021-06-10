@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     competence: {
         flexDirection: "row",
         alignItems: "flex-start",
+        flex: 1,
         padding: 8,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
