@@ -21,6 +21,8 @@ import { ConstantColors } from '../constants/Colors'
 import { EVALUATIONSCREEN } from '../constants/Paths'
 import { useLayoutEffect } from 'react'
 
+const layout_list = "list"
+const layout_single = "single"
 
 const FormScreen = props => {
     const { navigation, route } = props
@@ -28,7 +30,7 @@ const FormScreen = props => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
     const formUuid = route.params
 
-    const [mode, setMode] = useState('list')
+    const [mode, setMode] = useState(layout_list)
     const [pagingIndex, setPagingIndex] = useState(0)
 
     const [isLoading, setIsLoading] = useState(false)
@@ -80,7 +82,7 @@ const FormScreen = props => {
     }
 
     function layoutChangeHandler() {
-        setMode(mode => mode === 'list' ? 'single' : 'list')
+        setMode(mode => mode === layout_list ? layout_single : layout_list)
     }
 
     function getAnswers() {
@@ -95,14 +97,11 @@ const FormScreen = props => {
 
     function questionPagingHandler(toNext) {
         var qNext = toNext ? pagingIndex + 1 : pagingIndex - 1
-        if (qNext < 0) {
-            qNext = 0
-        }
-
         const max = questions.length - 1
-        if (qNext > max) {
-            qNext = max
-        }
+
+        if (qNext < 0) { qNext = 0 }
+        if (qNext > max) { qNext = max }
+
         setPagingIndex(qNext)
     }
 
@@ -119,28 +118,37 @@ const FormScreen = props => {
             }
         })
 
-        //Check first if no input was given. 
+        //Check if no input was given. Abort request if it is the case.
         if (indiciesEmpty.length === questions.length) {
-            Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content, [
-                { text: Strings.okay, style: "cancel" },
-            ],
+            Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content,
+                [
+                    { text: Strings.okay, style: "cancel" },
+                ],
                 { cancelable: false })
             return
         }
 
+        //Check if there are errors in the answers. Abort request if it is the case.
         if (indiciesError.length > 0) {
-            Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')', [
-                { text: Strings.okay, style: "cancel" },
-            ],
+            Alert.alert(
+                Strings.form_dialog_errors_title,
+                Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')',
+                [
+                    { text: Strings.okay, style: "cancel" },
+                ],
                 { cancelable: false })
             return
         }
 
+        //Check if there are empty questions left. The user can decide if the request should continue.
         if (indiciesEmpty.length > 0) {
-            Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')', [
-                { text: Strings.cancel, style: "cancel" },
-                { text: Strings.form_send, onPress: () => gotoEvaluation(), style: "default" }
-            ],
+            Alert.alert(
+                Strings.form_dialog_send_unfinished_title,
+                Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')',
+                [
+                    { text: Strings.cancel, style: "cancel" },
+                    { text: Strings.form_send, onPress: () => gotoEvaluation(), style: "default" }
+                ],
                 { cancelable: false })
         } else {
             gotoEvaluation(questions)
@@ -156,23 +164,35 @@ const FormScreen = props => {
     console.log("FormScreen.render()", isLoading, hasNoNetwork, errorCode, questions.length)
     var contentView = null
     if (errorCode !== 0) {
-        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"} />
+        contentView = <NoContentView
+            icon="emoticon-sad-outline"
+            onRetry={retryHandler}
+            title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"} />
     } else if (isLoading) {
-        contentView = <NoContentView icon="cloud-download" loading title={Strings.form_loading} />
+        contentView = <NoContentView
+            icon="cloud-download"
+            loading
+            title={Strings.form_loading} />
     } else if (hasNoNetwork && questions.length === 0) {
-        contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.form_loading_no_network} />
+        contentView = <NoContentView
+            icon="cloud-off-outline"
+            onRetry={retryHandler}
+            title={Strings.form_loading_no_network} />
     } else if (questions.length === 0) {
-        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty} />
+        contentView = <NoContentView
+            icon="emoticon-sad-outline"
+            onRetry={retryHandler}
+            title={Strings.form_loading_empty} />
     } else {
         var questionContent = null
-        if (mode === 'list') {
+        if (mode === layout_list) {
             questionContent = (
                 <View style={styles.listContainer}>
                     <FlatList
-                        contentContainerStyle={styles.listContent}
                         data={questions}
                         renderItem={({ item, index }) =>
                             <QuestionView
+                                style={styles.question}
                                 index={index + 1}
                                 questionId={item.uuid}
                                 text={item.text}
@@ -183,16 +203,17 @@ const FormScreen = props => {
                         keyExtractor={item => item.uuid}
                     />
                 </View>)
-        } else if (mode === 'single') {
+        } else if (mode === layout_single) {
             const currentQuestion = questions[pagingIndex]
             const canNavigatePrevious = pagingIndex > 0
             const canNavigateNext = (pagingIndex < (questions.length - 1))
 
-            const pageInfoText = { color: colorTheme.textPrimaryContrast }
+            const pageInfoTextStyle = { color: colorTheme.textPrimaryContrast }
 
             questionContent = (
                 <View style={styles.singleQuestionLayoutContainer}>
                     <QuestionView
+                        style={styles.question}
                         questionId={currentQuestion.uuid}
                         text={currentQuestion.text}
                         description={currentQuestion.description}
@@ -213,15 +234,15 @@ const FormScreen = props => {
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={pageInfoText}>
+                                    style={pageInfoTextStyle}>
                                     {Strings.form_paging_backwards}
                                 </ContentText>
                             </View>
                         </TouchableOpacity>
                         <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}>
-                            <ContentText weight="bold" style={pageInfoText}>{pagingIndex + 1}</ContentText>
-                            <ContentText small style={pageInfoText}> von </ContentText>
-                            <ContentText style={pageInfoText}>{questions.length}</ContentText>
+                            <ContentText weight="bold" style={pageInfoTextStyle}>{pagingIndex + 1}</ContentText>
+                            <ContentText small style={pageInfoTextStyle}> von </ContentText>
+                            <ContentText style={pageInfoTextStyle}>{questions.length}</ContentText>
                         </View>
                         <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={{ ...styles.pagingButtonNext, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
@@ -229,7 +250,7 @@ const FormScreen = props => {
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={pageInfoText}>
+                                    style={pageInfoTextStyle}>
                                     {Strings.form_paging_forwards}
                                 </ContentText>
                                 <Icon
@@ -247,9 +268,9 @@ const FormScreen = props => {
         contentView =
             <>
                 {questionContent}
-                <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>
+                <View style={mode === layout_single ? styles.optionsRowHalf : styles.optionsRow}>
                     <View style={styles.submitWrapper}>
-                        <IconButton icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler}  ></IconButton>
+                        <IconButton icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler} />
                     </View>
                 </View>
             </>
@@ -267,14 +288,16 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         maxWidth: 700, //Todo: better estimation
-        alignSelf: "center"
-    },
-    listContent: {
-        flexGrow: 1
+        alignSelf: 'center',
+        marginTop: 8,
     },
     singleQuestionLayoutContainer: {
         flex: 1,
         justifyContent: "space-between"
+    },
+    question: {
+        marginBottom: 8,
+        marginHorizontal: 4
     },
     questionPagingRow: {
         flexDirection: "row",
@@ -310,7 +333,6 @@ const styles = StyleSheet.create({
     optionsRow: {
         flexDirection: "row",
         padding: 4,
-        margin: 8,
         borderRadius: Layout.borderRadius
     },
     optionsRowHalf: {
@@ -322,7 +344,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 6
     },
     submitWrapper: {
-        flex: 1
+        flex: 1,
     }
 })
 

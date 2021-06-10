@@ -34,7 +34,7 @@ const validityToIcon = (validity) => {
 /**
  * Stores or deletes the persisted autofill input accordingly.
  */
-const persistInputAsync = async (questionId, s_input) =>{
+const persistInputAsync = async (questionId, s_input) => {
     if (s_input != null && s_input.trim() !== '') {
         await AsyncStorage.setItem(Keys.PREFILL_PREFIX + questionId, s_input)
     } else {
@@ -102,29 +102,29 @@ const QuestionView = props => {
             inputView = <StringInput input={input} textChanged={inputHandler} />
             break
         case "select":
-            inputView = <SelectInput input={input} options={validator.options}  selectionChanged={inputHandler} />
+            inputView = <SelectInput input={input} options={validator.options} selectionChanged={inputHandler} />
             break
     }
 
     //Construct the layout that wraps the input with container, number, status message and icon.
     return (
-        <View style={{ ...styles.question, backgroundColor: colorTheme.componentBackground }}>
+        <View style={{ ...styles.question, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <View style={{ ...styles.numberWrapper, borderColor: colorTheme.textPrimary, backgroundColor: colorTheme.background }}>
                 <Text style={{ ...styles.questionNumber, color: colorTheme.textPrimary }}>{props.index}</Text>
             </View>
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
-                    <HeadingText weight="normal" style={{ flex: 1 }}>{props.text}</HeadingText>
+                    <HeadingText weight="normal" style={styles.heading}>{props.text}</HeadingText>
                     {props.description && (
-                    <Icon
-                        style={{ ...styles.infoIcon, color: colorTheme.textPrimary }}
-                        onPress={questionInfoHandler}
-                        name="information-outline"
-                        size={24}
-                    />)}
+                        <Icon
+                            style={{ ...styles.infoIcon, color: colorTheme.textPrimary }}
+                            onPress={questionInfoHandler}
+                            name="information-outline"
+                            size={24}
+                        />)}
                 </View>
                 <View style={styles.errorRow}>
-                    <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary}/>
+                    <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary} />
                     <View style={styles.errorTextWrapper}>
                         <ContentText small error={validity === 'invalid'} light={validity === 'valid'}>{errorMessage}</ContentText>
                     </View>
@@ -138,8 +138,6 @@ const QuestionView = props => {
 const styles = StyleSheet.create({
     question: {
         flexDirection: "row",
-        marginHorizontal: 8,
-        marginVertical: 8,
         padding: 8,
         borderColor: Layout.borderColor,
         borderWidth: 1,
@@ -164,6 +162,9 @@ const styles = StyleSheet.create({
     questionRow: {
         flexDirection: "row",
         justifyContent: "space-between"
+    },
+    heading: {
+        flex: 1
     },
     infoIcon: {
         marginTop: 4
