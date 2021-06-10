@@ -169,7 +169,7 @@ const EventScreen = (props) => {
   }
 
   return (
-    <RootView style={styles.container}>
+    <RootView>
       {contentView}
     </RootView>
   );
@@ -371,9 +371,6 @@ const EventScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   heading: {
     marginTop: 8,
     marginHorizontal: 8
