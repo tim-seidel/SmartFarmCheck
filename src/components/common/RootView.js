@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { darkTheme, lightTheme } from '../../constants/Colors'
@@ -12,10 +12,18 @@ const RootView = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: colorTheme.background, ...props.style }}>
+        <SafeAreaView style={[props.thin ? styles.container : {}, { backgroundColor: colorTheme.background, flex: 1 }, props.style]}>
             {props.children}
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        maxWidth: 800,
+        alignSelf: 'center',
+        width: '100%',
+    }
+})
 
 export default RootView

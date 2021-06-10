@@ -213,7 +213,7 @@ const FormScreen = props => {
             questionContent = (
                 <View style={styles.singleQuestionLayoutContainer}>
                     <QuestionView
-                        style={styles.question}
+                        style={styles.questionSingle}
                         questionId={currentQuestion.uuid}
                         text={currentQuestion.text}
                         description={currentQuestion.description}
@@ -270,60 +270,61 @@ const FormScreen = props => {
                 {questionContent}
                 <View style={mode === layout_single ? styles.optionsRowHalf : styles.optionsRow}>
                     <View style={styles.submitWrapper}>
-                        <IconButton icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler} />
+                        <IconButton style={styles.calculateButton} icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler} />
                     </View>
                 </View>
             </>
     }
 
     return (
-        <RootView>
+        <RootView thin>
             {contentView}
         </RootView>
     )
 }
 
 const styles = StyleSheet.create({
-    listContainer: {
-        flex: 1,
-        width: "100%",
-        maxWidth: 700, //Todo: better estimation
-        alignSelf: 'center',
-        marginTop: 8,
-    },
     singleQuestionLayoutContainer: {
         flex: 1,
         justifyContent: "space-between"
     },
+    listContainer: {
+        marginVertical: 4,
+        flex: 1
+    },
     question: {
-        marginBottom: 8,
-        marginHorizontal: 4
+        margin: 4
+    },
+    questionSingle: {
+        marginTop: 8,
+        marginHorizontal: 4,
+        maxWidth: 700,
+        alignSelf: 'center'
     },
     questionPagingRow: {
         flexDirection: "row",
         paddingHorizontal: 4,
         paddingTop: 4,
-        marginHorizontal: 8,
-        borderTopLeftRadius: 6,
-        borderTopRightRadius: 6
+
     },
     pagingButtonBack: {
-        flex: 1,
         padding: 8,
+        paddingHorizontal: 16,
+        alignItems: 'center',
         borderTopLeftRadius: Layout.borderRadius,
         borderBottomLeftRadius: Layout.borderRadius,
     },
     pagingButtonNext: {
-        flex: 1,
         padding: 8,
+        paddingHorizontal: 16,
+        alignItems: 'center',
         borderTopRightRadius: Layout.borderRadius,
         borderBottomRightRadius: Layout.borderRadius,
     },
     pageInfo: {
         flex: 1,
         flexDirection: "row",
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        padding: 8,
         alignItems: "center",
         justifyContent: "center",
         borderColor: ConstantColors.white,
@@ -333,18 +334,18 @@ const styles = StyleSheet.create({
     optionsRow: {
         flexDirection: "row",
         padding: 4,
-        borderRadius: Layout.borderRadius
     },
     optionsRowHalf: {
         flexDirection: "row",
         padding: 4,
-        marginHorizontal: 8,
-        marginBottom: 8,
-        borderBottomLeftRadius: 6,
-        borderBottomRightRadius: 6
     },
     submitWrapper: {
         flex: 1,
+        marginBottom: 4
+    },
+    calculateButton: {
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0
     }
 })
 

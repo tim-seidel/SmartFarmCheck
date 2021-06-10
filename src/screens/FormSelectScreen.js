@@ -136,7 +136,7 @@ const FormSelectScreen = (props) => {
     }
 
     return (
-        <RootView>
+        <RootView thin>
             {contentView}
         </RootView>
     )

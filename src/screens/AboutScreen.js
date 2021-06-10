@@ -15,7 +15,7 @@ const onSponsorPressedHandler = (url) => {
 
 export default function AboutScreen({ navigation }) {
   return (
-    <RootView>
+    <RootView thin>
       <ScrollView style={styles.scroll} >
         <HeadingText large weight="bold" style={styles.title}>Gefördert durch:</HeadingText>
         <SponsorView style={styles.sponsor} name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logo_mkl_1024px_300ppi.png")} />
@@ -36,19 +36,14 @@ export default function AboutScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   scroll: {
-    marginBottom: 8
+    marginBottom: 8,
+    marginHorizontal: 8
   },
   title: {
     marginTop: 8,
-    width: '90%',
-    maxWidth: 700,
-    alignSelf: 'center'
   },
   sponsor: {
-    width: "90%",
-    maxWidth: 700,
     marginTop: 8,
-    alignSelf: 'center',
   },
   buttonRow: {
     flexDirection: 'row'
