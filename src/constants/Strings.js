@@ -21,7 +21,7 @@ const Strings = {
 
     screen_title_media_library: "Mediathek",
     screen_title_events: "Angebote",
-    screen_title_measure_list: "Maßnahmen",
+    screen_title_measure_list: "Check",
     screen_title_measure_detail: "Maßnahmeninformation",
     screen_title_form_list: "Fragebogenauswahl",
     screen_title_form: "Angaben zum Betrieb",

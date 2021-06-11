@@ -26,17 +26,19 @@ export default function HomeScreen({ navigation, route }) {
       headerTitle: getHeaderTitle(route),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-          <Item key="option-settings" iconName="cog" title={Strings.settings} onPress={() => navigation.navigate(SETTINGSSCREEN)} />
+          <Item
+            key="option-settings"
+            iconName="cog"
+            title={Strings.settings}
+            onPress={() => navigation.navigate(SETTINGSSCREEN)} />
         </HeaderButtons>
       )
     })
   }, [navigation, route])
 
-
-
   return (
     <BottomTab.Navigator
-      initialRouteName={EVENTSCREEN}
+      initialRouteName={MEASURESCREEN}
       tabBarOptions={{
         style: {
           backgroundColor: colorTheme.componentBackground
@@ -46,19 +48,19 @@ export default function HomeScreen({ navigation, route }) {
         labelStyle: { fontWeight: 'bold', paddingBottom: 2 }
       }}>
       <BottomTab.Screen
-        name={MEASURESCREEN}
-        component={MeasureScreen}
-        options={{
-          tabBarLabel: Strings.screen_title_measure_list,
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="book-open-outline" />,
-        }}
-      />
-      <BottomTab.Screen
         name={EVENTSCREEN}
         component={EventScreen}
         options={{
           tabBarLabel: Strings.screen_title_events,
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="calendar" />,
+        }}
+      />
+      <BottomTab.Screen
+        name={MEASURESCREEN}
+        component={MeasureScreen}
+        options={{
+          tabBarLabel: Strings.screen_title_measure_list,
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="book-open-outline" />,
         }}
       />
       <BottomTab.Screen
@@ -89,7 +91,7 @@ function getHeaderTitle(route) {
     case MEASURESCREEN:
       return Strings.screen_title_measure_list
     case EVENTSCREEN:
-      return Strings.app_title //Because it's the first / home screen
+      return Strings.screen_title_events //Because it's the first / home screen
     case MEDIALIBRARYSCREEN:
       return Strings.screen_title_media_library
     case CONTACTSCREEN:
