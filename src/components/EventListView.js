@@ -7,11 +7,11 @@ import * as Device from 'expo-device'
 import EventListViewItem from './EventListViewItem'
 
 function showDetailHandler(event) {
-    Linking.openURL(event.url)
+    Linking.openURL(event.link)
 }
 
 function showRegisterHandler(event) {
-    Linking.openURL(event.url)
+    Linking.openURL(event.link)
 }
 
 const isPortrait = () => {
