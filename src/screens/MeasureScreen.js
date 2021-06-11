@@ -3,19 +3,22 @@ import { StyleSheet, View, Platform, Dimensions, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 
 import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView';
 import MeasureListView from '../components/MeasureListView';
 import MeasureView from '../components/MeasureView';
 import IconButton from '../components/common/IconButton';
-import InformationCard, { InformationText } from "../components/common/InformationCard";
-import { HeadingText } from '../components/common/Text';
+import { ContentText, HeadingText } from '../components/common/Text';
+import { WrappedIconButton } from '../components/common/IconButton';
 
 import { fetchMeasures } from '../store/actions/measures';
 import Strings from '../constants/Strings';
-import Keys from '../constants/Keys';
 import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths';
+import Layout from '../constants/Layout';
+import { darkTheme, lightTheme } from '../constants/Colors';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -23,6 +26,8 @@ const isPortrait = () => {
 };
 
 const MeasureScreen = props => {
+  const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)
 
@@ -101,6 +106,28 @@ const MeasureScreen = props => {
     checkAndLoadMeasures()
   }
 
+  function gotoFormSelectHandler() {
+    props.navigation.navigate(FORMSELECTSCREEN)
+  }
+
+  const checkHeader =
+    <View component style={{ ...styles.competence, backgroundColor: colorTheme.componentBackground }}>
+      <View component style={styles.competenceColumn}>
+        <Icon name="lightbulb-on-outline" color={colorTheme.textPrimary} size={36} />
+        <View style={{ marginStart: 8, flex: 1 }}>
+          <HeadingText large weight="bold">Digitalisierungscheck</HeadingText>
+          <ContentText light>Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.</ContentText>
+        </View>
+      </View>
+      <View style={styles.calculateButtonWrapper}>
+        <IconButton type="solid" icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
+      </View>
+    </View>
+
+  const measureHeader = <View>
+    <HeadingText large weight="bold" style={styles.heading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
+  </View>
+
   var contentView = null
   if (errorCode !== 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + " (Fehlercode: " + errorCode + ")"} />
@@ -111,14 +138,6 @@ const MeasureScreen = props => {
   } else if (measures.length === 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty} />
   } else {
-    const informationHeader = <View>
-      <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_MEASURE_SCREEN} style={styles.informationCard}
-        title={Strings.measure_information_title}>
-        <InformationText>{Strings.measure_information_text} </InformationText>
-      </InformationCard>
-      <HeadingText large weight="bold" style={styles.heading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
-    </View>
-
     if (isTablet) {
       let measureContent = null;
       if (selectedMeasure) {
@@ -130,36 +149,31 @@ const MeasureScreen = props => {
       contentView =
         <View style={styles.mainColumn}>
           <View style={styles.splitViewRow}>
-            <MeasureListView
-              columns={1}
-              style={styles.measureListSplit}
-              measures={measures}
-              measureSelected={measureSelectedHandlerSplit}
-            >
-              {informationHeader}
-            </MeasureListView>
-            <View style={styles.measureViewSplit}>
+            <View columns={1} style={styles.masterColumn}>
+              {checkHeader}
+              <MeasureListView
+                measures={measures}
+                style={styles.measureList}
+                measureSelected={measureSelectedHandlerSplit}>
+                {measureHeader}
+              </MeasureListView>
+            </View>
+            <View style={styles.detailColumn}>
               {measureContent}
-              <View style={styles.calculateButtonWrapperSplit}>
-                <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
-              </View>
             </View>
           </View>
         </View>
     } else {
       contentView =
         <View style={styles.mainColumn}>
+          {checkHeader}
           <MeasureListView
             columns={orientation === 'landscape' ? 2 : 1}
-            style={styles.measureList}
             measures={measures}
             measureSelected={measureSelectedHandlerList}
           >
-            {informationHeader}
+            {measureHeader}
           </MeasureListView>
-          <View style={styles.calculateButtonWrapper}>
-            <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
-          </View>
         </View>
     }
   }
@@ -167,48 +181,44 @@ const MeasureScreen = props => {
   return (
     <RootView>
       {contentView}
-    </RootView>
+    </RootView >
   )
 }
 
 const styles = StyleSheet.create({
-  informationCard: {
-    marginVertical: 8
-  },
-  heading: {
-    marginTop: 8,
-    marginHorizontal: 8
-  },
-  calculateButtonWrapper: {
-    margin: 8
-  },
-  calculateButtonWrapperSplit: {
-    marginVertical: 8,
-    marginEnd: 8
-  },
-  calculateButton: {
-    justifyContent: "center"
-  },
-  splitViewRow: {
-    flex: 1,
-    flexDirection: 'row'
-  },
-  measureList: {
-    flex: 1,
-    marginHorizontal: 8
-  },
-  measureListSplit: {
-    flex: 1,
-    marginHorizontal: 8,
-    marginBottom: 8
-  },
-  measureViewSplit: {
-    flex: 2,
-  },
   mainColumn: {
     flex: 1,
-    flexDirection: 'column'
-  }
+    margin: 8
+  },
+  splitViewRow: {
+    flexDirection: 'row',
+    flex: 1
+  },
+  masterColumn: {
+    flex: 1,
+  },
+  detailColumn: {
+    flex: 2,
+  },
+  competence: {
+    padding: 8,
+    borderColor: Layout.borderColor,
+    borderWidth: Layout.borderWidth,
+    borderRadius: Layout.borderRadius
+  },
+  competenceColumn: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+  heading: {
+    marginTop: 8
+  },
+  measureList:{
+    marginTop: 8,
+  },
+  calculateButtonWrapper: {
+    marginTop: 8
+  },
 });
 
 export default MeasureScreen
