@@ -17,7 +17,7 @@ function MeasureListView(props) {
             data={props.measures}
             renderItem={({ item }) => (
                 <MeasureListItemView
-                    style={styles.measureColumn}
+                    style={styles.measure}
                     key={item.uuid}
                     title={item.name}
                     short={item.excerpt}
@@ -30,8 +30,7 @@ function MeasureListView(props) {
 }
 
 const styles = StyleSheet.create({
-    measureColumn: {
-        flex: 1,
+    measure: {
         marginTop: 8
     },
 })
