@@ -4,23 +4,20 @@ import { Picker } from "@react-native-picker/picker"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo';
 import { useSelector, useDispatch } from 'react-redux'
-import { ScrollView } from 'react-native-gesture-handler';
 import * as Calendar from 'expo-calendar'
 import moment from 'moment'
 
 import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView';
-import Competences from '../components/Competences';
-import Keys from '../constants/Keys';
-import InformationCard, { InformationText } from '../components/common/InformationCard';
+import EventListView from '../components/EventListView';
 import { HeadingText } from '../components/common/Text';
 import IconButton from '../components/common/IconButton';
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme } from '../constants/Colors';
 
 import { fetchEvents } from '../store/actions/events';
+import Keys from '../constants/Keys';
 import Strings from '../constants/Strings';
-import EventListView from '../components/EventListView';
+import { darkTheme, lightTheme } from '../constants/Colors';
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
@@ -101,17 +98,6 @@ const EventScreen = (props) => {
     return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
   });
 
-  const headerContent = (<View>
-    <InformationCard title={Strings.main_greeting_title} style={styles.welcomeCard}>
-      <InformationText>{Strings.main_greeting_content}</InformationText>
-    </InformationCard>
-    <HeadingText large weight="bold" style={styles.heading}>Unsere Kernkompentenzen:</HeadingText>
-    <Competences navigation={props.navigation} />
-    <HeadingText large weight="bold" style={styles.heading}>Kommende Veranstaltungen:</HeadingText>
-  </View>
-  )
-
-  let displayHeaderWithScroll = true
   if (errorCode !== 0) {
     contentView = <NoContentView
       icon="emoticon-sad-outline"
@@ -138,7 +124,6 @@ const EventScreen = (props) => {
       onRetry={retryHandler}
       title={Strings.event_loading_empty} />
   } else {
-    displayHeaderWithScroll = false
     contentView = (
       <>
         <Modal transparent visible={showCalendarModal}>
@@ -157,15 +142,8 @@ const EventScreen = (props) => {
             </View>
           </View>
         </Modal>
-        <EventListView style={styles.eventList} events={events} headerContent={headerContent} onExportToCalendarPress={(e) => exportToCalendarWithPermissionInformationHandler(e)} />
+        <EventListView style={styles.eventList} events={events} onExportToCalendarPress={(e) => exportToCalendarWithPermissionInformationHandler(e)} />
       </>)
-  }
-
-  if (displayHeaderWithScroll) {
-    contentView = <ScrollView>
-      {headerContent}
-      {contentView}
-    </ScrollView>
   }
 
   return (
