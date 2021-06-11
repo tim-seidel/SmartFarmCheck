@@ -213,7 +213,6 @@ const FormScreen = props => {
             questionContent = (
                 <View style={styles.singleQuestionLayoutContainer}>
                     <QuestionView
-                        style={styles.questionSingle}
                         questionId={currentQuestion.uuid}
                         text={currentQuestion.text}
                         description={currentQuestion.description}
@@ -223,8 +222,12 @@ const FormScreen = props => {
                         index={pagingIndex + 1}
                     />
                     <View style={styles.questionPagingRow}>
-                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={{ ...styles.pagingButtonBack, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            disabled={!canNavigatePrevious}
+                            onPress={() => { questionPagingHandler(false) }}
+                            style={{ ...styles.pagingButtonBackTouch, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
+                            <View style={styles.pagingButtonBack}>
                                 <Icon
                                     name="chevron-left"
                                     size={24}
@@ -244,8 +247,12 @@ const FormScreen = props => {
                             <ContentText small style={pageInfoTextStyle}> von </ContentText>
                             <ContentText style={pageInfoTextStyle}>{questions.length}</ContentText>
                         </View>
-                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={{ ...styles.pagingButtonNext, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+                        <TouchableOpacity
+                            disabled={!canNavigateNext}
+                            activeOpacity={0.7}
+                            onPress={() => { questionPagingHandler(true) }}
+                            style={{ ...styles.pagingButtonNextTouch, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
+                            <View style={styles.pagingButtonNext}>
                                 <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
@@ -268,10 +275,11 @@ const FormScreen = props => {
         contentView =
             <>
                 {questionContent}
-                <View style={mode === layout_single ? styles.optionsRowHalf : styles.optionsRow}>
-                    <View style={styles.submitWrapper}>
-                        <IconButton style={styles.calculateButton} icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler} />
-                    </View>
+                <View style={styles.submitButton}>
+                    <IconButton
+                        icon="chart-areaspline"
+                        text={Strings.form_calculate}
+                        onPress={calculateHandler} />
                 </View>
             </>
     }
@@ -286,40 +294,45 @@ const FormScreen = props => {
 const styles = StyleSheet.create({
     singleQuestionLayoutContainer: {
         flex: 1,
+        marginTop: 8,
+        marginHorizontal: 8,
         justifyContent: "space-between"
     },
     listContainer: {
-        marginVertical: 4,
-        flex: 1
+        flex: 1,
+        margin: 8,
+        marginTop: 4
     },
     question: {
-        margin: 4
-    },
-    questionSingle: {
-        marginTop: 8,
-        marginHorizontal: 4,
-        maxWidth: 700,
-        alignSelf: 'center'
+        marginVertical: 4
     },
     questionPagingRow: {
         flexDirection: "row",
-        paddingHorizontal: 4,
-        paddingTop: 4,
-
+        marginBottom: 2
     },
-    pagingButtonBack: {
+    pagingButtonBackTouch: {
         padding: 8,
         paddingHorizontal: 16,
         alignItems: 'center',
         borderTopLeftRadius: Layout.borderRadius,
         borderBottomLeftRadius: Layout.borderRadius,
     },
-    pagingButtonNext: {
+    pagingButtonBack: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start"
+    },
+    pagingButtonNextTouch: {
         padding: 8,
         paddingHorizontal: 16,
         alignItems: 'center',
         borderTopRightRadius: Layout.borderRadius,
         borderBottomRightRadius: Layout.borderRadius,
+    },
+    pagingButtonNext: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end"
     },
     pageInfo: {
         flex: 1,
@@ -331,21 +344,9 @@ const styles = StyleSheet.create({
         borderLeftWidth: Layout.borderWidth,
         borderRightWidth: Layout.borderWidth,
     },
-    optionsRow: {
-        flexDirection: "row",
-        padding: 4,
-    },
-    optionsRowHalf: {
-        flexDirection: "row",
-        padding: 4,
-    },
-    submitWrapper: {
-        flex: 1,
-        marginBottom: 4
-    },
-    calculateButton: {
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0
+    submitButton: {
+        marginHorizontal: 8,
+        marginBottom: 8
     }
 })
 
