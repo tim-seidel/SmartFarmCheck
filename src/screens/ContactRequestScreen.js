@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Alert, StyleSheet, TextInput, View } from 'react-native'
+import { Alert, KeyboardAvoidingView, StyleSheet, TextInput, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -30,12 +30,11 @@ const ContactRequestScreen = (props) => {
     const [errorCode, setErrorCode] = useState(0)
 
     const [email, setEmail] = useState("")
-    const [emailValidity, setEmailValidity] = useState("valid")
+    const [emailValidity, setEmailValidity] = useState("empty")
     //const [privacyConsent, setPrivacyConsent] = useState(false)
     const contactRequest = useSelector(state => state.evaluation.contactRequest)
 
     const checkAndLoadContactRequest = useCallback(async () => {
-        console.log(answers)
         if (answers.length === 0) {
             Alert.alert(
                 Strings.contact_request_dialog_empty_title,
@@ -62,7 +61,7 @@ const ContactRequestScreen = (props) => {
         } else {
             setHasNoNetwork(true)
         }
-    }, [dispatch])
+    }, [dispatch, email, emailValidity])
 
     function retryHandler() {
         setErrorCode(0)
@@ -70,11 +69,10 @@ const ContactRequestScreen = (props) => {
         checkAndLoadContactRequest()
     }
 
-    function emailHandler(mail) {
-        mail = mail.trim()
-        const isValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/.test(mail)
-        setEmail(mail)
-        setEmailValidity(mail ? (isValid ? 'valid' : 'invalid') : 'empty')
+    function emailHandler(input) {
+        const isValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/.test(input)
+        setEmail(input)
+        setEmailValidity(input ? (isValid ? 'valid' : 'invalid') : 'empty')
     }
 
     function successHandler() {
@@ -89,6 +87,7 @@ const ContactRequestScreen = (props) => {
     if (errorCode !== 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.contact_request_loading_error + " (Fehlercode: " + errorCode + ")"} />
     } else if (isLoading) {
+        console.log("IsLoading...")
         contentView = <NoContentView icon="cloud-download" loading title={Strings.contact_request_loading} />
     } else if (hasNoNetwork && !contactRequest) {
         contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.contact_request_loading_no_network} />
@@ -96,7 +95,9 @@ const ContactRequestScreen = (props) => {
         contentView = <NoContentView icon="check" onRetry={successHandler} retryTitle={Strings.back} title={Strings.contact_request_success} />
     }
 
-    const emailText = emailValidity === 'empty' ? "Bitte eine E-Mail eingeben." : (emailValidity === 'invalid' ? "Bitte eine gültige E-Mail eingeben." : "")
+    let emailText = "Bitte eine E-Mail eingeben"
+    if (emailValidity === 'invalid') emailText = "Bitte eine gültige E-Mail eingeben."
+    if (emailValidity === 'valid') emailText = "Die E-Mail ist gültig. Sie können absenden!"
 
     if (contentView) {
         return <RootView>
@@ -105,8 +106,8 @@ const ContactRequestScreen = (props) => {
     }
     else {
         return (
-            <RootView style={{ flex: 1, flexDirection: 'column' }}>
-                <View style={{ flex: 1 }}>
+            <RootView>
+                <View style={styles.informationWrapper}>
                     <ScrollView style={styles.scroll}>
                         <InformationCard icon="numeric-1-circle-outline" style={styles.card} title="So funktioniert's:" toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_HELP_SCREEN} >
                             <InformationText>Sollten beim Beantworten des Fragebogens Fragen aufkommen oder die Ergebnisse der Bewertung unklar bleiben, zögern Sie nicht uns zu kontaktieren!</InformationText>
@@ -120,35 +121,38 @@ const ContactRequestScreen = (props) => {
                         </InformationCard>
                     </ScrollView>
                 </View>
-
-                <View style={styles.contentWrapper}>
-                    <Separator style={styles.actionsSeperator} />
-                    <View style={styles.row}>
-                        <View style={styles.fieldname}>
-                            <ContentText large>E-Mail</ContentText>
-                        </View>
-                        <Separator orientation="vertical" style={styles.inputSeperator} />
-                        <View style={styles.inputColumn}>
-                            {emailValidity !== 'valid' && <ContentText style={styles.emailStatus} small error={emailValidity === 'invalie'}>{emailText}</ContentText>}
-                            {emailValidity !== 'valid' && <Separator />}
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset="64">
+                    <View style={styles.emailWrapper}>
+                        <Separator style={styles.separator} />
+                        <ContentText
+                            style={styles.emailStatus}
+                            small
+                            error={emailValidity === 'invalid'}
+                            light={emailText !== 'invalid'}>
+                            {emailText}
+                        </ContentText>
+                        <View style={styles.inputRow}>
                             <TextInput
-                                style={styles.email}
+                                textContentType="emailAddress"
+                                keyboardType="email-address"
                                 placeholder="kontakt@e.mail"
                                 placeholderTextColor={colorTheme.textHint}
                                 value={email}
                                 onChangeText={emailHandler}
                                 style={{
-                                    ...styles.email,
+                                    ...styles.emailInput,
                                     color: colorTheme.textPrimary,
-                                    backgroundColor: colorTheme.background
+                                    backgroundColor: colorTheme.background,
+                                    flex: 1
                                 }} />
+                            <IconButton
+                                disabled={emailValidity !== 'valid'}
+                                icon="email-send-outline"
+                                text="Senden"
+                                onPress={checkAndLoadContactRequest} />
                         </View>
                     </View>
-
-                    <View style={styles.sendButtonWrapper}>
-                        <IconButton disabled={emailValidity !== 'valid'} icon="send" text="Jetzt Kontakt aufnehmen!" onPress={checkAndLoadContactRequest} />
-                    </View>
-                </View>
+                </KeyboardAvoidingView>
             </RootView>
         )
     }
@@ -156,46 +160,37 @@ const ContactRequestScreen = (props) => {
 
 const styles = StyleSheet.create({
     scroll: {
-        marginHorizontal: 8,
+        marginHorizontal: 8
+    },
+    informationWrapper: {
+        flex: 1
     },
     card: {
         marginTop: 8
     },
     contentWrapper: {
-        margin: 8,
+        margin: 8
     },
-    sendButtonWrapper: {
+    separator: {
+        marginVertical: 8
+    },
+    emailWrapper: {
+        paddingHorizontal: 8,
+        paddingVertical: 12,
+        fontSize: 16
+    },
+    inputRow: {
+        flexDirection: 'row',
         marginTop: 8
     },
-    actionsSeperator: {
-        marginVertical: 8,
-    },
-    inputSeperator: {
-        marginStart: 8,
-    },
-    row: {
-        flexDirection: 'row',
+    emailInput: {
+        paddingHorizontal: 8,
         borderRadius: Layout.borderRadius,
         borderWidth: Layout.borderWidth,
         borderColor: Layout.borderColor,
+        marginEnd: 8
     },
-    inputColumn: {
-        flex: 1,
-        flexDirection: 'column'
-    },
-    fieldname: {
-        justifyContent: 'center',
-        marginStart: 8
-    },
-    emailStatus: {
-        paddingHorizontal: 8,
-        paddingVertical: 4
-    },
-    email: {
-        paddingHorizontal: 8,
-        paddingVertical: 8,
-        fontSize: 16,
-    }
+
 })
 
 export default ContactRequestScreen
