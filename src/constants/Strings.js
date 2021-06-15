@@ -13,9 +13,6 @@ const Strings = {
     mail: "mittelstand40@hs-osnabrueck.de",
     phone: "0541-969-5017",
 
-    main_greeting_title: "Herzlich Willkommen",
-    main_greeting_content: "...in der Smartfarmcheck-App! Hier finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb.",
-
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
 
