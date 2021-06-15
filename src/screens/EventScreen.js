@@ -134,15 +134,26 @@ const EventScreen = (props) => {
             </Picker>
             <View style={{ flexDirection: 'row', marginTop: 8 }}>
               <View style={{ flex: 1, marginEnd: 2 }} >
-                <IconButton success icon="check" text="Speichern" onPress={saveDefaultCalendarHandler} />
+                <IconButton success
+                  icon="check"
+                  text="Speichern"
+                  onPress={saveDefaultCalendarHandler} />
               </View>
               <View style={{ flex: 1, marginStart: 2 }} >
-                <IconButton error icon="close" text="Abbrechen" onPress={() => setShowCalendarModal(false)} />
+                <IconButton
+                  error
+                  icon="close"
+                  text={Strings.cancel}
+                  onPress={() => setShowCalendarModal(false)} />
               </View>
             </View>
           </View>
         </Modal>
-        <EventListView style={styles.eventList} events={events} onExportToCalendarPress={(e) => exportToCalendarWithPermissionInformationHandler(e)} />
+        <EventListView
+          style={styles.eventList}
+          listHeaderCompenent={<HeadingText large weight="bold" style={styles.heading}>{Strings.event_list_heading}</HeadingText>}
+          events={events}
+          onExportToCalendarPress={(e) => exportToCalendarWithPermissionInformationHandler(e)} />
       </>)
   }
 
@@ -351,7 +362,8 @@ const EventScreen = (props) => {
 const styles = StyleSheet.create({
   heading: {
     marginTop: 8,
-    marginHorizontal: 8
+    marginEnd: 8,
+    marginStart: 10
   },
   modalView: {
     margin: 24,
@@ -360,15 +372,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     elevation: 5
   },
-  welcomeCard: {
-    marginHorizontal: 8,
-    marginTop: 8
-  },
-  equalHeightInRow: {
-    flex: 1
-  },
   eventList: {
-    marginBottom: 8
+    marginBottom: 8,
+    marginHorizontal: 4
   },
   noContent: {
     margin: 8

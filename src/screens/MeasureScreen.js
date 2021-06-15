@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Platform, Dimensions, Linking } from 'react-native';
+import { StyleSheet, View, Platform, Dimensions, Linking, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
@@ -113,19 +113,20 @@ const MeasureScreen = props => {
   const checkHeader =
     <View component style={{ ...styles.competence, backgroundColor: colorTheme.componentBackground }}>
       <View component style={styles.competenceColumn}>
-        <Icon name="lightbulb-on-outline" color={colorTheme.textPrimary} size={36} />
-        <View style={{ marginStart: 8, flex: 1 }}>
-          <HeadingText large weight="bold">Digitalisierungscheck</HeadingText>
-          <ContentText light>Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.</ContentText>
+        <Icon name="tractor-variant" color={colorTheme.textPrimary} size={36} />
+        <View style={styles.checkHeading}>
+          <HeadingText large weight="bold">Unser Digitalisierungscheck</HeadingText>
         </View>
       </View>
+      <Image source={require("../../assets/images/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} resizeMode="contain" />
+      <ContentText light>Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.</ContentText>
       <View style={styles.calculateButtonWrapper}>
-        <IconButton type="solid" icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
+        <IconButton type="solid" icon="format-list-checks" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
       </View>
     </View>
 
   const measureHeader = <View>
-    <HeadingText large weight="bold" style={styles.heading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
+    <HeadingText large weight="bold" style={styles.listHeading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
   </View>
 
   var contentView = null
@@ -208,16 +209,28 @@ const styles = StyleSheet.create({
   },
   competenceColumn: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
   },
-  heading: {
-    marginTop: 8
+  listHeading: {
+    marginTop: 8,
+    marginStart: 2
   },
-  measureList:{
+  checkHeading: {
+    marginStart: 8,
+    flex: 1
+  },
+  measureList: {
     marginTop: 8,
   },
   calculateButtonWrapper: {
     marginTop: 8
+  },
+  defaultImage: {
+    width: "100%",
+    height: 120,
+    alignSelf: 'center',
+    resizeMode: "contain",
+    backgroundColor: "white",
   },
 });
 
