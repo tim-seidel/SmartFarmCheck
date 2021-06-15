@@ -99,6 +99,7 @@ const MediaLibraryScreen = (props) => {
                         <InformationCard
                             toggleInformationEnabled
                             toggleStoreKey={Keys.INFORMATION_TOGGLE_MEDIALIBRARY_SCREEN}
+                            initialValue={true}
                             title={Strings.medialibrary_card_title}
                             style={styles.card}
                         >
