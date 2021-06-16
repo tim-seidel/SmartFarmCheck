@@ -23,7 +23,7 @@ const RootView = (props) => {
 const styles = StyleSheet.create({
     thin: {
         flex: 1,
-        maxWidth: 800,
+        maxWidth: 850,
         alignSelf: 'center',
         width: '100%',
     }
