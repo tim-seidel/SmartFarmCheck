@@ -43,7 +43,7 @@ const ContactScreen = (props) => {
     const contentAboutApp = <WrappedIconButton style={styles.button} icon="information-outline" text={Strings.contact_information_action} onPress={aboutAppHandler} />
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
-        <RootView>
+        <RootView thin>
             <ScrollView style={styles.scroll}>
                 <View style={styles.contactGrid}>
                     <View style={cardStyle}>
