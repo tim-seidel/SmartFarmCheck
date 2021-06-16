@@ -110,24 +110,23 @@ const MeasureScreen = props => {
     props.navigation.navigate(FORMSELECTSCREEN)
   }
 
-  const checkHeader =
-    <View component style={{ ...styles.competence, backgroundColor: colorTheme.componentBackground }}>
-      <View component style={styles.competenceColumn}>
-        <Icon name="tractor-variant" color={colorTheme.textPrimary} size={36} />
-        <View style={styles.checkHeading}>
-          <HeadingText large weight="bold">Unser Digitalisierungscheck</HeadingText>
+  const contentHeader =
+    <View>
+      <View component style={{ ...styles.competence, backgroundColor: colorTheme.componentBackground }}>
+        <View component style={styles.competenceColumn}>
+          <Icon name="tractor-variant" color={colorTheme.textPrimary} size={36} />
+          <View style={styles.checkHeading}>
+            <HeadingText large weight="bold">Unser Digitalisierungscheck</HeadingText>
+          </View>
+        </View>
+        <Image source={require("../../assets/images/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} resizeMode="contain" />
+        <ContentText light>Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.</ContentText>
+        <View style={styles.calculateButtonWrapper}>
+          <IconButton type="solid" icon="format-list-checks" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
         </View>
       </View>
-      <Image source={require("../../assets/images/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} resizeMode="contain" />
-      <ContentText light>Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.</ContentText>
-      <View style={styles.calculateButtonWrapper}>
-        <IconButton type="solid" icon="format-list-checks" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
-      </View>
+      <HeadingText large weight="bold" style={styles.listHeading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
     </View>
-
-  const measureHeader = <View>
-    <HeadingText large weight="bold" style={styles.listHeading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
-  </View>
 
   var contentView = null
   if (errorCode !== 0) {
@@ -150,14 +149,11 @@ const MeasureScreen = props => {
       contentView =
         <View style={styles.mainColumn}>
           <View style={styles.splitViewRow}>
-            <View columns={1} style={styles.masterColumn}>
-              {checkHeader}
+            <View style={styles.masterColumn}>
               <MeasureListView
+                header={contentHeader}
                 measures={measures}
-                style={styles.measureList}
-                measureSelected={measureSelectedHandlerSplit}>
-                {measureHeader}
-              </MeasureListView>
+                measureSelected={measureSelectedHandlerSplit} />
             </View>
             <View style={styles.detailColumn}>
               {measureContent}
@@ -167,14 +163,12 @@ const MeasureScreen = props => {
     } else {
       contentView =
         <View style={styles.mainColumn}>
-          {checkHeader}
           <MeasureListView
             columns={orientation === 'landscape' ? 2 : 1}
+            header={contentHeader}
             measures={measures}
             measureSelected={measureSelectedHandlerList}
-          >
-            {measureHeader}
-          </MeasureListView>
+          />
         </View>
     }
   }
@@ -218,9 +212,6 @@ const styles = StyleSheet.create({
   checkHeading: {
     marginStart: 8,
     flex: 1
-  },
-  measureList: {
-    marginTop: 8,
   },
   calculateButtonWrapper: {
     marginTop: 8
