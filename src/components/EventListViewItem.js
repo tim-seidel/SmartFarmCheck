@@ -1,15 +1,15 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import moment from 'moment'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import moment from 'moment'
 
+import View from './common/View'
 import IconButton from './common/IconButton'
 import { HeadingText, ContentText } from './common/Text'
 
 import Layout from '../constants/Layout'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { darkTheme, lightTheme } from '../constants/Colors'
-import View from './common/View'
 
 const EventListViewItem = (props) => {
     const event = props.event
