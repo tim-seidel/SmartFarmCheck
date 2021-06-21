@@ -29,7 +29,7 @@ const MediaLibraryListViewItem = (props) => {
                     {
                         props.thumbnail ?
                             <Image source={{ uri: props.thumbnail }} style={styles.image} /> :
-                            <Image source={require("../../assets/images/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} resizeMode="contain" />
+                            <Image source={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} resizeMode="contain" />
                     }
                 </View>
                 <View style={styles.action}>

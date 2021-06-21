@@ -18,7 +18,7 @@ const FormSelectListItemView = (props) => {
                     {
                         props.icon ?
                             <Image source={{ uri: props.icon }} style={styles.image} /> :
-                            <Image source={require("../../assets/images/ic_launcher.png")} style={styles.image} resizeMode="contain" />
+                            <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
                     }
                     <View style={styles.content}>
                         <HeadingText weight="bold">{props.title}</HeadingText>
