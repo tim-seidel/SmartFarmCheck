@@ -60,7 +60,7 @@ export default function HomeScreen({ navigation, route }) {
         component={MeasureScreen}
         options={{
           tabBarLabel: Strings.screen_title_measure_list,
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="book-open-outline" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="text-box-search-outline" />,
         }}
       />
       <BottomTab.Screen
