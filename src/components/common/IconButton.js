@@ -41,7 +41,7 @@ const IconButton = (props) => {
             disabled={disabled ?? false}
             color={type === 'solid' ? colorTheme.textPrimaryContrast : colorTheme.primary}
             backgroundColor={backgroundColor}
-            underlayColor={Platform.OS == 'ios' ? colorTheme.componentBackground : colorTheme.accent}
+            underlayColor={colorTheme.componentPressed}
             onPress={props.onPress}>
             <ContentText
                 numberOfLines={1}
