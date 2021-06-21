@@ -60,7 +60,7 @@ const IconButton = (props) => {
  */
 export const WrappedIconButton = (props) => {
     return (<View style={[styles.wrapper, props.style]}>
-        <IconButton type={Platform.OS === 'ios' ? 'light' : 'solid'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
+        <IconButton type={Platform.OS === 'ios' ? 'light' : 'light'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
     </View>)
 }
 
@@ -76,7 +76,7 @@ IconButton.propTypes = {
 IconButton.defaultProps = {
     type: Platform.select({
         ios: "light",
-        android: "solid",
+        android: "light",
         default: "solid"
     }),
     disabled: false,
