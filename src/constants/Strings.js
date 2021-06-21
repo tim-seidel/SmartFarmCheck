@@ -9,6 +9,7 @@ const Strings = {
     reset: "Zurücksetzen",
     back: "Zurück",
     settings: "Einstellungen",
+    save: "Speichern",
 
     mail: "mittelstand40@hs-osnabrueck.de",
     phone: "0541-969-5017",
@@ -106,17 +107,21 @@ const Strings = {
     event_loading_error: "Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     event_loading_empty: "Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Aktuell stehen keine Veranstaltungen an.",
     event_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Veranstaltungen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
-
+    event_nothing_fitting_title: "Keine passende Veranstaltung für Sie dabei?",
+    event_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren.",
+    event_nothing_fitting_goto_contact: "Zum Kontakt",
     event_already_in_calendar_title: "Veranstaltung bereits eingetragen",
     event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
 
     calendar_create_new: "[Neuen Kalender erstellen]",
+    calendar_select_default: "Standardkalender auswählen",
     permission_calendar: "Kalenderberechtigung",
     permission_calendar_denied: "Fehlende Kalenderberechtigung",
     permission_calendar_information_before: "Nachfolgend wird die Systemberechtigung zum Bearbeiten der Kalender abgefragt. Diese wird benötigt, um automatisch Termine in Ihren Kalender einzutragen.",
     permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine automatisch in Ihren Kalender eintragen dürfen. Sie können diese manuell in den Systemeinstellungen erteilen.",
     permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alternativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
     permission_calendar_information_after_denied_permanent: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Wenn Sie sich dennoch umentscheiden können Sie die Berechtigung in den Berechtigungseinstellung Ihres System ändern.",
+
     settings_appearance_title: "Helles/dunkels Design",
     settings_appearance_description: "Das Design der App passt sich automatisch den eingestellten Präferenzen Ihres Gerätes an.",
     settings_reset_form_title: "Formulare zurücksetzen",

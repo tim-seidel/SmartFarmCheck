@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Platform, Alert, Modal } from 'react-native';
+import { StyleSheet, Platform, Alert, Modal } from 'react-native';
 import { Picker } from "@react-native-picker/picker"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo';
@@ -10,14 +10,18 @@ import moment from 'moment'
 import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView';
 import EventListView from '../components/EventListView';
-import { HeadingText } from '../components/common/Text';
+import { ContentText, HeadingText } from '../components/common/Text';
 import IconButton from '../components/common/IconButton';
+import View from '../components/common/View'
+import Separator from '../components/common/Separator'
 
 import { fetchEvents } from '../store/actions/events';
 import Keys from '../constants/Keys';
 import Strings from '../constants/Strings';
 import { darkTheme, lightTheme } from '../constants/Colors';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import Layout from '../constants/Layout';
+import { CONTACTSCREEN } from '../constants/Paths';
 
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 
@@ -95,8 +99,18 @@ const EventScreen = (props) => {
 
   let contentView = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
-    return <Picker.Item value={opt} key={index} label={opt.name}></Picker.Item>
+    return <Picker.Item value={opt} key={index} label={opt.name} />
   });
+
+  const nothingFittingFoundContent =
+    <View component style={styles.nothingFittingEvent}>
+      <HeadingText weight="bold">{Strings.event_nothing_fitting_title}</HeadingText>
+      <ContentText style={styles.nothingFittingButton}>{Strings.event_nothing_fitting_content}</ContentText>
+      <IconButton
+        text={Strings.event_nothing_fitting_goto_contact}
+        icon="card-account-mail-outline"
+        onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
+    </View>
 
   if (errorCode !== 0) {
     contentView = <NoContentView
@@ -128,18 +142,19 @@ const EventScreen = (props) => {
       <>
         <Modal transparent visible={showCalendarModal}>
           <View style={{ ...styles.modalView, backgroundColor: colorTheme.componentBackground }}>
-            <HeadingText weight="bold">Standardkalender auswählen</HeadingText>
+            <HeadingText weight="bold">{Strings.calendar_select_default}</HeadingText>
             <Picker selectedValue={selectedCalendarOption} onValueChange={calendarOptionChangeHandler}>
               {calendarOptionsContent}
             </Picker>
-            <View style={{ flexDirection: 'row', marginTop: 8 }}>
-              <View style={{ flex: 1, marginEnd: 2 }} >
-                <IconButton success
+            <View style={styles.calendarModalButtonRow}>
+              <View style={styles.leftModalButton} >
+                <IconButton
+                  success
                   icon="check"
-                  text="Speichern"
+                  text={Strings.save}
                   onPress={saveDefaultCalendarHandler} />
               </View>
-              <View style={{ flex: 1, marginStart: 2 }} >
+              <View style={styles.rightModalButton} >
                 <IconButton
                   error
                   icon="close"
@@ -151,7 +166,8 @@ const EventScreen = (props) => {
         </Modal>
         <EventListView
           style={styles.eventList}
-          listHeaderCompenent={<HeadingText large weight="bold" style={styles.heading}>{Strings.event_list_heading}</HeadingText>}
+          listHeaderComponent={<HeadingText large weight="bold" style={styles.heading}>{Strings.event_list_heading}</HeadingText>}
+          listFooterComponent={nothingFittingFoundContent}
           events={events}
           onExportToCalendarPress={(e) => exportToCalendarWithPermissionInformationHandler(e)} />
       </>)
@@ -360,10 +376,20 @@ const EventScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
+  nothingFittingEvent: {
+    padding: 8,
+    marginHorizontal: 4,
+    marginTop: 8,
+    borderColor: Layout.borderColor,
+    borderWidth: Layout.borderWidth,
+    borderRadius: Layout.borderRadius
+  },
+  nothingFittingButton: {
+    marginVertical: 8
+  },
   heading: {
     marginTop: 8,
-    marginEnd: 8,
-    marginStart: 10
+    marginHorizontal: 8
   },
   modalView: {
     margin: 24,
@@ -371,6 +397,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     elevation: 5
+  },
+  calendarModalButtonRow: {
+    flexDirection: 'row',
+    marginTop: 8
+  },
+  leftModalButton: {
+    flex: 1,
+    marginEnd: 4
+  },
+  rightModalButton: {
+    flex: 1,
+    marginStart: 4
   },
   eventList: {
     marginBottom: 8,

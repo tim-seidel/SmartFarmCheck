@@ -44,7 +44,8 @@ const EventListView = (props) => {
             style={props.style}
             nestedScrollEnabled
             data={props.events}
-            ListHeaderComponent={props.listHeaderCompenent}
+            ListHeaderComponent={props.listHeaderComponent}
+            ListFooterComponent={props.listFooterComponent}
             key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
             numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
             renderItem={({ item }) => (
