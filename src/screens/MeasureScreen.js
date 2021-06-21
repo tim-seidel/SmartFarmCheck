@@ -12,13 +12,14 @@ import MeasureListView from '../components/MeasureListView';
 import MeasureView from '../components/MeasureView';
 import IconButton from '../components/common/IconButton';
 import { ContentText, HeadingText } from '../components/common/Text';
-import { WrappedIconButton } from '../components/common/IconButton';
 
 import { fetchMeasures } from '../store/actions/measures';
 import Strings from '../constants/Strings';
 import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths';
 import Layout from '../constants/Layout';
 import { darkTheme, lightTheme } from '../constants/Colors';
+
+const IMAGE_UPATE_TIME = 15
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -37,7 +38,48 @@ const MeasureScreen = props => {
 
   const dispatch = useDispatch()
   const measures = useSelector(state => state.measures.measures)
+  const [isRotationEnabled, setRotationEnabled] = useState(false)
   const [selectedMeasure, setSelectedMeasure] = useState(undefined)
+
+  const images = [
+    require("../../assets/images/digi/img_carousel_03.jpg"),
+    require("../../assets/images/digi/img_carousel_05.jpg"),
+    require("../../assets/images/digi/img_carousel_06.jpg")
+  ]
+  const [imageRotationIndex, setImageRotationIndex] = useState(0)
+  const navigation = props.navigation
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setRotationEnabled(true)
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setRotationEnabled(false)
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    if (!isRotationEnabled) return
+    let timeout = undefined
+    try {
+      timeout = setTimeout(() => {
+        setImageRotationIndex((imageRotationIndex + 1) % images.length)
+      }, IMAGE_UPATE_TIME * 1000)
+
+    } catch (e) {
+      console.log("Error starting timeout", e)
+    }
+    return () => {
+      if (timeout) clearTimeout(timeout)
+    }
+  }, [imageRotationIndex, isRotationEnabled])
 
   useEffect(() => {
     const callback = ({ screen }) => {
@@ -116,16 +158,21 @@ const MeasureScreen = props => {
         <View component style={styles.competenceColumn}>
           <Icon name="tractor-variant" color={colorTheme.textPrimary} size={36} />
           <View style={styles.checkHeading}>
-            <HeadingText large weight="bold">Unser Digitalisierungscheck</HeadingText>
+            <HeadingText large weight="bold">{Strings.digicheck_title}</HeadingText>
           </View>
         </View>
-        <Image source={require("../../assets/images/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} resizeMode="contain" />
-        <ContentText light>Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.</ContentText>
+        <Image source={images[imageRotationIndex]} style={styles.digiImage} />
+        <ContentText light>{Strings.digicheck_content}</ContentText>
         <View style={styles.calculateButtonWrapper}>
-          <IconButton type="solid" icon="format-list-checks" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
+          <IconButton
+            type="solid"
+            icon="format-list-checks"
+            text={Strings.measure_navigate_evaluation}
+            align="center"
+            onPress={gotoFormSelectHandler} />
         </View>
       </View>
-      <HeadingText large weight="bold" style={styles.listHeading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
+      <HeadingText large weight="bold" style={styles.listHeading}>{Strings.measure_all_measures_title}</HeadingText>
     </View>
 
   var contentView = null
@@ -216,11 +263,11 @@ const styles = StyleSheet.create({
   calculateButtonWrapper: {
     marginTop: 8
   },
-  defaultImage: {
+  digiImage: {
     width: "100%",
-    height: 120,
+    height: 200,
+    marginVertical: 4,
     alignSelf: 'center',
-    resizeMode: "contain",
     backgroundColor: "white",
   },
 });

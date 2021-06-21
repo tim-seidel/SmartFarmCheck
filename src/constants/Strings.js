@@ -39,6 +39,10 @@ const Strings = {
     information_card_default_title: "Zu Ihrer Information",
     information_card_advice_expand: "Ausklappen für weitere Informationen.",
 
+    digicheck_title: "Unser Digitalisierungscheck",
+    digicheck_content: "Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.",
+
+    measure_all_measures_title: "Alle Digitalisierungsmaßnahmen:",
     measure_information_title: "Über die Maßnahmen",
     measure_information_text: "Hier sehen Sie verschiedene Maßnahmen zur Digitalisierung, die sich für mittelständische Landwirtschaftsbetriebe eignen. Gerne können Sie sich über unser Formular persönliche Empfehlungen berechnen lassen oder uns jederzeit kontaktieren.",
     measure_loading: "Laden der aktuellsten Maßnahmen...",
