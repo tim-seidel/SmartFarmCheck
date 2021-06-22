@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Platform, Dimensions, Linking, Image } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
@@ -175,6 +176,8 @@ const MeasureScreen = props => {
       <HeadingText large weight="bold" style={styles.listHeading}>{Strings.measure_all_measures_title}</HeadingText>
     </View>
 
+  let isDisplayingMeasures = false
+
   var contentView = null
   if (errorCode !== 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + " (Fehlercode: " + errorCode + ")"} />
@@ -185,6 +188,7 @@ const MeasureScreen = props => {
   } else if (measures.length === 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty} />
   } else {
+    isDisplayingMeasures = true
     if (isTablet) {
       let measureContent = null;
       if (selectedMeasure) {
@@ -220,17 +224,29 @@ const MeasureScreen = props => {
     }
   }
 
-  return (
-    <RootView>
+  if (!isDisplayingMeasures) {
+    return <RootView style={styles.noContent}>
+      <ScrollView>
+        {contentHeader}
+        {contentView}
+      </ScrollView>
+    </RootView>
+  } else {
+    return <RootView>
       {contentView}
-    </RootView >
-  )
+    </RootView>
+  }
 }
 
 const styles = StyleSheet.create({
+  noContent: {
+    marginVertical: 8,
+    marginHorizontal: 4
+  },
   mainColumn: {
     flex: 1,
-    margin: 8
+    marginVertical: 8,
+    marginHorizontal: 4
   },
   splitViewRow: {
     flexDirection: 'row',
@@ -244,6 +260,7 @@ const styles = StyleSheet.create({
   },
   competence: {
     padding: 8,
+    marginHorizontal: 4,
     borderColor: Layout.borderColor,
     borderWidth: Layout.borderWidth,
     borderRadius: Layout.borderRadius
@@ -254,7 +271,7 @@ const styles = StyleSheet.create({
   },
   listHeading: {
     marginTop: 8,
-    marginStart: 2
+    marginHorizontal: 4
   },
   checkHeading: {
     marginStart: 8,
