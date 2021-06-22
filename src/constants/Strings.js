@@ -80,6 +80,10 @@ const Strings = {
     form_help: "Hilfe",
     form_input_placeholder: "Hier eingeben...",
 
+    form_select_available_forms: "Verfügbare Fragebögen:",
+    form_select_additional_forms: "Weitere Fragebögen",
+    form_select_additional_forms_in_the_future_notice: "In Zukunft werden weitere Fragebögen entwickelt und Ihnen an dieser Stelle zur Verfügung gestellt.",
+
     evaluation_information_title: "Infos zur Bewertung",
     evaluation_information_text: "Hier sehen Sie die auf der Basis Ihrer Anworten gewichteten Maßnahmen. Möchten Sie sich über eine dieser Maßnahmen informieren, so tippen Sie diese einfach an.",
     evaluation_list_heading: "Die Bewertung:",
@@ -152,7 +156,7 @@ const Strings = {
     contact_request_success: "Die Kontaktanfrage wurde erfolgreich erstellt. Sie sehen diese dann in Ihrem E-Mail-Postfach sehen. Das Versenden der Kontaktanfrage kann einige Minuten in Anspruch nehmen.",
     contact_request_dialog_empty_title: "Leeres Formular",
     contact_request_dialog_empty_content: "Bein einem gänzlich unausgefülltem Fragebogen wählen Sie bitte den normalen Kontaktweg über die Kontaktoptionen auf dem Kontaktmenüpunkt der Startseite. Sobald Sie einige Fragen beantwortet haben, können Sie auch diesen Kontaktweg verwenden.",
-    
+
 }
 
 export default Strings

@@ -1,38 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Platform, Dimensions } from 'react-native';
+import { StyleSheet, View, Platform, Dimensions, Image } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import * as Device from 'expo-device'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import RootView from '../components/common/RootView'
 import NoContentView from '../components/common/NoContentView'
 import FormSelectListItemView from '../components/FormSelectListItemView'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
-import { HeadingText } from '../components/common/Text'
+import { HeadingText, ContentText } from '../components/common/Text'
 
 import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
 import { FORMSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
-
-const formsMock = [
-    {
-        uuid: '1',
-        title: 'Spezialisierung A',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung A zugeordnet sind.'
-    },
-    {
-        uuid: '2',
-        title: 'Spezialisierung B',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung B zugeordnet sind.'
-    },
-    {
-        uuid: '3',
-        title: 'Spezialisierung C',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung C zugeordnet sind.'
-    }
-]
+import Layout from '../constants/Layout';
+import { darkTheme, lightTheme } from '../constants/Colors';
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen');
@@ -40,13 +26,14 @@ const isPortrait = () => {
 };
 
 const FormSelectScreen = (props) => {
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+
     const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
     const [isTablet, setIsTablet] = useState(Platform.isPad)
 
     const [isLoading, setIsLoading] = useState(false)
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
     const [errorCode, setErrorCode] = useState(0)
-    const [selectedForm, setSelectedForm] = useState(undefined)
 
     const dispatch = useDispatch()
     const forms = useSelector(state => state.forms.forms)
@@ -98,6 +85,17 @@ const FormSelectScreen = (props) => {
         props.navigation.navigate(FORMSCREEN, formUuid)
     }
 
+    const footer =
+        <View style={{ ...styles.footer, backgroundColor: colorTheme.componentBackground }}>
+            <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
+
+            <View style={styles.footerContent}>
+                <HeadingText weight="bold">{Strings.form_select_additional_forms}</HeadingText>
+                <ContentText light style={{ marginVertical: 4 }}>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
+            </View>
+
+        </View>
+
     var contentView = null
     if (errorCode !== 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_error + "(Fehlercode: " + errorCode + ")"} />
@@ -117,7 +115,7 @@ const FormSelectScreen = (props) => {
                     title={Strings.select_form_information_title}>
                     <InformationText>{Strings.select_form_information_text}</InformationText>
                 </InformationCard>
-                <HeadingText large weight="bold" style={styles.heading}>Verfügbare Fragebögen:</HeadingText>
+                <HeadingText large weight="bold" style={styles.heading}>{Strings.form_select_available_forms}</HeadingText>
             </View>
 
         contentView = (
@@ -125,6 +123,7 @@ const FormSelectScreen = (props) => {
                 style={styles.list}
                 data={visibleForms}
                 ListHeaderComponent={informationHeader}
+                ListFooterComponent={footer}
                 renderItem={({ item }) => (
                     <FormSelectListItemView
                         key={item.uuid}
@@ -157,6 +156,27 @@ const styles = StyleSheet.create({
     },
     list: {
         marginHorizontal: 8
+    },
+    footer: {
+        marginVertical: 4,
+        borderRadius: Layout.borderRadius,
+        borderColor: Layout.borderColor,
+        borderWidth: Layout.borderWidth,
+        overflow: "hidden",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 8,
+        paddingVertical: 12
+    },
+    footerContent: {
+        flexDirection: "column",
+        flex: 1
+    },
+    image: {
+        width: 64,
+        height: 64,
+        marginEnd: 8,
+        borderRadius: Layout.borderRadius
     }
 })
 
