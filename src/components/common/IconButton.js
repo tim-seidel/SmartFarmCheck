@@ -41,7 +41,7 @@ const IconButton = (props) => {
             disabled={disabled ?? false}
             color={type === 'solid' ? colorTheme.textPrimaryContrast : colorTheme.primary}
             backgroundColor={backgroundColor}
-            underlayColor={Platform.OS == 'ios' ? colorTheme.componentBackground : colorTheme.accent}
+            underlayColor={colorTheme.componentPressed}
             onPress={props.onPress}>
             <ContentText
                 numberOfLines={1}
@@ -60,7 +60,7 @@ const IconButton = (props) => {
  */
 export const WrappedIconButton = (props) => {
     return (<View style={[styles.wrapper, props.style]}>
-        <IconButton type={Platform.OS === 'ios' ? 'light' : 'solid'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
+        <IconButton type={Platform.OS === 'ios' ? 'light' : 'light'} icon={props.icon} text={props.text} onPress={props.onPress}></IconButton>
     </View>)
 }
 
@@ -76,7 +76,7 @@ IconButton.propTypes = {
 IconButton.defaultProps = {
     type: Platform.select({
         ios: "light",
-        android: "solid",
+        android: "light",
         default: "solid"
     }),
     disabled: false,

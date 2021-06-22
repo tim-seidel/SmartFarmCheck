@@ -9,19 +9,17 @@ const Strings = {
     reset: "Zurücksetzen",
     back: "Zurück",
     settings: "Einstellungen",
+    save: "Speichern",
 
     mail: "mittelstand40@hs-osnabrueck.de",
     phone: "0541-969-5017",
-
-    main_greeting_title: "Herzlich Willkommen",
-    main_greeting_content: "...in der Smartfarmcheck-App! Hier finden Sie unser Weiterbildungsangebot und Maßnahmen zur Digitalisierung, bewertet für Ihren Betrieb.",
 
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
 
     screen_title_media_library: "Mediathek",
     screen_title_events: "Angebote",
-    screen_title_measure_list: "Maßnahmen",
+    screen_title_measure_list: "Digitalisierung",
     screen_title_measure_detail: "Maßnahmeninformation",
     screen_title_form_list: "Fragebogenauswahl",
     screen_title_form: "Angaben zum Betrieb",
@@ -41,13 +39,17 @@ const Strings = {
     information_card_default_title: "Zu Ihrer Information",
     information_card_advice_expand: "Ausklappen für weitere Informationen.",
 
+    digicheck_title: "Unser Digitalisierungscheck",
+    digicheck_content: "Anhand eines Fragebogens erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.",
+
+    measure_all_measures_title: "Alle Digitalisierungsmaßnahmen:",
     measure_information_title: "Über die Maßnahmen",
     measure_information_text: "Hier sehen Sie verschiedene Maßnahmen zur Digitalisierung, die sich für mittelständische Landwirtschaftsbetriebe eignen. Gerne können Sie sich über unser Formular persönliche Empfehlungen berechnen lassen oder uns jederzeit kontaktieren.",
     measure_loading: "Laden der aktuellsten Maßnahmen...",
     measure_loading_error: "Aktuell können die Maßnahmen nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_empty: "Aktuell wurden keine Maßnahmen gefunden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     measure_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Maßnahmen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
-    measure_navigate_evaluation: "Jetzt Empfehlungen berechnen",
+    measure_navigate_evaluation: "SmartFarmCheck starten",
     measure_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button unten, um Empfehlungen berechnen zu lassen.",
 
     select_form_information_title: "Zur Auswahl des Fragebogens",
@@ -61,22 +63,26 @@ const Strings = {
     form_loading_error: "Aktuell kann das Formular nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     form_loading_empty: "Aktuell konnten keine Fragen zum Formular gefunden werden. Bitte übeprüfen Sie Ihre Internetverbindung und versuchen Sie es später erneut.",
     form_loading_no_network: "Aktuell besteht keine Internetverbindung. Das aktuelle Formular kann daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
-    form_reset: "Zurücksetzten",
+    form_reset: "Zurücksetzen",
     form_calculate: "Jetzt berechnen",
     form_paging_backwards: "Zurück",
     form_paging_forwards: "Weiter",
-    form_dialog_confirm_reset_title: "Wirklich zurücksetzten?",
+    form_dialog_confirm_reset_title: "Wirklich zurücksetzen?",
     form_dialog_confirm_reset_content: "Wenn Sie das Formular zurücksetzen, werden Ihre bestehenden Eingaben unwiderruflich gelöscht. Möchten Sie dies?",
     form_dialog_empty_title: "Leeres Formular",
-    form_dialog_empty_content: "Bein einem gänzlich unausgefülltem Formular können wir Ihnen leider keine Empfehlungen berechnen. Füllen Sie dazu zunächst einige Fragen aus.\n\nFalls Sie sich nur allgemein informieren möchten, können Sie sich auf dem vorherigen Reiter alle Maßnahmen auswählen.",
+    form_dialog_empty_content: "Bein einem gänzlich unausgefülltem Formular können wir Ihnen leider keine Empfehlungen berechnen. Füllen Sie dazu zunächst einige Fragen aus.\n\nFalls Sie sich nur allgemein informieren möchten, können Sie auf dem vorherigen Reiter alle Maßnahmen auswählen.",
     form_dialog_errors_title: "Ungültige Eingaben",
     form_dialog_errors_content: "Bitte berichtigen Sie zuerst die ungültigen Eingaben, bevor Sie das Formular absenden. Ansonsten kann keine korrekte Berechnung erfolgen.",
     form_dialog_send_unfinished_title: "Formular absenden?",
-    form_dialog_send_unfinished_content: "Sie haben das Formular noch nicht vollständig ausgfüllt, möchten Sie es trotzdem absenden? Je mehr Fragen Sie beantworten, desto individueller können die Empfehlungen berechnet werden.",
+    form_dialog_send_unfinished_content: "Sie haben das Formular noch nicht vollständig ausgefüllt, möchten Sie es trotzdem absenden? Je mehr Fragen Sie beantworten, desto individueller können die Empfehlungen berechnet werden.",
     form_send: "Absenden",
     form_layout_questions: "Fragenlayout",
     form_help: "Hilfe",
     form_input_placeholder: "Hier eingeben...",
+
+    form_select_available_forms: "Verfügbare Fragebögen:",
+    form_select_additional_forms: "Weitere Fragebögen",
+    form_select_additional_forms_in_the_future_notice: "In Zukunft werden weitere Fragebögen entwickelt und Ihnen an dieser Stelle zur Verfügung gestellt.",
 
     evaluation_information_title: "Infos zur Bewertung",
     evaluation_information_text: "Hier sehen Sie die auf der Basis Ihrer Anworten gewichteten Maßnahmen. Möchten Sie sich über eine dieser Maßnahmen informieren, so tippen Sie diese einfach an.",
@@ -100,26 +106,30 @@ const Strings = {
     medialibrary_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Videos können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
     medialibrary_watch_now: "Jetzt ansehen",
     medialibrary_card_title: "Zur SmartFarmCheck-Mediathek",
-    medialibrary_card_description: "Hier finden Sie unseren allgemeinen Erklär- und Infovideos, die unabhängig von konkreten Digialisierungsmaßnahmen verschiedene interessante Themen behandeln.",
+    medialibrary_card_description: "Hier finden Sie unsere allgemeinen Erklär- und Infovideos, die unabhängig von konkreten Digialisierungsmaßnahmen verschiedene interessante Themen behandeln.",
     medialibrary_heading: "Alle Erklärvideos:",
 
     event_calendar: "Veranstaltungskalendar",
-    event_list_heading: "Kommende Veranstaltungen",
+    event_list_heading: "Kommende Veranstaltungen:",
     event_loading: "Laden der kommenden Veranstaltungen...",
     event_loading_error: "Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     event_loading_empty: "Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Aktuell stehen keine Veranstaltungen an.",
     event_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Veranstaltungen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
-
+    event_nothing_fitting_title: "Keine passende Veranstaltung für Sie dabei?",
+    event_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren.",
+    event_nothing_fitting_goto_contact: "Zum Kontakt",
     event_already_in_calendar_title: "Veranstaltung bereits eingetragen",
     event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
 
     calendar_create_new: "[Neuen Kalender erstellen]",
+    calendar_select_default: "Standardkalender auswählen",
     permission_calendar: "Kalenderberechtigung",
     permission_calendar_denied: "Fehlende Kalenderberechtigung",
     permission_calendar_information_before: "Nachfolgend wird die Systemberechtigung zum Bearbeiten der Kalender abgefragt. Diese wird benötigt, um automatisch Termine in Ihren Kalender einzutragen.",
     permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine automatisch in Ihren Kalender eintragen dürfen. Sie können diese manuell in den Systemeinstellungen erteilen.",
     permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alternativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
     permission_calendar_information_after_denied_permanent: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Wenn Sie sich dennoch umentscheiden können Sie die Berechtigung in den Berechtigungseinstellung Ihres System ändern.",
+
     settings_appearance_title: "Helles/dunkels Design",
     settings_appearance_description: "Das Design der App passt sich automatisch den eingestellten Präferenzen Ihres Gerätes an.",
     settings_reset_form_title: "Formulare zurücksetzen",
@@ -146,7 +156,7 @@ const Strings = {
     contact_request_success: "Die Kontaktanfrage wurde erfolgreich erstellt. Sie sehen diese dann in Ihrem E-Mail-Postfach sehen. Das Versenden der Kontaktanfrage kann einige Minuten in Anspruch nehmen.",
     contact_request_dialog_empty_title: "Leeres Formular",
     contact_request_dialog_empty_content: "Bein einem gänzlich unausgefülltem Fragebogen wählen Sie bitte den normalen Kontaktweg über die Kontaktoptionen auf dem Kontaktmenüpunkt der Startseite. Sobald Sie einige Fragen beantwortet haben, können Sie auch diesen Kontaktweg verwenden.",
-    
+
 }
 
 export default Strings

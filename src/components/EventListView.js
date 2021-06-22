@@ -43,8 +43,9 @@ const EventListView = (props) => {
         <FlatList
             style={props.style}
             nestedScrollEnabled
-            ListHeaderComponent={props.headerContent}
             data={props.events}
+            ListHeaderComponent={props.listHeaderComponent}
+            ListFooterComponent={props.listFooterComponent}
             key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
             numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
             renderItem={({ item }) => (
@@ -64,7 +65,7 @@ const EventListView = (props) => {
 
 const styles = StyleSheet.create({
     event: {
-        marginHorizontal: 8,
+        marginHorizontal: 4,
         marginTop: 8
     },
 })

@@ -10,14 +10,11 @@ function MeasureListView(props) {
             key={'col' + props.columns} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
             numColumns={props.columns ?? 1}
             style={props.style}
-            ListHeaderComponent={
-                <View>
-                    {props.children}
-                </View>}
+            ListHeaderComponent={props.header}
             data={props.measures}
             renderItem={({ item }) => (
                 <MeasureListItemView
-                    style={styles.measureColumn}
+                    style={styles.measure}
                     key={item.uuid}
                     title={item.name}
                     short={item.excerpt}
@@ -30,9 +27,9 @@ function MeasureListView(props) {
 }
 
 const styles = StyleSheet.create({
-    measureColumn: {
+    measure: {
         flex: 1,
-        marginTop: 8
+        margin: 4
     },
 })
 

@@ -106,7 +106,7 @@ const ContactRequestScreen = (props) => {
     }
     else {
         return (
-            <RootView>
+            <RootView thin>
                 <View style={styles.informationWrapper}>
                     <ScrollView style={styles.scroll}>
                         <InformationCard icon="numeric-1-circle-outline" style={styles.card} title="So funktioniert's:" toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_HELP_SCREEN} >

@@ -1,21 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Platform, Dimensions, Linking } from 'react-native';
+import { StyleSheet, View, Platform, Dimensions, Linking, Image } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 
 import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView';
 import MeasureListView from '../components/MeasureListView';
 import MeasureView from '../components/MeasureView';
 import IconButton from '../components/common/IconButton';
-import InformationCard, { InformationText } from "../components/common/InformationCard";
-import { HeadingText } from '../components/common/Text';
+import { ContentText, HeadingText } from '../components/common/Text';
 
 import { fetchMeasures } from '../store/actions/measures';
 import Strings from '../constants/Strings';
-import Keys from '../constants/Keys';
 import { MEASUREDETAILSCREEN, FORMSELECTSCREEN, VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths';
+import Layout from '../constants/Layout';
+import { darkTheme, lightTheme } from '../constants/Colors';
+
+const IMAGE_UPATE_TIME = 15
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -23,6 +28,8 @@ const isPortrait = () => {
 };
 
 const MeasureScreen = props => {
+  const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+
   const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
   const [isTablet, setIsTablet] = useState(Platform.isPad)
 
@@ -32,7 +39,48 @@ const MeasureScreen = props => {
 
   const dispatch = useDispatch()
   const measures = useSelector(state => state.measures.measures)
+  const [isRotationEnabled, setRotationEnabled] = useState(false)
   const [selectedMeasure, setSelectedMeasure] = useState(undefined)
+
+  const images = [
+    require("../../assets/images/digi/img_carousel_03.jpg"),
+    require("../../assets/images/digi/img_carousel_05.jpg"),
+    require("../../assets/images/digi/img_carousel_06.jpg")
+  ]
+  const [imageRotationIndex, setImageRotationIndex] = useState(0)
+  const navigation = props.navigation
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setRotationEnabled(true)
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setRotationEnabled(false)
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    if (!isRotationEnabled) return
+    let timeout = undefined
+    try {
+      timeout = setTimeout(() => {
+        setImageRotationIndex((imageRotationIndex + 1) % images.length)
+      }, IMAGE_UPATE_TIME * 1000)
+
+    } catch (e) {
+      console.log("Error starting timeout", e)
+    }
+    return () => {
+      if (timeout) clearTimeout(timeout)
+    }
+  }, [imageRotationIndex, isRotationEnabled])
 
   useEffect(() => {
     const callback = ({ screen }) => {
@@ -101,6 +149,35 @@ const MeasureScreen = props => {
     checkAndLoadMeasures()
   }
 
+  function gotoFormSelectHandler() {
+    props.navigation.navigate(FORMSELECTSCREEN)
+  }
+
+  const contentHeader =
+    <View>
+      <View component style={{ ...styles.competence, backgroundColor: colorTheme.componentBackground }}>
+        <View component style={styles.competenceColumn}>
+          <Icon name="tractor-variant" color={colorTheme.textPrimary} size={36} />
+          <View style={styles.checkHeading}>
+            <HeadingText large weight="bold">{Strings.digicheck_title}</HeadingText>
+          </View>
+        </View>
+        <Image source={images[imageRotationIndex]} style={styles.digiImage} />
+        <ContentText light>{Strings.digicheck_content}</ContentText>
+        <View style={styles.calculateButtonWrapper}>
+          <IconButton
+            type="solid"
+            icon="format-list-checks"
+            text={Strings.measure_navigate_evaluation}
+            align="center"
+            onPress={gotoFormSelectHandler} />
+        </View>
+      </View>
+      <HeadingText large weight="bold" style={styles.listHeading}>{Strings.measure_all_measures_title}</HeadingText>
+    </View>
+
+  let isDisplayingMeasures = false
+
   var contentView = null
   if (errorCode !== 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_error + " (Fehlercode: " + errorCode + ")"} />
@@ -111,14 +188,7 @@ const MeasureScreen = props => {
   } else if (measures.length === 0) {
     contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.measure_loading_empty} />
   } else {
-    const informationHeader = <View>
-      <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_MEASURE_SCREEN} style={styles.informationCard}
-        title={Strings.measure_information_title}>
-        <InformationText>{Strings.measure_information_text} </InformationText>
-      </InformationCard>
-      <HeadingText large weight="bold" style={styles.heading}>Alle Digitalisierungsmaßnahmen:</HeadingText>
-    </View>
-
+    isDisplayingMeasures = true
     if (isTablet) {
       let measureContent = null;
       if (selectedMeasure) {
@@ -130,19 +200,14 @@ const MeasureScreen = props => {
       contentView =
         <View style={styles.mainColumn}>
           <View style={styles.splitViewRow}>
-            <MeasureListView
-              columns={1}
-              style={styles.measureListSplit}
-              measures={measures}
-              measureSelected={measureSelectedHandlerSplit}
-            >
-              {informationHeader}
-            </MeasureListView>
-            <View style={styles.measureViewSplit}>
+            <View style={styles.masterColumn}>
+              <MeasureListView
+                header={contentHeader}
+                measures={measures}
+                measureSelected={measureSelectedHandlerSplit} />
+            </View>
+            <View style={styles.detailColumn}>
               {measureContent}
-              <View style={styles.calculateButtonWrapperSplit}>
-                <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
-              </View>
             </View>
           </View>
         </View>
@@ -151,64 +216,77 @@ const MeasureScreen = props => {
         <View style={styles.mainColumn}>
           <MeasureListView
             columns={orientation === 'landscape' ? 2 : 1}
-            style={styles.measureList}
+            header={contentHeader}
             measures={measures}
             measureSelected={measureSelectedHandlerList}
-          >
-            {informationHeader}
-          </MeasureListView>
-          <View style={styles.calculateButtonWrapper}>
-            <IconButton icon="clipboard-text-outline" text={Strings.measure_navigate_evaluation} align="center" onPress={gotoFormSelectHandler} />
-          </View>
+          />
         </View>
     }
   }
 
-  return (
-    <RootView>
+  if (!isDisplayingMeasures) {
+    return <RootView style={styles.noContent}>
+      <ScrollView>
+        {contentHeader}
+        {contentView}
+      </ScrollView>
+    </RootView>
+  } else {
+    return <RootView>
       {contentView}
     </RootView>
-  )
+  }
 }
 
 const styles = StyleSheet.create({
-  informationCard: {
-    marginVertical: 8
-  },
-  heading: {
-    marginTop: 8,
-    marginHorizontal: 8
-  },
-  calculateButtonWrapper: {
-    margin: 8
-  },
-  calculateButtonWrapperSplit: {
+  noContent: {
     marginVertical: 8,
-    marginEnd: 8
-  },
-  calculateButton: {
-    justifyContent: "center"
-  },
-  splitViewRow: {
-    flex: 1,
-    flexDirection: 'row'
-  },
-  measureList: {
-    flex: 1,
-    marginHorizontal: 8
-  },
-  measureListSplit: {
-    flex: 1,
-    marginHorizontal: 8,
-    marginBottom: 8
-  },
-  measureViewSplit: {
-    flex: 2,
+    marginHorizontal: 4
   },
   mainColumn: {
     flex: 1,
-    flexDirection: 'column'
-  }
+    marginVertical: 8,
+    marginHorizontal: 4
+  },
+  splitViewRow: {
+    flexDirection: 'row',
+    flex: 1
+  },
+  masterColumn: {
+    flex: 1,
+  },
+  detailColumn: {
+    flex: 2,
+  },
+  competence: {
+    padding: 8,
+    marginHorizontal: 4,
+    borderColor: Layout.borderColor,
+    borderWidth: Layout.borderWidth,
+    borderRadius: Layout.borderRadius
+  },
+  competenceColumn: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  listHeading: {
+    marginTop: 8,
+    marginHorizontal: 4
+  },
+  checkHeading: {
+    marginStart: 8,
+    flex: 1
+  },
+  calculateButtonWrapper: {
+    marginTop: 8
+  },
+  digiImage: {
+    width: "100%",
+    height: 200,
+    marginVertical: 4,
+    alignSelf: 'center',
+    backgroundColor: "white",
+  },
 });
 
 export default MeasureScreen

@@ -24,13 +24,11 @@ Separator.defaultProps = {
 
 const styles = StyleSheet.create({
     separatorHorizontal: {
-        width: '100%',
         height: 1,
         backgroundColor: ConstantColors.grey,
     },
     separatorVertical: {
         width: 1,
-        height: '100%',
         backgroundColor: ConstantColors.grey,
     }
 })

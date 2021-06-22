@@ -300,11 +300,10 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
-        margin: 8,
-        marginTop: 4
+        margin: 8
     },
     question: {
-        marginVertical: 4
+        marginBottom: 8
     },
     questionPagingRow: {
         flexDirection: "row",
