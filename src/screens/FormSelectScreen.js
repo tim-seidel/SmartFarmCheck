@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Platform, Dimensions } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux'
-import * as Device from 'expo-device'
 import NetInfo from '@react-native-community/netinfo';
+import * as Device from 'expo-device'
 
 import RootView from '../components/common/RootView'
 import NoContentView from '../components/common/NoContentView'
@@ -14,7 +15,6 @@ import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
 import { FORMSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
-import { FlatList } from 'react-native-gesture-handler';
 
 const formsMock = [
     {
@@ -110,7 +110,11 @@ const FormSelectScreen = (props) => {
     } else {
         const informationHeader =
             <View>
-                <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN} style={styles.card} title={Strings.select_form_information_title}>
+                <InformationCard
+                    toggleInformationEnabled
+                    style={styles.card}
+                    toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN}
+                    title={Strings.select_form_information_title}>
                     <InformationText>{Strings.select_form_information_text}</InformationText>
                 </InformationCard>
                 <HeadingText large weight="bold" style={styles.heading}>Verfügbare Fragebögen:</HeadingText>
