@@ -87,7 +87,6 @@ const ContactRequestScreen = (props) => {
     if (errorCode !== 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.contact_request_loading_error + " (Fehlercode: " + errorCode + ")"} />
     } else if (isLoading) {
-        console.log("IsLoading...")
         contentView = <NoContentView icon="cloud-download" loading title={Strings.contact_request_loading} />
     } else if (hasNoNetwork && !contactRequest) {
         contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.contact_request_loading_no_network} />
@@ -95,9 +94,9 @@ const ContactRequestScreen = (props) => {
         contentView = <NoContentView icon="check" onRetry={successHandler} retryTitle={Strings.back} title={Strings.contact_request_success} />
     }
 
-    let emailText = "Bitte eine E-Mail eingeben"
-    if (emailValidity === 'invalid') emailText = "Bitte eine gültige E-Mail eingeben."
-    if (emailValidity === 'valid') emailText = "Die E-Mail ist gültig. Sie können absenden!"
+    let emailText = Strings.contact_request_please_enter_mail
+    if (emailValidity === 'invalid') emailText = Strings.contact_request_please_enter_valid_mail
+    if (emailValidity === 'valid') emailText = Strings.contact_request_mail_is_valid
 
     if (contentView) {
         return <RootView>
@@ -109,15 +108,25 @@ const ContactRequestScreen = (props) => {
             <RootView thin>
                 <View style={styles.informationWrapper}>
                     <ScrollView style={styles.scroll}>
-                        <InformationCard icon="numeric-1-circle-outline" style={styles.card} title="So funktioniert's:" toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_HELP_SCREEN} >
-                            <InformationText>Sollten beim Beantworten des Fragebogens Fragen aufkommen oder die Ergebnisse der Bewertung unklar bleiben, zögern Sie nicht uns zu kontaktieren!</InformationText>
+                        <InformationCard
+                            style={styles.card}
+                            icon="numeric-1-circle-outline"
+                            title={Strings.contact_request_how_it_works_title}
+                            toggleInformationEnabled
+                            toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_HELP_SCREEN} >
+                            <InformationText>{Strings.contact_request_how_it_works_content_questions}</InformationText>
                             <InformationLineBreak breaks={2} />
-                            <InformationText>Um den Austausch mit einem Mitarbeiter des Mittelstand 4.0 Kompetenzzentrums zu vereinfachen, wird zur Übersicht ein Dokument mit Ihren Antworten und den erhaltenen Bewertungen erstellt und an Sie und uns per Mail gesendet.</InformationText>
+                            <InformationText>{Strings.contact_request_how_it_works_content_document}</InformationText>
                         </InformationCard>
-                        <InformationCard icon="numeric-2-circle-outline" style={styles.card} title="Wie ist das mit dem Datenschutz?" toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_HELP_SCREEN_PRIVACY}>
-                            <InformationText>Die von Ihnen eingebenen Daten werden zur Auswertung und Generierung des Dokumentes an den Server gesendet, aber NICHT gespeichert; auch nicht die Mail-Adresse. Die Bewertungsdaten sind weiterhin zu jedem Zeitpunkt anonym. Sie werden hinterher lediglich an Ihre und unsere Kontakt-Mail versendet, damit wir mit Ihnen in Konkakt treten können. </InformationText>
+                        <InformationCard
+                            style={styles.card}
+                            icon="numeric-2-circle-outline"
+                            title={Strings.contact_request_about_privacy_title}
+                            toggleInformationEnabled
+                            toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_HELP_SCREEN_PRIVACY}>
+                            <InformationText>{Strings.contact_request_about_privacy_content_document}</InformationText>
                             <InformationLineBreak breaks={2} />
-                            <InformationText>Möchten Sie dennoch einige Daten nicht preisgeben, können Sie die entsprechenden Fragen unausgefüllt lassen. Alternativ können Sie auch eine anonyme Mail-Adresse verwenden.</InformationText>
+                            <InformationText>{Strings.contact_request_about_privacy_content_advices}</InformationText>
                         </InformationCard>
                     </ScrollView>
                 </View>
@@ -135,7 +144,7 @@ const ContactRequestScreen = (props) => {
                             <TextInput
                                 textContentType="emailAddress"
                                 keyboardType="email-address"
-                                placeholder="kontakt@e.mail"
+                                placeholder={Strings.contact_request_mail_placeholder}
                                 placeholderTextColor={colorTheme.textHint}
                                 value={email}
                                 onChangeText={emailHandler}
@@ -143,12 +152,11 @@ const ContactRequestScreen = (props) => {
                                     ...styles.emailInput,
                                     color: colorTheme.textPrimary,
                                     backgroundColor: colorTheme.background,
-                                    flex: 1
                                 }} />
                             <IconButton
                                 disabled={emailValidity !== 'valid'}
                                 icon="email-send-outline"
-                                text="Senden"
+                                text={Strings.send}
                                 onPress={checkAndLoadContactRequest} />
                         </View>
                     </View>
@@ -184,13 +192,13 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     emailInput: {
+        flex: 1,
         paddingHorizontal: 8,
         borderRadius: Layout.borderRadius,
         borderWidth: Layout.borderWidth,
         borderColor: Layout.borderColor,
         marginEnd: 8
     },
-
 })
 
 export default ContactRequestScreen

@@ -10,6 +10,7 @@ const Strings = {
     back: "Zurück",
     settings: "Einstellungen",
     save: "Speichern",
+    send: "Senden",
 
     mail: "mittelstand40@hs-osnabrueck.de",
     phone: "0541-969-5017",
@@ -153,9 +154,21 @@ const Strings = {
     contact_request_loading_error: "Fehler beim Erstellen einer Kontaktanfrage.",
     contact_request_loading_no_network: "Aktuell besteht keine Internetverbindung.",
     contact_request_loading: "Kontaktanfrage wird erstellt...",
-    contact_request_success: "Die Kontaktanfrage wurde erfolgreich erstellt. Sie sehen diese dann in Ihrem E-Mail-Postfach sehen. Das Versenden der Kontaktanfrage kann einige Minuten in Anspruch nehmen.",
+    contact_request_success: "Die Kontaktanfrage wurde erfolgreich erstellt. Sie sehen diese dann in Ihrem E-Mail-Postfach. Das Versenden der Kontaktanfrage kann einige Minuten in Anspruch nehmen.",
     contact_request_dialog_empty_title: "Leeres Formular",
     contact_request_dialog_empty_content: "Bein einem gänzlich unausgefülltem Fragebogen wählen Sie bitte den normalen Kontaktweg über die Kontaktoptionen auf dem Kontaktmenüpunkt der Startseite. Sobald Sie einige Fragen beantwortet haben, können Sie auch diesen Kontaktweg verwenden.",
+
+    contact_request_please_enter_mail: "Bitte eine E-Mail eingeben",
+    contact_request_please_enter_valid_mail: "Bitte eine gültige E-Mail eingeben.",
+    contact_request_mail_is_valid: "Die E-Mail ist gültig. Sie können absenden!",
+    contact_request_mail_placeholder: "kontakt@e.mail",
+
+    contact_request_how_it_works_title: "So funktioniert's:",
+    contact_request_how_it_works_content_questions: "Sollten beim Beantworten des Fragebogens Fragen aufkommen oder die Ergebnisse der Bewertung unklar bleiben, zögern Sie nicht uns zu kontaktieren!",
+    contact_request_how_it_works_content_document: "Um den Austausch mit einem Mitarbeiter des Mittelstand 4.0 Kompetenzzentrums zu vereinfachen, wird zur Übersicht ein Dokument mit Ihren Antworten und den erhaltenen Bewertungen erstellt und an Sie und uns per Mail gesendet.",
+    contact_request_about_privacy_title: "Wie ist das mit dem Datenschutz?",
+    contact_request_about_privacy_content_document: "Die von Ihnen eingebenen Daten werden zur Auswertung und Generierung des Dokumentes an den Server gesendet, aber NICHT gespeichert; auch nicht die Mail-Adresse. Die Bewertungsdaten sind weiterhin zu jedem Zeitpunkt anonym. Sie werden hinterher lediglich an Ihre und unsere Kontakt-Mail versendet, damit wir mit Ihnen in Konkakt treten können.",
+    contact_request_about_privacy_content_advices: "Möchten Sie dennoch einige Daten nicht preisgeben, können Sie die entsprechenden Fragen unausgefüllt lassen. Alternativ können Sie auch eine anonyme Mail-Adresse verwenden.",
 
     license_under_mit: "Unter der MIT Lizenz",
     license_mit_permission: "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:",
