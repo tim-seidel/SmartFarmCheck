@@ -41,8 +41,6 @@ export const fetchEvaluation = (formUuid, answers) => {
         ratings.forEach(r => {
             r.weighted = Math.round((r.rating / maxRating + Number.EPSILON) * 100)
         })
-
-        //Sort the ratings (descending)
         ratings.sort(function (l, r) {
             return l - r
         })
@@ -56,21 +54,19 @@ export const fetchEvaluation = (formUuid, answers) => {
 
 export const evaluationToContact = (formUuid, answers, email) => {
     return async dispatch => {
-        console.log("Contact", `${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, answers)
-        
-        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, Network.requestTimeout*2, {
+
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, Network.requestTimeout * 2, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'accept': '*/*',
             },
             body: JSON.stringify({
-                answers:   answers,
+                answers: answers,
                 email: "dev@timseidel.de"
             })
         })
 
-        console.log(response.status)
         if (!response.ok) {
             throw { status: response.status, statusText: response.statusText }
         }
@@ -79,6 +75,6 @@ export const evaluationToContact = (formUuid, answers, email) => {
             type: SET_EVALUATION_CONTACT_REQUEST,
             contactRequest: new ContactRequest(formUuid, answers, email, response.status)
         })
-        
+
     }
 }
