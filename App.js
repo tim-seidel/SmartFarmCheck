@@ -13,11 +13,9 @@ import formsReducer from './src/store/reducers/forms'
 import measureReducer from './src/store/reducers/measures'
 import questionsReducer from './src/store/reducers/questions'
 import eventReducer from './src/store/reducers/events'
-import feedbackReducer from './src/store/reducers/feedback'
 import mediaLibraryReducer from './src/store/reducers/mediaLibrary'
 import evaluationReducer from './src/store/reducers/evaluation'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-
 
 const rootReducer = combineReducers({
   forms: formsReducer,
@@ -25,7 +23,6 @@ const rootReducer = combineReducers({
   questions: questionsReducer,
   evaluation: evaluationReducer,
   events: eventReducer,
-  feedback: feedbackReducer,
   mediaLibrary: mediaLibraryReducer
 })
 
