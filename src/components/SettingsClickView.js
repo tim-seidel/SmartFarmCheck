@@ -2,18 +2,18 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TouchableHighlight } from 'react-native-gesture-handler'
-
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors'
+
 import { ContentText, HeadingText } from '../components/common/Text'
 
+import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors'
 import Layout from '../constants/Layout'
+
 
 const SettingsClickView = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
-    const {icon, name, description, onPress} = props
-    const disabledStyle = onPress ? {} : {color: ConstantColors.grey} 
-    
+    const { icon, name, description, onPress } = props
+
     const descriptionView = description ? (<ContentText light style={styles.description}>{description}</ContentText>) : null
     return (
         <View style={{ ...styles.container, backgroundColor: colorTheme.componentBackground, ...props.style }}>
@@ -21,10 +21,10 @@ const SettingsClickView = (props) => {
                 <View style={styles.row}>
                     <Icon style color={onPress ? colorTheme.textPrimary : ConstantColors.grey} name={icon} size={24} />
                     <View style={styles.content}>
-                        <HeadingText style={[styles.name, disabledStyle]}>{name}</HeadingText>
+                        <HeadingText disabled={!onPress} style={styles.name}>{name}</HeadingText>
                         {descriptionView}
                     </View>
-                    {onPress && <Icon style={styles.icon} color={colorTheme.textPrimary} name="chevron-right" size={24} /> }
+                    {onPress && <Icon style={styles.icon} color={colorTheme.textPrimary} name="chevron-right" size={24} />}
                 </View>
             </TouchableHighlight>
         </View>

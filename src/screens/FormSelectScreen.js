@@ -16,7 +16,7 @@ import Keys from '../constants/Keys'
 import { FORMSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
 import Layout from '../constants/Layout';
-import { darkTheme, lightTheme } from '../constants/Colors';
+import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors';
 
 const FormSelectScreen = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
@@ -63,7 +63,7 @@ const FormSelectScreen = (props) => {
         <View style={{ ...styles.footer, backgroundColor: colorTheme.componentBackground }}>
             <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
             <View style={styles.footerContent}>
-                <HeadingText weight="bold">{Strings.form_select_additional_forms}</HeadingText>
+                <HeadingText disabled weight="bold">{Strings.form_select_additional_forms}</HeadingText>
                 <ContentText light style={styles.footerContentText}>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
             </View>
         </View>

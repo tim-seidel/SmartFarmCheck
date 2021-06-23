@@ -8,7 +8,7 @@ import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import PropTypes from 'prop-types'
 
 import Layout from '../../constants/Layout'
-import { darkTheme, lightTheme } from '../../constants/Colors'
+import { ConstantColors, darkTheme, lightTheme } from '../../constants/Colors'
 
 const text_size_heading = 19
 const text_size_heading_large = 22
@@ -26,18 +26,22 @@ const text_weight_content = "normal"
  * - large
  * - weight
  * - align
+ * - disabled
  * @param {Object} props The standard react native ui props 
  */
 export const HeadingText = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     return (
-        <Text {...props} textBreakStrategy='highQuality' style={[{
-            color: colorTheme.textPrimary,
-            fontWeight: props.weight,
-            fontSize: props.large ? text_size_heading_large : text_size_heading,
-            textAlign: props.align
-        }, props.style]}>{props.children}</Text>
+        <Text
+            {...props}
+            textBreakStrategy='highQuality'
+            style={[{
+                color: props.disabled ? ConstantColors.grey : colorTheme.textPrimary,
+                fontWeight: props.weight,
+                fontSize: props.large ? text_size_heading_large : text_size_heading,
+                textAlign: props.align
+            }, props.style]}>{props.children}</Text>
     )
 }
 
@@ -45,19 +49,23 @@ HeadingText.propTypes = {
     weight: PropTypes.oneOf(["100", "200", "300", "400", "500", "600", "700", "800", "900", "bold", "normal"]),
     align: PropTypes.oneOf(["auto", "center", "justify", "left", "right"]),
     large: PropTypes.bool,
+    disabled: PropTypes.bool
 }
 HeadingText.defaultProps = {
     weight: text_weight_heading,
     align: "auto",
-    large: false
+    large: false,
+    disabled: false
 }
 
 /**
  * @summary A wrapper for content text that gets used all across the app. It standadises the text used in the app. It also handles the darkmode.
  * @description Can be customized by the following props:
  * - large
+ * - small
  * - weight
  * - align
+ * - error 
  * @param {Object} props The standard react native ui props 
  */
 export const ContentText = (props) => {
@@ -88,7 +96,7 @@ ContentText.defaultProps = {
     large: false,
     small: false,
     error: false,
-    light: false
+
 }
 
 /**
