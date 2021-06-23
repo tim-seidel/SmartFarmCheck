@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Platform, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
-import * as Device from 'expo-device'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
-import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import RootView from '../components/common/RootView'
 import NoContentView from '../components/common/NoContentView'
@@ -20,16 +18,8 @@ import { fetchForms } from '../store/actions/forms';
 import Layout from '../constants/Layout';
 import { darkTheme, lightTheme } from '../constants/Colors';
 
-const isPortrait = () => {
-    const dim = Dimensions.get('screen');
-    return dim.height >= dim.width;
-};
-
 const FormSelectScreen = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
-
-    const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
-    const [isTablet, setIsTablet] = useState(Platform.isPad)
 
     const [isLoading, setIsLoading] = useState(false)
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
@@ -38,22 +28,6 @@ const FormSelectScreen = (props) => {
     const dispatch = useDispatch()
     const forms = useSelector(state => state.forms.forms)
     const visibleForms = forms.filter(f => !f.hidden)
-
-    useEffect(() => {
-        const callback = ({ screen }) => {
-            setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
-        }
-        const checkTablet = async () => {
-            const type = await Device.getDeviceTypeAsync()
-            setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
-        }
-        checkTablet()
-
-        Dimensions.addEventListener('change', callback);
-        return () => {
-            Dimensions.removeEventListener('change', callback);
-        };
-    }, []);
 
     useEffect(() => {
         checkAndLoadForms()
@@ -88,12 +62,10 @@ const FormSelectScreen = (props) => {
     const footer =
         <View style={{ ...styles.footer, backgroundColor: colorTheme.componentBackground }}>
             <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
-
             <View style={styles.footerContent}>
                 <HeadingText weight="bold">{Strings.form_select_additional_forms}</HeadingText>
-                <ContentText light style={{ marginVertical: 4 }}>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
+                <ContentText light style={styles.footerContentText}>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
             </View>
-
         </View>
 
     var contentView = null
@@ -171,6 +143,9 @@ const styles = StyleSheet.create({
     footerContent: {
         flexDirection: "column",
         flex: 1
+    },
+    footerContentText: {
+        marginVertical: 4
     },
     image: {
         width: 64,
