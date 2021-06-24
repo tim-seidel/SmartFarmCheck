@@ -184,12 +184,14 @@ const FormScreen = props => {
             onRetry={retryHandler}
             title={Strings.form_loading_empty} />
     } else {
+        const listTopMargin = <View style={styles.listTopMargin} />
         var questionContent = null
         if (mode === layout_list) {
             questionContent = (
                 <View style={styles.listContainer}>
                     <FlatList
                         data={questions}
+                        ListHeaderComponent={listTopMargin}
                         renderItem={({ item, index }) =>
                             <QuestionView
                                 style={styles.question}
@@ -300,7 +302,7 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
-        margin: 8
+        marginHorizontal: 8
     },
     question: {
         marginBottom: 8
@@ -346,6 +348,9 @@ const styles = StyleSheet.create({
     submitButton: {
         marginHorizontal: 8,
         marginBottom: 8
+    },
+    listTopMargin: {
+        marginTop: 8
     }
 })
 

@@ -109,7 +109,7 @@ const MediaLibraryScreen = (props) => {
                     </View>}
                 renderItem={({ item }) => (
                     <MediaLibraryListViewItem
-                        style={styles.mediaLibraryColumn}
+                        style={styles.media}
                         title={item.title}
                         description={item.description}
                         thumbnail={item.thumbnail}
@@ -128,19 +128,19 @@ const MediaLibraryScreen = (props) => {
 
 const styles = StyleSheet.create({
     list: {
-        margin: 4
-    },
-    heading: {
-        marginTop: 16,
-        marginBottom: 4,
-        marginStart: 6
-    },
-    card: {
-        marginTop: 4,
         marginHorizontal: 4
     },
-    mediaLibraryColumn: {
-        margin: 4,
+    heading: {
+        marginVertical: 8,
+        marginStart: 4
+    },
+    card: {
+        marginTop: 8,
+        marginHorizontal: 4
+    },
+    media: {
+        marginHorizontal: 4,
+        marginBottom: 8,
         flex: 1,
     }
 })

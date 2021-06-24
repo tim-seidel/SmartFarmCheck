@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 
 import EvaluationListItemView from '../components/EvaluationListItemView';
@@ -17,7 +17,6 @@ function EvaluationListView(props) {
             data={props.ratings}
             renderItem={({ item }) => (
                 <EvaluationListItemView
-                    style={styles.evaluationColumn}
                     key={item.uuid}
                     title={item.name}
                     short={item.excerpt}
@@ -29,12 +28,5 @@ function EvaluationListView(props) {
         />
     )
 }
-
-const styles = StyleSheet.create({
-    evaluationColumn: {
-        flex: 1,
-        margin: 4
-    },
-})
 
 export default EvaluationListView

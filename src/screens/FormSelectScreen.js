@@ -122,15 +122,13 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     heading: {
-        marginTop: 16,
-        marginBottom: 8,
-        marginStart: 2
+        marginVertical: 8
     },
     list: {
         marginHorizontal: 8
     },
     footer: {
-        marginVertical: 4,
+        marginBottom: 8,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,

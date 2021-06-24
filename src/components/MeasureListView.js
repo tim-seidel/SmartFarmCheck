@@ -1,5 +1,4 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 
 import MeasureListItemView from '../components/MeasureListItemView';
@@ -14,7 +13,7 @@ function MeasureListView(props) {
             data={props.measures}
             renderItem={({ item }) => (
                 <MeasureListItemView
-                    style={styles.measure}
+                    style={props.itemStyle}
                     key={item.uuid}
                     title={item.name}
                     short={item.excerpt}
@@ -25,12 +24,5 @@ function MeasureListView(props) {
         />
     )
 }
-
-const styles = StyleSheet.create({
-    measure: {
-        flex: 1,
-        margin: 4
-    },
-})
 
 export default MeasureListView

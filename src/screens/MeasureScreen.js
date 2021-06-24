@@ -202,6 +202,7 @@ const MeasureScreen = props => {
           <View style={styles.splitViewRow}>
             <View style={styles.masterColumn}>
               <MeasureListView
+                itemStyle={styles.measure}
                 header={contentHeader}
                 measures={measures}
                 measureSelected={measureSelectedHandlerSplit} />
@@ -215,6 +216,7 @@ const MeasureScreen = props => {
       contentView =
         <View style={styles.mainColumn}>
           <MeasureListView
+            itemStyle={styles.measure}
             columns={orientation === 'landscape' ? 2 : 1}
             header={contentHeader}
             measures={measures}
@@ -241,37 +243,34 @@ const MeasureScreen = props => {
 const styles = StyleSheet.create({
   noContent: {
     marginVertical: 8,
-    marginHorizontal: 4
   },
   mainColumn: {
     flex: 1,
-    marginVertical: 8,
-    marginHorizontal: 4
+    marginHorizontal: 8
   },
   splitViewRow: {
     flexDirection: 'row',
     flex: 1
   },
   masterColumn: {
-    flex: 1,
+    flex: 1
   },
   detailColumn: {
-    flex: 2,
+    flex: 2
   },
   competence: {
     padding: 8,
-    marginHorizontal: 4,
+    marginTop: 8,
     borderColor: Layout.borderColor,
     borderWidth: Layout.borderWidth,
     borderRadius: Layout.borderRadius
   },
   competenceColumn: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center"
   },
   listHeading: {
-    marginTop: 8,
-    marginHorizontal: 4
+    marginVertical: 8
   },
   checkHeading: {
     marginStart: 8,
@@ -285,8 +284,12 @@ const styles = StyleSheet.create({
     height: 200,
     marginVertical: 4,
     alignSelf: 'center',
-    backgroundColor: "white",
+    backgroundColor: "white"
   },
+  measure: {
+    flex: 1,
+    marginBottom: 8
+  }
 });
 
 export default MeasureScreen

@@ -45,6 +45,7 @@ const ContactScreen = (props) => {
     return (
         <RootView thin>
             <ScrollView style={styles.scroll}>
+                <View style={styles.listTopMargin}/>
                 <View style={styles.contactGrid}>
                     <View style={cardStyle}>
                         <InformationCard style={styles.equalHeightInRow} title={Strings.contact_mail_title} contentView={contentMail}>
@@ -82,16 +83,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     scroll: {
-        margin: 4
+        marginHorizontal: 4
     },
     contactCardSingle: {
-        padding: 4,
+        paddingHorizontal: 4,
+        paddingBottom: 8,
         width: '100%'
     },
     contactCardGrid: {
         width: '50%',
         paddingHorizontal: 4,
-        paddingVertical: 4,
+        paddingBottom: 8,
     },
     equalHeightInRow: {
         flex: 1
@@ -101,6 +103,9 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 4
+    },
+    listTopMargin: {
+        marginTop: 8
     }
 })
 

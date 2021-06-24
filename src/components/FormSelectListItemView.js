@@ -22,7 +22,7 @@ const FormSelectListItemView = (props) => {
                     }
                     <View style={styles.content}>
                         <HeadingText weight="bold">{props.title}</HeadingText>
-                        <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.description}</ContentText>
+                        <ContentText light numberOfLines={3} style={styles.description}>{props.description}</ContentText>
                     </View>
                     <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32} />
                 </View>
@@ -33,7 +33,7 @@ const FormSelectListItemView = (props) => {
 
 const styles = StyleSheet.create({
     outerWrapper: {
-        marginVertical: 4,
+        marginBottom: 8,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
         height: 64,
         marginEnd: 8,
         borderRadius: Layout.borderRadius
+    },
+    description: {
+        marginVertical: 4
     }
 })
 
