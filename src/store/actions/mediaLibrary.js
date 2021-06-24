@@ -1,11 +1,13 @@
 import Video from "../../models/Video"
+import Network from "../../constants/Network"
+import { fetchWithTimeout } from "../../network/network"
 import API from "../../constants/API"
 
 export const SET_MEDIALIBRARY = "SET_MEDIALIBRARY"
 
 export const fetchMediaLibrary = () => {
     return async dispatch => {
-        const response = await fetch(`${API.URL}/${API.VERSION}/videos/info`, {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/videos/info`, Network.requestTimeout, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
