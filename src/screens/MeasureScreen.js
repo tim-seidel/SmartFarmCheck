@@ -242,7 +242,7 @@ const MeasureScreen = props => {
 
 const styles = StyleSheet.create({
   noContent: {
-    marginVertical: 8,
+    marginHorizontal: 8,
   },
   mainColumn: {
     flex: 1,
