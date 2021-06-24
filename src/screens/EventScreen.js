@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Platform, Alert, Modal } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler'
 import { Picker } from "@react-native-picker/picker"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo';
@@ -13,7 +14,6 @@ import EventListView from '../components/EventListView';
 import { ContentText, HeadingText } from '../components/common/Text';
 import IconButton from '../components/common/IconButton';
 import View from '../components/common/View'
-import Separator from '../components/common/Separator'
 
 import { fetchEvents } from '../store/actions/events';
 import Keys from '../constants/Keys';
@@ -66,51 +66,10 @@ const EventScreen = (props) => {
     checkAndLoadEvents()
   }
 
-  function calendarOptionChangeHandler(value, index) {
-    console.log("Calendaroption: ", value, index)
-    setSelectedCalendarOption(value)
-    if (index >= 0 && index < calendarOptions.length) {
-      setSelectedCalendarOptionId(calendarOptions[index].id)
-    } else {
-      setSelectedCalendarOptionId(undefined)
-    }
-  }
-
-  async function saveDefaultCalendarHandler() {
-    if (selectedCalendarOptionId === "sfc_calendar_new") {
-      try {
-        console.log("Creating new calendar...")
-        const id = await createLocalCalendarAsync()
-        console.log("EVENTSCREEN", "Created new calendar with id", id)
-        await saveDefaultCalendarAsync(id)
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      console.log("Use choise was: " + selectedCalendarOptionId)
-      await saveDefaultCalendarAsync(selectedCalendarOptionId)
-    }
-    setShowCalendarModal(false)
-  }
-
-  async function saveDefaultCalendarAsync(id) {
-    return AsyncStorage.setItem(Keys.DEFAULT_CALENDAR_ID, id)
-  }
-
   let contentView = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
     return <Picker.Item value={opt} key={index} label={opt.name} />
   });
-
-  const nothingFittingFoundContent =
-    <View component style={styles.nothingFittingEvent}>
-      <HeadingText weight="bold">{Strings.event_nothing_fitting_title}</HeadingText>
-      <ContentText style={styles.nothingFittingButton}>{Strings.event_nothing_fitting_content}</ContentText>
-      <IconButton
-        text={Strings.event_nothing_fitting_goto_contact}
-        icon="card-account-mail-outline"
-        onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
-    </View>
 
   if (errorCode !== 0) {
     contentView = <NoContentView
@@ -130,14 +89,41 @@ const EventScreen = (props) => {
       style={styles.noContent}
       title={Strings.event_loading_no_network}
       onRetry={retryHandler} />
-  } else if (!events || events.length === 0) {
-    contentView = <NoContentView
-      icon="calendar-remove"
-      style={styles.noContent}
-      retryTitle={Strings.refresh}
-      onRetry={retryHandler}
-      title={Strings.event_loading_empty} />
+  } else if (events.length === 0) {
+    contentView = (
+      <ScrollView style={styles.scroll}>
+        <HeadingText large weight="bold" style={styles.heading}>{Strings.event_list_heading}</HeadingText>
+        <View component style={styles.nothingFittingEvent}>
+          <HeadingText weight="bold">{Strings.event_no_upcomming_title}</HeadingText>
+          <ContentText style={styles.nothingFittingButton}>{Strings.event_no_upcomming_alternatives}</ContentText>
+          <View style={styles.buttonRow}>
+            <View style={styles.leftModalButton}>
+              <IconButton
+                text={Strings.event_nothing_fitting_goto_website}
+                icon="web"
+                onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
+            </View>
+            <View style={styles.rightModalButton} >
+              <IconButton
+                text={Strings.event_nothing_fitting_goto_contact}
+                icon="card-account-mail-outline"
+                onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    )
   } else {
+    const nothingFittingFoundContent =
+      <View component style={styles.nothingFittingEvent}>
+        <HeadingText weight="bold">{Strings.event_nothing_fitting_title}</HeadingText>
+        <ContentText style={styles.nothingFittingButton}>{Strings.event_nothing_fitting_content}</ContentText>
+        <IconButton
+          text={Strings.event_nothing_fitting_goto_contact}
+          icon="card-account-mail-outline"
+          onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
+      </View>
+
     contentView = (
       <>
         <Modal transparent visible={showCalendarModal}>
@@ -171,13 +157,44 @@ const EventScreen = (props) => {
           events={events}
           onExportToCalendarPress={(e) => exportToCalendarWithPermissionInformationHandler(e)} />
       </>)
-  }
 
+  }
   return (
     <RootView>
       {contentView}
     </RootView>
   );
+
+  function calendarOptionChangeHandler(value, index) {
+    console.log("Calendaroption: ", value, index)
+    setSelectedCalendarOption(value)
+    if (index >= 0 && index < calendarOptions.length) {
+      setSelectedCalendarOptionId(calendarOptions[index].id)
+    } else {
+      setSelectedCalendarOptionId(undefined)
+    }
+  }
+
+  async function saveDefaultCalendarHandler() {
+    if (selectedCalendarOptionId === "sfc_calendar_new") {
+      try {
+        console.log("Creating new calendar...")
+        const id = await createLocalCalendarAsync()
+        console.log("EVENTSCREEN", "Created new calendar with id", id)
+        await saveDefaultCalendarAsync(id)
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      console.log("Use choise was: " + selectedCalendarOptionId)
+      await saveDefaultCalendarAsync(selectedCalendarOptionId)
+    }
+    setShowCalendarModal(false)
+  }
+
+  async function saveDefaultCalendarAsync(id) {
+    return AsyncStorage.setItem(Keys.DEFAULT_CALENDAR_ID, id)
+  }
 
   async function exportToCalendarWithPermissionInformationHandler(event) {
     var status = 'denied'
@@ -379,7 +396,7 @@ const styles = StyleSheet.create({
   nothingFittingEvent: {
     padding: 8,
     marginHorizontal: 4,
-    marginTop: 8,
+    marginVertical: 8,
     borderColor: Layout.borderColor,
     borderWidth: Layout.borderWidth,
     borderRadius: Layout.borderRadius
@@ -411,11 +428,16 @@ const styles = StyleSheet.create({
     marginStart: 4
   },
   eventList: {
-    marginBottom: 8,
     marginHorizontal: 4
   },
   noContent: {
     margin: 8
+  },
+  buttonRow: {
+    flexDirection: 'row'
+  },
+  scroll: {
+    marginHorizontal: 4
   }
 });
 

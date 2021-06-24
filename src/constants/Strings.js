@@ -116,9 +116,12 @@ const Strings = {
     event_loading_error: "Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     event_loading_empty: "Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Aktuell stehen keine Veranstaltungen an.",
     event_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Veranstaltungen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    event_no_upcomming_title: "Keine Veranstaltungen geplant",
+    event_no_upcomming_alternatives: "Aktuell sind keine Veranstaltungen geplant. Sobald es Neuigkeiten gibt, werden sie hier angezeigt. Alternativ können Sie auch direkt auf unser Website nach neuen und abgeschlossenen Veranstaltungen suchen, oder uns direkt mit Ihrem Anliegen kontaktieren. sdsaikdj askdlasj dlaskdj sadßqw+djs djsa+d#disod asdsandsadiasd sdaspdsdpsj sadasjdow adsjdas  dw dw owdasod sadsd saodias dasdpkksa dasopdsadpas dasdkajsdpisadpa sdsaüäjdipja sdasdülpkkdjsaßijdkajsreß+qwrewrfkeprfjea+wepr#je rerew iRj Reorj ERoe jreo dsdos. spdasi dasüdoias dosdsapdäm sdpijsadasdjpsa djsadß+ajsüdjwdasjd jaswodj sa jsadaspjd s sd sadasdas daspdoasj dsad+üwsdapsd rgtwqe ntedstesrddpkjt gasdoaspjd asdsadoj ",
     event_nothing_fitting_title: "Keine passende Veranstaltung für Sie dabei?",
     event_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren.",
     event_nothing_fitting_goto_contact: "Zum Kontakt",
+    event_nothing_fitting_goto_website: "Zur Website",
     event_already_in_calendar_title: "Veranstaltung bereits eingetragen",
     event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
 
