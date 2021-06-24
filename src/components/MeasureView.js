@@ -41,9 +41,11 @@ const MeasureView = props => {
         //Check update threshold
         if (measure != null) {
             const diff = Date.now() - measure.updateTime
-            console.log("Measure is " + Number(diff/1000/60/60).toFixed(2) + " hours old.")
-            if (diff > Network.UPDATE_MEASURE_THRESHOLD) {
+            if (diff < Network.UPDATE_MEASURE_THRESHOLD) {
+                console.log("Measure is ~ " + Number(diff / 1000 / 60).toFixed(0) + " minute(s) old. Using cached measure.")
                 return
+            }else{
+                console.log("Measure is ~ " + Number(diff / 1000 / 60).toFixed(0) + " minute(s) old. Updating measure.")
             }
         }
 
@@ -107,7 +109,7 @@ function formatHTML(measure, colorTheme) {
     const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; } a {word-break: break-all;}</style></head>'
     var heading = '<h2>' + measure.name + '</h2>'
 
-    let description = measure.description  ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</p>"
+    let description = measure.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</p>"
     description = description.replace(new RegExp("<img ", 'g'), "<img style=\"max-width: 100%\" ")
     description = description.replace(new RegExp("open=\"true\"", 'g'), "")
 
