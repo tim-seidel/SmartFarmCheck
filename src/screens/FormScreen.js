@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Alert, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Alert, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
@@ -248,7 +248,7 @@ const FormScreen = props => {
                         </TouchableOpacity>
                         <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}>
                             <ContentText weight="bold" style={pageInfoTextStyle}>{pagingIndex + 1}</ContentText>
-                            <ContentText style={pageInfoTextStyle}>{" / " +questions.length}</ContentText>
+                            <ContentText style={pageInfoTextStyle}>{" / " + questions.length}</ContentText>
                         </View>
                         <TouchableOpacity
                             disabled={!canNavigateNext}
@@ -278,12 +278,14 @@ const FormScreen = props => {
         contentView =
             <>
                 {questionContent}
-                <View style={styles.submitButton}>
-                    <IconButton
-                        icon="chart-areaspline"
-                        text={Strings.form_calculate}
-                        onPress={calculateHandler} />
-                </View>
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset="64">
+                    <View style={styles.submitButton}>
+                        <IconButton
+                            icon="chart-areaspline"
+                            text={Strings.form_calculate}
+                            onPress={calculateHandler} />
+                    </View>
+                </KeyboardAvoidingView>
             </>
     }
 
