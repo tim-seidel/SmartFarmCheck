@@ -8,6 +8,7 @@ import IconButton from '../components/common/IconButton'
 import { HeadingText } from '../components/common/Text'
 
 import { IMPRINTSCREEN, PRIVACYSCREEN } from '../constants/Paths'
+import Strings from '../constants/Strings'
 
 const onSponsorPressedHandler = (url) => {
   Linking.openURL(url)
@@ -18,16 +19,16 @@ export default function AboutScreen({ navigation }) {
     <RootView thin>
       <ScrollView style={styles.scroll} >
         <HeadingText large weight="bold" style={styles.title}>Gefördert durch:</HeadingText>
-        <SponsorView style={styles.sponsor} name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} />
-        <SponsorView style={styles.sponsor} name="Mittelstand Digital" onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logos/logo_mittelstand_digital.png")} />
-        <SponsorView style={styles.sponsor} name="BM für Wirtschaft und Energie" onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logos/logo_bmwi.png")} />
+        <SponsorView style={styles.sponsor} name={Strings.imprint_mittelstand_4} onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} />
+        <SponsorView style={styles.sponsor} name={Strings.imprint_mittelstand_digital} onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logos/logo_mittelstand_digital.png")} />
+        <SponsorView style={styles.sponsor} name={Strings.imprint_bmwi} onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logos/logo_bmwi.png")} />
       </ScrollView>
       <View style={styles.buttonRow}>
         <View style={{ flex: 1, marginLeft: 8, marginRight: 4, marginBottom: 8 }}>
-          <IconButton icon="information-variant" text="Impressum" onPress={() => { navigation.navigate(IMPRINTSCREEN) }} />
+          <IconButton icon="information-variant" text={Strings.imprint} onPress={() => { navigation.navigate(IMPRINTSCREEN) }} />
         </View>
         <View style={{ flex: 1, marginLeft: 4, marginRight: 8, marginBottom: 8 }}>
-          <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate(PRIVACYSCREEN) }} />
+          <IconButton icon="lock" text={Strings.privacy} onPress={() => { navigation.navigate(PRIVACYSCREEN) }} />
         </View>
       </View>
     </RootView>
