@@ -117,8 +117,9 @@ const EventScreen = (props) => {
     const nothingFittingFoundContent =
       <View component style={styles.nothingFittingEvent}>
         <HeadingText weight="bold">{Strings.event_nothing_fitting_title}</HeadingText>
-        <ContentText style={styles.nothingFittingButton}>{Strings.event_nothing_fitting_content}</ContentText>
+        <ContentText style={styles.nothingFittingContent}>{Strings.event_nothing_fitting_content}</ContentText>
         <IconButton
+          style={styles.nothingFittingButton}
           text={Strings.event_nothing_fitting_goto_contact}
           icon="card-account-mail-outline"
           onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
@@ -166,7 +167,7 @@ const EventScreen = (props) => {
   );
 
   function calendarOptionChangeHandler(value, index) {
-    console.log("Calendaroption: ", value, index)
+    console.log("Calendaroption " + value.id, "Index: " + index, "Length: " + calendarOptions.length)
     setSelectedCalendarOption(value)
     if (index >= 0 && index < calendarOptions.length) {
       setSelectedCalendarOptionId(calendarOptions[index].id)
@@ -401,8 +402,8 @@ const styles = StyleSheet.create({
     borderWidth: Layout.borderWidth,
     borderRadius: Layout.borderRadius
   },
-  nothingFittingButton: {
-    marginVertical: 8
+  nothingFittingContent: {
+    marginVertical: 4
   },
   heading: {
     marginTop: 8,
