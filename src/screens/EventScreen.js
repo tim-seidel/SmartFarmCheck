@@ -96,7 +96,12 @@ const EventScreen = (props) => {
         <HeadingText large weight="bold" style={styles.heading}>{Strings.event_list_heading}</HeadingText>
         <View component style={styles.nothingFittingEvent}>
           <HeadingText weight="bold">{Strings.event_no_upcomming_title}</HeadingText>
-          <ContentText style={styles.nothingFittingButton}>{Strings.event_no_upcomming_alternatives}</ContentText>
+          <ContentText style={styles.nothingFittingContent}>{Strings.event_no_upcomming_description}</ContentText>
+          <IconButton
+            text={Strings.refresh}
+            icon="reload"
+            onPress={retryHandler} />
+          <ContentText style={styles.nothingFittingContent}>{Strings.event_no_upcomming_alternatives}</ContentText>
           <View style={styles.buttonRow}>
             <View style={styles.leftModalButton}>
               <IconButton
@@ -160,7 +165,7 @@ const EventScreen = (props) => {
           onExportToCalendarPress={(e) => exportToCalendarWithPermissionHandler(e)} />
       </>)
   }
-  
+
   return (
     <RootView>
       {contentView}
