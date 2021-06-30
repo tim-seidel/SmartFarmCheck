@@ -116,11 +116,23 @@ const Strings = {
     event_loading_error: "Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     event_loading_empty: "Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Aktuell stehen keine Veranstaltungen an.",
     event_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Veranstaltungen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    event_no_upcomming_title: "Keine geplanten Veranstaltungen",
+    event_no_upcomming_description: "Aktuell sind keine Veranstaltungen geplant. Sobald es Neuigkeiten gibt, werden sie hier angezeigt.",
+    event_no_upcomming_alternatives: "Alternativ können Sie auch direkt auf unser Website nach Veranstaltungen suchen oder uns direkt mit Ihrem Anliegen kontaktieren.",
     event_nothing_fitting_title: "Keine passende Veranstaltung für Sie dabei?",
     event_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren.",
     event_nothing_fitting_goto_contact: "Zum Kontakt",
+    event_nothing_fitting_goto_website: "Zur Website",
     event_already_in_calendar_title: "Veranstaltung bereits eingetragen",
     event_already_in_calendar_text: "Im Kalender ist bereits eine Veranstaltung mit gleichem Namen und gleichen Zeiten eingetragen, sie wird daher nicht erneut gespeichert.",
+    event_no_description_available: "Keine Beschreibung verfügbar.",
+    event_details: "Details",
+    event_register: "Anmelden",
+    event_remember: "Merken",
+    event_time_undefined: "Kein Zeitraum bekannt.",
+    event_start_or_end_undefined: "[Offen]",
+    event_max_participant_1: "Diese Veranstaltung ist auf ",
+    event_max_participant_2: " Teilnehmer begrenzt!",
 
     calendar_create_new: "[Neuen Kalender erstellen]",
     calendar_select_default: "Standardkalender auswählen",
@@ -130,6 +142,8 @@ const Strings = {
     permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine automatisch in Ihren Kalender eintragen dürfen. Sie können diese manuell in den Systemeinstellungen erteilen.",
     permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alternativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
     permission_calendar_information_after_denied_permanent: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Wenn Sie sich dennoch umentscheiden können Sie die Berechtigung in den Berechtigungseinstellung Ihres System ändern.",
+    calendar_event_added_title: "Veranstaltung erstellt.",
+    calendar_event_added_description: "Die Veranstaltung wurde Ihrem Kalender hinzugefügt.",
 
     settings_appearance_title: "Helles/dunkels Design",
     settings_appearance_description: "Das Design der App passt sich automatisch den eingestellten Präferenzen Ihres Gerätes an.",
@@ -174,6 +188,12 @@ const Strings = {
     license_mit_permission: "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:",
     license_mit_condition: "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.",
     license_mit_text: " THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+
+    privacy: "Datenschutz",
+    imprint: "Impressum",
+    imprint_mittelstand_4: "Mittelstand 4.0 (Lingen)",
+    imprint_mittelstand_digital: "Mittelstand Digital",
+    imprint_bmwi: "BMWi"
 }
 
 export default Strings

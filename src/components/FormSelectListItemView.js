@@ -21,8 +21,8 @@ const FormSelectListItemView = (props) => {
                             <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
                     }
                     <View style={styles.content}>
-                        <HeadingText weight="bold">{props.title}</HeadingText>
-                        <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.description}</ContentText>
+                        <HeadingText style={styles.heading} weight="bold">{props.title}</HeadingText>
+                        <ContentText light numberOfLines={3} style={styles.description}>{props.description}</ContentText>
                     </View>
                     <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32} />
                 </View>
@@ -33,7 +33,7 @@ const FormSelectListItemView = (props) => {
 
 const styles = StyleSheet.create({
     outerWrapper: {
-        marginVertical: 4,
+        marginBottom: 8,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
@@ -42,8 +42,7 @@ const styles = StyleSheet.create({
     innerWrapper: {
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: 8,
-        paddingVertical: 12
+        margin: 8
     },
     content: {
         flexDirection: "column",
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
         height: 64,
         marginEnd: 8,
         borderRadius: Layout.borderRadius
-    }
+    },
 })
 
 export default FormSelectListItemView

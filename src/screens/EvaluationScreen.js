@@ -138,8 +138,7 @@ const EvaluationScreen = (props) => {
                         columns={1}
                         style={styles.ratingListSplit}
                         ratings={evaluation.ratings}
-                        ratingSelected={ratingSelectedHandlerSplit}
-                    >
+                        ratingSelected={ratingSelectedHandlerSplit}>
                         {informationHeader}
                     </EvaluationListView>
                     <View style={styles.measureViewSplit}>
@@ -152,8 +151,7 @@ const EvaluationScreen = (props) => {
                     columns={orientation === 'landscape' ? 2 : 1}
                     style={styles.ratingList}
                     ratings={evaluation.ratings}
-                    ratingSelected={ratingSelectedHandlerList}
-                >
+                    ratingSelected={ratingSelectedHandlerList}>
                     {informationHeader}
                 </EvaluationListView>
         }
@@ -169,20 +167,10 @@ const EvaluationScreen = (props) => {
 const styles = StyleSheet.create({
     informationCard: {
         marginTop: 8,
-        marginHorizontal: 4
     },
     heading: {
-        marginTop: 16,
-        marginBottom: 8,
+        marginVertical: 8,
         marginStart: 6
-    },
-    calculateButtonWrapper: {
-        marginHorizontal: 8,
-        marginTop: 4,
-        marginBottom: 8
-    },
-    calculateButton: {
-        justifyContent: "center"
     },
     splitViewRow: {
         flex: 1,
@@ -190,19 +178,15 @@ const styles = StyleSheet.create({
     },
     ratingList: {
         flex: 1,
-        marginHorizontal: 4,
+        marginHorizontal: 8,
     },
     ratingListSplit: {
         flex: 1,
-        marginHorizontal: 4,
+        marginHorizontal: 8,
     },
     measureViewSplit: {
         flex: 2,
-        marginHorizontal: 4
-    },
-    mainColumn: {
-        flex: 1,
-        flexDirection: 'column'
+        marginEnd: 8
     },
     helpButton: {
         marginBottom: 8,

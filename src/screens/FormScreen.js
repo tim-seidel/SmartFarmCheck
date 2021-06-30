@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Alert, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import { View, Alert, StyleSheet, TouchableOpacity } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { useSelector, useDispatch } from 'react-redux'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import NetInfo from '@react-native-community/netinfo'
 
 import RootView from '../components/common/RootView'
@@ -11,8 +13,6 @@ import QuestionView from "../components/QuestionView"
 import IconButton from '../components/common/IconButton'
 import ToolbarButton from '../components/ToolbarButton'
 import { ContentText } from '../components/common/Text'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme } from '../constants/Colors'
 
 import { fetchQuestions } from '../store/actions/questions'
 import Strings from '../constants/Strings'
@@ -20,6 +20,7 @@ import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
 import { EVALUATIONSCREEN } from '../constants/Paths'
 import { useLayoutEffect } from 'react'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 const layout_list = "list"
 const layout_single = "single"
@@ -184,12 +185,15 @@ const FormScreen = props => {
             onRetry={retryHandler}
             title={Strings.form_loading_empty} />
     } else {
+        const listTopMargin = <View style={styles.listTopMargin} />
         var questionContent = null
         if (mode === layout_list) {
             questionContent = (
                 <View style={styles.listContainer}>
                     <FlatList
                         data={questions}
+                        ListHeaderComponent={listTopMargin}
+                        removeClippedSubviews={false}
                         renderItem={({ item, index }) =>
                             <QuestionView
                                 style={styles.question}
@@ -244,8 +248,7 @@ const FormScreen = props => {
                         </TouchableOpacity>
                         <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}>
                             <ContentText weight="bold" style={pageInfoTextStyle}>{pagingIndex + 1}</ContentText>
-                            <ContentText small style={pageInfoTextStyle}> von </ContentText>
-                            <ContentText style={pageInfoTextStyle}>{questions.length}</ContentText>
+                            <ContentText style={pageInfoTextStyle}>{" / " +questions.length}</ContentText>
                         </View>
                         <TouchableOpacity
                             disabled={!canNavigateNext}
@@ -300,7 +303,7 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
-        margin: 8
+        marginHorizontal: 8
     },
     question: {
         marginBottom: 8
@@ -346,6 +349,9 @@ const styles = StyleSheet.create({
     submitButton: {
         marginHorizontal: 8,
         marginBottom: 8
+    },
+    listTopMargin: {
+        marginTop: 8
     }
 })
 

@@ -1,4 +1,6 @@
 import Event from "../../models/Event"
+import Network from "../../constants/Network"
+import { fetchWithTimeout } from "../../network/network"
 import API from "../../constants/API"
 
 export const SET_EVENTS = "SET_EVENTS"
@@ -6,7 +8,7 @@ export const UPDATE_EVENT = "UPDATE_EVENT"
 
 export const fetchEvents = () => {
     return async dispatch => {
-        const response = await fetch(`${API.URL}/${API.VERSION}/events`, {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/events`, Network.requestTimeout, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 
-import RootView from '../components/common/RootView'
+import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView'
 import FormSelectListItemView from '../components/FormSelectListItemView'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
@@ -16,7 +17,7 @@ import Keys from '../constants/Keys'
 import { FORMSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
 import Layout from '../constants/Layout';
-import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors';
+import { darkTheme, lightTheme } from '../constants/Colors';
 
 const FormSelectScreen = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
@@ -63,8 +64,11 @@ const FormSelectScreen = (props) => {
         <View style={{ ...styles.footer, backgroundColor: colorTheme.componentBackground }}>
             <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
             <View style={styles.footerContent}>
-                <HeadingText disabled weight="bold">{Strings.form_select_additional_forms}</HeadingText>
-                <ContentText light style={styles.footerContentText}>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
+                <View style={styles.footerRow}>
+                    <Icon size={24} name="info-outline" color={colorTheme.textPrimary} />
+                    <HeadingText style={styles.footerContentHeading} weight="bold">{Strings.form_select_additional_forms}</HeadingText>
+                </View>
+                <ContentText light>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
             </View>
         </View>
 
@@ -122,30 +126,32 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     heading: {
-        marginTop: 16,
-        marginBottom: 8,
-        marginStart: 2
+        marginVertical: 8
     },
     list: {
         marginHorizontal: 8
     },
     footer: {
-        marginVertical: 4,
+        marginBottom: 8,
         borderRadius: Layout.borderRadius,
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
         overflow: "hidden",
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: 8,
-        paddingVertical: 12
+        padding: 8
+    },
+    footerRow: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     footerContent: {
         flexDirection: "column",
         flex: 1
     },
-    footerContentText: {
-        marginVertical: 4
+    footerContentHeading: {
+        marginStart: 4,
+        marginEnd: 8
     },
     image: {
         width: 64,
