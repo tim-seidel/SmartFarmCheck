@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Alert, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import { View, Alert, StyleSheet, TouchableOpacity } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { useSelector, useDispatch } from 'react-redux'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import NetInfo from '@react-native-community/netinfo'
 
@@ -192,6 +193,7 @@ const FormScreen = props => {
                     <FlatList
                         data={questions}
                         ListHeaderComponent={listTopMargin}
+                        removeClippedSubviews={false}
                         renderItem={({ item, index }) =>
                             <QuestionView
                                 style={styles.question}
