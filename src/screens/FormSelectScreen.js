@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 
-
+import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView'
 import FormSelectListItemView from '../components/FormSelectListItemView'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
@@ -17,8 +17,7 @@ import Keys from '../constants/Keys'
 import { FORMSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
 import Layout from '../constants/Layout';
-import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors';
-import RootView from '../components/common/RootView';
+import { darkTheme, lightTheme } from '../constants/Colors';
 
 const FormSelectScreen = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
@@ -66,7 +65,7 @@ const FormSelectScreen = (props) => {
             <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
             <View style={styles.footerContent}>
                 <View style={styles.footerRow}>
-                    <Icon size={24} name="info-outline" />
+                    <Icon size={24} name="info-outline" color={colorTheme.textPrimary} />
                     <HeadingText style={styles.footerContentHeading} weight="bold">{Strings.form_select_additional_forms}</HeadingText>
                 </View>
                 <ContentText light>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
