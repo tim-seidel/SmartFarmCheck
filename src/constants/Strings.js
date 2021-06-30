@@ -141,6 +141,8 @@ const Strings = {
     permission_calendar_information_before_denied_permanent: "Sie scheinen die Kalenderberechtigung abgelehnt zu haben, weswegen wir Ihnen leider keine Termine automatisch in Ihren Kalender eintragen dürfen. Sie können diese manuell in den Systemeinstellungen erteilen.",
     permission_calendar_information_after_denied: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Alternativ können Sie den Termin natürlich manuell eintragen, oder die Berechtigung bei der nächsten Abfrage erteilen.",
     permission_calendar_information_after_denied_permanent: "Ohne die Berechtigung können wir die Termine für Sie leider nicht in Ihren Kalender eintragen. Wenn Sie sich dennoch umentscheiden können Sie die Berechtigung in den Berechtigungseinstellung Ihres System ändern.",
+    calendar_event_added_title: "Veranstaltung erstellt.",
+    calendar_event_added_description: "Die Veranstaltung wurde Ihrem Kalender hinzugefügt.",
 
     settings_appearance_title: "Helles/dunkels Design",
     settings_appearance_description: "Das Design der App passt sich automatisch den eingestellten Präferenzen Ihres Gerätes an.",
