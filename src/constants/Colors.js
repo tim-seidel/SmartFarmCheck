@@ -26,7 +26,7 @@ export const lightTheme = {
 export const darkTheme = {
   name: 'dark',
 
-  primary: defaultPrimary,
+  primary: defaultError,
   secondary: defaultSecondary,
   accent: "#ef4c2d",
 
