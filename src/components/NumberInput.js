@@ -23,7 +23,6 @@ const NumberInput = (props) => {
                 placeholderTextColor={colorTheme.textHint}
                 keyboardType="numeric"
                 onChangeText={numberChanged}
-                returnKeyType="done"
                 style={{
                     ...(unit ? styles.inputWithUnit : styles.input),
                     color: colorTheme.textPrimary,

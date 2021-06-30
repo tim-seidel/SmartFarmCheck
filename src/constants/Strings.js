@@ -65,7 +65,7 @@ const Strings = {
     form_loading_empty: "Aktuell konnten keine Fragen zum Formular gefunden werden. Bitte übeprüfen Sie Ihre Internetverbindung und versuchen Sie es später erneut.",
     form_loading_no_network: "Aktuell besteht keine Internetverbindung. Das aktuelle Formular kann daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
     form_reset: "Zurücksetzen",
-    form_calculate: "Jetzt berechnen",
+    form_calculate: "Jederzeit berechnen",
     form_paging_backwards: "Zurück",
     form_paging_forwards: "Weiter",
     form_dialog_confirm_reset_title: "Wirklich zurücksetzen?",

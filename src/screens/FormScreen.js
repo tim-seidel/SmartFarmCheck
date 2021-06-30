@@ -185,14 +185,14 @@ const FormScreen = props => {
             onRetry={retryHandler}
             title={Strings.form_loading_empty} />
     } else {
-        const listTopMargin = <View style={styles.listTopMargin} />
+        const listBottomMargin = <View style={styles.listBottomMargin} />
         var questionContent = null
         if (mode === layout_list) {
             questionContent = (
                 <View style={styles.listContainer}>
                     <FlatList
                         data={questions}
-                        ListHeaderComponent={listTopMargin}
+                        ListFooterComponent={listBottomMargin}
                         removeClippedSubviews={false}
                         renderItem={({ item, index }) =>
                             <QuestionView
@@ -277,14 +277,16 @@ const FormScreen = props => {
 
         contentView =
             <>
+                <View style={styles.submitButton}>
+                    <IconButton
+                        type="solid"
+                        icon="chart-areaspline"
+                        text={Strings.form_calculate}
+                        onPress={calculateHandler} />
+                </View>
                 {questionContent}
                 <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset="64">
-                    <View style={styles.submitButton}>
-                        <IconButton
-                            icon="chart-areaspline"
-                            text={Strings.form_calculate}
-                            onPress={calculateHandler} />
-                    </View>
+                    <View /> 
                 </KeyboardAvoidingView>
             </>
     }
@@ -308,7 +310,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 8
     },
     question: {
-        marginBottom: 8
+        marginTop: 8
     },
     questionPagingRow: {
         flexDirection: "row",
@@ -350,10 +352,10 @@ const styles = StyleSheet.create({
     },
     submitButton: {
         marginHorizontal: 8,
-        marginBottom: 8
-    },
-    listTopMargin: {
         marginTop: 8
+    },
+    listBottomMargin: {
+        marginBottom: 8
     }
 })
 
