@@ -23,6 +23,7 @@ const StringInput = (props) => {
             textAlignVertical='top'
             placeholderTextColor={colorTheme.textHint}
             onChangeText={textChanged}
+            returnKeyType="done"
             style={{
                 ...styles.input,
                 color: colorTheme.textPrimary,

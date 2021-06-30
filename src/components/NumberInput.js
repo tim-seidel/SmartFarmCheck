@@ -21,7 +21,9 @@ const NumberInput = (props) => {
                 value={input}
                 placeholder={Strings.form_input_placeholder}
                 placeholderTextColor={colorTheme.textHint}
-                onChangeText={numberChanged} keyboardType="numeric"
+                keyboardType="numeric"
+                onChangeText={numberChanged}
+                returnKeyType="done"
                 style={{
                     ...(unit ? styles.inputWithUnit : styles.input),
                     color: colorTheme.textPrimary,
