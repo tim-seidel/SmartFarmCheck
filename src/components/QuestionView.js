@@ -73,6 +73,7 @@ const QuestionView = props => {
      */
     const inputHandler = (s_input) => {
         if (s_input === input) return
+        s_input = s_input.replace(',', '.')
         setInput(s_input)
 
         const { validity } = validation(validator, s_input)
