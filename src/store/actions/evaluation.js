@@ -63,7 +63,7 @@ export const evaluationToContact = (formUuid, answers, email) => {
             },
             body: JSON.stringify({
                 answers: answers,
-                email: "dev@timseidel.de"
+                email: email
             })
         })
 
