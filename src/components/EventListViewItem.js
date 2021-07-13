@@ -45,26 +45,19 @@ const EventListViewItem = (props) => {
                     <ContentText style={styles.text}>{Strings.event_max_participant_1 + event.maxParticipantCount + Strings.event_max_participant_2}</ContentText>
                 </View>}
             <View style={styles.eventButtonRow}>
-                <View style={styles.eventButtonWrapper}>
+                <View style={styles.eventButtonLeft}>
                     <IconButton
                         icon="web"
                         fontSize={15}
                         text={Strings.event_details}
                         onPress={props.onDetailPress} />
                 </View>
-                <View style={styles.eventButtonMarginWrapper}>
+                <View style={styles.eventButtonRight}>
                     <IconButton
                         icon="account-plus-outline"
                         text={Strings.event_register}
                         fontSize={15}
                         onPress={props.onRegisterPress} />
-                </View>
-                <View style={styles.eventButtonWrapper}>
-                    <IconButton
-                        icon="bookmark-outline"
-                        text={Strings.event_remember}
-                        fontSize={15}
-                        onPress={props.onExportToCalendarPress} />
                 </View>
             </View>
         </View>
@@ -120,12 +113,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginTop: 4
     },
-    eventButtonWrapper: {
+    eventButtonLeft: {
         flex: 1,
+        marginEnd: 2
     },
-    eventButtonMarginWrapper: {
+    eventButtonRight: {
         flex: 1,
-        marginHorizontal: 4
+        marginStart: 2
     },
 })
 
