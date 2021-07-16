@@ -6,7 +6,7 @@
       "ios",
       "android"
     ],
-    "version": "1.9.5",
+    "version": "2.0",
     "orientation": "default",
     "icon": "./assets/images/icon_mittelstand_1024px.png",
     "splash": {
@@ -24,12 +24,12 @@
     ],
     "ios": {
       "bundleIdentifier": "de.hsos.coala.coalapas",
-      "buildNumber": "1.9.5",
+      "buildNumber": "2.0.0",
       "supportsTablet": true
     },
     "android": {
       "package": "de.hsos.coala.coalapas",
-      "versionCode": 1950
+      "versionCode": 2000
     }
   }
 }
