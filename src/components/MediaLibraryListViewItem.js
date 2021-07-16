@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
         marginTop: 8,
         flexDirection: "row",
-        alignItems: "center",
     },
     titleIcon: {
         marginEnd: 4,
+        marginTop: 2
     },
     separator: {
         backgroundColor: Layout.borderColor,
