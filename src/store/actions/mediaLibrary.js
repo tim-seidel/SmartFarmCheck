@@ -32,6 +32,13 @@ export const fetchMediaLibrary = () => {
             ))
         })
 
+        //Always sort the media items alphabetically, because they have no serverside sorting
+        mediaLibrary.sort(function (l, r) {
+            if (l.title < r.title) return -1
+            else if (l.title > r.title) return 1
+            else return 0
+        })
+
         dispatch({
             type: SET_MEDIALIBRARY,
             mediaLibrary: mediaLibrary ?? []
