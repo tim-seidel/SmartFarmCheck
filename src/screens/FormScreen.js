@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react'
 import { View, Alert, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -19,7 +19,6 @@ import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
 import { EVALUATIONSCREEN } from '../constants/Paths'
-import { useLayoutEffect } from 'react'
 import { darkTheme, lightTheme } from '../constants/Colors'
 
 const layout_list = "list"
@@ -285,7 +284,7 @@ const FormScreen = props => {
                         onPress={calculateHandler} />
                 </View>
                 {questionContent}
-                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset="64">
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset="96">
                     <View /> 
                 </KeyboardAvoidingView>
             </>
