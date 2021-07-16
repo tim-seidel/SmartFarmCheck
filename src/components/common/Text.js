@@ -35,8 +35,10 @@ export const HeadingText = (props) => {
     return (
         <Text
             {...props}
-            textBreakStrategy='highQuality'
+            textBreakStrategy='simple'
+            android_hyphenationFrequency="full"
             style={[{
+                flexShrink: 1,
                 color: props.disabled ? ConstantColors.grey : colorTheme.textPrimary,
                 fontWeight: props.weight,
                 fontSize: props.large ? text_size_heading_large : text_size_heading,
@@ -72,12 +74,16 @@ export const ContentText = (props) => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     return (
-        <Text {...props} textBreakStrategy='highQuality' android_hyphenationFrequency="full" style={[{
-            color: props.error ? colorTheme.error : props.light ? colorTheme.textSecondary : colorTheme.textPrimary,
-            fontWeight: props.weight,
-            fontSize: props.large ? text_size_content_large : props.small ? text_size_content_small : text_size_content,
-            textAlign: props.align
-        }, props.style]}>{props.children}</Text>
+        <Text {...props}
+            textBreakStrategy='simple'
+            android_hyphenationFrequency="full"
+            style={[{
+                flexShrink: 1,
+                color: props.error ? colorTheme.error : props.light ? colorTheme.textSecondary : colorTheme.textPrimary,
+                fontWeight: props.weight,
+                fontSize: props.large ? text_size_content_large : props.small ? text_size_content_small : text_size_content,
+                textAlign: props.align
+            }, props.style]}>{props.children}</Text>
     )
 }
 
