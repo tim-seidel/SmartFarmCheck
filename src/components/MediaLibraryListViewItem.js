@@ -21,7 +21,7 @@ const MediaLibraryListViewItem = (props) => {
                 </View>
                 <View style={styles.separator}></View>
                 <View style={styles.description}>
-                    <ContentText light numberOfLines={3}>{props.description ?? "Keine Beschreibung verfügbar."}</ContentText>
+                    <ContentText light numberOfLines={4}>{props.description ?? Strings.medialibrary_no_description_available}</ContentText>
                 </View>
             </View>
             <View>
