@@ -80,6 +80,8 @@ const Strings = {
     form_layout_questions: "Fragenlayout",
     form_help: "Hilfe",
     form_input_placeholder: "Hier eingeben...",
+    form_calculate_at_any_point_title: "Zu den Formularen",
+    form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten können, Sie einfach offen lassen.",
 
     form_select_available_forms: "Verfügbare Fragebögen:",
     form_select_additional_forms: "Weitere Fragebögen",

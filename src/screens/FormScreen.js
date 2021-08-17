@@ -20,6 +20,7 @@ import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
 import { EVALUATIONSCREEN } from '../constants/Paths'
 import { darkTheme, lightTheme } from '../constants/Colors'
+import InformationCard, { InformationLineBreak, InformationText } from '../components/common/InformationCard';
 
 const layout_list = "list"
 const layout_single = "single"
@@ -184,14 +185,34 @@ const FormScreen = props => {
             onRetry={retryHandler}
             title={Strings.form_loading_empty} />
     } else {
-        const listBottomMargin = <View style={styles.listBottomMargin} />
         var questionContent = null
+        const submitButton =
+            <View style={styles.submitButton}>
+                <IconButton
+                    type="solid"
+                    icon="chart-areaspline"
+                    text={Strings.form_calculate}
+                    onPress={calculateHandler} />
+            </View>
         if (mode === layout_list) {
+            const listBottomMargin = <View style={styles.listBottomMargin} />
+
+            const notAllQuestionsAdvice =
+                <View style={styles.notAllQuestionsAdvice}>
+                    <InformationCard title={Strings.form_calculate_at_any_point_title}>
+                        <InformationText>{Strings.form_calculate_at_any_point_content}</InformationText>
+                    </InformationCard>
+                </View>
+
+
+
             questionContent = (
                 <View style={styles.listContainer}>
+                    {submitButton}
                     <FlatList
                         data={questions}
                         ListFooterComponent={listBottomMargin}
+                        ListHeaderComponent={notAllQuestionsAdvice}
                         removeClippedSubviews={false}
                         renderItem={({ item, index }) =>
                             <QuestionView
@@ -224,51 +245,55 @@ const FormScreen = props => {
                         onInputChanged={(input, validity) => inputChangeHandler(currentQuestion, input, validity)}
                         index={pagingIndex + 1}
                     />
-                    <View style={styles.questionPagingRow}>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            disabled={!canNavigatePrevious}
-                            onPress={() => { questionPagingHandler(false) }}
-                            style={{ ...styles.pagingButtonBackTouch, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
-                            <View style={styles.pagingButtonBack}>
-                                <Icon
-                                    name="chevron-left"
-                                    size={24}
-                                    color={colorTheme.textPrimaryContrast}>
-                                </Icon>
-                                <ContentText
-                                    numberOfLines={1}
-                                    lineBreakMode="tail"
-                                    ellipsizeMode="tail"
-                                    style={pageInfoTextStyle}>
-                                    {Strings.form_paging_backwards}
-                                </ContentText>
+                    <View singleQuestionNavigationContainer>
+
+                        <View style={styles.questionPagingRow}>
+                            <TouchableOpacity
+                                activeOpacity={0.7}
+                                disabled={!canNavigatePrevious}
+                                onPress={() => { questionPagingHandler(false) }}
+                                style={{ ...styles.pagingButtonBackTouch, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
+                                <View style={styles.pagingButtonBack}>
+                                    <Icon
+                                        name="chevron-left"
+                                        size={24}
+                                        color={colorTheme.textPrimaryContrast}>
+                                    </Icon>
+                                    <ContentText
+                                        numberOfLines={1}
+                                        lineBreakMode="tail"
+                                        ellipsizeMode="tail"
+                                        style={pageInfoTextStyle}>
+                                        {Strings.form_paging_backwards}
+                                    </ContentText>
+                                </View>
+                            </TouchableOpacity>
+                            <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}>
+                                <ContentText weight="bold" style={pageInfoTextStyle}>{pagingIndex + 1}</ContentText>
+                                <ContentText style={pageInfoTextStyle}>{" / " + questions.length}</ContentText>
                             </View>
-                        </TouchableOpacity>
-                        <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}>
-                            <ContentText weight="bold" style={pageInfoTextStyle}>{pagingIndex + 1}</ContentText>
-                            <ContentText style={pageInfoTextStyle}>{" / " + questions.length}</ContentText>
+                            <TouchableOpacity
+                                disabled={!canNavigateNext}
+                                activeOpacity={0.7}
+                                onPress={() => { questionPagingHandler(true) }}
+                                style={{ ...styles.pagingButtonNextTouch, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
+                                <View style={styles.pagingButtonNext}>
+                                    <ContentText
+                                        numberOfLines={1}
+                                        lineBreakMode="tail"
+                                        ellipsizeMode="tail"
+                                        style={pageInfoTextStyle}>
+                                        {Strings.form_paging_forwards}
+                                    </ContentText>
+                                    <Icon
+                                        name="chevron-right"
+                                        size={24}
+                                        color={colorTheme.textPrimaryContrast}>
+                                    </Icon>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                            disabled={!canNavigateNext}
-                            activeOpacity={0.7}
-                            onPress={() => { questionPagingHandler(true) }}
-                            style={{ ...styles.pagingButtonNextTouch, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
-                            <View style={styles.pagingButtonNext}>
-                                <ContentText
-                                    numberOfLines={1}
-                                    lineBreakMode="tail"
-                                    ellipsizeMode="tail"
-                                    style={pageInfoTextStyle}>
-                                    {Strings.form_paging_forwards}
-                                </ContentText>
-                                <Icon
-                                    name="chevron-right"
-                                    size={24}
-                                    color={colorTheme.textPrimaryContrast}>
-                                </Icon>
-                            </View>
-                        </TouchableOpacity>
+                        {submitButton}
                     </View>
                 </View>
             )
@@ -276,16 +301,9 @@ const FormScreen = props => {
 
         contentView =
             <>
-                <View style={styles.submitButton}>
-                    <IconButton
-                        type="solid"
-                        icon="chart-areaspline"
-                        text={Strings.form_calculate}
-                        onPress={calculateHandler} />
-                </View>
                 {questionContent}
                 <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset="96">
-                    <View /> 
+                    <View />
                 </KeyboardAvoidingView>
             </>
     }
@@ -306,10 +324,11 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
-        marginHorizontal: 8
+        marginHorizontal: 8,
+        marginTop: 8
     },
     question: {
-        marginTop: 8
+        marginBottom: 8
     },
     questionPagingRow: {
         flexDirection: "row",
@@ -350,11 +369,14 @@ const styles = StyleSheet.create({
         borderRightWidth: Layout.borderWidth,
     },
     submitButton: {
-        marginHorizontal: 8,
-        marginTop: 8
+        marginBottom: 8
     },
     listBottomMargin: {
         marginBottom: 8
+    },
+    notAllQuestionsAdvice: {
+        marginBottom: 8
+
     }
 })
 
