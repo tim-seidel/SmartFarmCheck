@@ -167,7 +167,7 @@ const EventScreen = (props) => {
   }
 
   return (
-    <RootView>
+    <RootView thin={events && events.length === 1}>
       {contentView}
     </RootView>
   );

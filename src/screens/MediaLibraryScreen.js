@@ -120,7 +120,7 @@ const MediaLibraryScreen = (props) => {
             />
     }
     return (
-        <RootView>
+        <RootView thin={mediaLibrary && mediaLibrary.length === 1}>
             {contentView}
         </RootView>
     )
