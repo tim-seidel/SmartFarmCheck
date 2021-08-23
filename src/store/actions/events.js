@@ -1,12 +1,14 @@
 import Event from "../../models/Event"
-import eventMock from "../../data/Events"
+import Network from "../../constants/Network"
+import { fetchWithTimeout } from "../../network/network"
+import API from "../../constants/API"
 
 export const SET_EVENTS = "SET_EVENTS"
+export const UPDATE_EVENT = "UPDATE_EVENT"
 
 export const fetchEvents = () => {
     return async dispatch => {
-        /*
-        const response = await fetch('https://pas.coala.digital/v1/events', {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/events`, Network.requestTimeout, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -19,28 +21,50 @@ export const fetchEvents = () => {
 
         const json = await response.json()
         const events = []
-        
+
         json.forEach(e => {
             events.push(new Event(
-                e.uuid, 
-                e.name,
-                e.excerpt,
+                e.uuid,
+                e.title,
+                e.description,
                 new Date(e.startDate),
                 new Date(e.endDate),
-                e.url
+                e.link,
+                e.image,
+                e.maxParticipantCount ?? 0
             ))
         })
-        */
-
-        const events = eventMock
 
         events.sort(function (e1, e2) {
-            return e1 - e2
+            return e1.startDate - e2.startDate
         })
 
         dispatch({
             type: SET_EVENTS,
             events: events ?? []
+        })
+    }
+}
+
+export const fetchEvent = (id) => {
+    return async dispatch => {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/events/${id}`, Network.requestTimeout, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+
+        if (!response.ok) {
+            throw { status: response.status, statusText: response.statusText }
+        }
+
+        const json = await response.json()
+
+        dispatch({
+            type: UPDATE_EVENT,
+            eventId: json.uuid,
+            eventData: json
         })
     }
 }

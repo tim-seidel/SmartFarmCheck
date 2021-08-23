@@ -1,126 +1,111 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet } from 'react-native'
-import NetInfo from '@react-native-community/netinfo'
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Image } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import { useSelector, useDispatch } from 'react-redux'
+import NetInfo from '@react-native-community/netinfo';
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 
-import InformationCard, { InformationText } from '../components/InformationCard'
+import RootView from '../components/common/RootView';
+import NoContentView from '../components/common/NoContentView'
 import FormSelectListItemView from '../components/FormSelectListItemView'
-import Strings from '../constants/Strings'
-import NoContentView from '../components/NoContentView'
-import { HeadingText } from '../components/Text'
-import { FlatList } from 'react-native-gesture-handler'
-import Keys from '../constants/Keys'
-import RootView from '../components/RootView'
-import { FORMSCREEN } from '../constants/Paths'
+import InformationCard, { InformationText } from '../components/common/InformationCard'
+import { HeadingText, ContentText } from '../components/common/Text'
 
-const formsMock = [
-    {
-        uuid: '1',
-        title: 'Spezialisierung A',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung A zugeordnet sind.'
-    },
-    {
-        uuid: '2',
-        title: 'Spezialisierung B',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung B zugeordnet sind.'
-    },
-    {
-        uuid: '3',
-        title: 'Spezialisierung C',
-        description: 'Dieses Formular legt den Schwerpunkt auf Fragen zu Betrieben, die primär der Spezialisierung C zugeordnet sind.'
-    }
-]
+import Strings from '../constants/Strings'
+import Keys from '../constants/Keys'
+import { FORMSCREEN } from '../constants/Paths'
+import { fetchForms } from '../store/actions/forms';
+import Layout from '../constants/Layout';
+import { darkTheme, lightTheme } from '../constants/Colors';
 
 const FormSelectScreen = (props) => {
-    const [formsState, setFormsState] = useState({ isLoaded: false, hasNetwork: true, error: null, errorCode: 0, forms: [] })
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [hasNoNetwork, setHasNoNetwork] = useState(false)
+    const [errorCode, setErrorCode] = useState(0)
+
+    const dispatch = useDispatch()
+    const forms = useSelector(state => state.forms.forms)
+    const visibleForms = forms.filter(f => !f.hidden)
 
     useEffect(() => {
-        if (!formsState.isLoaded) {
-            checkAndLoadForms()
+        checkAndLoadForms()
+    }, [checkAndLoadForms])
+
+
+    const checkAndLoadForms = useCallback(async () => {
+        const netinfo = await NetInfo.fetch()
+        if (netinfo.isConnected) {
+            setIsLoading(true)
+            try {
+                await dispatch(fetchForms())
+            } catch (err) {
+                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
+            }
+            setIsLoading(false)
+        } else {
+            setHasNoNetwork(true)
         }
-    }, [formsState.isLoaded])
-
-    function checkAndLoadForms() {
-        if (!formsState.isLoaded) {
-
-            NetInfo.fetch().then(state => {
-                if (state.isConnected) {
-                    loadForms()
-                } else {
-                    setFormsState({ isLoaded: true, error: null, errorCode: 0, hasNetwork: false, forms: [] })
-                }
-            })
-        }
-    }
-
-    function loadForms() {
-        /*
-        fetch('https://pas.coala.digital/v1/forms', {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            },
-        })
-            .then(response => response.json())
-            .then(json => {
-                //Check for request errors
-                if (json.status && json.status != 200) {
-                    setFormsState({ isLoaded: true, hasNetowrk: true, error: json, errorCode: json.status ?? -1, forms: [] })
-                } else {
-                    //Otherwise asumed as correct (A valid server response doesn't return a 200, sadly)
-                    json.sort(function (l, r) {
-                        if (l.name < r.name) return -1
-                        else if (l.name > r.name) return 1
-                        else return 0
-                    })
-                    setFormsState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, forms: json })
-                }
-
-            })
-            .catch(error => {
-                console.log("Error", error)
-                setFormsState({ isLoaded: true, hasNetowrk: true, error: error, errorCode: -1, forms: [] })
-            })
-            */
-        setFormsState({ isLoaded: true, hasNetwork: true, error: null, errorCode: 0, forms: formsMock })
-    }
+    }, [dispatch])
 
     function retryHandler() {
-        setFormsState({ isLoaded: false, error: false, errorCode: 0, forms: [] })
+        setErrorCode(0)
+        setHasNoNetwork(false)
+        checkAndLoadForms()
     }
 
     function formSelectedHandler(formUuid) {
         props.navigation.navigate(FORMSCREEN, formUuid)
     }
 
-    const { error, errorCode, hasNetwork, isLoaded, forms } = formsState
+    const footer =
+        <View style={{ ...styles.footer, backgroundColor: colorTheme.componentBackground }}>
+            <Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
+            <View style={styles.footerContent}>
+                <View style={styles.footerRow}>
+                    <Icon size={24} name="info-outline" color={colorTheme.textPrimary} />
+                    <HeadingText style={styles.footerContentHeading} weight="bold">{Strings.form_select_additional_forms}</HeadingText>
+                </View>
+                <ContentText light>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
+            </View>
+        </View>
+
     var contentView = null
-    if (error) {
+    if (errorCode !== 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_error + "(Fehlercode: " + errorCode + ")"} />
-    } else if (!isLoaded) {
+    } else if (isLoading) {
         contentView = <NoContentView icon="cloud-download" loading title={Strings.select_form_loading} />
-    } else if (!hasNetwork) {
+    } else if (hasNoNetwork && visibleForms.length === 0) {
         contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.select_form_loading_no_network} />
-    } else if (forms.length === 0) {
+    } else if (visibleForms.length === 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_empty} />
     } else {
         const informationHeader =
             <View>
-                <InformationCard toggleInformationEnabled toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN} style={styles.card} title={Strings.select_form_information_title}>
+                <InformationCard
+                    toggleInformationEnabled
+                    style={styles.card}
+                    toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN}
+                    title={Strings.select_form_information_title}>
                     <InformationText>{Strings.select_form_information_text}</InformationText>
                 </InformationCard>
-                <HeadingText large weight="bold" style={styles.heading}>Verfügbare Fragebögen:</HeadingText>
+                <HeadingText large weight="bold" style={styles.heading}>{Strings.form_select_available_forms}</HeadingText>
             </View>
 
         contentView = (
             <FlatList
                 style={styles.list}
-                data={forms}
+                data={visibleForms}
                 ListHeaderComponent={informationHeader}
+                ListFooterComponent={footer}
                 renderItem={({ item }) => (
                     <FormSelectListItemView
                         key={item.uuid}
                         title={item.title}
                         description={item.description}
+                        icon={item.icon}
                         onSelected={() => formSelectedHandler(item.uuid)}
                     />
                 )}
@@ -130,7 +115,7 @@ const FormSelectScreen = (props) => {
     }
 
     return (
-        <RootView>
+        <RootView thin>
             {contentView}
         </RootView>
     )
@@ -141,12 +126,38 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     heading: {
-        marginTop: 16,
-        marginBottom: 8,
-        marginStart: 2
+        marginVertical: 8
     },
     list: {
         marginHorizontal: 8
+    },
+    footer: {
+        marginBottom: 8,
+        borderRadius: Layout.borderRadius,
+        borderColor: Layout.borderColor,
+        borderWidth: Layout.borderWidth,
+        overflow: "hidden",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: 8
+    },
+    footerRow: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    footerContent: {
+        flexDirection: "column",
+        flex: 1
+    },
+    footerContentHeading: {
+        marginStart: 4,
+        marginEnd: 8
+    },
+    image: {
+        width: 64,
+        height: 64,
+        marginEnd: 8,
+        borderRadius: Layout.borderRadius
     }
 })
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Linking } from 'react-native'
 
-import RootView from '../components/RootView'
+import RootView from '../components/common/RootView'
 import MeasureView from '../components/MeasureView'
 
 import { VIDEOSCREEN, AUDIOSCREEN } from '../constants/Paths'

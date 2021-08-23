@@ -4,12 +4,13 @@ import { Picker } from '@react-native-picker/picker'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import Layout from '../constants/Layout'
-import { useThemeProvider } from '../ThemeContext'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 const picker_placeholder = "[Keine Auswahl]"
 
 const SelectInput = (props) => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
     let items = props.options != null ? props.options.map((option, index) => {
         return <Picker.Item value={option} key={index} label={option}></Picker.Item>

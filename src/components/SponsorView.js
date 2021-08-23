@@ -1,14 +1,14 @@
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 
-import IconButton from '../components/IconButton'
+import IconButton from '../components/common/IconButton'
 import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
 
 const SponsorView = (props) => {
   return (
     <View style={{ ...styles.container, ...props.style }}>
-      <Image style={styles.image} source={props.localPath}></Image>
+      <Image style={styles.image} source={props.localPath}/>
       <View style={styles.buttonWrapper}>
         <IconButton  icon="web" text={props.name} onPress={props.onPress}></IconButton>
       </View>

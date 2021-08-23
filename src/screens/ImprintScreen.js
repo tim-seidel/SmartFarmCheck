@@ -2,8 +2,8 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
-import { ContentText } from '../components/Text'
-import RootView from '../components/RootView'
+import { ContentText } from '../components/common/Text'
+import RootView from '../components/common/RootView'
 
 const ImprintScreen = (props) => {
     return (

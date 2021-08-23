@@ -2,11 +2,13 @@ import React from 'react'
 import { StyleSheet, View, Linking } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
-import IconButton from '../components/IconButton'
-import { HeadingText } from '../components/Text'
+import RootView from '../components/common/RootView'
 import SponsorView from '../components/SponsorView'
-import RootView from '../components/RootView'
+import IconButton from '../components/common/IconButton'
+import { HeadingText } from '../components/common/Text'
+
 import { IMPRINTSCREEN, PRIVACYSCREEN } from '../constants/Paths'
+import Strings from '../constants/Strings'
 
 const onSponsorPressedHandler = (url) => {
   Linking.openURL(url)
@@ -14,19 +16,19 @@ const onSponsorPressedHandler = (url) => {
 
 export default function AboutScreen({ navigation }) {
   return (
-    <RootView>
+    <RootView thin>
       <ScrollView style={styles.scroll} >
         <HeadingText large weight="bold" style={styles.title}>Gefördert durch:</HeadingText>
-        <SponsorView style={styles.sponsor} name="Mittelstand 4.0 (Lingen)" onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logo_mittelstand4.png")} />
-        <SponsorView style={styles.sponsor} name="Mittelstand Digital" onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logo_mittelstand_digital.png")} />
-        <SponsorView style={styles.sponsor} name="BM für Wirtschaft und Energie" onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logo_bmwi.png")} />
+        <SponsorView style={styles.sponsor} name={Strings.imprint_mittelstand_4} onPress={onSponsorPressedHandler.bind(this, "https://kompetenzzentrum-lingen.digital/")} localPath={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} />
+        <SponsorView style={styles.sponsor} name={Strings.imprint_mittelstand_digital} onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logos/logo_mittelstand_digital.png")} />
+        <SponsorView style={styles.sponsor} name={Strings.imprint_bmwi} onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logos/logo_bmwi.png")} />
       </ScrollView>
       <View style={styles.buttonRow}>
-        <View style={{ flex: 1, marginLeft: 8,  marginRight: 4, marginBottom: 8 }}>
-          <IconButton icon="information-variant" text="Impressum" onPress={() => { navigation.navigate(IMPRINTSCREEN) }} />
+        <View style={{ flex: 1, marginLeft: 8, marginRight: 4, marginBottom: 8 }}>
+          <IconButton icon="information-variant" text={Strings.imprint} onPress={() => { navigation.navigate(IMPRINTSCREEN) }} />
         </View>
         <View style={{ flex: 1, marginLeft: 4, marginRight: 8, marginBottom: 8 }}>
-          <IconButton icon="lock" text="Datenschutz" onPress={() => { navigation.navigate(PRIVACYSCREEN) }} />
+          <IconButton icon="lock" text={Strings.privacy} onPress={() => { navigation.navigate(PRIVACYSCREEN) }} />
         </View>
       </View>
     </RootView>
@@ -34,20 +36,15 @@ export default function AboutScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  scroll:{
-    marginBottom: 8
+  scroll: {
+    marginBottom: 8,
+    marginHorizontal: 8
   },
   title: {
     marginTop: 8,
-    width: '90%',
-    maxWidth: 500,
-    alignSelf: 'center'
   },
   sponsor: {
-    width: "90%",
-    maxWidth: 500,
-    marginVertical: 8,
-    alignSelf: 'center',
+    marginTop: 8,
   },
   buttonRow: {
     flexDirection: 'row'

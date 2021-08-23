@@ -1,16 +1,18 @@
+import Network from "../../constants/Network"
 import Measure from "../../models/Measure"
+import { fetchWithTimeout } from "../../network/network"
+import API from "../../constants/API"
 
 export const SET_MEASURES = 'SET_MEASURES'
 export const UPDATE_MEASURE = 'UPDATE_MEASURE'
 
 export const fetchMeasures = () => {
     return async dispatch => {
-
-        const response = await fetch('https://pas.coala.digital/v1/measures', {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/measures`, Network.requestTimeout, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
-            },
+            }
         })
 
         if (!response.ok) {
@@ -20,16 +22,18 @@ export const fetchMeasures = () => {
         const json = await response.json()
         const measures = []
         json.forEach(m => {
-            measures.push(new Measure(
+            measure = new Measure(
                 m.uuid,
                 m.name,
                 m.excerpt,
                 m.description,
                 m.resources
-            ))
+            )
+            measure.updateTime = Date.now()
+            measures.push(measure)
         });
 
-        //Always sort the measures alphabetically, because they have no serverside sroting
+        //Always sort the measures alphabetically, because they have no serverside sorting
         measures.sort(function (l, r) {
             if (l.name < r.name) return -1
             else if (l.name > r.name) return 1
@@ -45,8 +49,7 @@ export const fetchMeasures = () => {
 
 export const fetchMeasure = (id) => {
     return async dispatch => {
-
-        const response = await fetch(`https://pas.coala.digital/v1/measures/${id}`, {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/measures/${id}`, Network.requestTimeout, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -58,6 +61,7 @@ export const fetchMeasure = (id) => {
         }
 
         const json = await response.json()
+        json.updateTime = Date.now()
 
         dispatch({
             type: UPDATE_MEASURE,

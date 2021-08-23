@@ -1,10 +1,10 @@
 export default class Video{
-    constructor(uuid, title, description, releaseDate, thumbnailUrl, url){
+    constructor(uuid, title, description, publishingDate, thumbnail, videoLink){
         this.uuid = uuid
         this.title = title
         this.description = description
-        this.releaseDate = this.releaseDate
-        this.thumbnailUrl = thumbnailUrl
-        this.url = url
+        this.publishingDate = publishingDate
+        this.thumbnail = thumbnail
+        this.videoLink = videoLink
     }
 }

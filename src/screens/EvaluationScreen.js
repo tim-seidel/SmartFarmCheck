@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, View, Dimensions, Platform, Linking } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import NetInfo from '@react-native-community/netinfo';
 import * as Device from 'expo-device'
 
-
-import RootView from '../components/RootView'
-import NoContentView from '../components/NoContentView'
+import RootView from '../components/common/RootView'
+import NoContentView from '../components/common/NoContentView'
 import EvaluationListView from '../components/EvaluationListView'
 import MeasureView from '../components/MeasureView';
-import { HeadingText } from '../components/Text'
-import InformationCard, { InformationHighlight, InformationText } from '../components/InformationCard'
-import ToolbarButton from '../components/ToolbarButton'
+import { HeadingText } from '../components/common/Text'
+import InformationCard, { InformationText } from '../components/common/InformationCard'
 
 import Strings from '../constants/Strings'
-import fetchEvaluation from '../store/actions/evaluation'
-import { EVALUATIONDETAILSCREEN, EVALUATIONSCREEN, FORMHELPSCREEN } from '../constants/Paths';
+import { fetchEvaluation } from '../store/actions/evaluation'
+import { EVALUATIONDETAILSCREEN, CONTACTREQUESTSCREEN } from '../constants/Paths';
+import { WrappedIconButton } from '../components/common/IconButton';
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen');
@@ -34,19 +32,9 @@ const EvaluationScreen = (props) => {
     const dispatch = useDispatch()
     const evaluation = useSelector(state => state.evaluation.evaluation)
     const [selectedRating, setSelectedRating] = useState(undefined)
-    const input = props.route.params
 
-    const { navigation } = props
-    useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <HeaderButtons HeaderButtonComponent={ToolbarButton}>
-                    <Item key="option-info" iconName="help-circle-outline" title={Strings.evaluation_help} onPress={helpPressedHandler} />
-                </HeaderButtons>
-            )
-        })
-
-    }, [navigation])
+    const { route } = props
+    const { answers, formUuid } = route.params
 
     useEffect(() => {
         const callback = ({ screen }) => {
@@ -66,23 +54,23 @@ const EvaluationScreen = (props) => {
 
     useEffect(() => {
         checkAndEvaluate()
-    }, [checkAndEvaluate, input])
+    }, [checkAndEvaluate, answers])
 
     const checkAndEvaluate = useCallback(async () => {
         const netinfo = await NetInfo.fetch()
         if (netinfo.isConnected) {
             setIsLoading(true)
             try {
-                await dispatch(fetchEvaluation(input))
+                await dispatch(fetchEvaluation(formUuid, answers))
             } catch (err) {
                 console.log(err)
-                setErrorCode(err.status ?? -1)
+                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
             }
             setIsLoading(false)
         } else {
             setHasNoNetwork(true)
         }
-    }, [dispatch, input])
+    }, [dispatch, answers])
 
     function retryHandler() {
         setErrorCode(0)
@@ -90,10 +78,9 @@ const EvaluationScreen = (props) => {
         checkAndEvaluate()
     }
 
-    function helpPressedHandler(){
-        if(!isLoading){
-            props.navigation.navigate(FORMHELPSCREEN, EVALUATIONSCREEN
-                )
+    function contactRequestHandler() {
+        if (!isLoading) {
+            props.navigation.navigate(CONTACTREQUESTSCREEN, { answers: answers, formUuid: formUuid })
         }
     }
 
@@ -128,13 +115,11 @@ const EvaluationScreen = (props) => {
     } else if (!evaluation || evaluation.ratings.length === 0) {
         contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty} />
     } else {
+        const contactButton = <WrappedIconButton style={styles.helpButton} icon="email-outline" text={Strings.evaluation_help} onPress={contactRequestHandler} />
+
         const informationHeader = <View>
-            <InformationCard style={styles.informationCard}>
-                <InformationText>Hier sehen Sie die auf Basis Ihrer Antworten </InformationText>
-                <InformationHighlight style={styles.explanationHighlight}>gewichteten Maßnahmen</InformationHighlight>
-                <InformationText>. Möchten Sie sich über eine dieser Maßnahme informieren, so </InformationText>
-                <InformationHighlight>tippen</InformationHighlight>
-                <InformationText> Sie diese einfach an.</InformationText>
+            <InformationCard title={Strings.evaluation_information_title} style={styles.informationCard} contentView={contactButton}>
+                <InformationText>{Strings.evaluation_information_text}</InformationText>
             </InformationCard>
             <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
         </View>
@@ -144,7 +129,7 @@ const EvaluationScreen = (props) => {
             if (selectedRating) {
                 measureContent = <MeasureView measureId={selectedRating.uuid} onURLClicked={urlClickHandler} />
             } else {
-                measureContent = <NoContentView icon="gesture-tap" title={"Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen."} />
+                measureContent = <NoContentView icon="gesture-tap" title={Strings.evaluation_split_content_placeholder} />
             }
 
             contentView =
@@ -153,8 +138,7 @@ const EvaluationScreen = (props) => {
                         columns={1}
                         style={styles.ratingListSplit}
                         ratings={evaluation.ratings}
-                        ratingSelected={ratingSelectedHandlerSplit}
-                    >
+                        ratingSelected={ratingSelectedHandlerSplit}>
                         {informationHeader}
                     </EvaluationListView>
                     <View style={styles.measureViewSplit}>
@@ -167,8 +151,7 @@ const EvaluationScreen = (props) => {
                     columns={orientation === 'landscape' ? 2 : 1}
                     style={styles.ratingList}
                     ratings={evaluation.ratings}
-                    ratingSelected={ratingSelectedHandlerList}
-                >
+                    ratingSelected={ratingSelectedHandlerList}>
                     {informationHeader}
                 </EvaluationListView>
         }
@@ -184,20 +167,10 @@ const EvaluationScreen = (props) => {
 const styles = StyleSheet.create({
     informationCard: {
         marginTop: 8,
-        marginHorizontal: 4
     },
     heading: {
-        marginTop: 16,
-        marginBottom: 8,
+        marginVertical: 8,
         marginStart: 6
-    },
-    calculateButtonWrapper: {
-        marginHorizontal: 8,
-        marginTop: 4,
-        marginBottom: 8
-    },
-    calculateButton: {
-        justifyContent: "center"
     },
     splitViewRow: {
         flex: 1,
@@ -205,19 +178,19 @@ const styles = StyleSheet.create({
     },
     ratingList: {
         flex: 1,
-        marginHorizontal: 4,
+        marginHorizontal: 8,
     },
     ratingListSplit: {
         flex: 1,
-        marginHorizontal: 4,
+        marginHorizontal: 8,
     },
     measureViewSplit: {
         flex: 2,
-        marginHorizontal: 4
+        marginEnd: 8
     },
-    mainColumn: {
-        flex: 1,
-        flexDirection: 'column'
+    helpButton: {
+        marginBottom: 8,
+        marginHorizontal: 8
     }
 })
 

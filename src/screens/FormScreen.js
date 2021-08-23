@@ -1,29 +1,37 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { View, Alert, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react'
+import { View, Alert, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { useSelector, useDispatch } from 'react-redux'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import NetInfo from '@react-native-community/netinfo'
 
-import NoContentView from "../components/NoContentView"
+import RootView from '../components/common/RootView'
+import NoContentView from "../components/common/NoContentView"
 import QuestionView from "../components/QuestionView"
-import IconButton from '../components/IconButton'
-import Strings from '../constants/Strings'
-import { ContentText } from '../components/Text'
-import Layout from '../constants/Layout'
+import IconButton from '../components/common/IconButton'
 import ToolbarButton from '../components/ToolbarButton'
-import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
-import RootView from '../components/RootView'
+import { ContentText } from '../components/common/Text'
+
 import { fetchQuestions } from '../store/actions/questions'
-import { EVALUATIONSCREEN, FORMHELPSCREEN, FORMSCREEN } from '../constants/Paths'
+import Strings from '../constants/Strings'
+import Layout from '../constants/Layout'
+import { ConstantColors } from '../constants/Colors'
+import { EVALUATIONSCREEN } from '../constants/Paths'
+import { darkTheme, lightTheme } from '../constants/Colors'
+
+const layout_list = "list"
+const layout_single = "single"
 
 const FormScreen = props => {
-    const { colorTheme } = useThemeProvider()
+    const { navigation, route } = props
 
-    const [mode, setMode] = useState('list')
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+    const formUuid = route.params
+
+    const [mode, setMode] = useState(layout_list)
     const [pagingIndex, setPagingIndex] = useState(0)
-    const [formId, setFormId] = useState(0)
 
     const [isLoading, setIsLoading] = useState(false)
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
@@ -32,18 +40,15 @@ const FormScreen = props => {
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questions.questions)
 
-    const { navigation } = props
-    useEffect(() => {
+    useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={ToolbarButton}>
                     <Item key="option-layout" iconName="clipboard-text" title={Strings.form_layout_questions} onPress={layoutChangeHandler} />
-                    <Item key="option-info" iconName="help-circle-outline" title={Strings.form_help} onPress={helpPressedHandler}/>
                 </HeaderButtons>
             )
         })
- 
-    }, [ navigation ])
+    }, [navigation])
 
     useEffect(() => {
         checkAndLoadQuestions()
@@ -54,10 +59,10 @@ const FormScreen = props => {
         if (netinfo.isConnected) {
             setIsLoading(true)
             try {
-                await dispatch(fetchQuestions())
+                await dispatch(fetchQuestions(formUuid))
             } catch (err) {
                 console.log(err)
-                setErrorCode(err.status ?? -1)
+                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
             }
             setIsLoading(false)
         } else {
@@ -77,48 +82,120 @@ const FormScreen = props => {
     }
 
     function layoutChangeHandler() {
-        setMode(mode => mode === 'list' ? 'single' : 'list')
+        setMode(mode => mode === layout_list ? layout_single : layout_list)
     }
 
-    function helpPressedHandler(){
-        if(!isLoading){
-            props.navigation.navigate(FORMHELPSCREEN, FORMSCREEN)
-        }
+    function getAnswers() {
+        const _answers = []
+        questions.forEach(q => {
+            if (q.input) {
+                _answers.push({ questionUUID: q.uuid, value: q.input })
+            }
+        })
+        return _answers
     }
 
     function questionPagingHandler(toNext) {
         var qNext = toNext ? pagingIndex + 1 : pagingIndex - 1
-        if (qNext < 0) {
-            qNext = 0
+        const max = questions.length - 1
+
+        if (qNext < 0) { qNext = 0 }
+        if (qNext > max) { qNext = max }
+
+        setPagingIndex(qNext)
+    }
+
+    function calculateHandler() {
+        const indiciesError = []
+        const indiciesEmpty = []
+
+        questions.forEach((q, index) => {
+            if (q.validity === 'invalid') {
+                indiciesError.push(index + 1)
+            }
+            if (!q.input) {
+                indiciesEmpty.push(index + 1)
+            }
+        })
+
+        //Check if no input was given. Abort request if it is the case.
+        if (indiciesEmpty.length === questions.length) {
+            Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content,
+                [
+                    { text: Strings.okay, style: "cancel" },
+                ],
+                { cancelable: false })
+            return
         }
 
-        const max = questions.length - 1
-        if (qNext > max) {
-            qNext = max
+        //Check if there are errors in the answers. Abort request if it is the case.
+        if (indiciesError.length > 0) {
+            Alert.alert(
+                Strings.form_dialog_errors_title,
+                Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')',
+                [
+                    { text: Strings.okay, style: "cancel" },
+                ],
+                { cancelable: false })
+            return
         }
-        setPagingIndex(qNext)
+
+        //Check if there are empty questions left. The user can decide if the request should continue.
+        if (indiciesEmpty.length > 0) {
+            Alert.alert(
+                Strings.form_dialog_send_unfinished_title,
+                Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')',
+                [
+                    { text: Strings.cancel, style: "cancel" },
+                    { text: Strings.form_send, onPress: () => gotoEvaluation(), style: "default" }
+                ],
+                { cancelable: false })
+        } else {
+            gotoEvaluation(questions)
+        }
+    }
+
+    function gotoEvaluation() {
+        if (!isLoading) {
+            props.navigation.navigate(EVALUATIONSCREEN, { formUuid: formUuid, answers: getAnswers() })
+        }
     }
 
     console.log("FormScreen.render()", isLoading, hasNoNetwork, errorCode, questions.length)
     var contentView = null
     if (errorCode !== 0) {
-        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"} />
+        contentView = <NoContentView
+            icon="emoticon-sad-outline"
+            onRetry={retryHandler}
+            title={Strings.form_loading_error + " (Fehlercode: " + errorCode + ")"} />
     } else if (isLoading) {
-        contentView = <NoContentView icon="cloud-download" loading title={Strings.form_loading} />
+        contentView = <NoContentView
+            icon="cloud-download"
+            loading
+            title={Strings.form_loading} />
     } else if (hasNoNetwork && questions.length === 0) {
-        contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.form_loading_no_network} />
+        contentView = <NoContentView
+            icon="cloud-off-outline"
+            onRetry={retryHandler}
+            title={Strings.form_loading_no_network} />
     } else if (questions.length === 0) {
-        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.form_loading_empty} />
+        contentView = <NoContentView
+            icon="emoticon-sad-outline"
+            onRetry={retryHandler}
+            title={Strings.form_loading_empty} />
     } else {
+        const listBottomMargin = <View style={styles.listBottomMargin} />
         var questionContent = null
-        if (mode === 'list') {
+        if (mode === layout_list) {
             questionContent = (
                 <View style={styles.listContainer}>
                     <FlatList
-                        contentContainerStyle={styles.listContent}
                         data={questions}
+                        ListFooterComponent={listBottomMargin}
+                        removeClippedSubviews={false}
                         renderItem={({ item, index }) =>
                             <QuestionView
+                                style={styles.question}
                                 index={index + 1}
                                 questionId={item.uuid}
                                 text={item.text}
@@ -129,12 +206,12 @@ const FormScreen = props => {
                         keyExtractor={item => item.uuid}
                     />
                 </View>)
-        } else if (mode === 'single') {
+        } else if (mode === layout_single) {
             const currentQuestion = questions[pagingIndex]
             const canNavigatePrevious = pagingIndex > 0
             const canNavigateNext = (pagingIndex < (questions.length - 1))
 
-            const pageInfoText = { color: colorTheme.textPrimaryContrast }
+            const pageInfoTextStyle = { color: colorTheme.textPrimaryContrast }
 
             questionContent = (
                 <View style={styles.singleQuestionLayoutContainer}>
@@ -148,8 +225,12 @@ const FormScreen = props => {
                         index={pagingIndex + 1}
                     />
                     <View style={styles.questionPagingRow}>
-                        <TouchableOpacity activeOpacity={0.7} disabled={!canNavigatePrevious} onPress={() => { questionPagingHandler(false) }} style={{ ...styles.pagingButtonBack, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            disabled={!canNavigatePrevious}
+                            onPress={() => { questionPagingHandler(false) }}
+                            style={{ ...styles.pagingButtonBackTouch, backgroundColor: canNavigatePrevious ? colorTheme.primary : ConstantColors.grey }}>
+                            <View style={styles.pagingButtonBack}>
                                 <Icon
                                     name="chevron-left"
                                     size={24}
@@ -159,23 +240,26 @@ const FormScreen = props => {
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={pageInfoText}>
+                                    style={pageInfoTextStyle}>
                                     {Strings.form_paging_backwards}
                                 </ContentText>
                             </View>
                         </TouchableOpacity>
                         <View style={{ ...styles.pageInfo, backgroundColor: colorTheme.primary }}>
-                            <ContentText weight="bold" style={pageInfoText}>{pagingIndex + 1}</ContentText>
-                            <ContentText small style={pageInfoText}> von </ContentText>
-                            <ContentText style={pageInfoText}>{questions.length}</ContentText>
+                            <ContentText weight="bold" style={pageInfoTextStyle}>{pagingIndex + 1}</ContentText>
+                            <ContentText style={pageInfoTextStyle}>{" / " + questions.length}</ContentText>
                         </View>
-                        <TouchableOpacity disabled={!canNavigateNext} activeOpacity={0.7} onPress={() => { questionPagingHandler(true) }} style={{ ...styles.pagingButtonNext, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
-                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end" }}>
+                        <TouchableOpacity
+                            disabled={!canNavigateNext}
+                            activeOpacity={0.7}
+                            onPress={() => { questionPagingHandler(true) }}
+                            style={{ ...styles.pagingButtonNextTouch, backgroundColor: canNavigateNext ? colorTheme.primary : ConstantColors.grey, }}>
+                            <View style={styles.pagingButtonNext}>
                                 <ContentText
                                     numberOfLines={1}
                                     lineBreakMode="tail"
                                     ellipsizeMode="tail"
-                                    style={pageInfoText}>
+                                    style={pageInfoTextStyle}>
                                     {Strings.form_paging_forwards}
                                 </ContentText>
                                 <Icon
@@ -192,135 +276,85 @@ const FormScreen = props => {
 
         contentView =
             <>
-                {questionContent}
-                <View style={mode === 'single' ? styles.optionsRowHalf : styles.optionsRow}>
-                    <View style={styles.submitWrapper}>
-                        <IconButton icon="chart-areaspline" text={Strings.form_calculate} onPress={calculateHandler}  ></IconButton>
-                    </View>
+                <View style={styles.submitButton}>
+                    <IconButton
+                        type="solid"
+                        icon="chart-areaspline"
+                        text={Strings.form_calculate}
+                        onPress={calculateHandler} />
                 </View>
+                {questionContent}
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset="96">
+                    <View /> 
+                </KeyboardAvoidingView>
             </>
     }
 
     return (
-        <RootView>
+        <RootView thin>
             {contentView}
         </RootView>
     )
-
-    function calculateHandler() {
-        const indiciesError = []
-        const indiciesEmpty = []
-
-        questions.forEach((q, index) => {
-            if (q.validity === 'invalid') {
-                indiciesError.push(index + 1)
-            }
-            if (!q.input) {
-                indiciesEmpty.push(index + 1)
-            }
-        })
-
-        //Check first if no input was given. 
-        if (indiciesEmpty.length === questions.length) {
-            Alert.alert(Strings.form_dialog_empty_title, Strings.form_dialog_empty_content, [
-                { text: Strings.okay, style: "cancel" },
-            ],
-                { cancelable: false })
-            return
-        }
-
-        if (indiciesError.length > 0) {
-            Alert.alert(Strings.form_dialog_errors_title, Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')', [
-                { text: Strings.okay, style: "cancel" },
-            ],
-                { cancelable: false })
-            return
-        }
-
-        if (indiciesEmpty.length > 0) {
-            Alert.alert(Strings.form_dialog_send_unfinished_title, Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')', [
-                { text: Strings.cancel, style: "cancel" },
-                { text: Strings.form_send, onPress: () => gotoEvaluation(questions), style: "default" }
-            ],
-                { cancelable: false })
-        } else {
-            gotoEvaluation(questions)
-        }
-    }
-
-    function gotoEvaluation(questions) {
-        const send = []
-        questions.forEach(q => {
-            if (q.input) {
-                send.push({ 'questionUUID': q.uuid, 'value': q.input })
-            }
-        })
-        const data = JSON.stringify(send)
-        props.navigation.navigate(EVALUATIONSCREEN, data)
-    }
 }
 
 const styles = StyleSheet.create({
-    listContainer: {
-        flex: 1,
-        width: "100%",
-        maxWidth: 700, //Todo: better estimation
-        alignSelf: "center"
-    },
-    listContent: {
-        flexGrow: 1
-    },
     singleQuestionLayoutContainer: {
         flex: 1,
+        marginTop: 8,
+        marginHorizontal: 8,
         justifyContent: "space-between"
+    },
+    listContainer: {
+        flex: 1,
+        marginHorizontal: 8
+    },
+    question: {
+        marginTop: 8
     },
     questionPagingRow: {
         flexDirection: "row",
-        paddingHorizontal: 4,
-        paddingTop: 4,
-        marginHorizontal: 8,
-        borderTopLeftRadius: 6,
-        borderTopRightRadius: 6
+        marginBottom: 2
     },
-    pagingButtonBack: {
-        flex: 1,
+    pagingButtonBackTouch: {
         padding: 8,
+        paddingHorizontal: 16,
+        alignItems: 'center',
         borderTopLeftRadius: Layout.borderRadius,
         borderBottomLeftRadius: Layout.borderRadius,
     },
-    pagingButtonNext: {
-        flex: 1,
+    pagingButtonBack: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start"
+    },
+    pagingButtonNextTouch: {
         padding: 8,
+        paddingHorizontal: 16,
+        alignItems: 'center',
         borderTopRightRadius: Layout.borderRadius,
         borderBottomRightRadius: Layout.borderRadius,
+    },
+    pagingButtonNext: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end"
     },
     pageInfo: {
         flex: 1,
         flexDirection: "row",
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        padding: 8,
         alignItems: "center",
         justifyContent: "center",
         borderColor: ConstantColors.white,
         borderLeftWidth: Layout.borderWidth,
         borderRightWidth: Layout.borderWidth,
     },
-    optionsRow: {
-        flexDirection: "row",
-        padding: 4,
-        margin: 8,
-        borderRadius: Layout.borderRadius
-    },
-    optionsRowHalf: {
-        flexDirection: "row",
-        padding: 4,
+    submitButton: {
         marginHorizontal: 8,
-        marginBottom: 8,
-        borderBottomLeftRadius: 6,
-        borderBottomRightRadius: 6
+        marginTop: 8
     },
-    submitWrapper: {
-        flex: 1
+    listBottomMargin: {
+        marginBottom: 8
     }
 })
 

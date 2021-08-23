@@ -4,15 +4,16 @@ import NetInfo from '@react-native-community/netinfo'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Device from 'expo-device'
 
-import RootView from '../components/RootView'
-import { VIDEOSCREEN } from '../constants/Paths'
-import { fetchMediaLibrary } from '../store/actions/mediaLibrary'
-import NoContentView from '../components/NoContentView'
-import Strings from '../constants/Strings'
+import RootView from '../components/common/RootView'
+import NoContentView from '../components/common/NoContentView'
 import MediaLibraryListViewItem from '../components/MediaLibraryListViewItem'
-import InformationCard, { InformationText } from '../components/InformationCard'
-import { HeadingText } from '../components/Text'
+import InformationCard, { InformationText } from '../components/common/InformationCard'
+import { HeadingText } from '../components/common/Text'
+
+import { fetchMediaLibrary } from '../store/actions/mediaLibrary'
+import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
+import { VIDEOSCREEN } from '../constants/Paths'
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen');
@@ -32,19 +33,19 @@ const MediaLibraryScreen = (props) => {
 
     useEffect(() => {
         const callback = ({ screen }) => {
-          setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
+            setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
         }
         const checkTablet = async () => {
-          const type = await Device.getDeviceTypeAsync()
-          setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
+            const type = await Device.getDeviceTypeAsync()
+            setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
         }
         checkTablet()
-    
+
         Dimensions.addEventListener('change', callback);
         return () => {
-          Dimensions.removeEventListener('change', callback);
+            Dimensions.removeEventListener('change', callback);
         };
-    }, []);    
+    }, []);
 
     useEffect(() => {
         checkAndLoadVideoList()
@@ -58,7 +59,7 @@ const MediaLibraryScreen = (props) => {
                 await dispatch(fetchMediaLibrary())
             } catch (err) {
                 console.log(err)
-                setErrorCode(err.status ?? -1)
+                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
             }
             setIsLoading(false)
         } else {
@@ -72,14 +73,14 @@ const MediaLibraryScreen = (props) => {
         checkAndLoadVideoList()
     }
 
-    const showVideoHandler = (url) => {
-        props.navigation.navigate(VIDEOSCREEN, url)
+    const showVideoHandler = (videoLink) => {
+        props.navigation.navigate(VIDEOSCREEN, videoLink)
     }
 
     let contentView = null
 
     if (errorCode !== 0) {
-        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.medialibrary_loading_error + "(Fehlercode: " + errorCode + ")"}></NoContentView>
+        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.medialibrary_loading_error + " (Fehlercode: " + errorCode + ")"}></NoContentView>
     } else if (isLoading) {
         contentView = <NoContentView icon="cloud-download" loading title={Strings.medialibrary_loading}></NoContentView>
     } else if (hasNoNetwork && mediaLibrary.length === 0) {
@@ -98,19 +99,21 @@ const MediaLibraryScreen = (props) => {
                         <InformationCard
                             toggleInformationEnabled
                             toggleStoreKey={Keys.INFORMATION_TOGGLE_MEDIALIBRARY_SCREEN}
+                            initialValue={true}
                             title={Strings.medialibrary_card_title}
                             style={styles.card}
-                            >
+                        >
                             <InformationText>{Strings.medialibrary_card_description}</InformationText>
                         </InformationCard>
                         <HeadingText large weight="bold" style={styles.heading}>{Strings.medialibrary_heading}</HeadingText>
                     </View>}
                 renderItem={({ item }) => (
                     <MediaLibraryListViewItem
-                        style={styles.mediaLibraryColumn}
+                        style={styles.media}
                         title={item.title}
                         description={item.description}
-                        onShowVideo={() => showVideoHandler(item.url)}
+                        thumbnail={item.thumbnail}
+                        onShowVideo={() => showVideoHandler(item.videoLink)}
                     />
                 )}
                 keyExtractor={item => item.uuid}
@@ -125,20 +128,20 @@ const MediaLibraryScreen = (props) => {
 
 const styles = StyleSheet.create({
     list: {
-        margin: 4
-    },
-    heading: {
-        marginTop: 16,
-        marginBottom: 8,
-        marginStart: 6
-    },
-    card: {
-        marginTop: 4,
         marginHorizontal: 4
     },
-    mediaLibraryColumn: {
-        margin: 4,
-        flex: 1
+    heading: {
+        marginVertical: 8,
+        marginStart: 4
+    },
+    card: {
+        marginTop: 8,
+        marginHorizontal: 4
+    },
+    media: {
+        marginHorizontal: 4,
+        marginBottom: 8,
+        flex: 1,
     }
 })
 

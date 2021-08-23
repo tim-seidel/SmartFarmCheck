@@ -1,6 +1,6 @@
 export default class Evaluation{
-    constructor(input = [], ratings = []){
-        this.input = input
+    constructor(answers = [], ratings = []){
+        this.answers = answers
         this.ratings = ratings
     }
 }

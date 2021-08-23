@@ -20,6 +20,7 @@ const measuresReducer = (state = initialState, action) => {
                 action.measureData.description,
                 action.measureData.resources
             )
+            measure.updateTime = action.measureData.updateTime
 
             const measureIndex = state.measures.findIndex(m => m.uuid === action.measureId)
             if (measureIndex !== -1) {

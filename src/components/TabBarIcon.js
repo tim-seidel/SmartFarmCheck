@@ -1,11 +1,11 @@
 import React from 'react'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 
-import { useThemeProvider } from '../ThemeContext'
-import { ConstantColors } from '../constants/Colors'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 const TabBarIcon = (props) => {
-  const { colorTheme } = useThemeProvider()
+  const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
   return (
     <Icon

@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, TextInput } from 'react-native'
 
-import { useThemeProvider } from '../ThemeContext'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'
@@ -10,17 +11,21 @@ import Strings from '../constants/Strings'
  * View that represents a input field for strings.
  */
 const StringInput = (props) => {
-    const { colorTheme } = useThemeProvider()
-    const { input, textChanged } = props
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+    const { input, textChanged, placeholder } = props
 
     return (
         <TextInput
             value={input}
-            placeholder={Strings.form_input_placeholder}
+            placeholder={placeholder ?? Strings.form_input_placeholder}
+            multiline
+            numberOfLines={2}
+            textAlignVertical='top'
             placeholderTextColor={colorTheme.textHint}
             onChangeText={textChanged}
             style={{
                 ...styles.input,
+                color: colorTheme.textPrimary,
                 backgroundColor: colorTheme.background
             }} />
     )
@@ -28,10 +33,9 @@ const StringInput = (props) => {
 
 const styles = StyleSheet.create({
     input: {
-        flex: 1,
         marginTop: 4,
         paddingHorizontal: 8,
-        paddingVertical: 10,
+        paddingVertical: 8,
         borderRadius: Layout.borderRadius,
         borderWidth: 1,
         borderColor: Layout.borderColor,

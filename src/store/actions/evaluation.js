@@ -1,24 +1,28 @@
+import { fetchWithTimeout } from "../../network/network"
+import API from "../../constants/API"
+import Network from "../../constants/Network"
 import Evaluation from "../../models/Evaluation"
 import Rating from "../../models/Rating"
+import ContactRequest from '../../models/ContactRequest';
 
 export const SET_EVALUATION = 'SET_EVALUATION'
+export const SET_EVALUATION_CONTACT_REQUEST = "SET_EVALUATION_CONTACT_REQUEST"
 
-export const fetchEvaluation = (input) => {
+export const fetchEvaluation = (formUuid, answers) => {
     return async dispatch => {
-
-        const response = await fetch('https://pas.coala.digital/v1/evaluate', {
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/evaluate`, Network.requestTimeout, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json'
+                'accept': 'application/json',
             },
-            body: input
+            body: JSON.stringify(answers)
         })
 
         if (!response.ok) {
             throw { status: response.status, statusText: response.statusText }
         }
-            
+
         const json = await response.json()
 
         let maxRating = 0;
@@ -33,19 +37,44 @@ export const fetchEvaluation = (input) => {
             ))
         });
 
+        //Norm the ratings and format them in percent
         ratings.forEach(r => {
-            r.weighted = Math.round((r.rating/maxRating + Number.EPSILON) * 100)
+            r.weighted = Math.round((r.rating / maxRating + Number.EPSILON) * 100)
         })
-
         ratings.sort(function (l, r) {
             return l - r
         })
 
         dispatch({
             type: SET_EVALUATION,
-            evaluation: new Evaluation(input, ratings)
+            evaluation: new Evaluation(answers, ratings)
         })
     }
 }
 
-export default fetchEvaluation
+export const evaluationToContact = (formUuid, answers, email) => {
+    return async dispatch => {
+
+        const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/contactRequest/${formUuid}?withContext=true`, Network.requestTimeout * 2, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': '*/*',
+            },
+            body: JSON.stringify({
+                answers: answers,
+                email: email
+            })
+        })
+
+        if (!response.ok) {
+            throw { status: response.status, statusText: response.statusText }
+        }
+
+        dispatch({
+            type: SET_EVALUATION_CONTACT_REQUEST,
+            contactRequest: new ContactRequest(formUuid, answers, email, response.status)
+        })
+
+    }
+}

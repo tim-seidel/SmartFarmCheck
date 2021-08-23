@@ -3,13 +3,14 @@ import { StyleSheet, Text, View, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { HeadingText, ContentText } from './Text'
+import { HeadingText, ContentText } from './common/Text'
 import NumberInput from './NumberInput'
 import SelectInput from "./SelectInput"
 import StringInput from './StringInput'
 
 import { getValidation } from "../models/Validation"
-import { useThemeProvider } from '../ThemeContext'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 import Keys from '../constants/Keys'
 import Layout from '../constants/Layout'
@@ -33,7 +34,7 @@ const validityToIcon = (validity) => {
 /**
  * Stores or deletes the persisted autofill input accordingly.
  */
-const persistInputAsync = async (questionId, s_input) =>{
+const persistInputAsync = async (questionId, s_input) => {
     if (s_input != null && s_input.trim() !== '') {
         await AsyncStorage.setItem(Keys.PREFILL_PREFIX + questionId, s_input)
     } else {
@@ -41,12 +42,11 @@ const persistInputAsync = async (questionId, s_input) =>{
     }
 }
 
-
 /** 
  * UI component for all form questions. Handles all the different input types like Number, Select, String
 */
 const QuestionView = props => {
-    const { colorTheme } = useThemeProvider()
+    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
     const { questionId, validator, prefill } = props
 
     const [input, setInput] = useState(props.prefill ?? '')
@@ -72,12 +72,11 @@ const QuestionView = props => {
      * - update to parent component.
      */
     const inputHandler = (s_input) => {
-        s_input = s_input.trim()
         if (s_input === input) return
-
-        const { validity } = validation(validator, s_input)
+        s_input = s_input.replace(',', '.')
         setInput(s_input)
 
+        const { validity } = validation(validator, s_input)
         persistInputAsync(questionId, s_input)
 
         props.onInputChanged(s_input, validity)
@@ -104,29 +103,29 @@ const QuestionView = props => {
             inputView = <StringInput input={input} textChanged={inputHandler} />
             break
         case "select":
-            inputView = <SelectInput input={input} options={validator.options}  selectionChanged={inputHandler} />
+            inputView = <SelectInput input={input} options={validator.options} selectionChanged={inputHandler} />
             break
     }
 
     //Construct the layout that wraps the input with container, number, status message and icon.
     return (
-        <View style={{ ...styles.question, backgroundColor: colorTheme.componentBackground }}>
+        <View style={{ ...styles.question, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <View style={{ ...styles.numberWrapper, borderColor: colorTheme.textPrimary, backgroundColor: colorTheme.background }}>
                 <Text style={{ ...styles.questionNumber, color: colorTheme.textPrimary }}>{props.index}</Text>
             </View>
             <View style={styles.questionInputColumn}>
                 <View style={styles.questionRow}>
-                    <HeadingText weight="normal" style={{ flex: 1 }}>{props.text}</HeadingText>
+                    <HeadingText weight="normal" style={styles.heading}>{props.text}</HeadingText>
                     {props.description && (
-                    <Icon
-                        style={{ ...styles.infoIcon, color: colorTheme.textPrimary }}
-                        onPress={questionInfoHandler}
-                        name="information-outline"
-                        size={24}
-                    />)}
+                        <Icon
+                            style={{ ...styles.infoIcon, color: colorTheme.textPrimary }}
+                            onPress={questionInfoHandler}
+                            name="information-outline"
+                            size={24}
+                        />)}
                 </View>
                 <View style={styles.errorRow}>
-                    <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary}></Icon>
+                    <Icon name={validityToIcon(validity)} size={24} color={colorTheme.textPrimary} />
                     <View style={styles.errorTextWrapper}>
                         <ContentText small error={validity === 'invalid'} light={validity === 'valid'}>{errorMessage}</ContentText>
                     </View>
@@ -140,8 +139,6 @@ const QuestionView = props => {
 const styles = StyleSheet.create({
     question: {
         flexDirection: "row",
-        marginHorizontal: 8,
-        marginVertical: 8,
         padding: 8,
         borderColor: Layout.borderColor,
         borderWidth: 1,
@@ -166,6 +163,9 @@ const styles = StyleSheet.create({
     questionRow: {
         flexDirection: "row",
         justifyContent: "space-between"
+    },
+    heading: {
+        flex: 1
     },
     infoIcon: {
         marginTop: 4
