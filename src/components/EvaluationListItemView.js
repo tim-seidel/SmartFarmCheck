@@ -13,11 +13,13 @@ const zeroPad = (value, places) => String(value).padStart(places, ' ')
 function EvaluationListItemView(props) {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
+    const good_threshold = 50
+
     return (
-        <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
+        <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, borderColor:props.rating >= good_threshold ? 'green' : Layout.borderColor, ...props.style }}>
             <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.ratingSelected}>
                 <View style={styles.innerWrapper}>
-                    <Text style={styles.rating}>{zeroPad(props.rating, 2)}%</Text>
+                    <Text style={{...styles.rating, color: props.rating >= good_threshold ? 'green' : 'orange'}}>{zeroPad(props.rating, 2)}%</Text>
                     <View style={{ ...styles.divider, backgroundColor: colorTheme.textPrimary }} />
                     <View style={styles.measureContent}>
                         <HeadingText large>{props.title}</HeadingText>
@@ -48,7 +50,6 @@ const styles = StyleSheet.create({
     rating: {
         fontSize: 28,
         fontWeight: "700",
-        color: "green",
         textAlign: "center",
         textAlignVertical: "center",
         marginEnd: 8,
