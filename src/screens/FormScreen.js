@@ -90,7 +90,14 @@ const FormScreen = props => {
         const _answers = []
         questions.forEach(q => {
             if (q.input) {
-                _answers.push({ questionUUID: q.uuid, value: q.input })
+                let input = q.input
+                //Add a trailing 0 if needed
+                if(q.validator.inputType === "NUMBER" && input.endsWith(".")){
+                    console.log(q)
+                    input += "0"
+                }
+                
+                _answers.push({ questionUUID: q.uuid, value: input })
             }
         })
         return _answers
