@@ -25,7 +25,8 @@
     "ios": {
       "bundleIdentifier": "de.hsos.coala.coalapas",
       "buildNumber": "2.0.0",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "package": "de.hsos.coala.coalapas",
