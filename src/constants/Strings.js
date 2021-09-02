@@ -14,6 +14,7 @@ const Strings = {
 
     mail: "mittelstand40@hs-osnabrueck.de",
     phone: "0541-969-5017",
+    mittelstand_40_lingen_events_url: "https://kompetenzzentrum-lingen.digital/termine",
 
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
