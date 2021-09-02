@@ -23,6 +23,7 @@ const isPortrait = () => {
 const MediaLibraryScreen = (props) => {
     const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
     const [isTablet, setIsTablet] = useState(Platform.isPad)
+    const navigation = props.navigation
 
     const [isLoading, setIsLoading] = useState(false)
     const [hasNoNetwork, setHasNoNetwork] = useState(false)
@@ -48,8 +49,12 @@ const MediaLibraryScreen = (props) => {
     }, []);
 
     useEffect(() => {
-        checkAndLoadVideoList()
-    }, [checkAndLoadVideoList])
+        const unsubscribe = navigation.addListener('focus', () => {
+            checkAndLoadVideoList()
+        });
+
+        return unsubscribe;
+    }, [navigation, checkAndLoadVideoList]);
 
     const checkAndLoadVideoList = useCallback(async () => {
         const netinfo = await NetInfo.fetch()
@@ -74,7 +79,7 @@ const MediaLibraryScreen = (props) => {
     }
 
     const showVideoHandler = (videoLink) => {
-        props.navigation.navigate(VIDEOSCREEN, videoLink)
+        navigation.navigate(VIDEOSCREEN, videoLink)
     }
 
     let contentView = null
