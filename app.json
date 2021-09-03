@@ -25,10 +25,10 @@
     "ios": {
       "bundleIdentifier": "de.hsos.coala.coalapas",
       "buildNumber": "2.0.0",
-      "supportsTablet": true,
-      "userInterfaceStyle": "automatic"
+      "supportsTablet": true
     },
     "android": {
+      "userInterfaceStyle": "automatic",
       "package": "de.hsos.coala.coalapas",
       "versionCode": 2000
     }
