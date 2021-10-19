@@ -22,7 +22,7 @@ const VideoScreen = (props) => {
 
     const videoLink = props.route.params
 
-    if (videoLink.includes('youtube')) {
+    if (videoLink.includes('youtube') || videoLink.includes('youtu.be')) {
         return <RootView>
            <WebView source = {{ uri: videoLink }}/>
         </RootView>
