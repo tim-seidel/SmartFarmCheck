@@ -11,7 +11,12 @@ import { IMPRINTSCREEN, PRIVACYSCREEN } from '../constants/Paths'
 import Strings from '../constants/Strings'
 
 const onSponsorPressedHandler = (url) => {
-  Linking.openURL(url)
+  if (!url) return
+  Linking.canOpenURL(url).then(can => {
+    if(can) {
+      Linking.openURL(url)
+    }
+  })
 }
 
 export default function AboutScreen({ navigation }) {

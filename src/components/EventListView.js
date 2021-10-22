@@ -7,15 +7,25 @@ import * as Device from 'expo-device'
 import EventListViewItem from './EventListViewItem'
 import Strings from '../constants/Strings'
 
-function openEventURLorFallback(event) {
-    if (event && event.link) {
-        try {
-            Linking.openURL(event.link)
-        } catch {
+function openFallBackEventWebsite() {
+    Linking.canOpenURL(Strings.mittelstand_40_lingen_events_url).then(can => {
+        if (can) {
             Linking.openURL(Strings.mittelstand_40_lingen_events_url)
         }
+    })
+}
+
+function openEventURLorFallback(event) {
+    if (!event || !event.link) {
+        openFallBackEventWebsite()
     } else {
-        Linking.openURL(Strings.mittelstand_40_lingen_events_url)
+        Linking.canOpenURL(event.link).then(can => {
+            if (can) {
+                Linking.openURL(event.link)
+            } else {
+                openFallBackEventWebsite()
+            }
+        })
     }
 }
 

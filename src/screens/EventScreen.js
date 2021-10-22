@@ -73,7 +73,11 @@ const EventScreen = (props) => {
   }
 
   function showEventsOnWebsiteHandler() {
-    Linking.openURL(Strings.mittelstand_40_lingen_events_url)
+    Linking.canOpenURL(Strings.mittelstand_40_lingen_events_url).then(can => {
+      if (can) {
+        Linking.openURL(Strings.mittelstand_40_lingen_events_url)
+      }
+    })
   }
 
   let contentView = null;

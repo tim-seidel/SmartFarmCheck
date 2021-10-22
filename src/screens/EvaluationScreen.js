@@ -101,7 +101,12 @@ const EvaluationScreen = (props) => {
             props.navigation.navigate(AUDIOSCREEN, url)
         }
         else {
-            Linking.openURL(url)
+            if (!url) return
+            Linking.canOpenURL(url).then(can => {
+                if (can) {
+                    Linking.openURL(url)
+                }
+            })
         }
     }
 
