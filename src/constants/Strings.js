@@ -15,6 +15,7 @@ const Strings = {
     mail: "mittelstand40@hs-osnabrueck.de",
     phone: "0541-969-5017",
     mittelstand_40_lingen_events_url: "https://kompetenzzentrum-lingen.digital/termine",
+    mittelstand_40_lingen_url: "https://kompetenzzentrum-lingen.digital",
 
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
@@ -165,6 +166,9 @@ const Strings = {
     contact_phone_description: "Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.",
     contact_mail_contact: "Nikolas Neddermann\nTel: 0541-969-5017",
     contact_phone_action: "Jetzt anrufen",
+    contact_website_title: "Im Internet",
+    contact_website_description: "Auch auf unserer Internetpräsenz erhalten Sie Informationen über uns und unsere Angebote.",
+    contact_website_action: "Zur Website",
     contact_information_title: "Informationen zur App",
     contact_information_description: "Informationen über Förderer, Impressum und Datenschutz.",
     contact_information_action: "Anzeigen",

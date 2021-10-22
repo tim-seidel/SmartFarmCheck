@@ -38,14 +38,25 @@ const ContactScreen = (props) => {
     const aboutAppHandler = () => {
         props.navigation.navigate(ABOUTSCREEN)
     }
+
+    const contactWebHandler = () => {
+        Linking.canOpenURL(Strings.mittelstand_40_lingen_url).then(can => {
+            if (can) {
+                Linking.openURL(Strings.mittelstand_40_lingen_url)
+            }
+        })
+    }
+
     const contentMail = <WrappedIconButton style={styles.button} icon="email-outline" text={Strings.contact_mail_action} onPress={contactMailHandler} />
     const contentPhone = <WrappedIconButton style={styles.button} icon="phone" text={Strings.contact_phone_action} onPress={contactPhoneHandler} />
     const contentAboutApp = <WrappedIconButton style={styles.button} icon="information-outline" text={Strings.contact_information_action} onPress={aboutAppHandler} />
+    const contentWebsite = <WrappedIconButton style={styles.button} icon="web" text={Strings.contact_website_action} onPress={contactWebHandler} />
+
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
         <RootView thin>
             <ScrollView style={styles.scroll}>
-                <View style={styles.listTopMargin}/>
+                <View style={styles.listTopMargin} />
                 <View style={styles.contactGrid}>
                     <View style={cardStyle}>
                         <InformationCard style={styles.equalHeightInRow} title={Strings.contact_mail_title} contentView={contentMail}>
@@ -63,7 +74,13 @@ const ContactScreen = (props) => {
                             <InformationLineBreak breaks={1} />
                         </InformationCard>
                     </View>
-                    <View style={styles.contactCardSingle}>
+                    <View style={cardStyle}>
+                        <InformationCard style={styles.equalHeightInRow} title={Strings.contact_website_title} contentView={contentWebsite}>
+                            <InformationText>{Strings.contact_website_description}</InformationText>
+                            <InformationLineBreak breaks={2} />
+                        </InformationCard>
+                    </View>
+                    <View style={cardStyle}>
                         <InformationCard style={styles.equalHeightInRow} title={Strings.contact_information_title} contentView={contentAboutApp}>
                             <InformationText>{Strings.contact_information_description}</InformationText>
                             <InformationLineBreak breaks={2} />
