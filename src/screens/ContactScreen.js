@@ -54,7 +54,7 @@ const ContactScreen = (props) => {
 
     const cardStyle = orientation === 'portrait' ? styles.contactCardSingle : styles.contactCardGrid
     return (
-        <RootView thin>
+        <RootView>
             <ScrollView style={styles.scroll}>
                 <View style={styles.listTopMargin} />
                 <View style={styles.contactGrid}>
