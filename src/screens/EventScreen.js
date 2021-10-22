@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, Platform, Alert, Modal } from 'react-native';
+import { StyleSheet, Platform, Alert, Modal, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
 import { Picker } from "@react-native-picker/picker"
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -72,6 +72,10 @@ const EventScreen = (props) => {
     checkAndLoadEvents()
   }
 
+  function showEventsOnWebsiteHandler() {
+    Linking.openURL(Strings.mittelstand_40_lingen_events_url)
+  }
+
   let contentView = null;
   let calendarOptionsContent = calendarOptions.map((opt, index) => {
     return <Picker.Item value={opt} key={index} label={opt.name} />
@@ -112,7 +116,7 @@ const EventScreen = (props) => {
               <IconButton
                 text={Strings.event_nothing_fitting_goto_website}
                 icon="web"
-                onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
+                onPress={showEventsOnWebsiteHandler} />
             </View>
             <View style={styles.rightModalButton} >
               <IconButton
