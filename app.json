@@ -28,7 +28,6 @@
       "supportsTablet": true
     },
     "android": {
-      "userInterfaceStyle": "automatic",
       "package": "de.hsos.coala.coalapas",
       "versionCode": 2100
     }
