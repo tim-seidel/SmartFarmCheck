@@ -114,6 +114,7 @@ const Strings = {
     medialibrary_card_description: "Hier finden Sie unsere allgemeinen Erklär- und Infovideos, die unabhängig von konkreten Digialisierungsmaßnahmen verschiedene interessante Themen behandeln.",
     medialibrary_heading: "Alle Erklärvideos:",
     medialibrary_no_description_available: "Keine Beschreibung verfügbar.",
+    medialibrary_video_cant_be_played: "Das Video kann leider nicht wiedergegeben werden.",
 
     event_calendar: "Veranstaltungskalendar",
     event_list_heading: "Aktuelle Veranstaltungen:",
