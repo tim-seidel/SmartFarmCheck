@@ -28,7 +28,9 @@ const VideoScreen = (props) => {
         </RootView>
     } else {
         if (hasError) {
-            return <NoContentView icon="emoticon-sad-outline" retryTitle={Strings.back} onRetry={backHandler} title={Strings.medialibrary_video_cant_be_played} />
+            return <RootView>
+                <NoContentView icon="emoticon-sad-outline" retryTitle={Strings.back} onRetry={backHandler} title={Strings.medialibrary_video_cant_be_played} />
+            </RootView>
         } else {
             return <RootView>
                 <Video
