@@ -140,7 +140,7 @@ const FormScreen = props => {
         if (indiciesError.length > 0) {
             Alert.alert(
                 Strings.form_dialog_errors_title,
-                Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: (' + indiciesError.join(', ') + ')',
+                Strings.form_dialog_errors_content + ' Fehlerhafte Fragen: ' + indiciesError.join(', '),
                 [
                     { text: Strings.okay, style: "cancel" },
                 ],
@@ -152,7 +152,7 @@ const FormScreen = props => {
         if (indiciesEmpty.length > 0) {
             Alert.alert(
                 Strings.form_dialog_send_unfinished_title,
-                Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: (' + indiciesEmpty.join(', ') + ')',
+                Strings.form_dialog_send_unfinished_content + ' Unbeantwortete Fragen: ' + indiciesEmpty.join(', '),
                 [
                     { text: Strings.cancel, style: "cancel" },
                     { text: Strings.form_send, onPress: () => gotoEvaluation(), style: "default" }
