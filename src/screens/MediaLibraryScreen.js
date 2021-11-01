@@ -99,19 +99,6 @@ const MediaLibraryScreen = (props) => {
                 numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
                 style={styles.list}
                 data={mediaLibrary}
-                ListHeaderComponent={
-                    <View>
-                        <InformationCard
-                            toggleInformationEnabled
-                            toggleStoreKey={Keys.INFORMATION_TOGGLE_MEDIALIBRARY_SCREEN}
-                            initialValue={true}
-                            title={Strings.medialibrary_card_title}
-                            style={styles.card}
-                        >
-                            <InformationText>{Strings.medialibrary_card_description}</InformationText>
-                        </InformationCard>
-                        <HeadingText large weight="bold" style={styles.heading}>{Strings.medialibrary_heading}</HeadingText>
-                    </View>}
                 renderItem={({ item }) => (
                     <MediaLibraryListViewItem
                         style={styles.media}
@@ -133,15 +120,8 @@ const MediaLibraryScreen = (props) => {
 
 const styles = StyleSheet.create({
     list: {
-        marginHorizontal: 4
-    },
-    heading: {
-        marginVertical: 8,
-        marginStart: 4
-    },
-    card: {
+        marginHorizontal: 4,
         marginTop: 8,
-        marginHorizontal: 4
     },
     media: {
         marginHorizontal: 4,
