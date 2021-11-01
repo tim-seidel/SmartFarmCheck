@@ -252,7 +252,8 @@ const styles = StyleSheet.create({
   },
   splitViewRow: {
     flexDirection: 'row',
-    flex: 1
+    flex: 1,
+    marginHorizontal: 4
   },
   masterColumn: {
     flex: 3

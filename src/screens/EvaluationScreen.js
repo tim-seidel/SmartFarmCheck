@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
     },
     splitViewRow: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginHorizontal: 4
     },
     masterColumn: {
         flex: 3,
@@ -188,6 +189,7 @@ const styles = StyleSheet.create({
     },
     informationCard: {
         marginTop: 8,
+        marginHorizontal: 4
     },
     listHeading: {
         marginVertical: 8,
