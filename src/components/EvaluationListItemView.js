@@ -19,7 +19,7 @@ function EvaluationListItemView(props) {
         <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, borderColor:props.rating >= good_threshold ? 'green' : Layout.borderColor, ...props.style }}>
             <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.ratingSelected}>
                 <View style={styles.innerWrapper}>
-                    <Text style={{...styles.rating, color: props.rating >= good_threshold ? 'green' : 'orange'}}>{zeroPad(props.rating, 2)}%</Text>
+                    <Text style={{...styles.rating, color: props.rating >= good_threshold ? '#4CBB17' : '#FFD000'}}>{zeroPad(props.rating, 2)}%</Text>
                     <View style={{ ...styles.divider, backgroundColor: colorTheme.textPrimary }} />
                     <View style={styles.measureContent}>
                         <HeadingText large weight="bold">{props.title}</HeadingText>
