@@ -70,15 +70,16 @@ const styles = StyleSheet.create({
     },
     defaultImage: {
         width: "100%",
-        height: 120,
+        height: 150,
         alignSelf: 'center',
         resizeMode: "contain",
         backgroundColor: "white",
     },
     image: {
         width: "100%",
-        height: 120,
+        height: 150,
         alignSelf: 'center',
+        resizeMode: 'cover',
         borderRadius: Layout.borderRadius,
     },
     imageWrapper: {
