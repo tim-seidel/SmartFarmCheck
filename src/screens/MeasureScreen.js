@@ -257,10 +257,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   masterColumn: {
-    flex: 1
+    flex: 3
   },
   detailColumn: {
-    flex: 2,
+    flex: 5,
     marginHorizontal: -4
   },
   digicheck: {
