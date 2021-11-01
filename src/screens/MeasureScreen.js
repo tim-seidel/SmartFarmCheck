@@ -125,7 +125,7 @@ const MeasureScreen = props => {
     else {
       if (!url) return
       Linking.canOpenURL(url).then(can => {
-        if(can) {
+        if (can) {
           Linking.openURL(url)
         }
       })
@@ -160,14 +160,14 @@ const MeasureScreen = props => {
 
   const contentHeader =
     <View>
-      <View component style={{ ...styles.competence, backgroundColor: colorTheme.componentBackground }}>
-        <View component style={styles.competenceColumn}>
+      <View component style={{ ...styles.digicheck, backgroundColor: colorTheme.componentBackground }}>
+        <View component style={styles.digicheckColumn}>
           <Icon name="tractor-variant" color={colorTheme.textPrimary} size={36} />
-          <View style={styles.checkHeading}>
+          <View style={styles.digicheckHeading}>
             <HeadingText large weight="bold">{Strings.digicheck_title}</HeadingText>
           </View>
         </View>
-        <Image source={images[imageRotationIndex]} style={styles.digiImage} />
+        <Image source={images[imageRotationIndex]} style={styles.digicheckImage} />
         <ContentText light>{Strings.digicheck_content}</ContentText>
         <View style={styles.calculateButtonWrapper}>
           <IconButton
@@ -247,11 +247,10 @@ const MeasureScreen = props => {
 
 const styles = StyleSheet.create({
   noContent: {
-    marginHorizontal: 8,
+    marginHorizontal: 4,
   },
   mainColumn: {
     flex: 1,
-    marginHorizontal: 8
   },
   splitViewRow: {
     flexDirection: 'row',
@@ -261,39 +260,43 @@ const styles = StyleSheet.create({
     flex: 1
   },
   detailColumn: {
-    flex: 2
+    flex: 2,
+    marginHorizontal: -4
   },
-  competence: {
+  digicheck: {
     padding: 8,
     marginTop: 8,
+    marginHorizontal: 4,
     borderColor: Layout.borderColor,
     borderWidth: Layout.borderWidth,
     borderRadius: Layout.borderRadius
   },
-  competenceColumn: {
+  digicheckColumn: {
     flexDirection: "row",
     alignItems: "center"
   },
-  listHeading: {
-    marginVertical: 8
-  },
-  checkHeading: {
+  digicheckHeading: {
     marginStart: 8,
     flex: 1
   },
-  calculateButtonWrapper: {
-    marginTop: 8
-  },
-  digiImage: {
+  digicheckImage: {
     width: "100%",
     height: 200,
     marginVertical: 4,
     alignSelf: 'center',
     backgroundColor: "white"
   },
+  listHeading: {
+    marginVertical: 8,
+    marginHorizontal: 4
+  },
+  calculateButtonWrapper: {
+    marginTop: 8
+  },
   measure: {
     flex: 1,
-    marginBottom: 8
+    marginBottom: 8,
+    marginHorizontal: 4
   }
 });
 
