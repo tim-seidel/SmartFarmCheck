@@ -203,18 +203,16 @@ const MeasureScreen = props => {
       }
 
       contentView =
-        <View style={styles.mainColumn}>
-          <View style={styles.splitViewRow}>
-            <View style={styles.masterColumn}>
-              <MeasureListView
-                itemStyle={styles.measure}
-                header={contentHeader}
-                measures={measures}
-                measureSelected={measureSelectedHandlerSplit} />
-            </View>
-            <View style={styles.detailColumn}>
-              {measureContent}
-            </View>
+        <View style={styles.splitViewRow}>
+          <View style={styles.masterColumn}>
+            <MeasureListView
+              itemStyle={styles.measure}
+              header={contentHeader}
+              measures={measures}
+              measureSelected={measureSelectedHandlerSplit} />
+          </View>
+          <View style={styles.detailColumn}>
+            {measureContent}
           </View>
         </View>
     } else {
