@@ -157,7 +157,6 @@ const EvaluationScreen = (props) => {
                 <View style={styles.mainColumn}>
                     <EvaluationListView
                         itemStyle={styles.measureRating}
-                        columns={orientation === 'landscape' ? 2 : 1}
                         ratings={evaluation.ratings}
                         header={informationHeader}
                         ratingSelected={ratingSelectedHandlerList} />
