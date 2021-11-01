@@ -126,7 +126,7 @@ const EvaluationScreen = (props) => {
             <InformationCard title={Strings.evaluation_information_title} style={styles.informationCard} contentView={contactButton}>
                 <InformationText>{Strings.evaluation_information_text}</InformationText>
             </InformationCard>
-            <HeadingText large weight="bold" style={styles.heading}>Ergebnisse:</HeadingText>
+            <HeadingText large weight="bold" style={styles.listHeading}>Ergebnisse:</HeadingText>
         </View>
 
         if (isTablet) {
@@ -139,26 +139,29 @@ const EvaluationScreen = (props) => {
 
             contentView =
                 <View style={styles.splitViewRow}>
-                    <EvaluationListView
-                        columns={1}
-                        style={styles.ratingListSplit}
-                        ratings={evaluation.ratings}
-                        ratingSelected={ratingSelectedHandlerSplit}>
-                        {informationHeader}
-                    </EvaluationListView>
-                    <View style={styles.measureViewSplit}>
+                    <View style={styles.masterColumn}>
+                        <EvaluationListView
+                            itemStyle={styles.measureRating}
+                            ratings={evaluation.ratings}
+                            ratingSelected={ratingSelectedHandlerSplit}
+                            header={informationHeader}>
+                        </EvaluationListView>
+                    </View>
+
+                    <View style={styles.detailColumn}>
                         {measureContent}
                     </View>
                 </View>
         } else {
             contentView =
-                <EvaluationListView
-                    columns={orientation === 'landscape' ? 2 : 1}
-                    style={styles.ratingList}
-                    ratings={evaluation.ratings}
-                    ratingSelected={ratingSelectedHandlerList}>
-                    {informationHeader}
-                </EvaluationListView>
+                <View style={styles.mainColumn}>
+                    <EvaluationListView
+                        itemStyle={styles.measureRating}
+                        columns={orientation === 'landscape' ? 2 : 1}
+                        ratings={evaluation.ratings}
+                        header={informationHeader}
+                        ratingSelected={ratingSelectedHandlerList} />
+                </View>
         }
     }
 
@@ -170,32 +173,35 @@ const EvaluationScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-    informationCard: {
-        marginTop: 8,
-    },
-    heading: {
-        marginVertical: 8,
-        marginStart: 6
+    mainColumn: {
+        flex: 1,
     },
     splitViewRow: {
         flex: 1,
         flexDirection: 'row'
     },
-    ratingList: {
-        flex: 1,
-        marginHorizontal: 8,
+    masterColumn: {
+        flex: 3,
     },
-    ratingListSplit: {
-        flex: 1,
-        marginHorizontal: 8,
+    detailColumn: {
+        flex: 5,
+        marginHorizontal: -4
     },
-    measureViewSplit: {
-        flex: 2,
-        marginEnd: 8
+    informationCard: {
+        marginTop: 8,
+    },
+    listHeading: {
+        marginVertical: 8,
+        marginHorizontal: 4
     },
     helpButton: {
         marginBottom: 8,
         marginHorizontal: 8
+    },
+    measureRating: {
+        flex: 1,
+        marginBottom: 8,
+        marginHorizontal: 4
     }
 })
 
