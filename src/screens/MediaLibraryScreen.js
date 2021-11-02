@@ -56,7 +56,7 @@ const MediaLibraryScreen = (props) => {
     }, [navigation, updateTime, mediaLibrary]);
 
     const checkAndLoadVideoList = useCallback(async () => {
-        if (mediaLibrary.length > 0 && !shouldUpate(updateTime, Network.UPDATE_LIST_THRESHOLD)) return
+        if (mediaLibrary.length > 0 && !shouldUpate(updateTime, Network.UPDATE_MEDIALIBRARY_THRESHOLD)) return
 
         const netinfo = await NetInfo.fetch()
         if (netinfo.isConnected) {

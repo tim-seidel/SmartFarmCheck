@@ -3,7 +3,7 @@ import moment from "moment"
 const Network = {
     requestTimeout: 1000 * 10,
     UPDATE_MEASURE_THRESHOLD: 1000 * 60 * 60 * 2,
-    UPDATE_LIST_THRESHOLD: 60 * 30
+    UPDATE_MEDIALIBRARY_THRESHOLD: 60 * 60,
 }
 
 export function shouldUpate(lastUpdated, updateThreshold) {
