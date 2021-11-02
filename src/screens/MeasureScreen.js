@@ -283,7 +283,8 @@ const styles = StyleSheet.create({
     height: 200,
     marginVertical: 4,
     alignSelf: 'center',
-    backgroundColor: "white"
+    backgroundColor: "white",
+    borderRadius: Layout.borderRadius
   },
   listHeading: {
     marginVertical: 8,
