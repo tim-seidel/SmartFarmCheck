@@ -4,7 +4,8 @@ import moment from 'moment';
 const initialState = {
     events : [],
     comming: [],
-    previous: []
+    previous: [],
+    updateTime: 0
 
 }
 
@@ -25,7 +26,8 @@ const eventReducer = (state = initialState, action) => {
                 ...state,
                 events: action.events,
                 comming: cmg,
-                previous: prv
+                previous: prv,
+                updateTime: action.updateTime
             }
         }
         default: {

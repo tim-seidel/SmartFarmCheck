@@ -1,3 +1,5 @@
+import moment from "moment"
+
 import Event from "../../models/Event"
 import Network from "../../constants/Network"
 import { fetchWithTimeout } from "../../network/network"
@@ -41,7 +43,8 @@ export const fetchEvents = () => {
 
         dispatch({
             type: SET_EVENTS,
-            events: events ?? []
+            events: events ?? [],
+            updateTime: moment().unix()
         })
     }
 }
@@ -64,7 +67,7 @@ export const fetchEvent = (id) => {
         dispatch({
             type: UPDATE_EVENT,
             eventId: json.uuid,
-            eventData: json
+            eventData: json,
         })
     }
 }

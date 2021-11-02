@@ -22,6 +22,7 @@ import Strings from '../constants/Strings';
 import { darkTheme, lightTheme } from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { CONTACTSCREEN } from '../constants/Paths';
+import Network, { shouldUpate } from '../constants/Network';
 
 const name_default_calendar = 'smartfarmcheck_event_calendar'
 const new_calendar_id = "sfc_calendar_new"
@@ -41,6 +42,7 @@ const EventScreen = (props) => {
 
   const dispatch = useDispatch()
   const events = useSelector(state => state.events.comming)
+  const updateTime = useSelector(state => state.events.updateTime)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -48,9 +50,11 @@ const EventScreen = (props) => {
     });
 
     return unsubscribe;
-  }, [navigation, checkAndLoadEvents]);
+  }, [navigation, events, updateTime]);
 
   const checkAndLoadEvents = useCallback(async () => {
+    if (events.length > 0 && !shouldUpate(updateTime, Network.UPDATE_LIST_THRESHOLD)) return
+
     const netinfo = await NetInfo.fetch()
     if (netinfo.isConnected) {
       setIsLoading(true)
@@ -64,7 +68,7 @@ const EventScreen = (props) => {
     } else {
       setHasNoNetwork(true)
     }
-  }, [dispatch])
+  }, [dispatch, events, updateTime])
 
   function retryHandler() {
     setErrorCode(0)
