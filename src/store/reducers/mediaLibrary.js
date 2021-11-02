@@ -1,8 +1,8 @@
-import { SET_ } from "../actions/events";
 import { SET_MEDIALIBRARY } from "../actions/mediaLibrary";
 
 const initialState = {
     all : [],
+    updateTime: 0
 }
 
 const mediaLibraryReducer = (state = initialState, action) => {
@@ -11,6 +11,7 @@ const mediaLibraryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 all: action.mediaLibrary,
+                updateTime: action.updateTime
             }
         }
         default: {

@@ -14,6 +14,7 @@ import { fetchMediaLibrary } from '../store/actions/mediaLibrary'
 import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
 import { VIDEOSCREEN } from '../constants/Paths'
+import Network, { shouldUpate } from '../constants/Network'
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen');
@@ -31,6 +32,7 @@ const MediaLibraryScreen = (props) => {
 
     const dispatch = useDispatch()
     const mediaLibrary = useSelector(state => state.mediaLibrary.all)
+    const updateTime = useSelector(state => state.mediaLibrary.updateTime)
 
     useEffect(() => {
         const callback = ({ screen }) => {
@@ -54,9 +56,11 @@ const MediaLibraryScreen = (props) => {
         });
 
         return unsubscribe;
-    }, [navigation, checkAndLoadVideoList]);
+    }, [navigation, updateTime, mediaLibrary]);
 
     const checkAndLoadVideoList = useCallback(async () => {
+        if (mediaLibrary.length > 0 && !shouldUpate(updateTime, Network.UPDATE_LIST_THRESHOLD)) return
+
         const netinfo = await NetInfo.fetch()
         if (netinfo.isConnected) {
             setIsLoading(true)
@@ -70,7 +74,7 @@ const MediaLibraryScreen = (props) => {
         } else {
             setHasNoNetwork(true)
         }
-    }, [dispatch])
+    }, [dispatch, updateTime, mediaLibrary])
 
     function retryHandler() {
         setErrorCode(0)
