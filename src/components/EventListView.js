@@ -5,13 +5,26 @@ import { FlatList } from 'react-native-gesture-handler'
 import * as Device from 'expo-device'
 
 import EventListViewItem from './EventListViewItem'
+import Strings from '../constants/Strings'
+
+function openEventURLorFallback(event) {
+    if (event && event.link) {
+        try {
+            Linking.openURL(event.link)
+        } catch {
+            Linking.openURL(Strings.mittelstand_40_lingen_events_url)
+        }
+    } else {
+        Linking.openURL(Strings.mittelstand_40_lingen_events_url)
+    }
+}
 
 function showDetailHandler(event) {
-    Linking.openURL(event.link)
+    openEventURLorFallback(event)
 }
 
 function showRegisterHandler(event) {
-    Linking.openURL(event.link)
+    openEventURLorFallback(event)
 }
 
 const isPortrait = () => {

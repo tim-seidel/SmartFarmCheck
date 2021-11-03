@@ -14,6 +14,7 @@ const Strings = {
 
     mail: "mittelstand40@hs-osnabrueck.de",
     phone: "0541-969-5017",
+    mittelstand_40_lingen_events_url: "https://kompetenzzentrum-lingen.digital/termine",
 
     app_title: "SmartFarmCheck",
     app_title_short: "FarmCheck",
@@ -80,6 +81,8 @@ const Strings = {
     form_layout_questions: "Fragenlayout",
     form_help: "Hilfe",
     form_input_placeholder: "Hier eingeben...",
+    form_calculate_at_any_point_title: "Über das Formular",
+    form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten können, Sie einfach offen lassen.",
 
     form_select_available_forms: "Verfügbare Fragebögen:",
     form_select_additional_forms: "Weitere Fragebögen",
@@ -112,7 +115,7 @@ const Strings = {
     medialibrary_no_description_available: "Keine Beschreibung verfügbar.",
 
     event_calendar: "Veranstaltungskalendar",
-    event_list_heading: "Kommende Veranstaltungen:",
+    event_list_heading: "Aktuelle Veranstaltungen:",
     event_loading: "Laden der kommenden Veranstaltungen...",
     event_loading_error: "Aktuell können keine Veranstaltungen geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
     event_loading_empty: "Kommende Veranstaltungen des Kompetenzzentrums werden hier angezeigt. Aktuell stehen keine Veranstaltungen an.",

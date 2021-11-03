@@ -28,6 +28,7 @@ const new_calendar_id = "sfc_calendar_new"
 
 const EventScreen = (props) => {
   const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+  const navigation = props.navigation
 
   const [calendarOptions, setCalendarOptions] = useState([])
   const [selectedCalendarOption, setSelectedCalendarOption] = useState('')
@@ -42,8 +43,12 @@ const EventScreen = (props) => {
   const events = useSelector(state => state.events.comming)
 
   useEffect(() => {
-    checkAndLoadEvents()
-  }, [checkAndLoadEvents])
+    const unsubscribe = navigation.addListener('focus', () => {
+      checkAndLoadEvents()
+    });
+
+    return unsubscribe;
+  }, [navigation, checkAndLoadEvents]);
 
   const checkAndLoadEvents = useCallback(async () => {
     const netinfo = await NetInfo.fetch()
@@ -107,13 +112,13 @@ const EventScreen = (props) => {
               <IconButton
                 text={Strings.event_nothing_fitting_goto_website}
                 icon="web"
-                onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
+                onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
             </View>
             <View style={styles.rightModalButton} >
               <IconButton
                 text={Strings.event_nothing_fitting_goto_contact}
                 icon="card-account-mail-outline"
-                onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
+                onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
             </View>
           </View>
         </View>
@@ -128,7 +133,7 @@ const EventScreen = (props) => {
           style={styles.nothingFittingButton}
           text={Strings.event_nothing_fitting_goto_contact}
           icon="card-account-mail-outline"
-          onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
+          onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
       </View>
 
     contentView = (
@@ -167,7 +172,7 @@ const EventScreen = (props) => {
   }
 
   return (
-    <RootView>
+    <RootView thin={events && events.length === 1}>
       {contentView}
     </RootView>
   );
