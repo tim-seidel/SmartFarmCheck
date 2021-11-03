@@ -7,18 +7,18 @@ import { WebView } from "react-native-webview"
  */
 export default function URLInterceptingWebview(props) {
 
-    const navigationStateChangeHandler = request => {
-        const { url } = request
-        if (!url || url === "about:blank") return true
+	const navigationStateChangeHandler = request => {
+		const { url } = request
+		if (!url || url === "about:blank") return true
 
-        if (props.onURLSelected) {
-            props.onURLSelected(url)
-            return false
-        }
-        return true
-    }
+		if (props.onURLSelected) {
+			props.onURLSelected(url)
+			return false
+		}
+		return true
+	}
 
-    return (
-        <WebView onShouldStartLoadWithRequest={navigationStateChangeHandler} {...props} />
-    )
+	return (
+		<WebView onShouldStartLoadWithRequest={navigationStateChangeHandler} {...props} />
+	)
 }

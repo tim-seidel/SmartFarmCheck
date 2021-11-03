@@ -17,193 +17,193 @@ import { fetchEvaluation } from '../store/actions/evaluation'
 import { EVALUATIONDETAILSCREEN, CONTACTREQUESTSCREEN } from '../constants/Paths';
 
 const isPortrait = () => {
-    const dim = Dimensions.get('screen');
-    return dim.height >= dim.width;
+	const dim = Dimensions.get('screen');
+	return dim.height >= dim.width;
 };
 
 const EvaluationScreen = (props) => {
-    const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
-    const [isTablet, setIsTablet] = useState(Platform.isPad)
+	const [orientation, setOrientation] = useState(isPortrait() ? 'portrait' : 'landscape')
+	const [isTablet, setIsTablet] = useState(Platform.isPad)
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [hasNoNetwork, setHasNoNetwork] = useState(false)
-    const [errorCode, setErrorCode] = useState(0)
+	const [isLoading, setIsLoading] = useState(false)
+	const [hasNoNetwork, setHasNoNetwork] = useState(false)
+	const [errorCode, setErrorCode] = useState(0)
 
-    const dispatch = useDispatch()
-    const evaluation = useSelector(state => state.evaluation.evaluation)
-    const [selectedRating, setSelectedRating] = useState(undefined)
+	const dispatch = useDispatch()
+	const evaluation = useSelector(state => state.evaluation.evaluation)
+	const [selectedRating, setSelectedRating] = useState(undefined)
 
-    const { route } = props
-    const { answers, formUuid } = route.params
+	const { route } = props
+	const { answers, formUuid } = route.params
 
-    useEffect(() => {
-        const callback = ({ screen }) => {
-            setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
-        }
-        const checkTablet = async () => {
-            const type = await Device.getDeviceTypeAsync()
-            setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
-        }
-        checkTablet()
+	useEffect(() => {
+		const callback = ({ screen }) => {
+			setOrientation(screen.height >= screen.width ? 'portrait' : 'landscape')
+		}
+		const checkTablet = async () => {
+			const type = await Device.getDeviceTypeAsync()
+			setIsTablet(!(type === Device.DeviceType.PHONE || type === Device.DeviceType.UNKNOWN))
+		}
+		checkTablet()
 
-        Dimensions.addEventListener('change', callback);
-        return () => {
-            Dimensions.removeEventListener('change', callback);
-        };
-    }, []);
+		Dimensions.addEventListener('change', callback);
+		return () => {
+			Dimensions.removeEventListener('change', callback);
+		};
+	}, []);
 
-    useEffect(() => {
-        checkAndEvaluate()
-    }, [checkAndEvaluate, answers])
+	useEffect(() => {
+		checkAndEvaluate()
+	}, [checkAndEvaluate, answers])
 
-    const checkAndEvaluate = useCallback(async () => {
-        const netinfo = await NetInfo.fetch()
-        if (netinfo.isConnected) {
-            setIsLoading(true)
-            try {
-                await dispatch(fetchEvaluation(formUuid, answers))
-            } catch (err) {
-                console.log(err)
-                setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
-            }
-            setIsLoading(false)
-        } else {
-            setHasNoNetwork(true)
-        }
-    }, [dispatch, answers])
+	const checkAndEvaluate = useCallback(async () => {
+		const netinfo = await NetInfo.fetch()
+		if (netinfo.isConnected) {
+			setIsLoading(true)
+			try {
+				await dispatch(fetchEvaluation(formUuid, answers))
+			} catch (err) {
+				console.log(err)
+				setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
+			}
+			setIsLoading(false)
+		} else {
+			setHasNoNetwork(true)
+		}
+	}, [dispatch, answers])
 
-    function retryHandler() {
-        setErrorCode(0)
-        setHasNoNetwork(false)
-        checkAndEvaluate()
-    }
+	function retryHandler() {
+		setErrorCode(0)
+		setHasNoNetwork(false)
+		checkAndEvaluate()
+	}
 
-    function contactRequestHandler() {
-        if (!isLoading) {
-            props.navigation.navigate(CONTACTREQUESTSCREEN, { answers: answers, formUuid: formUuid })
-        }
-    }
+	function contactRequestHandler() {
+		if (!isLoading) {
+			props.navigation.navigate(CONTACTREQUESTSCREEN, { answers: answers, formUuid: formUuid })
+		}
+	}
 
-    function ratingSelectedHandlerSplit(rating) {
-        props.navigation.setOptions({ title: rating.name ? "Maßnahmendetails: " + rating.name : "Empfehlungsübersicht" })
-        setSelectedRating(rating)
-    }
+	function ratingSelectedHandlerSplit(rating) {
+		props.navigation.setOptions({ title: rating.name ? "Maßnahmendetails: " + rating.name : "Empfehlungsübersicht" })
+		setSelectedRating(rating)
+	}
 
-    function ratingSelectedHandlerList(rating) {
-        props.navigation.navigate(EVALUATIONDETAILSCREEN, rating.uuid)
-        setSelectedRating(rating)
-    }
+	function ratingSelectedHandlerList(rating) {
+		props.navigation.navigate(EVALUATIONDETAILSCREEN, rating.uuid)
+		setSelectedRating(rating)
+	}
 
-    function urlClickHandler(url) {
-        if (url.includes('.mp4') || url.includes('.avi')) {
-            props.navigation.navigate(VIDEOSCREEN, url)
-        } else if (url.includes('.mp3')) {
-            props.navigation.navigate(AUDIOSCREEN, url)
-        }
-        else {
-            if (!url) return
-            Linking.canOpenURL(url).then(can => {
-                if (can) {
-                    Linking.openURL(url)
-                }
-            })
-        }
-    }
+	function urlClickHandler(url) {
+		if (url.includes('.mp4') || url.includes('.avi')) {
+			props.navigation.navigate(VIDEOSCREEN, url)
+		} else if (url.includes('.mp3')) {
+			props.navigation.navigate(AUDIOSCREEN, url)
+		}
+		else {
+			if (!url) return
+			Linking.canOpenURL(url).then(can => {
+				if (can) {
+					Linking.openURL(url)
+				}
+			})
+		}
+	}
 
-    var contentView = null
-    if (errorCode !== 0) {
-        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_error + " (Fehlercode: " + errorCode + ")."} />
-    } else if (isLoading) {
-        contentView = <NoContentView icon="cloud-download" loading title={Strings.evaluation_loading} />
-    } else if (hasNoNetwork && (!evaluation || evaluation.ratings.length === 0)) {
-        contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_loading_no_network} />
-    } else if (!evaluation || evaluation.ratings.length === 0) {
-        contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty} />
-    } else {
-        const contactButton = <WrappedIconButton style={styles.helpButton} icon="email-outline" text={Strings.evaluation_help} onPress={contactRequestHandler} />
+	var contentView = null
+	if (errorCode !== 0) {
+		contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_error + " (Fehlercode: " + errorCode + ")."} />
+	} else if (isLoading) {
+		contentView = <NoContentView icon="cloud-download" loading title={Strings.evaluation_loading} />
+	} else if (hasNoNetwork && (!evaluation || evaluation.ratings.length === 0)) {
+		contentView = <NoContentView icon="cloud-off-outline" onRetry={retryHandler} title={Strings.evaluation_loading_no_network} />
+	} else if (!evaluation || evaluation.ratings.length === 0) {
+		contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_empty} />
+	} else {
+		const contactButton = <WrappedIconButton style={styles.helpButton} icon="email-outline" text={Strings.evaluation_help} onPress={contactRequestHandler} />
 
-        const informationHeader = <View>
-            <InformationCard title={Strings.evaluation_information_title} style={styles.informationCard} contentView={contactButton}>
-                <InformationText>{Strings.evaluation_information_text}</InformationText>
-            </InformationCard>
-            <HeadingText large weight="bold" style={styles.listHeading}>Ergebnisse:</HeadingText>
-        </View>
+		const informationHeader = <View>
+			<InformationCard title={Strings.evaluation_information_title} style={styles.informationCard} contentView={contactButton}>
+				<InformationText>{Strings.evaluation_information_text}</InformationText>
+			</InformationCard>
+			<HeadingText large weight="bold" style={styles.listHeading}>Ergebnisse:</HeadingText>
+		</View>
 
-        if (isTablet) {
-            let measureContent = null;
-            if (selectedRating) {
-                measureContent = <MeasureView measureId={selectedRating.uuid} onURLClicked={urlClickHandler} />
-            } else {
-                measureContent = <NoContentView icon="gesture-tap" title={Strings.evaluation_split_content_placeholder} />
-            }
+		if (isTablet) {
+			let measureContent = null;
+			if (selectedRating) {
+				measureContent = <MeasureView measureId={selectedRating.uuid} onURLClicked={urlClickHandler} />
+			} else {
+				measureContent = <NoContentView icon="gesture-tap" title={Strings.evaluation_split_content_placeholder} />
+			}
 
-            contentView =
-                <View style={styles.splitViewRow}>
-                    <View style={styles.masterColumn}>
-                        <EvaluationListView
-                            itemStyle={styles.measureRating}
-                            ratings={evaluation.ratings}
-                            ratingSelected={ratingSelectedHandlerSplit}
-                            header={informationHeader}>
-                        </EvaluationListView>
-                    </View>
+			contentView =
+				<View style={styles.splitViewRow}>
+					<View style={styles.masterColumn}>
+						<EvaluationListView
+							itemStyle={styles.measureRating}
+							ratings={evaluation.ratings}
+							ratingSelected={ratingSelectedHandlerSplit}
+							header={informationHeader}>
+						</EvaluationListView>
+					</View>
 
-                    <View style={styles.detailColumn}>
-                        {measureContent}
-                    </View>
-                </View>
-        } else {
-            contentView =
-                <View style={styles.mainColumn}>
-                    <EvaluationListView
-                        itemStyle={styles.measureRating}
-                        ratings={evaluation.ratings}
-                        header={informationHeader}
-                        ratingSelected={ratingSelectedHandlerList} />
-                </View>
-        }
-    }
+					<View style={styles.detailColumn}>
+						{measureContent}
+					</View>
+				</View>
+		} else {
+			contentView =
+				<View style={styles.mainColumn}>
+					<EvaluationListView
+						itemStyle={styles.measureRating}
+						ratings={evaluation.ratings}
+						header={informationHeader}
+						ratingSelected={ratingSelectedHandlerList} />
+				</View>
+		}
+	}
 
-    return (
-        <RootView>
-            {contentView}
-        </RootView>
-    )
+	return (
+		<RootView>
+			{contentView}
+		</RootView>
+	)
 }
 
 const styles = StyleSheet.create({
-    mainColumn: {
-        flex: 1,
-    },
-    splitViewRow: {
-        flex: 1,
-        flexDirection: 'row',
-        marginHorizontal: 4
-    },
-    masterColumn: {
-        flex: 3,
-    },
-    detailColumn: {
-        flex: 5,
-        marginHorizontal: -4
-    },
-    informationCard: {
-        marginTop: 8,
-        marginHorizontal: 4
-    },
-    listHeading: {
-        marginVertical: 8,
-        marginHorizontal: 4
-    },
-    helpButton: {
-        marginBottom: 8,
-        marginHorizontal: 8
-    },
-    measureRating: {
-        flex: 1,
-        marginBottom: 8,
-        marginHorizontal: 4
-    }
+	mainColumn: {
+		flex: 1,
+	},
+	splitViewRow: {
+		flex: 1,
+		flexDirection: 'row',
+		marginHorizontal: 4
+	},
+	masterColumn: {
+		flex: 3,
+	},
+	detailColumn: {
+		flex: 5,
+		marginHorizontal: -4
+	},
+	informationCard: {
+		marginTop: 8,
+		marginHorizontal: 4
+	},
+	listHeading: {
+		marginVertical: 8,
+		marginHorizontal: 4
+	},
+	helpButton: {
+		marginBottom: 8,
+		marginHorizontal: 8
+	},
+	measureRating: {
+		flex: 1,
+		marginBottom: 8,
+		marginHorizontal: 4
+	}
 })
 
 export default EvaluationScreen

@@ -34,31 +34,31 @@ export default function App(props) {
   const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
   React.useEffect(() => {
-    async function loadWithSplashScreen() {
-      try {
-        await SplashScreen.preventAutoHideAsync()
-        await loadResourcesAndDataAsync()
-      } catch (e) {
-        console.warn(e)
-      } finally {
-        setLoadingComplete(true)
-        await SplashScreen.hideAsync()
-      }
-    }
-    loadWithSplashScreen()
+	async function loadWithSplashScreen() {
+	  try {
+		await SplashScreen.preventAutoHideAsync()
+		await loadResourcesAndDataAsync()
+	  } catch (e) {
+		console.warn(e)
+	  } finally {
+		setLoadingComplete(true)
+		await SplashScreen.hideAsync()
+	  }
+	}
+	loadWithSplashScreen()
   }, [])
 
   async function loadResourcesAndDataAsync() {
   }
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return null /* Handled by splash screen. */
+	return null /* Handled by splash screen. */
   } else {
-    return (
-      <Provider store={store}>
-        <Content />
-        <StatusBar backgroundColor={colorTheme.secondary} />
-      </Provider>
-    )
+	return (
+	  <Provider store={store}>
+		<Content />
+		<StatusBar backgroundColor={colorTheme.secondary} />
+	  </Provider>
+	)
   }
 }

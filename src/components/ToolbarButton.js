@@ -10,15 +10,15 @@ import { darkTheme, lightTheme } from '../constants/Colors'
  * @param {Object} props The standard react native ui props.
  */
 const ToolbarButton = (props) => {
-    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
-    return (
-        <HeaderButton
-            {...props}
-            IconComponent={Icon}
-            iconSize={24}
-            color={colorTheme.textPrimaryContrast} />
-    )
+	return (
+		<HeaderButton
+			{...props}
+			IconComponent={Icon}
+			iconSize={24}
+			color={colorTheme.textPrimaryContrast} />
+	)
 }
 
 export default ToolbarButton

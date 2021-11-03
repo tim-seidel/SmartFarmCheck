@@ -9,13 +9,13 @@ import { ConstantColors, darkTheme, lightTheme } from '../../constants/Colors'
  * @param {Object} props The standard react native ui props 
  */
 const View = (props) => {
-    const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
-    const {component, background} = props
-    return (
-        <ReactView style={{ backgroundColor: component ? colorTheme.componentBackground : background ? colorTheme.background : ConstantColors.transparent, ...props.style }}>
-            {props.children}
-        </ReactView>
-    )
+	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+	const {component, background} = props
+	return (
+		<ReactView style={{ backgroundColor: component ? colorTheme.componentBackground : background ? colorTheme.background : ConstantColors.transparent, ...props.style }}>
+			{props.children}
+		</ReactView>
+	)
 }
 
 export default View
