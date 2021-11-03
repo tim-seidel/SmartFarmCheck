@@ -11,7 +11,7 @@ import { ConstantColors } from '../../constants/Colors'
  * @param {Object} props The standard react native ui props.
  */
 const Separator = props => {
-    return <View style= {[props.orientation === 'vertical' ? styles.separatorVertical : styles.separatorHorizontal, props.style]} />
+    return <View style={[props.orientation === 'vertical' ? styles.separatorVertical : styles.separatorHorizontal, props.style]} />
 }
 
 Separator.propTypes = {

@@ -1,5 +1,5 @@
 export default class Event {
-    constructor(uuid, title, description, startDate, endDate, link, image, maxParticipantCount = 0){
+    constructor(uuid, title, description, startDate, endDate, link, image, maxParticipantCount = 0) {
         this.uuid = uuid
         this.title = title
         this.description = description

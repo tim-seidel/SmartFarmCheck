@@ -1,9 +1,8 @@
 import React from 'react'
 import { StyleSheet, TextInput } from 'react-native'
-
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme } from '../constants/Colors'
 
+import { darkTheme, lightTheme } from '../constants/Colors'
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'
 

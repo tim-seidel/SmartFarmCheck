@@ -22,7 +22,7 @@ export const fetchMeasures = () => {
         const json = await response.json()
         const measures = []
         json.forEach(m => {
-            measure = new Measure(
+            const measure = new Measure(
                 m.uuid,
                 m.name,
                 m.excerpt,

@@ -1,7 +1,7 @@
 import { SET_MEDIALIBRARY } from "../actions/mediaLibrary";
 
 const initialState = {
-    all : [],
+    all: [],
     updateTime: 0
 }
 

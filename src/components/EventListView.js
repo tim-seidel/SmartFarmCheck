@@ -5,6 +5,7 @@ import { FlatList } from 'react-native-gesture-handler'
 import * as Device from 'expo-device'
 
 import EventListViewItem from './EventListViewItem'
+
 import Strings from '../constants/Strings'
 
 function openFallBackEventWebsite() {

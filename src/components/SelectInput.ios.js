@@ -1,11 +1,12 @@
 import React from 'react'
 import { StyleSheet, ActionSheetIOS, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { ContentText } from './common/Text'
-import Layout from '../constants/Layout'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+
 import { darkTheme, lightTheme } from '../constants/Colors'
+import Layout from '../constants/Layout'
 
 const picker_placeholder = "[Keine Auswahl]"
 
@@ -31,7 +32,7 @@ const SelectInput = (props) => {
     }
 
     return (
-        <View style={{...styles.pickerRow, backgroundColor: colorTheme.background}}>
+        <View style={{ ...styles.pickerRow, backgroundColor: colorTheme.background }}>
             <TouchableOpacity style={styles.pickerTouchWrapper} onPress={showIosPickerHandler}>
                 <ContentText style={{ color: props.input ? colorTheme.textPrimary : colorTheme.textHint }}>{props.input ? props.input : picker_placeholder ?? picker_placeholder}</ContentText>
             </TouchableOpacity>

@@ -11,7 +11,6 @@ import StringInput from './StringInput'
 import { getValidation } from "../models/Validation"
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { darkTheme, lightTheme } from '../constants/Colors'
-
 import Keys from '../constants/Keys'
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'

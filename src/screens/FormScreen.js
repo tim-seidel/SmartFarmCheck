@@ -20,7 +20,7 @@ import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
 import { EVALUATIONSCREEN } from '../constants/Paths'
 import { darkTheme, lightTheme } from '../constants/Colors'
-import InformationCard, { InformationLineBreak, InformationText } from '../components/common/InformationCard';
+import InformationCard, { InformationText } from '../components/common/InformationCard';
 
 const layout_list = "list"
 const layout_single = "single"
@@ -92,11 +92,11 @@ const FormScreen = props => {
             if (q.input) {
                 let input = q.input
                 //Add a trailing 0 if needed
-                if(q.validator.inputType === "NUMBER" && input.endsWith(".")){
+                if (q.validator.inputType === "NUMBER" && input.endsWith(".")) {
                     console.log(q)
                     input += "0"
                 }
-                
+
                 _answers.push({ questionUUID: q.uuid, value: input })
             }
         })
@@ -383,7 +383,6 @@ const styles = StyleSheet.create({
     },
     notAllQuestionsAdvice: {
         marginBottom: 8
-
     }
 })
 

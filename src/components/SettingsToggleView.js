@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Switch } from 'react-native'
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme, ConstantColors } from '../constants/Colors'
+
 import { ContentText, HeadingText } from './common/Text'
+
+import { darkTheme, lightTheme, ConstantColors } from '../constants/Colors'
 import Layout from '../constants/Layout'
 
 const SettingsToggleView = (props) => {

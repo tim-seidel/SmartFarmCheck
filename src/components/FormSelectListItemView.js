@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { HeadingText, ContentText } from './common/Text'
 import Layout from '../constants/Layout'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { darkTheme, lightTheme } from '../constants/Colors'
 
 const FormSelectListItemView = (props) => {

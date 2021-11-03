@@ -1,8 +1,9 @@
+import moment from "moment"
+
 import Video from "../../models/Video"
 import Network from "../../constants/Network"
 import { fetchWithTimeout } from "../../network/network"
 import API from "../../constants/API"
-import moment from "moment"
 
 export const SET_MEDIALIBRARY = "SET_MEDIALIBRARY"
 

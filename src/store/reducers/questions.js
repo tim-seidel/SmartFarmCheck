@@ -1,7 +1,7 @@
-const { SET_QUESTIONS } = require("../actions/questions")
+import { SET_QUESTIONS } from  "../actions/questions"
 
 const initialState = {
-    questions : []
+    questions: []
 }
 
 const questionsReducer = (state = initialState, action) => {

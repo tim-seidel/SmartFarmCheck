@@ -2,10 +2,10 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
-import Layout from '../constants/Layout'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+
 import { darkTheme, lightTheme } from '../constants/Colors'
+import Layout from '../constants/Layout'
 
 const picker_placeholder = "[Keine Auswahl]"
 
@@ -21,7 +21,7 @@ const SelectInput = (props) => {
     }
 
     return (
-        <View style={{...styles.pickerContainer, backgroundColor: colorTheme.background}}>
+        <View style={{ ...styles.pickerContainer, backgroundColor: colorTheme.background }}>
             <Picker style={{ flex: 1, color: props.input ? colorTheme.textPrimary : colorTheme.textHint }} selectedValue={props.input} onValueChange={props.selectionChanged}>
                 <Picker.Item value="" label={props.placeholder ?? picker_placeholder} key="defaultOption"></Picker.Item>
                 {items}

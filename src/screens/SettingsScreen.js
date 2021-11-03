@@ -3,11 +3,11 @@ import { StyleSheet, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import RootView from '../components/common/RootView'
+import SettingsClickView from '../components/SettingsClickView'
 
 import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
 import { LICENSESCREEN } from '../constants/Paths'
-import SettingsClickView from '../components/SettingsClickView'
 
 
 const SettingsScreen = (props) => {

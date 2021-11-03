@@ -4,7 +4,7 @@ export default class Validator {
         this.inputType = inputType
         this.pattern = pattern
         this.minLength = minLength
-        this.maxLength = maxLength ? maxLength: 1000
+        this.maxLength = maxLength ? maxLength : 1000
         this.min = min
         this.max = max
         this.options = options ?? []

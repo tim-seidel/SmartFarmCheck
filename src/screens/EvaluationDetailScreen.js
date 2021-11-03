@@ -19,7 +19,7 @@ const EvaluationDetailScreen = (props) => {
         else {
             if (!url) return
             Linking.canOpenURL(url).then(can => {
-                if(can) {
+                if (can) {
                     Linking.openURL(url)
                 }
             })

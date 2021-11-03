@@ -65,7 +65,6 @@ NoContentView.defaultProps = {
   retryTitle: Strings.try_again
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

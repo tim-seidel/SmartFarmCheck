@@ -1,11 +1,12 @@
 import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { ContentText, HeadingText } from './common/Text'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme } from '../constants/Colors'
 import IconButton from './common/IconButton'
+
+import { darkTheme, lightTheme } from '../constants/Colors'
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'
 

@@ -10,11 +10,11 @@ import EvaluationListView from '../components/EvaluationListView'
 import MeasureView from '../components/MeasureView';
 import { HeadingText } from '../components/common/Text'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
+import { WrappedIconButton } from '../components/common/IconButton';
 
 import Strings from '../constants/Strings'
 import { fetchEvaluation } from '../store/actions/evaluation'
 import { EVALUATIONDETAILSCREEN, CONTACTREQUESTSCREEN } from '../constants/Paths';
-import { WrappedIconButton } from '../components/common/IconButton';
 
 const isPortrait = () => {
     const dim = Dimensions.get('screen');

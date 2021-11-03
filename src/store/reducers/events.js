@@ -1,12 +1,12 @@
-import { SET_EVENTS } from "../actions/events";
 import moment from 'moment';
 
+import { SET_EVENTS } from "../actions/events";
+
 const initialState = {
-    events : [],
+    events: [],
     comming: [],
     previous: [],
     updateTime: 0
-
 }
 
 const eventReducer = (state = initialState, action) => {
@@ -16,9 +16,9 @@ const eventReducer = (state = initialState, action) => {
             const cmg = []
             const prv = []
             action.events.forEach(e => {
-                if(now < e.endDate.getTime()){
+                if (now < e.endDate.getTime()) {
                     cmg.push(e)
-                }else{
+                } else {
                     prv.push(e)
                 }
             });

@@ -28,6 +28,6 @@ export const SelectValidation = function (validator, input) {
     return { validity: validity, message: message }
 }
 
-export function getValidation(validator){
+export function getValidation(validator) {
     return validator.inputType === "NUMBER" ? NumberValidation : validator.inputType === "SELECT" ? SelectValidation : StringValidation
 }

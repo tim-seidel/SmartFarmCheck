@@ -1,15 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import NoContentView from './common/NoContentView'
 import URLInterceptingWebview from './common/URLInterceptingWebview'
 
 import { fetchMeasure } from '../store/actions/measures'
-import Strings from '../constants/Strings'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors'
 import Network from '../constants/Network'
+import Strings from '../constants/Strings'
 
 const MeasureView = props => {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
@@ -42,10 +42,7 @@ const MeasureView = props => {
         if (measure != null) {
             const diff = Date.now() - measure.updateTime
             if (diff < Network.UPDATE_MEASURE_THRESHOLD) {
-                console.log("Measure is ~ " + Number(diff / 1000 / 60).toFixed(0) + " minute(s) old. Using cached measure.")
                 return
-            }else{
-                console.log("Measure is ~ " + Number(diff / 1000 / 60).toFixed(0) + " minute(s) old. Updating measure.")
             }
         }
 
@@ -105,6 +102,12 @@ const MeasureView = props => {
     return contentView
 }
 
+/**
+ * @summary Formats the measure content and applys the HTML wrapper aswell as scaling, a title and dark/light mode.
+ * @param {*} measure The measure to display
+ * @param {*} colorTheme The colortheme (dark/light) to apply to the text/background
+ * @returns The formatted HTML content
+ */
 function formatHTML(measure, colorTheme) {
     const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; } a {word-break: break-all;}</style></head>'
     var heading = '<h2>' + measure.name + '</h2>'
@@ -116,31 +119,5 @@ function formatHTML(measure, colorTheme) {
     const wrapped = head + '<body>' + heading + description + '</body></html>'
     return wrapped
 }
-
-/*
-function formatHTML(measure, colorTheme) {
-    const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; }</style></head>'
-    var content = '<h2>' + measure.name + '</h2>'
-    content += measure.description ?? "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</p>"
-
-    measure.resources.forEach(r => {
-        switch (r.mime) {
-            case "image/jpeg":
-            case "image/png":
-                const uri = "https://pas.sei-farbenfroh.de/v1/measures/" + measure.uuid + "/resource/" + r.name
-
-                content += "<img style=\"max-width: 100%\" src=\"" + uri + "\"/>"
-                if (r.description) {
-                    content += "<p>Bild: " + r.description + "</>"
-                }
-        }
-    })
-    const wrapped = head + '<body>' + content + '</body></html>'
-
-    return wrapped
-    
-    return measure.description.replace("img src=", "img style=\"width: 25%\" src=")
-}
-*/
 
 export default MeasureView

@@ -13,7 +13,7 @@ import Strings from '../constants/Strings'
 const onSponsorPressedHandler = (url) => {
   if (!url) return
   Linking.canOpenURL(url).then(can => {
-    if(can) {
+    if (can) {
       Linking.openURL(url)
     }
   })

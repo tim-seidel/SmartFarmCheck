@@ -15,6 +15,7 @@ const SettingsClickView = (props) => {
     const { icon, name, description, onPress } = props
 
     const descriptionView = description ? (<ContentText light style={styles.description}>{description}</ContentText>) : null
+    
     return (
         <View style={{ ...styles.container, backgroundColor: colorTheme.componentBackground, ...props.style }}>
             <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={onPress}>
