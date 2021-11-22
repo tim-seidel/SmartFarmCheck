@@ -17,6 +17,7 @@ function MeasureListView(props) {
 					key={item.uuid}
 					title={item.name}
 					short={item.excerpt}
+                    keywords={item.keywords}
 					measureSelected={() => { if (props.measureSelected) props.measureSelected(item) }}
 				/>
 			)}

@@ -23,6 +23,11 @@ function MeasureListItemView(props) {
 				onPress={props.measureSelected}>
 				<View style={styles.innerWrapper}>
 					<View style={styles.measureContent}>
+						<View style={styles.hastags}>
+							{props.keywords.map((kw, index) => (<View key={kw} style={index == 0 ? styles.hastag : [styles.hastag, { marginStart: 4 }]}>
+								<ContentText light small>{"#" + kw}</ContentText>
+							</View>))}
+						</View>
 						<HeadingText
 							weight="bold">{props.title}</HeadingText>
 						<ContentText
@@ -62,6 +67,17 @@ const styles = StyleSheet.create({
 	},
 	detailIcon: {
 		alignSelf: "center",
+	},
+	hastags: {
+		flexDirection: 'row'
+	},
+	hastag: {
+		borderRadius: Layout.borderRadius * 2,
+		borderColor: Layout.borderColor,
+		borderWidth: Layout.borderWidth,
+		paddingHorizontal: 4,
+		paddingVertical: 2,
+		alignSelf: 'flex-start'
 	}
 })
 
