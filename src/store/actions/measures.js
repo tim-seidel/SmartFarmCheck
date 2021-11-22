@@ -27,6 +27,7 @@ export const fetchMeasures = () => {
 				m.name,
 				m.excerpt,
 				m.description,
+                m.keywords,
 				m.resources
 			)
 			measure.updateTime = Date.now()
