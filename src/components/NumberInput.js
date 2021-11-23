@@ -15,6 +15,8 @@ const NumberInput = (props) => {
 	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 	const { input, unit, numberChanged } = props
 
+	const hasUnit = (unit != null && unit.trim() !== "")
+
 	return (
 		<View style={styles.row}>
 			<TextInput
@@ -28,7 +30,7 @@ const NumberInput = (props) => {
 					color: colorTheme.textPrimary,
 					backgroundColor: colorTheme.background
 				}} />
-			{unit && <View style={{ ...styles.unitTextWrapper, backgroundColor: colorTheme.background }}>
+			{hasUnit && <View style={{ ...styles.unitTextWrapper, backgroundColor: colorTheme.background }}>
 				<ContentText>in [{unit}]</ContentText>
 			</View>}
 		</View>
