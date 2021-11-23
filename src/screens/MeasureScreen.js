@@ -175,13 +175,16 @@ const MeasureScreen = props => {
 	}, [measures])
 
 
-	function filterSelectedHandler(index) {
-		setMeasureFilter(index)
-		if (index == 0) {
+    useEffect(() => {
+        if (measureFilter == 0) {
 			setFilteredMeasures(measures)
 		} else {
-			setFilteredMeasures(measures.filter(m => m.keywords.includes(measureFilters[index])))
+			setFilteredMeasures(measures.filter(m => m.keywords.includes(measureFilters[measureFilter])))
 		}
+    }, [measures, measureFilter])
+
+	function filterSelectedHandler(index) {
+		setMeasureFilter(index)
 	}
 
 	const contentHeader =
