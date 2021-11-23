@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { HeadingText, ContentText } from './common/Text'
 import Layout from '../constants/Layout'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { darkTheme, lightTheme } from '../constants/Colors'
 
 function MeasureListItemView(props) {
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row'
 	},
 	hastag: {
-		borderRadius: Layout.borderRadius * 2,
+		borderRadius: Layout.borderRadius,
 		borderColor: Layout.borderColor,
 		borderWidth: Layout.borderWidth,
 		paddingHorizontal: 4,
