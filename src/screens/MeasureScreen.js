@@ -42,6 +42,10 @@ const MeasureScreen = props => {
 	const [isRotationEnabled, setRotationEnabled] = useState(false)
 	const [selectedMeasure, setSelectedMeasure] = useState(undefined)
 
+	const [measureFilters, setMeasureFilters] = useState(["Alle"])
+	const [measureFilter, setMeasureFilter] = useState(0)
+	const [filteredMeasures, setFilteredMeasures] = useState(measures)
+
 	const images = [
 		require("../../assets/images/digi/img_carousel_03.jpg"),
 		require("../../assets/images/digi/img_carousel_05.jpg"),
@@ -158,6 +162,28 @@ const MeasureScreen = props => {
 		props.navigation.navigate(FORMSELECTSCREEN)
 	}
 
+	useEffect(() => {
+		const keywords = ["Alle"]
+		measures.forEach(m => {
+			m.keywords.forEach(k => {
+				if (!keywords.includes(k)) {
+					keywords.push(k)
+				}
+			})
+		})
+		setMeasureFilters(keywords)
+	}, [measures])
+
+
+	function filterSelectedHandler(index) {
+		setMeasureFilter(index)
+		if (index == 0) {
+			setFilteredMeasures(measures)
+		} else {
+			setFilteredMeasures(measures.filter(m => m.keywords.includes(measureFilters[index])))
+		}
+	}
+
 	const contentHeader =
 		<View>
 			<View component style={{ ...styles.digicheck, backgroundColor: colorTheme.componentBackground }}>
@@ -179,6 +205,11 @@ const MeasureScreen = props => {
 				</View>
 			</View>
 			<HeadingText large weight="bold" style={styles.listHeading}>{Strings.measure_all_measures_title}</HeadingText>
+			<View style={styles.hastags}>
+				{measureFilters.map((kw, index) => (<View key={kw} style={styles.hastag}>
+					<ContentText onPress={() => filterSelectedHandler(index)} weight={index == measureFilter ? "bold" : "normal"}>{"#" + kw}</ContentText>
+				</View>))}
+			</View>
 		</View>
 
 	let isDisplayingMeasures = false
@@ -208,7 +239,7 @@ const MeasureScreen = props => {
 						<MeasureListView
 							itemStyle={styles.measure}
 							header={contentHeader}
-							measures={measures}
+							measures={filteredMeasures}
 							measureSelected={measureSelectedHandlerSplit} />
 					</View>
 					<View style={styles.detailColumn}>
@@ -222,7 +253,7 @@ const MeasureScreen = props => {
 						itemStyle={styles.measure}
 						columns={orientation === 'landscape' ? 2 : 1}
 						header={contentHeader}
-						measures={measures}
+						measures={filteredMeasures}
 						measureSelected={measureSelectedHandlerList}
 					/>
 				</View>
@@ -249,6 +280,7 @@ const styles = StyleSheet.create({
 	},
 	mainColumn: {
 		flex: 1,
+		marginHorizontal: 4
 	},
 	splitViewRow: {
 		flexDirection: 'row',
@@ -297,6 +329,21 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginBottom: 8,
 		marginHorizontal: 4
+	},
+	hastags: {
+		flexDirection: 'row',
+		marginStart: 2,
+		marginBottom: 6,
+		flexWrap: "wrap",
+		alignContent: "space-between"
+	},
+	hastag: {
+		borderRadius: Layout.borderRadius,
+		borderColor: Layout.borderColor,
+		borderWidth: Layout.borderWidth,
+		paddingHorizontal: 6,
+		paddingVertical: 4,
+		margin: 2
 	}
 });
 

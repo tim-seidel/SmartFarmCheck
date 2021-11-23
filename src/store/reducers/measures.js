@@ -18,6 +18,7 @@ const measuresReducer = (state = initialState, action) => {
 				action.measureData.name,
 				action.measureData.excerpt,
 				action.measureData.description,
+                action.measureData.keywords,
 				action.measureData.resources
 			)
 			measure.updateTime = action.measureData.updateTime
