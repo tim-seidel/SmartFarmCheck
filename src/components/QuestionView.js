@@ -8,7 +8,7 @@ import NumberInput from './NumberInput'
 import SelectInput from "./SelectInput"
 import StringInput from './StringInput'
 
-import { getValidation } from "../models/Validation"
+import { getValidation, isStringEmpty } from "../models/Validation"
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { darkTheme, lightTheme } from '../constants/Colors'
 import Keys from '../constants/Keys'
@@ -115,7 +115,7 @@ const QuestionView = props => {
 			<View style={styles.questionInputColumn}>
 				<View style={styles.questionRow}>
 					<HeadingText weight="normal" style={styles.heading}>{props.text}</HeadingText>
-					{props.description && (
+					{!isStringEmpty(props.description) && (
 						<Icon
 							style={{ ...styles.infoIcon, color: colorTheme.textPrimary }}
 							onPress={questionInfoHandler}
