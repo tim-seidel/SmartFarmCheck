@@ -209,7 +209,7 @@ const MeasureScreen = props => {
 			</View>
 			<HeadingText large weight="bold" style={styles.listHeading}>{Strings.measure_all_measures_title}</HeadingText>
 			<View style={styles.hastags}>
-				{measureFilters.map((kw, index) => (<View key={kw} style={styles.hastag}>
+				{measureFilters.map((kw, index) => (<View key={kw} style={{...styles.hastag, backgroundColor: colorTheme.componentBackground}}>
 					<ContentText onPress={() => filterSelectedHandler(index)} weight={index == measureFilter ? "bold" : "normal"}>{"#" + kw}</ContentText>
 				</View>))}
 			</View>

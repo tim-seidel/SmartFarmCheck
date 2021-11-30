@@ -25,7 +25,7 @@ function MeasureListItemView(props) {
 					<View style={styles.measureContent}>
 						<View style={styles.hastags}>
 							{props.keywords.map((kw, index) => (<View key={kw} style={index == 0 ? styles.hastag : [styles.hastag, { marginStart: 4 }]}>
-								<ContentText light small>{"#" + kw}</ContentText>
+								<ContentText small>{"#" + kw}</ContentText>
 							</View>))}
 						</View>
 						<HeadingText
