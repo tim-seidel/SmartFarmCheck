@@ -7,6 +7,7 @@ import { ContentText } from './common/Text'
 import { darkTheme, lightTheme } from '../constants/Colors'
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'
+import { isStringEmpty } from '../models/Validation'
 
 /**
  * View that represents a input field for numbers.
@@ -15,7 +16,7 @@ const NumberInput = (props) => {
 	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 	const { input, unit, numberChanged } = props
 
-	const hasUnit = (unit != null && unit.trim() !== "")
+	const hasUnit = !isStringEmpty(unit)
 
 	return (
 		<View style={styles.row}>
