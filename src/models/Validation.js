@@ -88,5 +88,5 @@ export function getValidation(validator) {
 }
 
 export function isStringEmpty(str) {
-	return !str || str.trim() != ''
+	return !str || str.trim() === ''
 }
