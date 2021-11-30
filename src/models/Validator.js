@@ -5,8 +5,8 @@ export default class Validator {
 		this.pattern = pattern
 		this.minLength = minLength
 		this.maxLength = maxLength ? maxLength : 1000
-		this.min = min
-		this.max = max
+		this.min = max != 0 ? Math.min(min, max) : min
+		this.max = max != 0 ? Math.max(min, max) : max
 		this.options = options ?? []
 		this.repeatable = repeatable
 		this.unit = unit
