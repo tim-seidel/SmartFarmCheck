@@ -30,9 +30,9 @@ export const darkTheme = {
 	secondary: defaultSecondary,
 	accent: "#ef4c2d",
 
-	background: '#000',
-	componentBackground: '#222',
-	componentPressed: '#666',
+	background: '#1e1e1e',
+	componentBackground: '#303030',
+	componentPressed: '#555',
 
 	textPrimary: '#fff',
 	textPrimaryContrast: '#fff',
