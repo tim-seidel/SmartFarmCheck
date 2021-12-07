@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 		borderRadius: Layout.borderRadius,
 	},
 	buttonOutlined: {
-		borderWidth: 1.5,
+		borderWidth: Layout.borderWidth,
 		justifyContent: "center",
 		borderRadius: Layout.borderRadius,
 	},
