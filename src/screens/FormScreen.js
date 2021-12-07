@@ -93,7 +93,6 @@ const FormScreen = props => {
 				let input = q.input
 				//Add a trailing 0 if needed
 				if (q.validator.inputType === "NUMBER" && input.endsWith(".")) {
-					console.log(q)
 					input += "0"
 				}
 
@@ -169,7 +168,7 @@ const FormScreen = props => {
 		}
 	}
 
-	console.log("FormScreen.render()", isLoading, hasNoNetwork, errorCode, questions.length)
+	console.log("loading: " + isLoading +  ", network: " + hasNoNetwork + ", error: " + errorCode + ", questions: " + questions.length + ", mode: " + mode + ", page:" + pagingIndex)
 	var contentView = null
 	if (errorCode !== 0) {
 		contentView = <NoContentView
@@ -253,7 +252,6 @@ const FormScreen = props => {
 						index={pagingIndex + 1}
 					/>
 					<View singleQuestionNavigationContainer>
-
 						<View style={styles.questionPagingRow}>
 							<TouchableOpacity
 								activeOpacity={0.7}
