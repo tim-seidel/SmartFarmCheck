@@ -4,6 +4,5 @@ export default class Rating {
 		this.name = name
 		this.excerpt = excerpt
 		this.rating = rating
-		this.weighted = 1.0;
 	}
 }

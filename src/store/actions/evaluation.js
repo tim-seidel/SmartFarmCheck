@@ -8,7 +8,7 @@ import ContactRequest from '../../models/ContactRequest';
 export const SET_EVALUATION = 'SET_EVALUATION'
 export const SET_EVALUATION_CONTACT_REQUEST = "SET_EVALUATION_CONTACT_REQUEST"
 
-export const fetchEvaluation = (formUuid, answers) => {
+export const fetchEvaluation = (formUuid, questions, answers, measures) => {
 	return async dispatch => {
 		const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/evaluate`, Network.requestTimeout, {
 			method: 'POST',
@@ -25,25 +25,23 @@ export const fetchEvaluation = (formUuid, answers) => {
 
 		const json = await response.json()
 
-		let maxRating = 0;
 		const ratings = []
 		json.forEach(r => {
-			maxRating = Math.max(maxRating, r.rating)
-			ratings.push(new Rating(
+            const measure = measures.find(m => m.uuid = r.uuid)
+            const maxRating = measure ? measure.maxRating : 0
+
+            let rating = r.rating/(maxRating*(answers.length/questions.length))
+            rating = Math.min(100, Math.ceil(rating*100))
+
+            ratings.push(new Rating(
 				r.uuid,
 				r.name,
 				r.excerpt,
-				r.rating
+				rating
 			))
-		});
 
-		//Norm the ratings and format them in percent
-		ratings.forEach(r => {
-			r.weighted = Math.round((r.rating / maxRating + Number.EPSILON) * 100)
-		})
-		ratings.sort(function (l, r) {
-			return l - r
-		})
+            console.log("Rating " + r.name + ": " + rating)
+		});
 
 		dispatch({
 			type: SET_EVALUATION,

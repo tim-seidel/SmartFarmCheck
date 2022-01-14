@@ -27,10 +27,30 @@ export const fetchMeasures = () => {
 				m.name,
 				m.excerpt,
 				m.description,
-                m.keywords,
+				m.keywords,
 				m.resources
 			)
+
+			const ratings = {}
+			let max = 0
+
+			m.rules.forEach(rule => {
+				id = rule.question.uuid
+				if (!(id in ratings)) {
+					ratings[id] = rule.rating
+				} else {
+					if (ratings[id] < rule.rating) {
+						ratings[id] = rule.rating
+					}
+				}
+			})
+			for(const rating in ratings){
+				max += ratings[rating]
+			}
+
+			measure.maxRating = max
 			measure.updateTime = Date.now()
+            console.log("Measure " + measure.name + ": " + measure.maxRating)
 			measures.push(measure)
 		});
 

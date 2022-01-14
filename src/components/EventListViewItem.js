@@ -37,7 +37,7 @@ const EventListViewItem = (props) => {
 					name="information-outline"
 					color={colorTheme.textPrimary}
 					size={24} />
-				<ContentText style={styles.text} light numberOfLines={3}>{event.description ?? Strings.event_no_description_available}</ContentText>
+				<ContentText style={styles.text} light numberOfLines={4}>{event.description ?? Strings.event_no_description_available}</ContentText>
 			</View>
 			{event.maxParticipantCount > 0 &&
 				<View style={styles.row}>
@@ -92,19 +92,17 @@ const styles = StyleSheet.create({
 		marginVertical: 8
 	},
 	text: {
-		marginHorizontal: 8
+		marginHorizontal: 0
 	},
 	image: {
 		width: '100%',
 		height: 150,
-
 		marginBottom: 4,
 		borderRadius: Layout.borderRadius
 	},
 	row: {
 		flexDirection: "row",
-		marginHorizontal: 4,
-		marginVertical: 6
+        marginTop: 4
 	},
 	leftIcon: {
 		marginEnd: 4,
