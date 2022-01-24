@@ -1,5 +1,3 @@
-import { Item } from "react-navigation-header-buttons"
-
 export default class Measure {
 	constructor(uuid, name, excerpt, description, keywords, resources) {
 		this.uuid = uuid
@@ -8,5 +6,6 @@ export default class Measure {
 		this.description = description
         this.keywords = keywords ? keywords.split(",").map(kw => kw.trim()) : []
 		this.resources = resources ?? []
+        this.forms = {}
 	}
 }

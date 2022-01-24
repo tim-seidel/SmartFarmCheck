@@ -164,7 +164,7 @@ const FormScreen = props => {
 
 	function gotoEvaluation() {
 		if (!isLoading) {
-			props.navigation.navigate(EVALUATIONSCREEN, { formUuid: formUuid, answers: getAnswers() })
+            props.navigation.navigate(EVALUATIONSCREEN, { formUuid: formUuid, questions: questions, answers: getAnswers() })
 		}
 	}
 

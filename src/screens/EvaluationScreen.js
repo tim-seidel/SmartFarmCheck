@@ -3,18 +3,20 @@ import { StyleSheet, View, Dimensions, Platform, Linking } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import * as Device from 'expo-device'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import RootView from '../components/common/RootView'
 import NoContentView from '../components/common/NoContentView'
 import EvaluationListView from '../components/EvaluationListView'
 import MeasureView from '../components/MeasureView';
-import { HeadingText } from '../components/common/Text'
+import { ContentText, HeadingText } from '../components/common/Text'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
-import { WrappedIconButton } from '../components/common/IconButton';
+import IconButton, { WrappedIconButton } from '../components/common/IconButton';
 
 import Strings from '../constants/Strings'
 import { fetchEvaluation } from '../store/actions/evaluation'
 import { EVALUATIONDETAILSCREEN, CONTACTREQUESTSCREEN } from '../constants/Paths';
+import Layout from '../constants/Layout';
 
 const isPortrait = () => {
 	const dim = Dimensions.get('screen');
@@ -30,11 +32,12 @@ const EvaluationScreen = (props) => {
 	const [errorCode, setErrorCode] = useState(0)
 
 	const dispatch = useDispatch()
+	const measures = useSelector(state => state.measures.measures)
 	const evaluation = useSelector(state => state.evaluation.evaluation)
 	const [selectedRating, setSelectedRating] = useState(undefined)
 
 	const { route } = props
-	const { answers, formUuid } = route.params
+	const { formUuid, questions, answers } = route.params
 
 	useEffect(() => {
 		const callback = ({ screen }) => {
@@ -54,14 +57,14 @@ const EvaluationScreen = (props) => {
 
 	useEffect(() => {
 		checkAndEvaluate()
-	}, [checkAndEvaluate, answers])
+	}, [checkAndEvaluate, answers, measures])
 
 	const checkAndEvaluate = useCallback(async () => {
 		const netinfo = await NetInfo.fetch()
 		if (netinfo.isConnected) {
 			setIsLoading(true)
 			try {
-				await dispatch(fetchEvaluation(formUuid, answers))
+				await dispatch(fetchEvaluation(formUuid, questions, answers, measures))
 			} catch (err) {
 				console.log(err)
 				setErrorCode(err.name === "AbortError" ? 6000 : (err.status ?? -1))
@@ -70,7 +73,7 @@ const EvaluationScreen = (props) => {
 		} else {
 			setHasNoNetwork(true)
 		}
-	}, [dispatch, answers])
+	}, [dispatch, answers, measures])
 
 	function retryHandler() {
 		setErrorCode(0)
@@ -110,6 +113,8 @@ const EvaluationScreen = (props) => {
 		}
 	}
 
+	const percentage_answered = Math.min(Math.ceil(answers.length / questions.length * 100), 100)
+
 	var contentView = null
 	if (errorCode !== 0) {
 		contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.evaluation_loading_error + " (Fehlercode: " + errorCode + ")."} />
@@ -127,6 +132,11 @@ const EvaluationScreen = (props) => {
 				<InformationText>{Strings.evaluation_information_text}</InformationText>
 			</InformationCard>
 			<HeadingText large weight="bold" style={styles.listHeading}>Ergebnisse:</HeadingText>
+			{percentage_answered < 80 &&
+				<View style={styles.warningRow}>
+					<Icon color="orange" name="alert-outline" size={28} />
+					<ContentText large style={styles.warningText} >Sie haben ein Teil der Fragen nicht beantwortet. Die Bewertung kann dadurch ungenauer sein.</ContentText>
+				</View>}
 		</View>
 
 		if (isTablet) {
@@ -174,6 +184,7 @@ const EvaluationScreen = (props) => {
 const styles = StyleSheet.create({
 	mainColumn: {
 		flex: 1,
+		marginHorizontal: 4
 	},
 	splitViewRow: {
 		flex: 1,
@@ -203,6 +214,19 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginBottom: 8,
 		marginHorizontal: 4
+	},
+	warningRow:{
+		flex: 1,
+		marginHorizontal: 4,
+		marginBottom: 8,
+		flexDirection: 'row',
+		borderColor: Layout.borderColor,
+		borderRadius: Layout.borderRadius,
+		borderWidth: Layout.borderWidth,
+		padding: 8
+	},
+	warningText: {
+		marginStart: 8
 	}
 })
 

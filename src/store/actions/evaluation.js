@@ -8,7 +8,7 @@ import ContactRequest from '../../models/ContactRequest';
 export const SET_EVALUATION = 'SET_EVALUATION'
 export const SET_EVALUATION_CONTACT_REQUEST = "SET_EVALUATION_CONTACT_REQUEST"
 
-export const fetchEvaluation = (formUuid, answers) => {
+export const fetchEvaluation = (formUuid, questions, answers, measures) => {
 	return async dispatch => {
 		const response = await fetchWithTimeout(`${API.URL}/${API.VERSION}/evaluate`, Network.requestTimeout, {
 			method: 'POST',
@@ -25,25 +25,42 @@ export const fetchEvaluation = (formUuid, answers) => {
 
 		const json = await response.json()
 
-		let maxRating = 0;
 		const ratings = []
 		json.forEach(r => {
-			maxRating = Math.max(maxRating, r.rating)
+			const measure = measures.find(m => m.uuid == r.uuid)
+			const formStatistics = measure && measure.forms[formUuid] ? measure.forms[formUuid] : { id: formUuid, questions: [], maxRating: 0 }
+
+			const maxRating = formStatistics.maxRating
+			const questionsInForm = formStatistics.questions.length
+
+			let answeredQuestionsOfForm = 0
+			for (const a in answers) {
+				if (formStatistics.questions.includes(answers[a].questionUUID)) {
+					answeredQuestionsOfForm++
+				}
+			}
+
+			let rating = 0
+			let debug = ""
+            if (questionsInForm > 0 && answeredQuestionsOfForm > 0) {
+				const percentageAnswered = answeredQuestionsOfForm / questionsInForm
+				rating = Math.min(100, Math.ceil((r.rating / (maxRating * percentageAnswered)) * 100))
+
+                debug = `${r.rating} von ${maxRating} Punkten.\n${answeredQuestionsOfForm} von ${questionsInForm} beantwortete Fragen.\nBewertet: Einfach: ${Math.ceil(r.rating / maxRating * 100)}%, Gewichtet: ${rating}%`
+				console.log(r.name, debug)
+            }
+
 			ratings.push(new Rating(
 				r.uuid,
 				r.name,
 				r.excerpt,
-				r.rating
+				rating,
+                debug
 			))
-		});
 
-		//Norm the ratings and format them in percent
-		ratings.forEach(r => {
-			r.weighted = Math.round((r.rating / maxRating + Number.EPSILON) * 100)
-		})
-		ratings.sort(function (l, r) {
-			return l - r
-		})
+			ratings.sort((l, r) => r.rating - l.rating)
+
+		});
 
 		dispatch({
 			type: SET_EVALUATION,
