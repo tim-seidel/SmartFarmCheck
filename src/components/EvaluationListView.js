@@ -18,6 +18,7 @@ function EvaluationListView(props) {
 					title={item.name}
 					short={item.excerpt}
 					rating={item.rating}
+                    debug={item.debug}
 					ratingSelected={() => { if (props.ratingSelected) props.ratingSelected(item) }}
 				/>
 			)}

@@ -13,6 +13,8 @@ import { darkTheme, lightTheme, ConstantColors } from '../constants/Colors'
 function EvaluationListItemView(props) {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
+    const debug = props.debug
+
     const rating = props.rating
     const ratingPercent = props.rating + "%"
 
@@ -51,6 +53,8 @@ function EvaluationListItemView(props) {
                         </View>
                         <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32} />
                     </View>
+                    <Separator/>
+                    <ContentText style={styles.debug}>{debug}</ContentText>
                 </View>
             </TouchableHighlight>
         </View>
@@ -93,6 +97,10 @@ const styles = StyleSheet.create({
     starRow: {
         flexDirection: 'row',
         marginEnd: 8
+    },
+    debug: {
+        paddingHorizontal: 8,
+        paddingVertical: 4
     }
 })
 

@@ -54,7 +54,8 @@ export const fetchEvaluation = (formUuid, questions, answers, measures) => {
 				r.uuid,
 				r.name,
 				r.excerpt,
-				rating
+				rating,
+                debug
 			))
 
 			ratings.sort((l, r) => r.rating - l.rating)
