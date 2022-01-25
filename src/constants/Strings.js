@@ -12,7 +12,7 @@ const Strings = {
 	save: "Speichern",
 	send: "Senden",
 
-	mail: "mittelstand40@hs-osnabrueck.de",
+	mail: "n.neddermann@hs-osnabrueck.de",
 	phone: "0541-969-5017",
 	mittelstand_40_lingen_events_url: "https://kompetenzzentrum-lingen.digital/termine",
 	mittelstand_40_lingen_url: "https://kompetenzzentrum-lingen.digital",
