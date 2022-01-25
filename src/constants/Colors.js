@@ -48,4 +48,5 @@ export const ConstantColors = {
 	lightgrey: "#ccc",
 	transparent: 'transparent',
 	white: '#fff',
+    rating: "green"
 }

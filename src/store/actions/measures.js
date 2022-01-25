@@ -27,10 +27,53 @@ export const fetchMeasures = () => {
 				m.name,
 				m.excerpt,
 				m.description,
-                m.keywords,
+				m.keywords,
 				m.resources
 			)
+
+			const forms = {}
+			const ratings = {}
+
+			//Iterate over all rules. Store the max rating for each value
+			//And also keep track of all forms and their questions
+			m.rules.forEach(rule => {
+				questionId = rule.question.uuid
+				formId = rule.question.parentForm
+
+				if (!(formId in ratings)) {
+					ratings[formId] = {}
+					ratings[formId][questionId] = rule.rating
+
+					forms[formId] = {
+						id: formId,
+						maxRating: 0,
+						questions: [questionId]
+					}
+				} else {
+					if (!(questionId in ratings[formId])) {
+						ratings[formId][questionId] = rule.rating
+						forms[formId].questions.push(questionId)
+					} else {
+						if (ratings[formId][questionId] < rule.rating) {
+							ratings[formId][questionId] = rule.rating
+						}
+					}
+				}
+			})
+
+			//Calculate the maximum possible rating value for each measure per form
+			for (const formId in ratings) {
+				const formRating = ratings[formId]
+				let max = 0
+				for (const rating in formRating) {
+					max += formRating[rating]
+				}
+				forms[formId].maxRating = max
+			}
+
+			measure.forms = forms
 			measure.updateTime = Date.now()
+
 			measures.push(measure)
 		});
 
