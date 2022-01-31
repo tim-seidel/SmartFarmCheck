@@ -29,19 +29,20 @@ function MeasureListItemView(props) {
 							</View>))}
 						</View>
 						<HeadingText
-							weight="bold">{props.title}</HeadingText>
+							weight="bold"
+							style={styles.title}>{props.title}</HeadingText>
 						<ContentText
 							light
 							numberOfLines={3}
-							style={{ marginVertical: 4 }}>{props.short}</ContentText>
+							style={styles.short}>{props.short}</ContentText>
 					</View>
 					<Icon
 						style={{
 							...styles.detailIcon,
 							color: colorTheme.textPrimary
 						}}
-						name="chevron-right"
-						size={32} />
+						name="chevron-right-circle-outline"
+						size={24} />
 				</View>
 			</TouchableHighlight>
 		</View>
@@ -65,11 +66,18 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		flex: 1
 	},
+	title: {
+		marginEnd: 8
+	},
+	short: {
+		marginTop: 4
+	},
 	detailIcon: {
-		alignSelf: "center",
+		alignSelf: "center"
 	},
 	hastags: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		marginBottom: 4
 	},
 	hastag: {
 		borderRadius: Layout.borderRadius,
