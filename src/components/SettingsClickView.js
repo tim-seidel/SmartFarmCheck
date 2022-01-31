@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 

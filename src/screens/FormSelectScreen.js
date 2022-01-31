@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
@@ -65,7 +65,7 @@ const FormSelectScreen = (props) => {
 			<Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
 			<View style={styles.footerContent}>
 				<View style={styles.footerRow}>
-					<Icon size={24} name="info-outline" color={colorTheme.textPrimary} />
+					<Icon size={24} name="information-outline" color={colorTheme.textPrimary} />
 					<HeadingText style={styles.footerContentHeading} weight="bold">{Strings.form_select_additional_forms}</HeadingText>
 				</View>
 				<ContentText light>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>

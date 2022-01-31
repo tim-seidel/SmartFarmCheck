@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { HeadingText, ContentText } from './common/Text'
