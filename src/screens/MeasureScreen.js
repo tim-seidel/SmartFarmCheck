@@ -47,9 +47,9 @@ const MeasureScreen = props => {
 	const [filteredMeasures, setFilteredMeasures] = useState(measures)
 
 	const images = [
-		require("../../assets/images/digi/img_carousel_03.jpg"),
-		require("../../assets/images/digi/img_carousel_05.jpg"),
-		require("../../assets/images/digi/img_carousel_06.jpg")
+		require("../../assets/images/digi/carousel_01.jpg"),
+		require("../../assets/images/digi/carousel_02.jpg"),
+		require("../../assets/images/digi/carousel_03.jpg")
 	]
 	const [imageRotationIndex, setImageRotationIndex] = useState(0)
 	const navigation = props.navigation
