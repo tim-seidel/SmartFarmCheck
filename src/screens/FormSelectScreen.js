@@ -11,13 +11,15 @@ import NoContentView from '../components/common/NoContentView'
 import FormSelectListItemView from '../components/FormSelectListItemView'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
 import { HeadingText, ContentText } from '../components/common/Text'
+import Separator from '../components/common/Separator'
 
 import Strings from '../constants/Strings'
 import Keys from '../constants/Keys'
 import { FORMSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
 import Layout from '../constants/Layout';
-import { darkTheme, lightTheme } from '../constants/Colors';
+import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors';
+import IconButton from '../components/common/IconButton';
 
 const FormSelectScreen = (props) => {
 	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
@@ -61,15 +63,13 @@ const FormSelectScreen = (props) => {
 	}
 
 	const footer =
-		<View style={{ ...styles.footer, backgroundColor: colorTheme.componentBackground }}>
-			<Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
-			<View style={styles.footerContent}>
-				<View style={styles.footerRow}>
-					<Icon size={24} name="information-outline" color={colorTheme.textPrimary} />
-					<HeadingText style={styles.footerContentHeading} weight="bold">{Strings.form_select_additional_forms}</HeadingText>
-				</View>
-				<ContentText light>{Strings.form_select_additional_forms_in_the_future_notice}</ContentText>
-			</View>
+		<View component style={{...styles.footer, backgroundColor: colorTheme.componentBackground}}>
+			<HeadingText weight="bold">{Strings.form_select_nothing_fitting_title}</HeadingText>
+			<ContentText style={styles.notingFittingDetail}>{Strings.form_select_nothing_fitting_content}</ContentText>
+			<IconButton
+				text={Strings.form_select_nothing_fitting_goto_contact}
+				icon="card-account-mail-outline"
+				onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
 		</View>
 
 	var contentView = null
@@ -137,21 +137,11 @@ const styles = StyleSheet.create({
 		borderColor: Layout.borderColor,
 		borderWidth: Layout.borderWidth,
 		overflow: "hidden",
-		flexDirection: "row",
 		justifyContent: "space-between",
 		padding: 8
 	},
-	footerRow: {
-		flexDirection: 'row',
-		alignItems: 'center'
-	},
-	footerContent: {
-		flexDirection: "column",
-		flex: 1
-	},
-	footerContentHeading: {
-		marginStart: 4,
-		marginEnd: 8
+	notingFittingDetail: {
+		marginVertical: 4
 	},
 	image: {
 		width: 64,

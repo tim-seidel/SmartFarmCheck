@@ -86,8 +86,11 @@ const Strings = {
 	form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten können, Sie einfach offen lassen.",
 
 	form_select_available_forms: "Verfügbare Fragebögen:",
-	form_select_additional_forms: "Weitere Fragebögen",
+	form_select_additional_forms: "Nichts passendes gefunden?",
 	form_select_additional_forms_in_the_future_notice: "In Zukunft werden weitere Fragebögen entwickelt und Ihnen an dieser Stelle zur Verfügung gestellt.",
+	form_select_nothing_fitting_title: "Keine passender Fragebogen für Sie dabei?",
+	form_select_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren. Außerdem arbeiten wir bereits an weiteren Fragebögen.",
+	form_select_nothing_fitting_goto_contact: "Zum Kontakt",
 
 	evaluation_information_title: "Infos zur Bewertung",
 	evaluation_information_text: "Hier sehen Sie die auf der Basis Ihrer Anworten gewichteten Maßnahmen. Möchten Sie sich über eine dieser Maßnahmen informieren, so tippen Sie diese einfach an.",
