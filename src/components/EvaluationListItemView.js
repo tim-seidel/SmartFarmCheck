@@ -36,14 +36,17 @@ function EvaluationListItemView(props) {
                                 {star_2nd}
                                 {star_3nd}
                             </View>
-                            <ContentText style={{ ...styles.rating, color: ConstantColors.grey }}>{ratingPercent}</ContentText>
+                            <View style={styles.percentWrapper}>
+                                <HeadingText large weight="bold">{ratingPercent}</HeadingText>
+                                <ContentText small light>Übereinst.</ContentText>
+                            </View>
                         </View>
                         <Separator style={styles.divider} orientation="vertical" />
                         <View style={styles.measureContent}>
                             <HeadingText large weight="bold">{props.title}</HeadingText>
-                            <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.short}</ContentText>
+                            <ContentText light numberOfLines={3} style={styles.short}>{props.short}</ContentText>
                         </View>
-                        <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32} />
+                        <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />
                     </View>
                 </View>
             </TouchableHighlight>
@@ -64,19 +67,18 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         padding: 8
     },
-    rating: {
-        width: 80,
-        fontWeight: "bold",
-        fontSize: 22,
-        textAlign: "center",
-        textAlignVertical: "center"
+    percentWrapper: {
+        alignItems: "center"
     },
     divider: {
-        marginEnd: 8
+        marginHorizontal: 8
     },
     measureContent: {
         flexDirection: "column",
         flex: 1
+    },
+    short: {
+        marginTop: 4
     },
     detailIcon: {
         alignSelf: "center"
@@ -85,8 +87,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     starRow: {
-        flexDirection: 'row',
-        marginEnd: 8
+        flexDirection: 'row'
     }
 })
 
