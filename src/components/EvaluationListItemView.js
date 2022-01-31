@@ -9,22 +9,16 @@ import Separator from "./common/Separator"
 
 import Layout from '../constants/Layout'
 import { darkTheme, lightTheme, ConstantColors } from '../constants/Colors'
+import { getRatingLevel, RatingLevels } from '../constants/RatingLevels'
 
 function EvaluationListItemView(props) {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
-    const rating = props.rating
     const ratingPercent = props.rating + "%"
+    const ratingLevel = getRatingLevel(props.rating)
 
-    let ratingLevel = 2
-    if(rating >= 85) ratingLevel = 6
-    else if (rating >= 70) ratingLevel = 5
-    else if (rating >= 55) ratingLevel = 4
-    else if (rating >= 45) ratingLevel = 3
-    else ratingLevel = 2
-
-    const star_2nd = ratingLevel === 3 ? <Icon name="star-half" size={24} color={ConstantColors.rating} /> : ratingLevel >= 4 ? <Icon name="star" size={24} color={ConstantColors.rating} /> : <Icon name="star-outline" size={24} color={ConstantColors.rating} />
-    const star_3nd = ratingLevel === 5 ? <Icon name="star-half" size={24} color={ConstantColors.rating} /> : ratingLevel >= 6 ? <Icon name="star" size={24} color={ConstantColors.rating} /> : <Icon name="star-outline" size={24} color={ConstantColors.rating} />
+    const star_2nd = ratingLevel === RatingLevels.star_1_5 ? <Icon name="star-half-full" size={24} color={ConstantColors.rating} /> : ratingLevel >= RatingLevels.star_2 ? <Icon name="star" size={24} color={ConstantColors.rating} /> : <Icon name="star-outline" size={24} color={ConstantColors.rating} />
+    const star_3nd = ratingLevel === RatingLevels.star_2_5 ? <Icon name="star-half-full" size={24} color={ConstantColors.rating} /> : ratingLevel >= RatingLevels.star_3 ? <Icon name="star" size={24} color={ConstantColors.rating} /> : <Icon name="star-outline" size={24} color={ConstantColors.rating} />
 
     return (
         <View
