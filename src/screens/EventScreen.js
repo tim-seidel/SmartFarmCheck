@@ -142,7 +142,6 @@ const EventScreen = (props) => {
 		<HeadingText weight="bold">{Strings.event_nothing_fitting_title}</HeadingText>
 		<ContentText style={styles.nothingFittingContent}>{Strings.event_nothing_fitting_content}</ContentText>
 		<IconButton
-		  style={styles.nothingFittingButton}
 		  text={Strings.event_nothing_fitting_goto_contact}
 		  icon="card-account-mail-outline"
 		  onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
