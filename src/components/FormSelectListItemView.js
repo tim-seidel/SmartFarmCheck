@@ -21,10 +21,10 @@ const FormSelectListItemView = (props) => {
 							<Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
 					}
 					<View style={styles.content}>
-						<HeadingText style={styles.heading} weight="bold">{props.title}</HeadingText>
+						<HeadingText weight="bold">{props.title}</HeadingText>
 						<ContentText light numberOfLines={3} style={styles.description}>{props.description}</ContentText>
 					</View>
-					<Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32} />
+					<Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />
 				</View>
 			</TouchableHighlight>
 		</View>
@@ -48,12 +48,15 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		flex: 1
 	},
+    description: {
+        marginTop: 2
+    },
 	detailIcon: {
 		alignSelf: "center",
 	},
 	image: {
-		width: 64,
-		height: 64,
+		width: 80,
+		height: 80,
 		marginEnd: 8,
 		borderRadius: Layout.borderRadius
 	},
