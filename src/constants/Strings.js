@@ -85,10 +85,10 @@ const Strings = {
 	form_calculate_at_any_point_title: "Über den Fragebogen",
 	form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten können, Sie einfach offen lassen.",
 
-	form_select_available_forms: "Verfügbare Digitalisierungschecks:",
-	form_select_nothing_fitting_title: "Keine passender Digitalisierungscheck für Sie dabei?",
-	form_select_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren. Außerdem arbeiten wir aktuell an weiteren Digitalisierungschecks.",
-	form_select_nothing_fitting_goto_contact: "Zum Kontakt",
+	formselect_available_forms: "Verfügbare Digitalisierungschecks:",
+	formselect_nothing_fitting_title: "Keine passender Digitalisierungscheck für Sie dabei?",
+	formselect_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren. Außerdem arbeiten wir aktuell an weiteren Digitalisierungschecks.",
+	formselect_nothing_fitting_goto_contact: "Zum Kontakt",
 
 	evaluation_information_title: "Infos zur Bewertung",
 	evaluation_information_text: "Hier sehen Sie die auf der Basis Ihrer Anworten gewichteten Maßnahmen. Möchten Sie sich über eine dieser Maßnahmen informieren, so tippen Sie diese einfach an.",
