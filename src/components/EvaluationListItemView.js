@@ -14,6 +14,8 @@ import { getRatingLevel, RatingLevels } from '../constants/RatingLevels'
 function EvaluationListItemView(props) {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
+    const debug = props.debug
+
     const ratingPercent = props.rating + "%"
     const ratingLevel = getRatingLevel(props.rating)
 
@@ -48,6 +50,8 @@ function EvaluationListItemView(props) {
                         </View>
                         <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />
                     </View>
+                    <Separator />
+                    <ContentText style={styles.debug}>{debug}</ContentText>
                 </View>
             </TouchableHighlight>
         </View>
@@ -88,6 +92,10 @@ const styles = StyleSheet.create({
     },
     starRow: {
         flexDirection: 'row'
+    },
+    debug: {
+        paddingHorizontal: 8,
+        paddingVertical: 4
     }
 })
 
