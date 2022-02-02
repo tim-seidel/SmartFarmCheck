@@ -45,9 +45,7 @@ const Strings = {
 	digicheck_title: "Unser Digitalisierungscheck",
 	digicheck_content: "Anhand verschiedener Fragebögen erhalten Sie Empfehlungen für Digitalisierungsmaßnahmen, basierend auf der Befragung vieler Betriebe.",
 
-	measure_all_measures_title: "Unsere Digitalisierungsmaßnahmen:",
-	measure_information_title: "Über die Maßnahmen",
-	measure_information_text: "Hier sehen Sie verschiedene Maßnahmen zur Digitalisierung, die sich für mittelständische Landwirtschaftsbetriebe eignen. Gerne können Sie sich über unsere Digitalisierungschecks persöhnliche Empfehlungen berechnen lassen oder uns jederzeit kontaktieren.",
+	measure_all_measures_title: "Verfügbare Digitalisierungsmaßnahmen:",
 	measure_loading: "Laden der aktuellsten Maßnahmen...",
 	measure_loading_error: "Aktuell können die Maßnahmen nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
 	measure_loading_empty: "Aktuell wurden keine Maßnahmen gefunden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -55,7 +53,7 @@ const Strings = {
 	measure_navigate_evaluation: "SmartFarmCheck starten",
 	measure_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button \"SmartFarmCheck starten\", um Empfehlungen berechnen zu lassen.",
 
-	select_form_information_title: "Zur Auswahl des Digitalisierungschecks",
+	select_form_information_title: "Infos zur Auswahl des Digitalisierungschecks",
 	select_form_information_text: "Nachfolgend haben wir für Sie Fragebögen aus verschiedenen Branchen und Bereichen vorbereitet, anhand derer wir Ihnen Empfehlungen zu Digitalisierungsmaßnahmen berechnen können.",
 	select_form_loading: "Laden der verfügbaren Digitalisierungschecks...",
 	select_form_loading_error: "Aktuell können die Digitalisierungschecks nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -86,7 +84,7 @@ const Strings = {
 	form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten können, Sie einfach offen lassen.",
 
 	formselect_available_forms: "Verfügbare Digitalisierungschecks:",
-	formselect_nothing_fitting_title: "Keine passender Digitalisierungscheck für Sie dabei?",
+	formselect_nothing_fitting_title: "Kein passender Digitalisierungscheck für Sie dabei?",
 	formselect_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren. Außerdem arbeiten wir aktuell an weiteren Digitalisierungschecks.",
 	formselect_nothing_fitting_goto_contact: "Zum Kontakt",
 
@@ -111,9 +109,6 @@ const Strings = {
 	medialibrary_loading_empty: "Erklärvideos des Kompetenzzentrums werden hier angezeigt. Aktuell wurden keine Videos gefunden. Bitte versuchen Sie es später erneut.",
 	medialibrary_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Videos können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
 	medialibrary_watch_now: "Jetzt ansehen",
-	medialibrary_card_title: "Zur SmartFarmCheck-Mediathek",
-	medialibrary_card_description: "Hier finden Sie unsere allgemeinen Erklär- und Infovideos, die unabhängig von konkreten Digialisierungsmaßnahmen verschiedene interessante Themen behandeln.",
-	medialibrary_heading: "Alle Erklärvideos:",
 	medialibrary_no_description_available: "Keine Beschreibung verfügbar.",
 	medialibrary_video_cant_be_played: "Das Video kann leider nicht wiedergegeben werden.",
 
