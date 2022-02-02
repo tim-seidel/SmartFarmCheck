@@ -64,10 +64,10 @@ const FormSelectScreen = (props) => {
 
 	const footer =
 		<View component style={{...styles.footer, backgroundColor: colorTheme.componentBackground}}>
-			<HeadingText weight="bold">{Strings.form_select_nothing_fitting_title}</HeadingText>
-			<ContentText style={styles.notingFittingDetail}>{Strings.form_select_nothing_fitting_content}</ContentText>
+			<HeadingText weight="bold">{Strings.formselect_nothing_fitting_title}</HeadingText>
+			<ContentText style={styles.notingFittingDetail}>{Strings.formselect_nothing_fitting_content}</ContentText>
 			<IconButton
-				text={Strings.form_select_nothing_fitting_goto_contact}
+				text={Strings.formselect_nothing_fitting_goto_contact}
 				icon="card-account-mail-outline"
 				onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
 		</View>
@@ -87,11 +87,11 @@ const FormSelectScreen = (props) => {
 				<InformationCard
 					toggleInformationEnabled
 					style={styles.card}
-					toggleStoreKey={Keys.INFORMATION_TOGGLE_FORM_SELECT_SCREEN}
+					toggleStoreKey={Keys.INFORMATION_TOGGLE_FORMSELECT_SCREEN}
 					title={Strings.select_form_information_title}>
 					<InformationText>{Strings.select_form_information_text}</InformationText>
 				</InformationCard>
-				<HeadingText large weight="bold" style={styles.heading}>{Strings.form_select_available_forms}</HeadingText>
+				<HeadingText large weight="bold" style={styles.heading}>{Strings.formselect_available_forms}</HeadingText>
 			</View>
 
 		contentView = (
