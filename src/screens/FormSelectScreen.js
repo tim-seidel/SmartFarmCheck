@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,16 +9,13 @@ import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView'
 import FormSelectListItemView from '../components/FormSelectListItemView'
-import InformationCard, { InformationText } from '../components/common/InformationCard'
 import { HeadingText, ContentText } from '../components/common/Text'
-import Separator from '../components/common/Separator'
 
 import Strings from '../constants/Strings'
-import Keys from '../constants/Keys'
 import { FORMSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
 import Layout from '../constants/Layout';
-import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors';
+import { darkTheme, lightTheme } from '../constants/Colors';
 import IconButton from '../components/common/IconButton';
 
 const FormSelectScreen = (props) => {
@@ -35,7 +32,6 @@ const FormSelectScreen = (props) => {
 	useEffect(() => {
 		checkAndLoadForms()
 	}, [checkAndLoadForms])
-
 
 	const checkAndLoadForms = useCallback(async () => {
 		const netinfo = await NetInfo.fetch()
@@ -63,7 +59,7 @@ const FormSelectScreen = (props) => {
 	}
 
 	const footer =
-		<View component style={{...styles.footer, backgroundColor: colorTheme.componentBackground}}>
+		<View style={{ ...styles.footer, backgroundColor: colorTheme.componentBackground }}>
 			<HeadingText weight="bold">{Strings.formselect_nothing_fitting_title}</HeadingText>
 			<ContentText style={styles.notingFittingDetail}>{Strings.formselect_nothing_fitting_content}</ContentText>
 			<IconButton
@@ -83,15 +79,8 @@ const FormSelectScreen = (props) => {
 		contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_empty} />
 	} else {
 		const informationHeader =
-			<View>
-				<InformationCard
-					toggleInformationEnabled
-					style={styles.card}
-					toggleStoreKey={Keys.INFORMATION_TOGGLE_FORMSELECT_SCREEN}
-					title={Strings.select_form_information_title}>
-					<InformationText>{Strings.select_form_information_text}</InformationText>
-				</InformationCard>
-				<HeadingText large weight="bold" style={styles.heading}>{Strings.formselect_available_forms}</HeadingText>
+			<View style={styles.info}>
+				<HeadingText large weight="bold">{Strings.formselect_available_forms_title}</HeadingText>
 			</View>
 
 		contentView = (
@@ -122,11 +111,8 @@ const FormSelectScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-	card: {
-		marginTop: 8
-	},
-	heading: {
-		marginVertical: 8
+	info: {
+		marginVertical: 8,
 	},
 	list: {
 		marginHorizontal: 8

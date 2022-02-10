@@ -24,7 +24,7 @@ const Strings = {
 	screen_title_events: "Angebote",
 	screen_title_measure_list: "Digitalisierung",
 	screen_title_measure_detail: "Maßnahmeninformation",
-	screen_title_form_list: "Unserer Digitalisierungschecks",
+	screen_title_form_list: "Digitalisierungschecks",
 	screen_title_form: "Angaben zum Betrieb",
 	screen_title_form_help: "Hilfe zum Fragebogen",
 	screen_title_evaluation: "Ihre Maßnahmenbewertung",
@@ -53,8 +53,6 @@ const Strings = {
 	measure_navigate_evaluation: "SmartFarmCheck starten",
 	measure_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button \"SmartFarmCheck starten\", um Empfehlungen berechnen zu lassen.",
 
-	select_form_information_title: "Infos zur Auswahl des Digitalisierungschecks",
-	select_form_information_text: "Nachfolgend haben wir für Sie Fragebögen aus verschiedenen Branchen und Bereichen vorbereitet, anhand derer wir Ihnen Empfehlungen zu Digitalisierungsmaßnahmen berechnen können.",
 	select_form_loading: "Laden der verfügbaren Digitalisierungschecks...",
 	select_form_loading_error: "Aktuell können die Digitalisierungschecks nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
 	select_form_loading_empty: "Aktuell konnten keine Digitalisierungschecks gefunden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -83,7 +81,7 @@ const Strings = {
 	form_calculate_at_any_point_title: "Über den Fragebogen",
 	form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten können, Sie einfach offen lassen.",
 
-	formselect_available_forms: "Verfügbare Digitalisierungschecks:",
+	formselect_available_forms_title: "Verfügbare Digitalisierungschecks:",
 	formselect_nothing_fitting_title: "Kein passender Digitalisierungscheck für Sie dabei?",
 	formselect_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren. Außerdem arbeiten wir aktuell an weiteren Digitalisierungschecks.",
 	formselect_nothing_fitting_goto_contact: "Zum Kontakt",
