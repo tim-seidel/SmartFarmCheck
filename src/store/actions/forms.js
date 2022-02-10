@@ -32,12 +32,15 @@ export const fetchForms = () => {
 			))
 		});
 
-		//Always sort the forms alphabetically, because they have no serverside sorting
+		//Always sort the forms alphabetically, because they have no serverside sorting. Hidden forms are placed at the end.
+        try{
 		forms.sort(function (l, r) {
-			if (l.title < r.title) return -1
-			else if (l.title > r.title) return 1
-			else return 0
+            if(l.hidden != r.hidden) return l.hidden ? 1 : -1
+			else return ('' + l.title).localeCompare(r.title)
 		})
+    }catch(e){
+        console.error(e)
+    }
 
 		dispatch({
 			type: SET_FORMS,

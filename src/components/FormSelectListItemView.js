@@ -7,13 +7,15 @@ import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import { HeadingText, ContentText } from './common/Text'
 import Layout from '../constants/Layout'
 import { darkTheme, lightTheme } from '../constants/Colors'
+import Strings from '../constants/Strings'
 
 const FormSelectListItemView = (props) => {
 	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
+    String
 	return (
 		<View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
-			<TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.onSelected}>
+			<TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.onSelected} disabled={props.hidden}>
 				<View style={styles.innerWrapper}>
 					{
 						props.icon ?
@@ -21,10 +23,10 @@ const FormSelectListItemView = (props) => {
 							<Image source={require("../../assets/images/icon_mittelstand_192px.png")} style={styles.image} resizeMode="contain" />
 					}
 					<View style={styles.content}>
-						<HeadingText weight="bold">{props.title}</HeadingText>
-						<ContentText light numberOfLines={3} style={styles.description}>{props.description}</ContentText>
+						<HeadingText disabled={props.hidden} weight="bold">{props.title}</HeadingText>
+						<ContentText light numberOfLines={3} style={props.hidden ? styles.descriptionCommingSoond : styles.description}>{props.hidden ? Strings.formselect_form_comming_soon : props.description}</ContentText>
 					</View>
-					<Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />
+					{!props.hidden && <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />}
 				</View>
 			</TouchableHighlight>
 		</View>
@@ -49,7 +51,11 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
     description: {
-        marginTop: 2
+        marginTop: 2,
+    },
+    descriptionCommingSoond:{
+        marginTop: 2,
+        fontStyle: "italic"
     },
 	detailIcon: {
 		alignSelf: "center",

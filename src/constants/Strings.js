@@ -85,6 +85,7 @@ const Strings = {
 	formselect_nothing_fitting_title: "Kein passender Digitalisierungscheck für Sie dabei?",
 	formselect_nothing_fitting_content: "Kein Problem! Sie können uns gerne jederzeit mit Ihrem Anliegen kontaktieren. Außerdem arbeiten wir aktuell an weiteren Digitalisierungschecks.",
 	formselect_nothing_fitting_goto_contact: "Zum Kontakt",
+    formselect_form_comming_soon: "Dieser Fragebogen steht Ihnen demnächst zur Verfügung.",
 
 	evaluation_information_title: "Infos zur Bewertung",
 	evaluation_information_text: "Hier sehen Sie die auf der Basis Ihrer Anworten gewichteten Maßnahmen. Möchten Sie sich über eine dieser Maßnahmen informieren, so tippen Sie diese einfach an.",

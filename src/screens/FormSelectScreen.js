@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
@@ -27,7 +26,7 @@ const FormSelectScreen = (props) => {
 
 	const dispatch = useDispatch()
 	const forms = useSelector(state => state.forms.forms)
-	const visibleForms = forms.filter(f => !f.hidden)
+	const visibleForms = forms.filter(f => !f.hidden || f.hidden)
 
 	useEffect(() => {
 		checkAndLoadForms()
@@ -95,6 +94,7 @@ const FormSelectScreen = (props) => {
 						title={item.title}
 						description={item.description}
 						icon={item.icon}
+						hidden={item.hidden}
 						onSelected={() => formSelectedHandler(item.uuid)}
 					/>
 				)}
