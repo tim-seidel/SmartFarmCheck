@@ -11,7 +11,7 @@ import FormSelectListItemView from '../components/FormSelectListItemView'
 import { HeadingText, ContentText } from '../components/common/Text'
 
 import Strings from '../constants/Strings'
-import { FORMSCREEN } from '../constants/Paths'
+import { FORMSCREEN, CONTACTSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
 import Layout from '../constants/Layout';
 import { darkTheme, lightTheme } from '../constants/Colors';
@@ -63,7 +63,7 @@ const FormSelectScreen = (props) => {
 			<IconButton
 				text={Strings.formselect_nothing_fitting_goto_contact}
 				icon="card-account-mail-outline"
-				onPress={() => { navigation.navigate(CONTACTSCREEN) }} />
+				onPress={() => { props.navigation.navigate(CONTACTSCREEN) }} />
 		</View>
 
 	var contentView = null
