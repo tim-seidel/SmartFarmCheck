@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Platform, Dimensions, Linking, Image } from 'react-native';
+import { StyleSheet, View, Platform, Dimensions, Linking, Image, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Device from 'expo-device'
@@ -131,7 +131,11 @@ const MeasureScreen = props => {
 			Linking.canOpenURL(url).then(can => {
 				if (can) {
 					Linking.openURL(url)
-				}
+				}else {
+                    Alert.alert(Strings.measure_resource_open_error_title, Strings.measure_resource_open_error_description, [
+                        { text: Strings.okay, onPress: () => { } },
+                    ]);
+                }
 			})
 		}
 	}

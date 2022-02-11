@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { StyleSheet, View, Dimensions, Platform, Linking } from 'react-native'
+import { StyleSheet, View, Dimensions, Platform, Linking, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import * as Device from 'expo-device'
@@ -108,6 +108,10 @@ const EvaluationScreen = (props) => {
 			Linking.canOpenURL(url).then(can => {
 				if (can) {
 					Linking.openURL(url)
+				} else {
+					Alert.alert(Strings.measure_resource_open_error_title, Strings.measure_resource_open_error_description, [
+						{ text: Strings.okay, onPress: () => { } },
+					]);
 				}
 			})
 		}
@@ -215,7 +219,7 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 		marginHorizontal: 4
 	},
-	warningRow:{
+	warningRow: {
 		flex: 1,
 		marginHorizontal: 4,
 		marginBottom: 8,

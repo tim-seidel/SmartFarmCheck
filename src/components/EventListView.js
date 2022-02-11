@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Dimensions, Linking, Platform, StyleSheet } from 'react-native'
+import { Dimensions, Linking, Platform, StyleSheet, Alert } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import * as Device from 'expo-device'
 
@@ -12,6 +12,10 @@ function openFallBackEventWebsite() {
 	Linking.canOpenURL(Strings.mittelstand_40_lingen_events_url).then(can => {
 		if (can) {
 			Linking.openURL(Strings.mittelstand_40_lingen_events_url)
+		} else {
+			Alert.alert(Strings.event_website_url_open_error_title, Strings.event_website_url_open_error_description, [
+				{ text: Strings.okay, onPress: () => { } },
+			]);
 		}
 	})
 }

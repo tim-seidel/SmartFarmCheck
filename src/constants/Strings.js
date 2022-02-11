@@ -52,6 +52,8 @@ const Strings = {
 	measure_loading_no_network: "Aktuell besteht keine Internetverbindung. Die Maßnahmen können daher nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
 	measure_navigate_evaluation: "SmartFarmCheck starten",
 	measure_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button \"SmartFarmCheck starten\", um Empfehlungen berechnen zu lassen.",
+    measure_resource_open_error_title: "Abruf-Fehler",
+    measure_resource_open_error_description: "Aktuell konnten diese Zusatzinformationen leider nicht abgerufen werden.",
 
 	select_form_loading: "Laden der verfügbaren Digitalisierungschecks...",
 	select_form_loading_error: "Aktuell können die Digitalisierungschecks nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",
@@ -134,6 +136,8 @@ const Strings = {
 	event_start_or_end_undefined: "[Offen]",
 	event_max_participant_1: "Diese Veranstaltung ist auf ",
 	event_max_participant_2: " Teilnehmer begrenzt!",
+    event_website_url_open_error_title: "Website nicht aufrufbar.",
+    event_website_url_open_error_description: "Die Website der Veranstaltungen konnte leider nicht aufgerufen werden. Sie können alternativ gerne auf der Website des Mittelstandes nach den aktuellen Veranstaltungen schauen.",
 
 	calendar_create_new: "[Neuen Kalender erstellen]",
 	calendar_select_default: "Standardkalender auswählen",
@@ -158,13 +162,19 @@ const Strings = {
 	contact_mail_title: "Per Mail",
 	contact_mail_description: "Bei allgemeinen Fragen können Sie uns jederzeit per Mail erreichen. Wir werden uns dann entsprechend bei Ihnen zurückmelden.",
 	contact_mail_action: "Jetzt E-Mail verfassen",
+    contact_mail_error_title: "Ihr Mail-Programm",
+    contact_mail_error_description: "Eine automatische Weiterleitung zu Ihrem Mail-Programm war leider nicht möglich. Bitte verfassen Sie die Mail daher manuell.",
 	contact_phone_title: "Telefonisch",
 	contact_phone_description: "Natürlich können Sie uns auch telefonisch zu den normalen Bürozeiten erreichen.",
-	contact_mail_contact: "Nikolas Neddermann\nTel: 0541-969-5017",
+	contact_phone: "Nikolas Neddermann\nTel: 0541-969-5017",
 	contact_phone_action: "Jetzt anrufen",
+    contact_phone_error_title: "Kein Anruf möglich?",
+    contact_phone_error_description: "Eine automatische Weiterleitung zu Ihrem Anruf-Wähler war leider nicht möglich. Bitte rufen Sie die Nummer daher manuell an.",
 	contact_website_title: "Im Internet",
 	contact_website_description: "Auch auf unserer Internetpräsenz erhalten Sie Informationen über uns und unsere Angebote.",
 	contact_website_action: "Zur Website",
+	contact_website_error_title: "Website-Aufruf nicht möglich.",
+	contact_website_error_description: "Die Weiterleitung zu Ihrem Browser war leider nicht möglich. Sie können unsere Website aber gerne Manuell aufrufen: ",
 	contact_information_title: "Informationen zur App",
 	contact_information_description: "Informationen über Förderer, Impressum und Datenschutz.",
 	contact_information_action: "Anzeigen",
@@ -197,7 +207,9 @@ const Strings = {
 	imprint: "Impressum",
 	imprint_mittelstand_4: "Mittelstand 4.0 (Lingen)",
 	imprint_mittelstand_digital: "Mittelstand Digital",
-	imprint_bmwi: "BMWi"
+	imprint_bmwi: "BMWi",
+    imprint_open_url_error_title: "Website nicht aufrufbar",
+    imprint_open_url_error_description: "Aktuell kann die Website des Förderers leider nicht aufgerufen werden. Alternativ können Sie über die Suchmaschine Ihrer Wahl nach Informationen suchen."
 }
 
 export default Strings

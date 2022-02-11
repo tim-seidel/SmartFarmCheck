@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Linking, Dimensions } from 'react-native'
+import { View, StyleSheet, Linking, Dimensions, Alert } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 import RootView from '../components/common/RootView'
@@ -28,11 +28,29 @@ const ContactScreen = (props) => {
 	}, [])
 
 	const contactMailHandler = () => {
-		Linking.openURL("mailto:" + Strings.mail)
+		const mailUrl = "mailto:" + Strings.mail
+		Linking.canOpenURL(mailUrl).then(can => {
+			if (can) {
+				Linking.openURL(mailUrl)
+			}else{
+				Alert.alert(Strings.contact_mail_error_title, Strings.contact_mail_error_description, [
+					{ text: Strings.okay, onPress: () => {} },
+				  ]);
+			}
+		})
 	}
 
 	const contactPhoneHandler = () => {
-		Linking.openURL("tel:" + Strings.phone)
+		const telUrl = "tel:" + Strings.phone
+		Linking.canOpenURL(telUrl).then(can => {
+			if (can) {
+				Linking.openURL(telUrl)
+			}else{
+				Alert.alert(Strings.contact_phone_error_title, Strings.contact_phone_error_description, [
+					{ text: Strings.okay, onPress: () => {} },
+				]);
+			}
+		})
 	}
 
 	const aboutAppHandler = () => {
@@ -43,6 +61,10 @@ const ContactScreen = (props) => {
 		Linking.canOpenURL(Strings.mittelstand_40_lingen_url).then(can => {
 			if (can) {
 				Linking.openURL(Strings.mittelstand_40_lingen_url)
+			}else{
+				Alert.alert(Strings.contact_website_error_title, Strings.contact_website_error_description + Strings.mittelstand_40_lingen_url, [
+					{ text: Strings.okay, onPress: () => {} },
+				]);
 			}
 		})
 	}
@@ -70,7 +92,7 @@ const ContactScreen = (props) => {
 						<InformationCard style={styles.equalHeightInRow} title={Strings.contact_phone_title} contentView={contentPhone}>
 							<InformationText>{Strings.contact_phone_description}</InformationText>
 							<InformationLineBreak breaks={2} />
-							<InformationHighlight>{Strings.contact_mail_contact}</InformationHighlight>
+							<InformationHighlight>{Strings.contact_phone}</InformationHighlight>
 							<InformationLineBreak breaks={1} />
 						</InformationCard>
 					</View>

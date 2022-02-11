@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Linking } from 'react-native'
+import { StyleSheet, View, Linking, Alert } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 import RootView from '../components/common/RootView'
@@ -15,7 +15,11 @@ const onSponsorPressedHandler = (url) => {
   Linking.canOpenURL(url).then(can => {
 	if (can) {
 	  Linking.openURL(url)
-	}
+	}else{
+        Alert.alert(Strings.imprint_open_url_error_title, Strings.imprint_open_url_error_description, [
+            { text: Strings.okay, onPress: () => {} },
+        ]);
+    }
   })
 }
 

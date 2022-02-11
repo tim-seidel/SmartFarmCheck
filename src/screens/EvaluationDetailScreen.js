@@ -21,6 +21,10 @@ const EvaluationDetailScreen = (props) => {
 			Linking.canOpenURL(url).then(can => {
 				if (can) {
 					Linking.openURL(url)
+				} else {
+					Alert.alert(Strings.measure_resource_open_error_title, Strings.measure_resource_open_error_description, [
+						{ text: Strings.okay, onPress: () => { } },
+					]);
 				}
 			})
 		}
