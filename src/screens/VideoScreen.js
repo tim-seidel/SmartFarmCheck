@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
+import WebView from 'react-native-webview';
 
 import RootView from '../components/common/RootView'
-import WebView from 'react-native-webview';
-import { useState } from 'react';
 import NoContentView from '../components/common/NoContentView';
+
 import Strings from '../constants/Strings';
 
 const VideoScreen = (props) => {

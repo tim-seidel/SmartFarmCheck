@@ -11,7 +11,7 @@ import EvaluationListView from '../components/EvaluationListView'
 import MeasureView from '../components/MeasureView';
 import { ContentText, HeadingText } from '../components/common/Text'
 import InformationCard, { InformationText } from '../components/common/InformationCard'
-import IconButton, { WrappedIconButton } from '../components/common/IconButton';
+import { WrappedIconButton } from '../components/common/IconButton';
 
 import Strings from '../constants/Strings'
 import { fetchEvaluation } from '../store/actions/evaluation'

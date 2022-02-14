@@ -2,17 +2,17 @@
 import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import EventScreen from './EventScreen'
 import MeasureScreen from './MeasureScreen'
 import ContactScreen from "./ContactScreen"
 import MediaLibraryScreen from "./MediaLibraryScreen"
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme } from '../constants/Colors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import ToolbarButton from '../components/ToolbarButton'
 import TabBarIcon from '../components/TabBarIcon'
 
+import { darkTheme, lightTheme } from '../constants/Colors'
 import { SETTINGSSCREEN, EVENTSCREEN, MEASURESCREEN, CONTACTSCREEN, MEDIALIBRARYSCREEN } from '../constants/Paths'
 import Strings from '../constants/Strings'
 

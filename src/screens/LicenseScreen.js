@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Dimensions, Platform, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import * as Device from 'expo-device'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import RootView from '../components/common/RootView'
 import InformationCard, { InformationText, InformationLineBreak } from '../components/common/InformationCard'
 import { ContentText, HeadingText } from '../components/common/Text'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme } from '../constants/Colors'
 
 import Layout from '../constants/Layout'
 import Strings from '../constants/Strings'
 import Licenses from '../constants/Licenses'
+import { darkTheme, lightTheme } from '../constants/Colors'
 
 const LicenseListViewItem = (props) => {
 	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
