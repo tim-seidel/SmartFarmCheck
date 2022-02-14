@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Switch } from 'react-native'
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 

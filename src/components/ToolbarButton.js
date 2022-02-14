@@ -1,6 +1,6 @@
 import React from 'react'
 import { HeaderButton } from 'react-navigation-header-buttons'
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { darkTheme, lightTheme } from '../constants/Colors'

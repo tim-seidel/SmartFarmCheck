@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Platform, View } from 'react-native'
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import PropTypes from 'prop-types'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 

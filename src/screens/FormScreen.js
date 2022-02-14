@@ -3,7 +3,7 @@ import { View, Alert, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 
 import { FlatList } from 'react-native-gesture-handler';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 import NetInfo from '@react-native-community/netinfo'
 
