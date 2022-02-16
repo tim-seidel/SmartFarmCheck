@@ -10,7 +10,7 @@ import { HeadingText, ContentText } from './common/Text'
 import Separator from './common/Separator'
 
 import Layout from '../constants/Layout'
-import { darkTheme, lightTheme } from '../constants/Colors'
+import { ConstantColors, darkTheme, lightTheme } from '../constants/Colors'
 import Strings from '../constants/Strings'
 import API from '../constants/API'
 
@@ -22,7 +22,13 @@ const EventListViewItem = (props) => {
 		<View component style={{ ...styles.event, ...props.style }}>
 			<HeadingText weight="bold">{event.title}</HeadingText>
 			<Separator style={styles.separator} />
-			{event.image && <Image style={styles.image} source={{ uri: `${API.URL}/${API.VERSION}/files/${event.image}` }} />}
+			<View style={styles.imageWrapper}>
+            {
+				event.image ?
+				<Image style={styles.image} source={{ uri: `${API.URL}/${API.VERSION}/files/${event.image}` }} /> :
+				<Image source={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} />
+			}
+			</View>
 			<View style={styles.row}>
 				<Icon
 					style={styles.leftIcon}
@@ -97,6 +103,16 @@ const styles = StyleSheet.create({
 	image: {
 		width: '100%',
 		height: 150,
+		borderRadius: Layout.borderRadius
+	},
+    defaultImage: {
+        width: "100%",
+        height: 150,
+        resizeMode: "contain",
+		backgroundColor: ConstantColors.white
+	},
+	imageWrapper: {
+		overflow: 'hidden',
 		marginBottom: 4,
 		borderRadius: Layout.borderRadius
 	},
