@@ -54,6 +54,7 @@ const Strings = {
 	measure_split_content_placeholder: "Wählen Sie eine Maßnahme aus der Liste aus, um weitere Informationen anzuzeigen, oder tippen Sie auf den Button \"SmartFarmCheck starten\", um Empfehlungen berechnen zu lassen.",
     measure_resource_open_error_title: "Abruf-Fehler",
     measure_resource_open_error_description: "Aktuell konnten diese Zusatzinformationen leider nicht abgerufen werden.",
+    measure_detail_no_content: "Wir erstellen bereits detaillierte Informationen zu dieser Digitalisierungsmaßnahme und werden sie Ihnen an dieser Stelle zur Verfügung stellen.",
 
 	select_form_loading: "Laden der verfügbaren Digitalisierungschecks...",
 	select_form_loading_error: "Aktuell können die Digitalisierungschecks nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.",

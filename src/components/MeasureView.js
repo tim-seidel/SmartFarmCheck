@@ -110,9 +110,9 @@ const MeasureView = props => {
  */
 function formatHTML(measure, colorTheme) {
 	const head = '<html lang="de"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body {font-size: 110%; font-family: Arial; color: ' + colorTheme.textPrimary + ' } p{text-align: justify; hyphens: auto; } a {word-break: break-all;}</style></head>'
-	var heading = '<h2>' + measure.name + '</h2>'
+	var heading = '<h3>' + measure.name + '</h3>'
 
-	let description = measure.description ? measure.description : "<p>Leider wurde noch kein detaillierter Inhalt hinterlegt.</p>"
+	let description = measure.description ? measure.description : "<p style=\"font-style: italic\">" + Strings.measure_detail_no_content +"</p>"
 	description = description.replace(new RegExp("<img ", 'g'), "<img style=\"max-width: 100%\" ")
 	description = description.replace(new RegExp("open=\"true\"", 'g'), "")
 
