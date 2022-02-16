@@ -16,7 +16,7 @@ const StringInput = (props) => {
 	return (
 		<TextInput
 			value={input}
-			placeholder={placeholder ?? Strings.form_input_placeholder}
+			placeholder={placeholder ? placeholder : Strings.form_input_placeholder}
 			multiline
 			numberOfLines={2}
 			textAlignVertical='top'

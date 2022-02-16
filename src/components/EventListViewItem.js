@@ -43,7 +43,7 @@ const EventListViewItem = (props) => {
 					name="information-outline"
 					color={colorTheme.textPrimary}
 					size={24} />
-				<ContentText style={styles.text} light numberOfLines={4}>{event.description ?? Strings.event_no_description_available}</ContentText>
+				<ContentText style={styles.text} light numberOfLines={4}>{event.description ? event.description : Strings.event_no_description_available}</ContentText>
 			</View>
 			{event.maxParticipantCount > 0 &&
 				<View style={styles.row}>
