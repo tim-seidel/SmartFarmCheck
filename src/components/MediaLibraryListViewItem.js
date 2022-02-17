@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
 	},
 	imageWrapper: {
 		margin: 8,
-		padding: 8,
 		borderRadius: Layout.borderRadius,
 		borderColor: Layout.borderColor,
 		borderWidth: Layout.borderWidth,
