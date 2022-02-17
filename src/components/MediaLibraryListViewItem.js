@@ -22,7 +22,7 @@ const MediaLibraryListViewItem = (props) => {
 				</View>
 				<View style={styles.separator}></View>
 				<View style={styles.description}>
-					<ContentText light numberOfLines={4}>{props.description ? props.description : Strings.medialibrary_no_description_available}</ContentText>
+					<ContentText light style={props.description ? {} : styles.noDescriptionText} numberOfLines={4}>{props.description ? props.description : Strings.medialibrary_no_description_available}</ContentText>
 				</View>
 			</View>
 			<View>
@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
 	description: {
 		paddingHorizontal: 8,
 	},
+    noDescriptionText: {
+        fontStyle: 'italic'
+    },
 	defaultImage: {
 		width: "100%",
 		height: 150,
