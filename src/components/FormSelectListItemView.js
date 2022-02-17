@@ -24,7 +24,7 @@ const FormSelectListItemView = (props) => {
 					}
 					<View style={styles.content}>
 						<HeadingText disabled={props.hidden} weight="bold">{props.title}</HeadingText>
-						<ContentText light numberOfLines={3} style={props.hidden ? styles.descriptionCommingSoond : styles.description}>{props.hidden ? Strings.formselect_form_comming_soon : props.description}</ContentText>
+						<ContentText light numberOfLines={3} style={props.hidden ? styles.descriptionCommingSoon : styles.description}>{props.hidden ? Strings.formselect_form_comming_soon : props.description}</ContentText>
 					</View>
 					{!props.hidden && <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />}
 				</View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     description: {
         marginTop: 2,
     },
-    descriptionCommingSoond:{
+    descriptionCommingSoon:{
         marginTop: 2,
         fontStyle: "italic"
     },
