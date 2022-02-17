@@ -20,36 +20,36 @@ const EventListViewItem = (props) => {
 
 	return (
 		<View component style={{ ...styles.event, ...props.style }}>
-			<HeadingText weight="bold">{event.title}</HeadingText>
-			<Separator style={styles.separator} />
-			<View style={styles.imageWrapper}>
-            {
-				event.image ?
-				<Image style={styles.image} source={{ uri: `${API.URL}/${API.VERSION}/files/${event.image}` }} /> :
-				<Image source={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} />
-			}
-			</View>
-			<View style={styles.row}>
-				<Icon
-					style={styles.leftIcon}
-					color={colorTheme.textPrimary}
-					name="calendar-outline"
-					size={24} />
-				<ContentText style={styles.text} large>{formatDate(moment(event.startDate), moment(event.endDate))}</ContentText>
-			</View>
-			<View style={styles.row}>
-				<Icon
-					style={styles.leftIcon}
-					name="information-outline"
-					color={colorTheme.textPrimary}
-					size={24} />
-				<ContentText style={styles.text} light numberOfLines={4}>{event.description ? event.description : Strings.event_no_description_available}</ContentText>
-			</View>
-			{event.maxParticipantCount > 0 &&
+			<View style={styles.eventContent}>
+				<HeadingText weight="bold" numberOfLines={2}>{event.title}</HeadingText>
+				<Separator style={styles.separator} />
+				<View style={styles.imageWrapper}>
+					{
+						event.image ?
+							<Image style={styles.image} source={{ uri: `${API.URL}/${API.VERSION}/files/${event.image}` }} /> :
+							<Image source={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} style={styles.defaultImage} />
+					}
+				</View>
 				<View style={styles.row}>
-					<Icon style={styles.leftIcon} color={colorTheme.textPrimary} name="account-multiple" size={24} />
-					<ContentText style={styles.text}>{Strings.event_max_participant_1 + event.maxParticipantCount + Strings.event_max_participant_2}</ContentText>
-				</View>}
+					<Icon
+						color={colorTheme.textPrimary}
+						name="calendar-outline"
+						size={24} />
+					<ContentText style={styles.text} large>{formatDate(moment(event.startDate), moment(event.endDate))}</ContentText>
+				</View>
+				<View style={styles.row}>
+					<Icon
+						name="information-outline"
+						color={colorTheme.textPrimary}
+						size={24} />
+					<ContentText style={event.description ? styles.text : styles.noDescriptionText} light numberOfLines={4}>{event.description ? event.description : Strings.event_no_description_available}</ContentText>
+				</View>
+				{event.maxParticipantCount > 0 &&
+					<View style={styles.row}>
+						<Icon style={styles.leftIcon} color={colorTheme.textPrimary} name="account-multiple" size={24} />
+						<ContentText style={styles.text}>{Strings.event_max_participant_1 + event.maxParticipantCount + Strings.event_max_participant_2}</ContentText>
+					</View>}
+			</View>
 			<View style={styles.eventButtonRow}>
 				<View style={styles.eventButtonLeft}>
 					<IconButton
@@ -92,36 +92,43 @@ const styles = StyleSheet.create({
 		padding: 8,
 		borderColor: Layout.borderColor,
 		borderWidth: Layout.borderWidth,
-		borderRadius: Layout.borderRadius
+		borderRadius: Layout.borderRadius,
+		alignContent: 'space-between'
+	},
+	eventContent: {
+		flex: 1
 	},
 	separator: {
 		marginVertical: 8
 	},
 	text: {
-		marginHorizontal: 0
+		marginHorizontal: 4
+	},
+	noDescriptionText: {
+		fontStyle: 'italic',
+		marginHorizontal: 4
 	},
 	image: {
 		width: '100%',
 		height: 150,
 		borderRadius: Layout.borderRadius
 	},
-    defaultImage: {
-        width: "100%",
-        height: 150,
-        resizeMode: "contain",
+	defaultImage: {
+		width: "100%",
+		height: 150,
+		resizeMode: "contain",
 		backgroundColor: ConstantColors.white
 	},
 	imageWrapper: {
 		overflow: 'hidden',
 		marginBottom: 4,
-		borderRadius: Layout.borderRadius
+		borderRadius: Layout.borderRadius,
+		borderWidth: Layout.borderWidth,
+		borderColor: Layout.borderColor
 	},
 	row: {
 		flexDirection: "row",
-        marginTop: 4
-	},
-	leftIcon: {
-		marginEnd: 4,
+		marginTop: 4
 	},
 	eventButtonRow: {
 		flexDirection: "row",
