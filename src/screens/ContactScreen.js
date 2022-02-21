@@ -85,7 +85,6 @@ const ContactScreen = (props) => {
 							<InformationText>{Strings.contact_mail_description}</InformationText>
 							<InformationLineBreak breaks={2} />
 							<InformationHighlight>{Strings.mail}</InformationHighlight>
-							<InformationLineBreak breaks={1} />
 						</InformationCard>
 					</View>
 					<View style={cardStyle}>
@@ -93,19 +92,16 @@ const ContactScreen = (props) => {
 							<InformationText>{Strings.contact_phone_description}</InformationText>
 							<InformationLineBreak breaks={2} />
 							<InformationHighlight>{Strings.contact_phone}</InformationHighlight>
-							<InformationLineBreak breaks={1} />
 						</InformationCard>
 					</View>
 					<View style={cardStyle}>
 						<InformationCard style={styles.equalHeightInRow} title={Strings.contact_website_title} contentView={contentWebsite}>
 							<InformationText>{Strings.contact_website_description}</InformationText>
-							<InformationLineBreak breaks={2} />
 						</InformationCard>
 					</View>
 					<View style={cardStyle}>
 						<InformationCard style={styles.equalHeightInRow} title={Strings.contact_information_title} contentView={contentAboutApp}>
 							<InformationText>{Strings.contact_information_description}</InformationText>
-							<InformationLineBreak breaks={2} />
 						</InformationCard>
 					</View>
 				</View>
@@ -141,7 +137,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	button: {
-		margin: 4
+		margin: 8
 	},
 	listTopMargin: {
 		marginTop: 8
