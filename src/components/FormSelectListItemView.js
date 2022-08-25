@@ -3,6 +3,7 @@ import { StyleSheet, View, Image } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import PropTypes from 'prop-types'
 
 import { HeadingText, ContentText } from './common/Text'
 import Layout from '../constants/Layout'
@@ -12,9 +13,15 @@ import Strings from '../constants/Strings'
 const FormSelectListItemView = (props) => {
 	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
-    String
+    const itemstyle = props.itemstyle ?? Layout.ListItemPositions.single
+
+    let outerstyle = styles.outerWrapperSingle
+    if (itemstyle === Layout.ListItemPositions.header) outerstyle = styles.outerWrapperHeader
+    if (itemstyle === Layout.ListItemPositions.middle) outerstyle = styles.outerWrapperMiddle
+    if (itemstyle === Layout.ListItemPositions.footer) outerstyle = styles.outerWrapperFooter
+
 	return (
-		<View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, ...props.style }}>
+		<View style={{ ...outerstyle, backgroundColor: colorTheme.componentBackground, ...props.style }}>
 			<TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.onSelected} disabled={props.hidden}>
 				<View style={styles.innerWrapper}>
 					{
@@ -33,14 +40,41 @@ const FormSelectListItemView = (props) => {
 	)
 }
 
+FormSelectListItemView.PropTypes = {
+    liststyle : PropTypes.oneOf([Layout.ListItemPositions.single, Layout.ListItemPositions.header, Layout.ListItemPositions.middle, Layout.ListItemPositions.footer])
+}
+FormSelectListItemView.PropTypes = {
+    liststyle: "single"
+}
+
 const styles = StyleSheet.create({
-	outerWrapper: {
-		marginBottom: 8,
-		borderRadius: Layout.borderRadius,
+	outerWrapperHeader: {
+		borderTopStartRadius: Layout.borderRadius,
+		borderTopEndRadius: Layout.borderRadius,
 		borderColor: Layout.borderColor,
 		borderWidth: Layout.borderWidth,
 		overflow: "hidden"
 	},
+    outerWrapperMiddle: {
+		borderColor: Layout.borderColor,
+		borderWidth: Layout.borderWidth,
+        borderTopWidth: 0,
+		overflow: "hidden"
+	},
+    outerWrapperFooter: {
+		borderBottomStartRadius: Layout.borderRadius,
+		borderBottomEndRadius: Layout.borderRadius,
+		borderColor: Layout.borderColor,
+		borderWidth: Layout.borderWidth,
+        borderTopWidth: 0,
+		overflow: "hidden"
+	},
+    outerWrapperSingle: {
+        borderRadius: Layout.borderRadius,
+        borderColor: Layout.borderColor,
+		borderWidth: Layout.borderWidth,
+		overflow: "hidden"
+    },
 	innerWrapper: {
 		flexDirection: "row",
 		justifyContent: "space-between",

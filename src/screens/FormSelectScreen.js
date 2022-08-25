@@ -13,7 +13,7 @@ import { HeadingText, ContentText } from '../components/common/Text'
 import Strings from '../constants/Strings'
 import { FORMSCREEN, CONTACTSCREEN } from '../constants/Paths'
 import { fetchForms } from '../store/actions/forms';
-import Layout from '../constants/Layout';
+import Layout, { getListItemPosition } from '../constants/Layout';
 import { darkTheme, lightTheme } from '../constants/Colors';
 import IconButton from '../components/common/IconButton';
 
@@ -81,15 +81,17 @@ const FormSelectScreen = (props) => {
 				<HeadingText large weight="bold">{Strings.formselect_available_forms_title}</HeadingText>
 			</View>
 
+        
 		contentView = (
 			<FlatList
 				style={styles.list}
 				data={forms}
 				ListHeaderComponent={informationHeader}
 				ListFooterComponent={footer}
-				renderItem={({ item }) => (
+				renderItem={({ item, index }) => (
 					<FormSelectListItemView
 						key={item.uuid}
+                        itemposition={getListItemPosition(forms.length, index)}
 						title={item.title}
 						description={item.description}
 						icon={item.icon}
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 8
 	},
 	footer: {
-		marginBottom: 8,
+		marginVertical: 8,
 		borderRadius: Layout.borderRadius,
 		borderColor: Layout.borderColor,
 		borderWidth: Layout.borderWidth,
