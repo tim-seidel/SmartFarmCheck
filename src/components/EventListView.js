@@ -61,10 +61,8 @@ const EventListView = (props) => {
 		}
 		checkTablet()
 
-		Dimensions.addEventListener('change', callback);
-		return () => {
-			Dimensions.removeEventListener('change', callback);
-		};
+		const subscribtion = Dimensions.addEventListener('change', callback);
+		return () => subscribtion.remove();
 	}, []);
 
 	return (

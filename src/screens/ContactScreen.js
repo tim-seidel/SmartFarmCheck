@@ -20,11 +20,8 @@ const ContactScreen = (props) => {
 	useEffect(() => {
 		const callback = () => setOrientation(isPortrait() ? 'portrait' : 'landscape')
 
-		Dimensions.addEventListener('change', callback)
-
-		return () => {
-			Dimensions.removeEventListener('change', callback)
-		}
+		const subscribtion = Dimensions.addEventListener('change', callback);
+		return () => subscribtion.remove();
 	}, [])
 
 	const contactMailHandler = () => {

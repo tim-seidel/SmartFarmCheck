@@ -47,10 +47,8 @@ const LicenseScreen = (props) => {
 		}
 		checkTablet()
 
-		Dimensions.addEventListener('change', callback);
-		return () => {
-			Dimensions.removeEventListener('change', callback);
-		};
+		const subscribtion = Dimensions.addEventListener('change', callback);
+		return () => subscribtion.remove();
 	}, []);
 
 	const numCols = (isTablet || orientation == 'landscape') ? 2 : 1
