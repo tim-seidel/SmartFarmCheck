@@ -208,7 +208,7 @@ const Strings = {
 	imprint: "Impressum",
 	imprint_mittelstand_4: "Mittelstand 4.0 (Lingen)",
 	imprint_mittelstand_digital: "Mittelstand Digital",
-	imprint_bmwi: "BMWi",
+	imprint_bmwk: "BMWK",
     imprint_open_url_error_title: "Website nicht aufrufbar",
     imprint_open_url_error_description: "Aktuell kann die Website des Förderers leider nicht aufgerufen werden. Alternativ können Sie über die Suchmaschine Ihrer Wahl nach Informationen suchen."
 }
