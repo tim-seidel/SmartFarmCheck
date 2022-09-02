@@ -91,7 +91,7 @@ const FormSelectScreen = (props) => {
 				renderItem={({ item, index }) => (
 					<FormSelectListItemView
 						key={item.uuid}
-                        itemposition={getListItemPosition(forms.length, index)}
+                        itemstyle={getListItemPosition(forms.length, index)}
 						title={item.title}
 						description={item.description}
 						icon={item.icon}
