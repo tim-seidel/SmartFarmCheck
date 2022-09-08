@@ -46,7 +46,7 @@ function EvaluationListItemView(props) {
                             <HeadingText large weight="bold">{props.title}</HeadingText>
                             <ContentText light numberOfLines={3} style={styles.short}>{props.short}</ContentText>
                         </View>
-                        <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />
+                        <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="arrow-right" size={24} />
                     </View>
                 </View>
             </TouchableHighlight>

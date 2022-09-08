@@ -41,7 +41,7 @@ function MeasureListItemView(props) {
 							...styles.detailIcon,
 							color: colorTheme.textPrimary
 						}}
-						name="chevron-right-circle-outline"
+						name="arrow-right"
 						size={24} />
 				</View>
 			</TouchableHighlight>

@@ -33,17 +33,17 @@ const FormSelectListItemView = (props) => {
 						<HeadingText disabled={props.hidden} weight="bold">{props.title}</HeadingText>
 						<ContentText light numberOfLines={3} style={props.hidden ? styles.descriptionCommingSoon : styles.description}>{props.hidden ? Strings.formselect_form_comming_soon : props.description}</ContentText>
 					</View>
-					{!props.hidden && <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right-circle-outline" size={24} />}
+					{!props.hidden && <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="arrow-right" size={24} />}
 				</View>
 			</TouchableHighlight>
 		</View>
 	)
 }
 
-FormSelectListItemView.PropTypes = {
+FormSelectListItemView.propTypes = {
     liststyle : PropTypes.oneOf([Layout.ListItemPositions.single, Layout.ListItemPositions.header, Layout.ListItemPositions.middle, Layout.ListItemPositions.footer])
 }
-FormSelectListItemView.PropTypes = {
+FormSelectListItemView.defaultProps = {
     liststyle: "single"
 }
 
