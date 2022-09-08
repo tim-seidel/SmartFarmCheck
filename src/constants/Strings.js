@@ -82,7 +82,7 @@ const Strings = {
 	form_help: "Hilfe",
 	form_input_placeholder: "Hier eingeben...",
 	form_calculate_at_any_point_title: "Über den Fragebogen",
-	form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten können, Sie einfach offen lassen.",
+	form_calculate_at_any_point_content: "Die Berechnung der Empfehlungen ist jederzeit möglich. Fragen, die Sie nicht betreffen, oder die Sie nicht beantworten möchten, können Sie einfach offen lassen.",
 
 	formselect_available_forms_title: "Verfügbare Digitalisierungschecks:",
 	formselect_nothing_fitting_title: "Kein passender Digitalisierungscheck für Sie dabei?",
