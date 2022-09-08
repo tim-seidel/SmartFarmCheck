@@ -27,7 +27,7 @@ export default function AboutScreen({ navigation }) {
 	return (
 		<RootView thin>
 			<ScrollView style={styles.scroll} >
-				<HeadingText large weight="bold" style={styles.title}>Gefördert durch:</HeadingText>
+				<HeadingText large weight="bold" style={styles.title}>{Strings.imprint_sponsored_by + ":"}</HeadingText>
 				<SponsorView style={styles.sponsor} name={Strings.imprint_mittelstand_4} onPress={onSponsorPressedHandler.bind(this, Strings.mittelstand_40_lingen_url)} localPath={require("../../assets/images/logos/logo_mkl_1024px_300ppi.png")} />
 				<SponsorView style={styles.sponsor} name={Strings.imprint_mittelstand_digital} onPress={onSponsorPressedHandler.bind(this, "https://www.mittelstand-digital.de")} localPath={require("../../assets/images/logos/logo_mittelstand_digital.png")} />
 				<SponsorView style={styles.sponsor} name={Strings.imprint_bmwk} onPress={onSponsorPressedHandler.bind(this, "https://www.bmwi.de/Navigation/DE/Home/home.html")} localPath={require("../../assets/images/logos/logo_bmwk.png")} />

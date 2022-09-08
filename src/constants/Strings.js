@@ -206,6 +206,7 @@ const Strings = {
 
 	privacy: "Datenschutz",
 	imprint: "Impressum",
+    imprint_sponsored_by: "Gefördert durch",
 	imprint_mittelstand_4: "Mittelstand 4.0 (Lingen)",
 	imprint_mittelstand_digital: "Mittelstand Digital",
 	imprint_bmwk: "BMWK",
