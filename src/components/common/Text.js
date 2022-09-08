@@ -17,7 +17,7 @@ const text_size_content = 16 // Platform.isPad ? 18 : 16
 const text_size_content_small = 14
 const text_size_content_large = 17
 
-const text_weight_heading = Platform.OS === 'ios' ? '500' : '900'
+const text_weight_heading = "500"
 const text_weight_content = "normal"
 
 /**
