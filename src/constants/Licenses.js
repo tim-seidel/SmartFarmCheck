@@ -1,15 +1,14 @@
 const Licenses = [
 	{
-		name: "@expo/vector-icons",
-		copyrigths: [
-			"Copyright (c) 2015 Joel Arvidsson",
-			"Copyright (c) 2020 650 Industries"
-		]
-	},
-	{
 		name: "@react-native-async-storage/async-storage",
 		copyrigths: [
 			"Copyright (c) 2015-present, Facebook, Inc.",
+		]
+	},
+	{
+		name: "@react-native-community/masked-view",
+		copyrigths: [
+			"Copyright (c) 2015-present, Facebook, Inc."
 		]
 	},
 	{
@@ -196,6 +195,12 @@ const Licenses = [
 		name: "redux-thunk",
 		copyrigths: [
 			"Copyright (c) 2015-present Dan Abramov"
+		]
+	},
+	{
+		name: "@shopify/flash-list",
+		copyrigths: [
+			"Copyright 2022-present, Shopify Inc."
 		]
 	}
 ]
