@@ -16,7 +16,7 @@ const eventReducer = (state = initialState, action) => {
 			const cmg = []
 			const prv = []
 			action.events.forEach(e => {
-				if (now < e.endDate.getTime()) {
+				if (now.isBefore(e.startDate)) {
 					cmg.push(e)
 				} else {
 					prv.push(e)

@@ -29,8 +29,8 @@ export const fetchEvents = () => {
 				e.uuid,
 				e.title,
 				e.description,
-				new Date(e.startDate),
-				new Date(e.endDate),
+				moment(e.startDate),
+				moment(e.endDate),
 				e.link,
 				e.image,
 				e.maxParticipantCount ?? 0

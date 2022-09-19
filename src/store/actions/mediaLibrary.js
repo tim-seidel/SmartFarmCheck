@@ -28,7 +28,7 @@ export const fetchMediaLibrary = () => {
 				e.uuid,
 				e.title,
 				e.description,
-				new Date(e.publishingDate),
+				moment(e.publishingDate),
 				e.thumbnail,
 				e.videoLink
 			))
