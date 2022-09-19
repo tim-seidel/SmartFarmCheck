@@ -1,8 +1,7 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { Dimensions, Linking, Platform, StyleSheet, Alert } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
+import React, { useEffect, useState } from 'react'
+import { View, Dimensions, Linking, Platform, StyleSheet, Alert } from 'react-native'
 import * as Device from 'expo-device'
+import { FlashList } from '@shopify/flash-list'
 
 import EventListViewItem from './EventListViewItem'
 
@@ -66,26 +65,27 @@ const EventListView = (props) => {
 	}, []);
 
 	return (
-		<FlatList
-			style={props.style}
-			nestedScrollEnabled
-			data={props.events}
-			ListHeaderComponent={props.listHeaderComponent}
-			ListFooterComponent={props.listFooterComponent}
-			key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
-			numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
-			renderItem={({ item }) => (
-				<EventListViewItem
-					key={item.uuid}
-					style={styles.event}
-					event={item}
-					onDetailPress={() => showDetailHandler(item)}
-					onRegisterPress={() => showRegisterHandler(item)}
-					onExportToCalendarPress={() => props.onExportToCalendarPress(item)}
-				/>
-			)}
-			keyExtractor={item => item.uuid}
-		/>
+		<View style={props.style}>
+			<FlashList
+				estimatedItemSize={250}
+				data={props.events}
+				ListHeaderComponent={props.footer}
+				ListFooterComponent={props.header}
+				key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
+				numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
+				renderItem={({ item }) => (
+					<EventListViewItem
+						key={item.uuid}
+						style={styles.event}
+						event={item}
+						onDetailPress={() => showDetailHandler(item)}
+						onRegisterPress={() => showRegisterHandler(item)}
+						onExportToCalendarPress={() => props.onExportToCalendarPress(item)}
+					/>
+				)}
+				keyExtractor={item => item.uuid}
+			/>
+		</View>
 	)
 }
 

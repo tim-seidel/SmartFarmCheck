@@ -179,8 +179,8 @@ const EventScreen = (props) => {
 				</Modal>
 				<EventListView
 					style={styles.eventList}
-					listHeaderComponent={<HeadingText large weight="bold" style={styles.heading}>{Strings.event_list_heading}</HeadingText>}
-					listFooterComponent={nothingFittingFoundContent}
+					header={<HeadingText large weight="bold" style={styles.heading}>{Strings.event_list_heading}</HeadingText>}
+					footer={nothingFittingFoundContent}
 					events={events}
 					onExportToCalendarPress={(e) => exportToCalendarWithPermissionHandler(e)} />
 			</>)
@@ -445,7 +445,8 @@ const styles = StyleSheet.create({
 		marginStart: 4
 	},
 	eventList: {
-		marginHorizontal: 4
+		marginHorizontal: 4,
+        flex: 1
 	},
 	noContent: {
 		margin: 8

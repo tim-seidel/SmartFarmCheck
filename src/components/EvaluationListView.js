@@ -1,14 +1,15 @@
 import React from 'react'
-import { FlatList } from 'react-native-gesture-handler';
+
+import { FlashList } from '@shopify/flash-list';
 
 import EvaluationListItemView from '../components/EvaluationListItemView';
 
 function EvaluationListView(props) {
 	return (
-		<FlatList
+		<FlashList
 			key={'col' + props.columns} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
-			numColumns={props.columns ?? 1}
-			style={props.style}
+            estimatedItemSize={100}
+            numColumns={props.columns ?? 1}
 			ListHeaderComponent={props.header}
 			data={props.ratings}
 			renderItem={({ item }) => (

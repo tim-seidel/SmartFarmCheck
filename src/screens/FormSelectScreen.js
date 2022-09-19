@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux'
 import NetInfo from '@react-native-community/netinfo';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 
 import RootView from '../components/common/RootView';
 import NoContentView from '../components/common/NoContentView'
-import FormSelectListItemView from '../components/FormSelectListItemView'
 import { HeadingText, ContentText } from '../components/common/Text'
 
 import Strings from '../constants/Strings'
@@ -16,6 +14,7 @@ import { fetchForms } from '../store/actions/forms';
 import Layout, { getListItemPosition } from '../constants/Layout';
 import { darkTheme, lightTheme } from '../constants/Colors';
 import IconButton from '../components/common/IconButton';
+import FormSelectListView from '../components/FormSelectListView';
 
 const FormSelectScreen = (props) => {
 	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
@@ -76,31 +75,10 @@ const FormSelectScreen = (props) => {
 	} else if (forms.length === 0) {
 		contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.select_form_loading_empty} />
 	} else {
-		const informationHeader =
-			<View style={styles.info}>
-				<HeadingText large weight="bold">{Strings.formselect_available_forms_title}</HeadingText>
-			</View>
-
-        
 		contentView = (
-			<FlatList
-				style={styles.list}
-				data={forms}
-				ListHeaderComponent={informationHeader}
-				ListFooterComponent={footer}
-				renderItem={({ item, index }) => (
-					<FormSelectListItemView
-						key={item.uuid}
-                        itemstyle={getListItemPosition(forms.length, index)}
-						title={item.title}
-						description={item.description}
-						icon={item.icon}
-						hidden={item.hidden}
-						onSelected={() => formSelectedHandler(item.uuid)}
-					/>
-				)}
-				keyExtractor={item => item.uuid}
-			/>
+			<View style={styles.listWrapper}>
+				<FormSelectListView forms={forms} footer={footer} formSelected={formSelectedHandler}/>
+			</View>
 		)
 	}
 
@@ -112,11 +90,18 @@ const FormSelectScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-	info: {
-		marginVertical: 8,
+	notingFittingDetail: {
+		marginVertical: 4
 	},
-	list: {
-		marginHorizontal: 8
+	image: {
+		width: 64,
+		height: 64,
+		marginEnd: 8,
+		borderRadius: Layout.borderRadius
+	},
+	listWrapper: {
+		marginHorizontal: 8,
+		flex: 1
 	},
 	footer: {
 		marginVertical: 8,
@@ -127,15 +112,6 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		padding: 8
 	},
-	notingFittingDetail: {
-		marginVertical: 4
-	},
-	image: {
-		width: 64,
-		height: 64,
-		marginEnd: 8,
-		borderRadius: Layout.borderRadius
-	}
 })
 
 export default FormSelectScreen

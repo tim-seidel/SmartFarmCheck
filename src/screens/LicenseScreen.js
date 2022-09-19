@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, Platform, StyleSheet, View } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
 import * as Device from 'expo-device'
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
+import { FlashList } from '@shopify/flash-list'
 
 import RootView from '../components/common/RootView'
 import InformationCard, { InformationText, InformationLineBreak } from '../components/common/InformationCard'
@@ -55,7 +55,8 @@ const LicenseScreen = (props) => {
 
 	return (
 		<RootView style={styles.container}>
-			<FlatList
+			<FlashList
+				estimatedItemSize={100}
 				key={'cols_' + numCols} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
 				numColumns={numCols}
 				ListHeaderComponent={

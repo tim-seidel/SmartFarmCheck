@@ -1,14 +1,14 @@
 import React from 'react'
-import { FlatList } from 'react-native-gesture-handler';
+import { FlashList } from '@shopify/flash-list'
 
-import MeasureListItemView from '../components/MeasureListItemView';
+import MeasureListItemView from '../components/MeasureListItemView'
 
 function MeasureListView(props) {
 	return (
-		<FlatList
+		<FlashList
 			key={'col' + props.columns} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
+            estimatedItemSize={200}
 			numColumns={props.columns ?? 1}
-			style={props.style}
 			ListHeaderComponent={props.header}
 			data={props.measures}
 			renderItem={({ item }) => (

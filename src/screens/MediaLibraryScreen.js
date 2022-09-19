@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { StyleSheet, FlatList, Platform, Dimensions } from 'react-native'
+import { StyleSheet, View, Platform, Dimensions } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Device from 'expo-device'
+import { FlashList } from '@shopify/flash-list'
 
 import RootView from '../components/common/RootView'
 import NoContentView from '../components/common/NoContentView'
@@ -84,31 +85,33 @@ const MediaLibraryScreen = (props) => {
 	let contentView = null
 
 	if (errorCode !== 0) {
-		contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.medialibrary_loading_error + " (Fehlercode: " + errorCode + ")"}></NoContentView>
+		contentView = <NoContentView icon="emoticon-sad-outline" onRetry={retryHandler} title={Strings.medialibrary_loading_error + " (Fehlercode: " + errorCode + ")"} />
 	} else if (isLoading) {
-		contentView = <NoContentView icon="cloud-download" loading title={Strings.medialibrary_loading}></NoContentView>
+		contentView = <NoContentView icon="cloud-download" loading title={Strings.medialibrary_loading} />
 	} else if (hasNoNetwork && mediaLibrary.length === 0) {
-		contentView = <NoContentView icon="cloud-off-outline" title={Strings.measure_loading_no_network} onRetry={retryHandler}></NoContentView>
+		contentView = <NoContentView icon="cloud-off-outline" title={Strings.measure_loading_no_network} onRetry={retryHandler} />
 	} else if (!mediaLibrary || mediaLibrary.length === 0) {
-		contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.medialibrary_loading_empty}></NoContentView>
+		contentView = <NoContentView icon="calendar-remove" retryTitle={Strings.refresh} onRetry={retryHandler} title={Strings.medialibrary_loading_empty} />
 	} else {
 		contentView =
-			<FlatList
-				key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
-				numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
-				style={styles.list}
-				data={mediaLibrary}
-				renderItem={({ item }) => (
-					<MediaLibraryListViewItem
-						style={styles.media}
-						title={item.title}
-						description={item.description}
-						thumbnail={item.thumbnail}
-						onShowVideo={() => showVideoHandler(item.videoLink)}
-					/>
-				)}
-				keyExtractor={item => item.uuid}
-			/>
+			<View style={styles.listWrapper}>
+				<FlashList
+					key={(isTablet && orientation === 'landscape' ? 'l' : 'p')} //Need to change the key aswell, because an on the fly update of numColumns is not supported and a full rerender is necessary
+					numColumns={isTablet && orientation === 'landscape' ? 2 : 1}
+					estimatedItemSize={400}
+					data={mediaLibrary}
+					renderItem={({ item }) => (
+						<MediaLibraryListViewItem
+							style={styles.media}
+							title={item.title}
+							description={item.description}
+							thumbnail={item.thumbnail}
+							onShowVideo={() => showVideoHandler(item.videoLink)}
+						/>
+					)}
+					keyExtractor={item => item.uuid}
+				/>
+			</View>
 	}
 	return (
 		<RootView thin={mediaLibrary && mediaLibrary.length === 1}>
@@ -118,7 +121,8 @@ const MediaLibraryScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-	list: {
+	listWrapper: {
+		flex: 1,
 		marginHorizontal: 4,
 		marginTop: 8,
 	},

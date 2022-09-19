@@ -13,14 +13,14 @@ import QuestionView from "../components/QuestionView"
 import IconButton from '../components/common/IconButton'
 import ToolbarButton from '../components/ToolbarButton'
 import { ContentText } from '../components/common/Text'
+import InformationCard, { InformationText } from '../components/common/InformationCard'
 
-import { fetchQuestions } from '../store/actions/questions'
 import Strings from '../constants/Strings'
 import Layout from '../constants/Layout'
 import { ConstantColors } from '../constants/Colors'
 import { EVALUATIONSCREEN } from '../constants/Paths'
 import { darkTheme, lightTheme } from '../constants/Colors'
-import InformationCard, { InformationText } from '../components/common/InformationCard';
+import { fetchQuestions } from '../store/actions/questions'
 
 const layout_list = "list"
 const layout_single = "single"
@@ -209,7 +209,6 @@ const FormScreen = props => {
 						<InformationText>{Strings.form_calculate_at_any_point_content}</InformationText>
 					</InformationCard>
 				</View>
-
 
 
 			questionContent = (
