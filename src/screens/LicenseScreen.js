@@ -20,8 +20,8 @@ const LicenseListViewItem = (props) => {
 		<View style={{ ...styles.license, backgroundColor: colorTheme.componentBackground }}>
 			<View>
 				<HeadingText style={styles.name}>{props.name}</HeadingText>
-				{(props?.copyrigths ?? []).map((c) => {
-					return <ContentText light>{c}</ContentText>
+				{(props?.copyrigths ?? []).map((c, index) => {
+					return <ContentText key={"cr_" + index} light>{c}</ContentText>
 				})}
 			</View>
 		</View >
