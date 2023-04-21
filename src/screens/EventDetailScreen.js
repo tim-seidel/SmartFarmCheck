@@ -4,12 +4,12 @@ import WebView from 'react-native-webview'
 import RootView from '../components/common/RootView'
 
 const EventDetailScreen = (props) => {
-    const url = props.route.params
-    return (
-        <RootView>
-            <WebView source={{ uri: url }} />
-        </RootView>
-    )
+	const url = props.route.params
+	return (
+		<RootView>
+			<WebView source={{ uri: url }} />
+		</RootView>
+	)
 }
 
 export default EventDetailScreen

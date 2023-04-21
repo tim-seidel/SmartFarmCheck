@@ -1,36 +1,35 @@
 {
   "expo": {
-    "name": "Smartfarmcheck",
-    "slug": "smart-farm-check",
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "version": "2.1",
-    "orientation": "default",
-    "icon": "./assets/images/icon_mittelstand_1024px.png",
-    "splash": {
-      "image": "./assets/images/logos/logo_mkl_1024px_300ppi.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "primaryColor": "#B50900",
-    "userInterfaceStyle": "automatic",
-    "updates": {
-      "enabled": false
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "bundleIdentifier": "de.hsos.coala.coalapas",
-      "buildNumber": "2.1",
-      "supportsTablet": true
-    },
-    "android": {
-      "userInterfaceStyle": "automatic",
-      "package": "de.hsos.coala.coalapas",
-      "versionCode": 2100
-    }
+	"name": "Smartfarmcheck",
+	"slug": "smart-farm-check",
+	"platforms": [
+	  "ios",
+	  "android"
+	],
+	"version": "2.3",
+	"orientation": "default",
+	"icon": "./assets/images/icon_mittelstand_1024px.png",
+	"splash": {
+	  "image": "./assets/images/logos/logo_mkl_1024px_300ppi.png",
+	  "resizeMode": "contain",
+	  "backgroundColor": "#ffffff"
+	},
+	"primaryColor": "#B50900",
+	"userInterfaceStyle": "automatic",
+	"updates": {
+	  "enabled": false
+	},
+	"assetBundlePatterns": [
+	  "**/*"
+	],
+	"ios": {
+	  "bundleIdentifier": "de.hsos.coala.coalapas",
+	  "buildNumber": "2.3",
+	  "supportsTablet": true
+	},
+	"android": {
+	  "package": "de.hsos.coala.coalapas",
+	  "versionCode": 2300
+	}
   }
 }

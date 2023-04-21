@@ -1,4 +1,4 @@
 export default {
-    URL: "https://smartfarmcheck.digital",
-    VERSION: "v1"
+	URL: "https://smartfarmcheck.digital",
+	VERSION: "v1"
 }

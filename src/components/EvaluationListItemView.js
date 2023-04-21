@@ -1,31 +1,53 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
 
 import { HeadingText, ContentText } from './common/Text'
-import Layout from '../constants/Layout'
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme'
-import { darkTheme, lightTheme } from '../constants/Colors'
+import Separator from "./common/Separator"
 
-const zeroPad = (value, places) => String(value).padStart(places, ' ')
+import Layout from '../constants/Layout'
+import { darkTheme, lightTheme, ConstantColors } from '../constants/Colors'
+import { getRatingLevel, RatingLevels } from '../constants/RatingLevels'
 
 function EvaluationListItemView(props) {
     const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
-    const good_threshold = 50
+    const ratingPercent = props.rating + "%"
+    const ratingLevel = getRatingLevel(props.rating)
+
+    const star_2nd = ratingLevel === RatingLevels.star_1_5 ? <Icon name="star-half-full" size={24} color={ConstantColors.rating} /> : ratingLevel >= RatingLevels.star_2 ? <Icon name="star" size={24} color={ConstantColors.rating} /> : <Icon name="star-outline" size={24} color={ConstantColors.rating} />
+    const star_3nd = ratingLevel === RatingLevels.star_2_5 ? <Icon name="star-half-full" size={24} color={ConstantColors.rating} /> : ratingLevel >= RatingLevels.star_3 ? <Icon name="star" size={24} color={ConstantColors.rating} /> : <Icon name="star-outline" size={24} color={ConstantColors.rating} />
 
     return (
-        <View style={{ ...styles.outerWrapper, backgroundColor: colorTheme.componentBackground, borderColor:props.rating >= good_threshold ? 'green' : Layout.borderColor, ...props.style }}>
+        <View
+            style={{
+                ...styles.outerWrapper,
+                backgroundColor: colorTheme.componentBackground,
+                ...props.style
+            }}>
             <TouchableHighlight underlayColor={colorTheme.componentPressed} onPress={props.ratingSelected}>
-                <View style={styles.innerWrapper}>
-                    <Text style={{...styles.rating, color: props.rating >= good_threshold ? 'green' : 'orange'}}>{zeroPad(props.rating, 2)}%</Text>
-                    <View style={{ ...styles.divider, backgroundColor: colorTheme.textPrimary }} />
-                    <View style={styles.measureContent}>
-                        <HeadingText large>{props.title}</HeadingText>
-                        <ContentText light numberOfLines={3} style={{ marginVertical: 4 }}>{props.short}</ContentText>
+                <View>
+                    <View style={styles.innerWrapper}>
+                        <View style={styles.ratingWrapper}>
+                            <View style={styles.starRow}>
+                                <Icon name="star" size={24} color={ConstantColors.rating} />
+                                {star_2nd}
+                                {star_3nd}
+                            </View>
+                            <View style={styles.percentWrapper}>
+                                <HeadingText large weight="bold">{ratingPercent}</HeadingText>
+                                <ContentText small light>Übereinst.</ContentText>
+                            </View>
+                        </View>
+                        <Separator style={styles.divider} orientation="vertical" />
+                        <View style={styles.measureContent}>
+                            <HeadingText large weight="bold">{props.title}</HeadingText>
+                            <ContentText light numberOfLines={3} style={styles.short}>{props.short}</ContentText>
+                        </View>
+                        <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="arrow-right" size={24} />
                     </View>
-                    <Icon style={{ ...styles.detailIcon, color: colorTheme.textPrimary }} name="chevron-right" size={32} />
                 </View>
             </TouchableHighlight>
         </View>
@@ -39,34 +61,33 @@ const styles = StyleSheet.create({
         borderColor: Layout.borderColor,
         borderWidth: Layout.borderWidth,
         overflow: "hidden"
-
     },
     innerWrapper: {
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: 8,
-        paddingVertical: 12
+        padding: 8
     },
-    rating: {
-        fontSize: 28,
-        fontWeight: "700",
-        textAlign: "center",
-        textAlignVertical: "center",
-        marginEnd: 8,
-        width: 80
+    percentWrapper: {
+        alignItems: "center"
     },
     divider: {
-        width: Layout.borderWidth,
-        height: "100%",
-        marginStart: 4,
-        marginEnd: 8
+        marginHorizontal: 8
     },
     measureContent: {
         flexDirection: "column",
         flex: 1
     },
+    short: {
+        marginTop: 4
+    },
     detailIcon: {
         alignSelf: "center"
+    },
+    ratingWrapper: {
+        justifyContent: 'space-between',
+    },
+    starRow: {
+        flexDirection: 'row'
     }
 })
 

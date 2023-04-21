@@ -31,54 +31,53 @@ import { darkTheme, lightTheme } from '../../constants/Colors'
  * @param {Object} props The standard react native ui props.
  */
 const NoContentView = props => {
-  const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
+	const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
-  const { icon, title, loading, onRetry, retryTitle } = props
-  const animationDelay = 500
-  const iconSize = 64
+	const { icon, title, loading, onRetry, retryTitle } = props
+	const animationDelay = 500
+	const iconSize = 64
 
-  const iconUI = loading ?
-    <Animatable.Text animation="rotate" iterationDelay={animationDelay} iterationCount="infinite">
-      <Icon name={icon} color={colorTheme.textPrimary} size={iconSize} />
-    </Animatable.Text> :
-    <Icon name={icon} color={colorTheme.textPrimary} size={iconSize} />
+	const iconUI = loading ?
+		<Animatable.Text animation="rotate" iterationDelay={animationDelay} iterationCount="infinite">
+			<Icon name={icon} color={colorTheme.textPrimary} size={iconSize} />
+		</Animatable.Text> :
+		<Icon name={icon} color={colorTheme.textPrimary} size={iconSize} />
 
-  return (
-    <View style={{...styles.container, ...props.style}}>
-      {iconUI}
-      <ContentText large style={styles.textStyle}>{title}</ContentText>
-      {onRetry && (<IconButton icon="reload" onPress={onRetry} text={retryTitle} />)}
-    </View>
-  )
+	return (
+		<View style={{ ...styles.container, ...props.style }}>
+			{iconUI}
+			<ContentText large style={styles.textStyle}>{title}</ContentText>
+			{onRetry && (<IconButton icon="reload" onPress={onRetry} text={retryTitle} />)}
+		</View>
+	)
 }
 
 NoContentView.propTypes = {
-  icon: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
-  onRetry: PropTypes.func,
-  retryTitle: PropTypes.string
+	icon: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	loading: PropTypes.bool,
+	onRetry: PropTypes.func,
+	retryTitle: PropTypes.string
 }
 
 NoContentView.defaultProps = {
-  loading: false,
-  retryTitle: Strings.try_again
+	loading: false,
+	retryTitle: Strings.try_again
 }
 
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: "center",
-    paddingHorizontal: 8,
-    maxWidth: 700,
-    alignSelf: 'center'
-  },
-  textStyle: {
-    marginVertical: 8,
-    textAlign: 'center'
-  }
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: "center",
+		paddingHorizontal: 8,
+		maxWidth: 700,
+		alignSelf: 'center'
+	},
+	textStyle: {
+		marginVertical: 8,
+		textAlign: 'center'
+	}
 })
 
 export default NoContentView

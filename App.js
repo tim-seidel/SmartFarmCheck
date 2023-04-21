@@ -6,8 +6,9 @@ import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 import * as SplashScreen from 'expo-splash-screen';
 
-import { lightTheme, darkTheme } from './src/constants/Colors'
 import Content from './src/components/Content'
+
+import { lightTheme, darkTheme } from './src/constants/Colors'
 
 import formsReducer from './src/store/reducers/forms'
 import measureReducer from './src/store/reducers/measures'
@@ -33,31 +34,31 @@ export default function App(props) {
   const colorTheme = useColorScheme() === 'dark' ? darkTheme : lightTheme
 
   React.useEffect(() => {
-    async function loadWithSplashScreen() {
-      try {
-        await SplashScreen.preventAutoHideAsync()
-        await loadResourcesAndDataAsync()
-      } catch (e) {
-        console.warn(e)
-      } finally {
-        setLoadingComplete(true)
-        await SplashScreen.hideAsync()
-      }
-    }
-    loadWithSplashScreen()
+	async function loadWithSplashScreen() {
+	  try {
+		await SplashScreen.preventAutoHideAsync()
+		await loadResourcesAndDataAsync()
+	  } catch (e) {
+		console.warn(e)
+	  } finally {
+		setLoadingComplete(true)
+		await SplashScreen.hideAsync()
+	  }
+	}
+	loadWithSplashScreen()
   }, [])
 
   async function loadResourcesAndDataAsync() {
   }
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return null /* Handled by splash screen. */
+	return null /* Handled by splash screen. */
   } else {
-    return (
-      <Provider store={store}>
-        <Content />
-        <StatusBar backgroundColor={colorTheme.secondary}/>
-      </Provider>
-    )
+	return (
+	  <Provider store={store}>
+		<Content />
+		<StatusBar backgroundColor={colorTheme.secondary} />
+	  </Provider>
+	)
   }
 }

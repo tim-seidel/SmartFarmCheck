@@ -1,21 +1,21 @@
-const { SET_QUESTIONS } = require("../actions/questions")
+import { SET_QUESTIONS } from  "../actions/questions"
 
 const initialState = {
-    questions : []
+	questions: []
 }
 
 const questionsReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case SET_QUESTIONS: {
-            return {
-                ...state,
-                questions: action.questions
-            }
-        }
-        default: {
-            return state
-        }
-    }
+	switch (action.type) {
+		case SET_QUESTIONS: {
+			return {
+				...state,
+				questions: action.questions
+			}
+		}
+		default: {
+			return state
+		}
+	}
 }
 
 export default questionsReducer
